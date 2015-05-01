@@ -1,14 +1,12 @@
-import attributes.AttributeOperations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import models.Entity;
 
 public class Main {
 
-  private final OrthographicCamera camera= new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+  private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   private final BitmapFont font = new BitmapFont(Gdx.files.internal("data/comfortaa.fnt"));
   private final SpriteBatch batch = new SpriteBatch();
 
@@ -16,11 +14,6 @@ public class Main {
     clearBackground();
     batch.setProjectionMatrix(camera.combined);
     renderFps(batch, font);
-
-    Entity a = new Entity();
-    Entity b = new Entity();
-    AttributeOperations.lengthBetween(a, b);
-    AttributeOperations.collisionBetween(a, b);
   }
 
   private static void clearBackground() {
