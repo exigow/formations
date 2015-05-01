@@ -3,17 +3,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import rendering.RenderAgent;
 
 public class Main {
 
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-  private final BitmapFont font = new BitmapFont(Gdx.files.internal("data/comfortaa.fnt"));
-  private final SpriteBatch batch = new SpriteBatch();
+  private final RenderAgent agent = new RenderAgent();
 
   public void render(float deltaTime) {
     clearBackground();
-    batch.setProjectionMatrix(camera.combined);
-    renderFps(batch, font);
+    agent.setProjectionMatrix(camera.combined);
+    renderFps(agent);
   }
 
   private static void clearBackground() {
@@ -21,11 +21,11 @@ public class Main {
     Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
-  private static void renderFps(SpriteBatch batch, BitmapFont font) {
+  private static void renderFps(RenderAgent agent) {
     int fps = Gdx.graphics.getFramesPerSecond();
-    batch.begin();
-    font.draw(batch, "FPS = " + fps, 0, 0);
-    batch.end();
+    agent.batch.begin();
+    agent.debugFont.draw(agent.batch, "FPS = " + fps, 0, 0);
+    agent.batch.end();
   }
 
 }
