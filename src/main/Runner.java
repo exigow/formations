@@ -10,6 +10,7 @@ public class Runner {
     config.width = 1024;
     config.height = 640;
     config.samples = 8;
+    config.title = "Test";
     new LwjglApplication(new Wrapper(), config);
   }
 

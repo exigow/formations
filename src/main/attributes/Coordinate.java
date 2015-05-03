@@ -1,6 +1,6 @@
 package attributes;
 
-public interface PositionAttribute {
+public interface Coordinate {
 
   float getX();
 
@@ -10,7 +10,7 @@ public interface PositionAttribute {
 
   void setY(float y);
 
-  default void setPosition(float x, float y) {
+  default void set(float x, float y) {
     setX(x);
     setY(y);
   }

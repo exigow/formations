@@ -2,6 +2,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import input.InputAgent;
+import input.camera.MovementRule;
+import input.camera.MovementRuleResolver;
 import models.Entity;
 import rendering.RenderAgent;
 
@@ -12,18 +15,16 @@ public class Main {
 
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   private final RenderAgent agent = new RenderAgent();
+  private final InputAgent input = new InputAgent();
+  private final MovementRule mover = new MovementRuleResolver();
   private final Collection<Entity> entities = new ArrayList<Entity>() {{
-    float scale = 256;
-    for (int i = 0; i++ < 128;) {
-      add(new Entity(rnd() * scale, rnd() * scale, 0, 8));
-    }
+    for (int i = 0; i++ < 128;)
+      add(Entity.random());
   }};
 
-  private static float rnd() {
-    return -1 + (float) Math.random() * 2;
-  }
-
   public void update(float deltaTime) {
+    MovementRule.Product product = mover.specify(input);
+    System.out.println(product.horizontal + ", " + product.vertical);
   }
 
   public void render() {

@@ -1,6 +1,8 @@
 package attributes;
 
-public interface AngleAttribute {
+public interface Angle {
+
+  float MAX = 360f;
 
   float getAngle();
 

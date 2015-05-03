@@ -1,6 +1,6 @@
 package attributes;
 
-public interface SizeAttribute {
+public interface Radius {
 
   float getSize();
 
