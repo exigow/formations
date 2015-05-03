@@ -11,17 +11,17 @@ public class ManualMouseRule implements MovementRule {
   public Product specify(InputAgent agent) {
     Coordinate mouse = agent.getMouseWindow();
     Coordinate size = agent.getWindowSize();
-    int horizontal = signOf(mouse.getX(), size.getX());
-    int vertical = -signOf(mouse.getY(), size.getY());
+    int horizontal = signFor(mouse.x(), size.x());
+    int vertical = -signFor(mouse.y(), size.y());
     return new Product(horizontal, vertical);
   }
 
-  private static int signOf(float position, float maxPosition) {
+  private static int signFor(float position, float maxPosition) {
     if (position < BORDER)
-      return -1;
+      return NEGATIVE;
     if (position > maxPosition - BORDER)
-      return 1;
-    return 0;
+      return POSITIVE;
+    return NEUTRAL;
   }
 
 }

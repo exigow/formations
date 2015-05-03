@@ -37,7 +37,7 @@ public class Entity implements Coordinate, Angle, Radius, Renderable {
   }
 
   @Override
-  public float getX() {
+  public float x() {
     return x;
   }
 
@@ -47,7 +47,7 @@ public class Entity implements Coordinate, Angle, Radius, Renderable {
   }
 
   @Override
-  public float getY() {
+  public float y() {
     return y;
   }
 

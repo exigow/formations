@@ -26,17 +26,17 @@ public class MovementRuleResolver implements MovementRule {
   }
 
   private static Product normalize(Product input) {
-    int x = input.horizontal;
-    int y = input.vertical;
-    if (x > 1)
-      x = 1;
-    if (x < -1)
-      x = -1;
-    if (y > 1)
-      y = 1;
-    if (y < -1)
-      y = -1;
+    int x = normalize(input.horizontal);
+    int y = normalize(input.vertical);
     return new Product(x, y);
+  }
+
+  private static int normalize(int vector) {
+    if (vector > POSITIVE)
+      return POSITIVE;
+    if (vector < NEGATIVE)
+      return NEGATIVE;
+    return vector;
   }
 
 }

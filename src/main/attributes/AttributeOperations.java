@@ -6,8 +6,8 @@ import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 public class AttributeOperations {
 
   public static float lengthBetween(Coordinate first, Coordinate second) {
-    float deltaX = second.getX() - first.getX();
-    float deltaY = second.getY() - first.getY();
+    float deltaX = second.x() - first.x();
+    float deltaY = second.y() - first.y();
     return (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
   }
 
@@ -17,8 +17,8 @@ public class AttributeOperations {
   }
 
   public static float directionBetween(Coordinate first, Coordinate second) {
-    float deltaY = first.getY() - second.getY();
-    float deltaX = first.getX() - second.getX();
+    float deltaY = first.y() - second.y();
+    float deltaX = first.x() - second.x();
     return atan2(deltaY, deltaX) * radiansToDegrees;
   }
 

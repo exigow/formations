@@ -26,10 +26,10 @@ public class Camera {
 
   public void update(float deltaTime) {
     float smooth = deltaTime * 16f;
-    float deltaX = (target.getX() - eye.getX()) * smooth;
-    float deltaY = (target.getY() - eye.getY()) * smooth;
+    float deltaX = (target.x() - eye.x()) * smooth;
+    float deltaY = (target.y() - eye.y()) * smooth;
     eye.add(deltaX, deltaY);
-    camera.translate(eye.getX(), eye.getY());
+    camera.translate(eye.x(), eye.y());
     camera.update();
   }
 

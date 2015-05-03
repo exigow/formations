@@ -19,10 +19,10 @@ public class ManualKeyboardRule implements MovementRule {
 
   private static int specifyDimension(boolean positive, boolean negative) {
     if (positive)
-      return 1;
+      return POSITIVE;
     if (negative)
-      return -1;
-    return 0;
+      return NEGATIVE;
+    return NEUTRAL;
   }
 
 }
