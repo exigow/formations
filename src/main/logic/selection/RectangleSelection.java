@@ -1,4 +1,4 @@
-package logic;
+package logic.selection;
 
 import attributes.Coordinate;
 import attributes.Radius;
