@@ -15,4 +15,16 @@ public interface Coordinate {
     setY(y);
   }
 
+  default void add(float x, float y) {
+    set(getX() + x, getY() + y);
+  }
+
+  default void mul(float x, float y) {
+    set(getX() * x, getY() * y);
+  }
+
+  default void mul(float scale) {
+    set(getX() * scale, getY() * scale);
+  }
+
 }
