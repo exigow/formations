@@ -6,6 +6,7 @@ import agents.InputAgent;
 import logic.StateListener;
 import logic.camera.MovementRule;
 import logic.camera.MovementRuleResolver;
+import mappings.Trigger;
 import models.Camera;
 import models.Entity;
 import models.World;
@@ -24,8 +25,7 @@ public class Frame {
     MovementRule.Product product = mover.specify(input);
     camera.addMovement(product);
     camera.update(deltaTime);
-    listener.listen(input.isButtonPressed(Input.Buttons.LEFT));
-    System.out.println(listener.state());
+    listener.listen(input.isMouseButtonPressed(Trigger.MOUSE_LEFT));
   }
 
   public void render() {

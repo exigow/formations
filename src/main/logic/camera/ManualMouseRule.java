@@ -5,7 +5,7 @@ import agents.InputAgent;
 
 public class ManualMouseRule implements MovementRule {
 
-  private final static int BORDER = 32;
+  private final static int BORDER_SIZE = 32;
 
   @Override
   public Product specify(InputAgent agent) {
@@ -17,9 +17,9 @@ public class ManualMouseRule implements MovementRule {
   }
 
   private static int signFor(float position, float maxPosition) {
-    if (position < BORDER)
+    if (position < BORDER_SIZE)
       return NEGATIVE;
-    if (position > maxPosition - BORDER)
+    if (position > maxPosition - BORDER_SIZE)
       return POSITIVE;
     return NEUTRAL;
   }

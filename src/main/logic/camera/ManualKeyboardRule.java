@@ -1,21 +1,16 @@
 package logic.camera;
 
-import com.badlogic.gdx.Input;
 import agents.InputAgent;
+import mappings.Trigger;
 
 public class ManualKeyboardRule implements MovementRule {
 
-  private final static int UP = Input.Keys.W;
-  private final static int DOWN = Input.Keys.S;
-  private final static int LEFT = Input.Keys.A;
-  private final static int RIGHT = Input.Keys.D;
-
   @Override
   public Product specify(InputAgent agent) {
-    boolean up = agent.isKeyPressed(UP);
-    boolean down = agent.isKeyPressed(DOWN);
-    boolean left = agent.isKeyPressed(LEFT);
-    boolean right = agent.isKeyPressed(RIGHT);
+    boolean up = agent.isKeyboardKeyPressed(Trigger.W);
+    boolean down = agent.isKeyboardKeyPressed(Trigger.S);
+    boolean left = agent.isKeyboardKeyPressed(Trigger.A);
+    boolean right = agent.isKeyboardKeyPressed(Trigger.D);
     int x = specifyDimension(right, left);
     int y = specifyDimension(up, down);
     return new Product(x, y);
