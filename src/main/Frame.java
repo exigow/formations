@@ -1,15 +1,15 @@
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import input.InputAgent;
-import input.camera.MovementRule;
-import input.camera.MovementRuleResolver;
+import agents.InputAgent;
+import logic.StateListener;
+import logic.camera.MovementRule;
+import logic.camera.MovementRuleResolver;
 import models.Camera;
 import models.Entity;
-import rendering.RenderAgent;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import models.World;
+import agents.RenderAgent;
 
 public class Frame {
 
@@ -17,15 +17,15 @@ public class Frame {
   private final InputAgent input = new InputAgent();
   private final Camera camera = new Camera();
   private final MovementRule mover = new MovementRuleResolver();
-  private final Collection<Entity> entities = new ArrayList<Entity>() {{
-    for (int i = 0; i++ < 128;)
-      add(Entity.random());
-  }};
+  private final World world = new World();
+  private final StateListener listener = new StateListener();
 
   public void update(float deltaTime) {
     MovementRule.Product product = mover.specify(input);
     camera.addMovement(product);
     camera.update(deltaTime);
+    listener.listen(input.isButtonPressed(Input.Buttons.LEFT));
+    System.out.println(listener.state());
   }
 
   public void render() {
@@ -33,7 +33,7 @@ public class Frame {
     agent.setProjectionMatrix(camera.getOrthographicCamera().combined);
     renderFps(agent);
     agent.shape.begin(ShapeRenderer.ShapeType.Line);
-    for (Entity entity : entities)
+    for (Entity entity : world.entities)
       entity.render(agent);
     agent.shape.end();
   }

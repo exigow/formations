@@ -1,7 +1,7 @@
-package input.camera;
+package logic.camera;
 
 import attributes.Coordinate;
-import input.InputAgent;
+import agents.InputAgent;
 
 public class ManualMouseRule implements MovementRule {
 

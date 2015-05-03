@@ -4,7 +4,7 @@ import attributes.Coordinate;
 import attributes.CoordinateImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import input.camera.MovementRule;
+import logic.camera.MovementRule;
 
 public class Camera {
 

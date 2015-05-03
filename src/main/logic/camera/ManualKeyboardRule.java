@@ -1,7 +1,7 @@
-package input.camera;
+package logic.camera;
 
 import com.badlogic.gdx.Input;
-import input.InputAgent;
+import agents.InputAgent;
 
 public class ManualKeyboardRule implements MovementRule {
 
@@ -12,8 +12,12 @@ public class ManualKeyboardRule implements MovementRule {
 
   @Override
   public Product specify(InputAgent agent) {
-    int x = specifyDimension(agent.isKeyPressed(RIGHT), agent.isKeyPressed(LEFT));
-    int y = specifyDimension(agent.isKeyPressed(UP), agent.isKeyPressed(DOWN));
+    boolean up = agent.isKeyPressed(UP);
+    boolean down = agent.isKeyPressed(DOWN);
+    boolean left = agent.isKeyPressed(LEFT);
+    boolean right = agent.isKeyPressed(RIGHT);
+    int x = specifyDimension(right, left);
+    int y = specifyDimension(up, down);
     return new Product(x, y);
   }
 

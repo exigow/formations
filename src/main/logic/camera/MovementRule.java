@@ -1,6 +1,6 @@
-package input.camera;
+package logic.camera;
 
-import input.InputAgent;
+import agents.InputAgent;
 
 public interface MovementRule {
 

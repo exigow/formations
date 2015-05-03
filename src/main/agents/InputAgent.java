@@ -1,4 +1,4 @@
-package input;
+package agents;
 
 import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
@@ -25,6 +25,10 @@ public class InputAgent {
 
   public boolean isKeyPressed(int key) {
     return Gdx.input.isKeyPressed(key);
+  }
+
+  public boolean isButtonPressed(int button) {
+    return Gdx.input.isButtonPressed(button);
   }
 
 }
