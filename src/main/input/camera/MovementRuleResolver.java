@@ -20,13 +20,23 @@ public class MovementRuleResolver implements MovementRule {
       Product product = rule.specify(agent);
       x += product.horizontal;
       y += product.vertical;
-      // todo reduce if needed (2 -> 1, or normalize)
     }
-    return new Product(x, y);
+    Product result = new Product(x, y);
+    return normalize(result);
   }
 
-  private static Product reduce(Product input) {
-    return null; // todo
+  private static Product normalize(Product input) {
+    int x = input.horizontal;
+    int y = input.vertical;
+    if (x > 1)
+      x = 1;
+    if (x < -1)
+      x = -1;
+    if (y > 1)
+      y = 1;
+    if (y < -1)
+      y = -1;
+    return new Product(x, y);
   }
 
 }

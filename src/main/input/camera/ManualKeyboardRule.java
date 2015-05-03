@@ -12,7 +12,7 @@ public class ManualKeyboardRule implements MovementRule {
 
   @Override
   public Product specify(InputAgent agent) {
-    int x = specifyDimension(agent.isKeyPressed(LEFT), agent.isKeyPressed(RIGHT));
+    int x = specifyDimension(agent.isKeyPressed(RIGHT), agent.isKeyPressed(LEFT));
     int y = specifyDimension(agent.isKeyPressed(UP), agent.isKeyPressed(DOWN));
     return new Product(x, y);
   }

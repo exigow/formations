@@ -25,6 +25,9 @@ public class Main {
   public void update(float deltaTime) {
     MovementRule.Product product = mover.specify(input);
     System.out.println(product.horizontal + ", " + product.vertical);
+    camera.position.x += product.horizontal;
+    camera.position.y += product.vertical;
+    camera.update();
   }
 
   public void render() {
