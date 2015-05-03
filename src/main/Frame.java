@@ -1,5 +1,4 @@
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import agents.InputAgent;
@@ -30,7 +29,7 @@ public class Frame {
 
   public void render() {
     clearBackground();
-    agent.setProjectionMatrix(camera.getOrthographicCamera().combined);
+    agent.setProjection(camera);
     renderFps(agent);
     agent.shape.begin(ShapeRenderer.ShapeType.Line);
     for (Entity entity : world.entities)
