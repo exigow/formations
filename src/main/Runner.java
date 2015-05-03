@@ -29,7 +29,8 @@ public class Runner {
     @Override
     public void render() {
       float deltaTime = Gdx.graphics.getDeltaTime();
-      main.render(deltaTime);
+      main.update(deltaTime);
+      main.render();
     }
 
     @Override

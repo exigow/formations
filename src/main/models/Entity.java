@@ -3,8 +3,11 @@ package models;
 import attributes.AngleAttribute;
 import attributes.PositionAttribute;
 import attributes.SizeAttribute;
+import com.badlogic.gdx.math.MathUtils;
+import rendering.RenderAgent;
+import rendering.Renderable;
 
-public class Entity implements PositionAttribute, AngleAttribute, SizeAttribute {
+public class Entity implements PositionAttribute, AngleAttribute, SizeAttribute, Renderable {
 
   private final static float DEFAULT_X = 0f;
   private final static float DEFAULT_Y = 0f;
@@ -55,12 +58,6 @@ public class Entity implements PositionAttribute, AngleAttribute, SizeAttribute 
   }
 
   @Override
-  public void setPosition(float x, float y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  @Override
   public float getAngle() {
     return angle;
   }
@@ -78,6 +75,14 @@ public class Entity implements PositionAttribute, AngleAttribute, SizeAttribute 
   @Override
   public void setSize(float size) {
     this.size = size;
+  }
+
+  @Override
+  public void render(RenderAgent agent) {
+    agent.shape.circle(x, y, size);
+    float toX = x + MathUtils.cos(angle) * size;
+    float toY = y + MathUtils.sin(angle) * size;
+    agent.shape.line(x, y, toX, toY);
   }
 
 }

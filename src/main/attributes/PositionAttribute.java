@@ -10,6 +10,9 @@ public interface PositionAttribute {
 
   void setY(float y);
 
-  void setPosition(float x, float y);
+  default void setPosition(float x, float y) {
+    setX(x);
+    setY(y);
+  }
 
 }
