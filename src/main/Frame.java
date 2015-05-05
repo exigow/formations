@@ -1,15 +1,13 @@
+import agents.InputAgent;
+import agents.RenderAgent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import agents.InputAgent;
-import logic.StateListener;
 import logic.camera.MovementRule;
 import logic.camera.MovementRuleResolver;
-import mappings.Trigger;
 import models.Camera;
 import models.Entity;
 import models.World;
-import agents.RenderAgent;
 
 public class Frame {
 
@@ -18,13 +16,11 @@ public class Frame {
   private final Camera camera = new Camera();
   private final MovementRule mover = new MovementRuleResolver();
   private final World world = new World();
-  private final StateListener listener = new StateListener();
 
   public void update(float deltaTime) {
     MovementRule.Product product = mover.specify(input);
     camera.addMovement(product);
     camera.update(deltaTime);
-    listener.listen(input.isMouseButtonPressed(Trigger.MOUSE_LEFT));
   }
 
   public void render() {

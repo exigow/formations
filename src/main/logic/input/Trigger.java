@@ -1,4 +1,4 @@
-package mappings;
+package logic.input;
 
 import com.badlogic.gdx.Input;
 

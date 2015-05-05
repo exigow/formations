@@ -1,8 +1,9 @@
 package logic;
 
+import logic.input.StateListener;
 import org.testng.annotations.Test;
 
-import static logic.StateListener.State.*;
+import static logic.input.StateListener.State.*;
 import static org.testng.Assert.assertEquals;
 
 public class StateListenerTest {

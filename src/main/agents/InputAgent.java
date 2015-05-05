@@ -3,7 +3,7 @@ package agents;
 import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import attributes.CoordinateImpl;
-import mappings.Trigger;
+import logic.input.Trigger;
 
 public class InputAgent {
 

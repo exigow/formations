@@ -1,6 +1,6 @@
-package logic;
+package logic.input;
 
-import static logic.StateListener.State.*;
+import static logic.input.StateListener.State.*;
 
 public class StateListener {
 

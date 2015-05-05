@@ -1,7 +1,7 @@
 package logic.camera;
 
 import agents.InputAgent;
-import mappings.Trigger;
+import logic.input.Trigger;
 
 public class ManualKeyboardRule implements MovementRule {
 
