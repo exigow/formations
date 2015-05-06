@@ -3,9 +3,9 @@ import agents.RenderAgent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import logic.camera.MovementRule;
-import logic.camera.MovementRuleResolver;
-import models.Camera;
+import logic.camera.rules.MovementRule;
+import logic.camera.rules.Resolver;
+import logic.camera.Camera;
 import models.Entity;
 import models.World;
 
@@ -14,12 +14,10 @@ public class Frame {
   private final RenderAgent agent = new RenderAgent();
   private final InputAgent input = new InputAgent();
   private final Camera camera = new Camera();
-  private final MovementRule mover = new MovementRuleResolver();
   private final World world = new World();
 
   public void update(float deltaTime) {
-    MovementRule.Product product = mover.specify(input);
-    camera.addMovement(product);
+    camera.updateMovementRules(input);
     camera.update(deltaTime);
   }
 

@@ -20,7 +20,7 @@ public class Entity implements Coordinate, Angle, Radius {
   public Entity(float x, float y, float angle, float size) {
     set(x, y);
     setAngle(angle);
-    setSize(size);
+    setRadius(size);
   }
 
   public Entity(float x, float y, float angle) {
@@ -36,7 +36,7 @@ public class Entity implements Coordinate, Angle, Radius {
   }
 
   @Override
-  public float x() {
+  public float getX() {
     return x;
   }
 
@@ -46,7 +46,7 @@ public class Entity implements Coordinate, Angle, Radius {
   }
 
   @Override
-  public float y() {
+  public float getY() {
     return y;
   }
 
@@ -56,7 +56,7 @@ public class Entity implements Coordinate, Angle, Radius {
   }
 
   @Override
-  public float getAngle() {
+  public float angle() {
     return angle;
   }
 
@@ -66,12 +66,12 @@ public class Entity implements Coordinate, Angle, Radius {
   }
 
   @Override
-  public float getSize() {
+  public float getRadius() {
     return size;
   }
 
   @Override
-  public void setSize(float size) {
+  public void setRadius(float size) {
     this.size = size;
   }
 

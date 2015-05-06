@@ -1,4 +1,4 @@
-package logic.camera;
+package logic.camera.rules;
 
 import attributes.Coordinate;
 import agents.InputAgent;
@@ -11,8 +11,8 @@ public class ManualMouseRule implements MovementRule {
   public Product specify(InputAgent agent) {
     Coordinate mouse = agent.getMouseWindow();
     Coordinate size = agent.getWindowSize();
-    int horizontal = signFor(mouse.x(), size.x());
-    int vertical = -signFor(mouse.y(), size.y());
+    int horizontal = signFor(mouse.getX(), size.getX());
+    int vertical = -signFor(mouse.getY(), size.getY());
     return new Product(horizontal, vertical);
   }
 

@@ -1,4 +1,4 @@
-package logic.camera;
+package logic.camera.rules;
 
 import agents.InputAgent;
 

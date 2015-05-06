@@ -2,9 +2,9 @@ package attributes;
 
 public interface Coordinate {
 
-  float x();
+  float getX();
 
-  float y();
+  float getY();
 
   void setX(float x);
 
@@ -17,7 +17,7 @@ public interface Coordinate {
   }
 
   default Coordinate add(float x, float y) {
-    return set(x() + x, y() + y);
+    return set(getX() + x, getY() + y);
   }
 
 }

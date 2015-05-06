@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class RectangleSelection<T extends Coordinate & Radius> {
 
-  public Collection<T> selection(Collection<T> from, Rectangle rectangle) {
+  public Collection<T> select(Collection<T> from, Rectangle rectangle) {
     return from.stream().filter(
       entity -> isInside(entity, rectangle)
     ).collect(Collectors.toList());
@@ -17,14 +17,14 @@ public class RectangleSelection<T extends Coordinate & Radius> {
 
   private boolean isInside(T entity, Rectangle rectangle) {
     float dist = coordinateToRectangleDistance(entity, rectangle);
-    return dist < entity.getSize();
+    return dist < entity.getRadius();
   }
 
-  public static float coordinateToRectangleDistance(Coordinate point, Rectangle rectangle) {
-    return coordinateToRectangleDistance(point.x(), point.y(), rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height); // todo refactor to Rectagle (bo chuj, nie podoba mi się ten zapis "rectangle.x + rectangle.width")
+  private static float coordinateToRectangleDistance(Coordinate point, Rectangle rectangle) {
+    return coordinateToRectangleDistance(point.getX(), point.getY(), rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height); // todo refactor to Rectagle (bo chuj, nie podoba mi się ten zapis "rectangle.x + rectangle.width")
   }
 
-  public static float coordinateToRectangleDistance(float px, float py, float ex, float ey, float sx, float sy) {
+  private static float coordinateToRectangleDistance(float px, float py, float ex, float ey, float sx, float sy) {
     float cx = Math.max(Math.min(px, sx), ex);
     float cy = Math.max(Math.min(py, sy), ey);
     return (float) Math.sqrt((px - cx) * (px - cx) + (py - cy) * (py - cy));

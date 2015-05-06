@@ -2,8 +2,8 @@ package attributes;
 
 public interface Radius {
 
-  float getSize();
+  float getRadius();
 
-  void setSize(float size);
+  void setRadius(float size);
 
 }

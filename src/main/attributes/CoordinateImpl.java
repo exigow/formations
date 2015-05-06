@@ -6,12 +6,12 @@ public class CoordinateImpl implements Coordinate {
   private float y;
 
   @Override
-  public float x() {
+  public float getX() {
     return x;
   }
 
   @Override
-  public float y() {
+  public float getY() {
     return y;
   }
 

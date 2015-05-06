@@ -1,16 +1,18 @@
-package logic.camera;
+package logic.camera.rules;
 
 import agents.InputAgent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class MovementRuleResolver implements MovementRule {
+public class Resolver implements MovementRule {
 
-  private final Collection<MovementRule> rules = Arrays.asList(
-    new ManualKeyboardRule(),
-    new ManualMouseRule()
-  );
+  private final Collection<MovementRule> rules = new ArrayList<>();
+
+  public Resolver(MovementRule... rules) {
+    this.rules.addAll(Arrays.asList(rules));
+  }
 
   @Override
   public Product specify(InputAgent agent) {
