@@ -7,10 +7,10 @@ public class ManualKeyboardRule implements MovementRule {
 
   @Override
   public Product specify(InputAgent agent) {
-    boolean up = Trigger.W.state().isPressed();
-    boolean down = Trigger.S.state().isPressed();
-    boolean left = Trigger.A.state().isPressed();
-    boolean right = Trigger.D.state().isPressed();
+    boolean up = agent.isPressed(Trigger.W);
+    boolean down = agent.isPressed(Trigger.S);
+    boolean left = agent.isPressed(Trigger.A);
+    boolean right = agent.isPressed(Trigger.D);
     int x = specifyDimension(right, left);
     int y = specifyDimension(up, down);
     return new Product(x, y);

@@ -23,7 +23,7 @@ public class Frame {
   public void update(float deltaTime) {
     camera.updateMovementRules(input);
     camera.update(deltaTime);
-    Trigger.listenAll();
+    input.listenTriggers();
   }
 
   public void render() {
