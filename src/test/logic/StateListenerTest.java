@@ -1,9 +1,10 @@
 package logic;
 
 import logic.input.StateListener;
+import logic.input.states.State;
 import org.testng.annotations.Test;
 
-import static logic.input.StateListener.State.*;
+import static logic.input.states.State.*;
 import static org.testng.Assert.assertEquals;
 
 public class StateListenerTest {
@@ -35,7 +36,7 @@ public class StateListenerTest {
     assertEquals(listener.state(), WAIT);
   }
 
-  private static void assertState(StateListener listener, StateListener.State state) {
+  private static void assertState(StateListener listener, State state) {
     assertEquals(listener.state(), state);
   }
 

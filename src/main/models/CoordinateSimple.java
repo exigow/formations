@@ -1,6 +1,8 @@
-package attributes;
+package models;
 
-public class CoordinateImpl implements Coordinate {
+import attributes.Coordinate;
+
+public class CoordinateSimple implements Coordinate {
 
   private float x;
   private float y;

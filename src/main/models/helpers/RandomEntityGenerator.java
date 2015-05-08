@@ -7,7 +7,7 @@ import models.Entity;
 public class RandomEntityGenerator {
 
   public static Entity generate() {
-    float scale = 256f;
+    float scale = 512f;
     float x = rand() * scale;
     float y = rand() * scale;
     float angle = MathUtils.random(Angle.MAX);

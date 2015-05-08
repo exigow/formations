@@ -1,20 +1,50 @@
 package logic.input;
 
-import com.badlogic.gdx.Input;
+import agents.InputAgent;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.Input.Keys;
+import logic.input.states.State;
 
 public enum Trigger {
 
-  MOUSE_LEFT(Input.Buttons.LEFT),
-  MOUSE_RIGHT(Input.Buttons.RIGHT),
-  W(Input.Keys.W),
-  S(Input.Keys.S),
-  A(Input.Keys.A),
-  D(Input.Keys.D);
+  MOUSE_LEFT(Buttons.LEFT, InputType.MOUSE),
+  MOUSE_RIGHT(Buttons.RIGHT, InputType.MOUSE),
+  W(Keys.W, InputType.KEYBOARD),
+  S(Keys.S, InputType.KEYBOARD),
+  A(Keys.A, InputType.KEYBOARD),
+  D(Keys.D, InputType.KEYBOARD);
 
-  public final int gdxKey;
+  private final int gdxKey;
+  private final StateListener listener = new StateListener();
+  private final InputType type;
 
-  Trigger(int gdxKey) {
+  Trigger(int gdxKey, InputType type) {
     this.gdxKey = gdxKey;
+    this.type = type;
+  }
+
+  public State state() {
+    return listener.state();
+  }
+
+  public static void listenAll() {
+    for (Trigger trigger : values()) {
+      boolean pressed = isPressed(trigger);
+      trigger.listener.listen(pressed);
+    }
+  }
+
+  private static boolean isPressed(Trigger trigger) {
+    if (trigger.type == InputType.KEYBOARD)
+      return Gdx.input.isKeyPressed(trigger.gdxKey);
+    return Gdx.input.isButtonPressed(trigger.gdxKey);
+  }
+
+  private enum InputType {
+
+    KEYBOARD, MOUSE
+
   }
 
 }

@@ -7,9 +7,16 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class RectangleSelection<T extends Coordinate & Radius> {
+public class RectangleSelection<T extends Coordinate & Radius> implements Selection<T>{
 
-  public Collection<T> select(Collection<T> from, Rectangle rectangle) {
+  private final Rectangle rectangle;
+
+  public RectangleSelection(Rectangle rectangle) {
+    this.rectangle = rectangle;
+  }
+
+  @Override
+  public Collection<T> selectFrom(Collection<T> from) {
     return from.stream().filter(
       entity -> isInside(entity, rectangle)
     ).collect(Collectors.toList());

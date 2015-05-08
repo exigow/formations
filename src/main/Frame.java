@@ -1,11 +1,15 @@
 import agents.InputAgent;
 import agents.RenderAgent;
+import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import logic.camera.rules.MovementRule;
 import logic.camera.rules.Resolver;
 import logic.camera.Camera;
+import logic.input.StateListener;
+import logic.input.Trigger;
+import models.CoordinateSimple;
 import models.Entity;
 import models.World;
 
@@ -19,6 +23,7 @@ public class Frame {
   public void update(float deltaTime) {
     camera.updateMovementRules(input);
     camera.update(deltaTime);
+    Trigger.listenAll();
   }
 
   public void render() {
@@ -32,7 +37,7 @@ public class Frame {
   }
 
   private static void clearBackground() {
-    Gdx.gl.glClearColor(.125f, .125f, .125f, 1f);
+    Gdx.gl.glClearColor(.25f, .25f, .25f, 1f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 

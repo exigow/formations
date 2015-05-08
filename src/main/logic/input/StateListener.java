@@ -1,14 +1,11 @@
 package logic.input;
 
-import static logic.input.StateListener.State.*;
+import logic.input.states.State;
+
+import static logic.input.states.State.*;
 
 public class StateListener {
 
-  public enum State {
-
-    WAIT, PRESS, HOLD, RELEASE
-
-  }
   private State actual = WAIT;
 
   public void listen(boolean triggered) {

@@ -10,14 +10,17 @@ public interface Coordinate {
 
   void setY(float y);
 
-  default Coordinate set(float x, float y) {
+  default void set(float x, float y) {
     setX(x);
     setY(y);
-    return this;
   }
 
-  default Coordinate add(float x, float y) {
-    return set(getX() + x, getY() + y);
+  default void set(Coordinate other) {
+    set(other.getX(), other.getY());
+  }
+
+  default void add(float x, float y) {
+    set(getX() + x, getY() + y);
   }
 
 }

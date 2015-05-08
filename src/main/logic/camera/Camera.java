@@ -2,7 +2,7 @@ package logic.camera;
 
 import agents.InputAgent;
 import attributes.Coordinate;
-import attributes.CoordinateImpl;
+import models.CoordinateSimple;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import logic.camera.rules.ManualKeyboardRule;
@@ -13,8 +13,8 @@ import logic.camera.rules.Resolver;
 public class Camera {
 
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-  private final Coordinate target = new CoordinateImpl();
-  private final Coordinate eye = new CoordinateImpl();
+  private final Coordinate target = new CoordinateSimple();
+  private final Coordinate eye = new CoordinateSimple();
   private final Resolver resolver = new Resolver(new ManualKeyboardRule(), new ManualMouseRule());
 
   @Deprecated

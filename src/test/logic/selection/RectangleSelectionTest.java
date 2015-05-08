@@ -20,7 +20,7 @@ public class RectangleSelectionTest {
   @Test
   public void testFilter() throws Exception {
     Rectangle rect = new Rectangle(1, 1, 4, 4);
-    Collection<Entity> filtered = new RectangleSelection<Entity>().select(entities, rect);
+    Collection<Entity> filtered = new RectangleSelection<Entity>(rect).selectFrom(entities);
     assertTrue(filtered.contains(ENTITY_INSIDE));
     assertFalse(filtered.contains(ENTITY_OUTSIDE));
     assertTrue(filtered.contains(ENTITY_COLLIDED_RADIUS));
