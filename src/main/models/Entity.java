@@ -8,10 +8,6 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Entity implements Coordinate, Angle, Radius {
 
-  private final static float DEFAULT_X = 0f;
-  private final static float DEFAULT_Y = 0f;
-  private final static float DEFAULT_ANGLE = 0f;
-  private final static float DEFAULT_SIZE = 1f;
   private float x;
   private float y;
   private float angle;
@@ -24,15 +20,15 @@ public class Entity implements Coordinate, Angle, Radius {
   }
 
   public Entity(float x, float y, float angle) {
-    this(x, y, angle, DEFAULT_SIZE);
+    this(x, y, angle, 1f);
   }
 
   public Entity(float x, float y) {
-    this(x, y, DEFAULT_ANGLE);
+    this(x, y, 1f);
   }
 
   public Entity() {
-    this(DEFAULT_X, DEFAULT_Y);
+    this(0f, 0f);
   }
 
   @Override
