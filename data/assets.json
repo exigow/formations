@@ -1,0 +1,18 @@
+{
+  "atlases": {
+    "item": [
+      {
+        "test0": {
+          "file": "test0.png",
+          "filter": "linear"
+        }
+      },
+      {
+        "test1": {
+          "file": "test1.png",
+          "filter": "nearest"
+        }
+      }
+    ]
+  }
+}
