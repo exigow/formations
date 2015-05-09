@@ -9,6 +9,7 @@ import logic.camera.Camera;
 import logic.input.Trigger;
 import models.Entity;
 import models.World;
+import models.helpers.RectangleFixer;
 import renderers.RectangleRenderer;
 import renderers.VariablesRenderer;
 
@@ -19,7 +20,8 @@ public class Frame {
   private final VariablesRenderer variables = new VariablesRenderer();
   private final Camera camera = new Camera();
   private final World world = new World();
-  private final Rectangle rect = new Rectangle();
+  private final Rectangle temporaryRect = new Rectangle();
+  private final Rectangle fixedRect = new Rectangle();
 
   public void update(float deltaTime) {
     camera.updateMovementRules(input);
@@ -28,17 +30,17 @@ public class Frame {
     variables.update("fps", Gdx.graphics.getFramesPerSecond());
     switch (input.stateOf(Trigger.MOUSE_LEFT)) {
       case PRESS:
-        rect.setPosition(input.getMouseWorld().getX(), input.getMouseWorld().getY());
-        variables.update("rect", rect);
+        temporaryRect.setPosition(input.getMouseWorld().getX(), input.getMouseWorld().getY());
         break;
     }
     if (input.isPressed(Trigger.MOUSE_LEFT)) {
-      updateRectangleSize(input.getMouseWorld(), rect);
-      variables.update("rect", rect);
+      updateRectangleSize(temporaryRect, input.getMouseWorld());
+      Rectangle fix = RectangleFixer.fix(temporaryRect);
+      fixedRect.set(fix);
     }
   }
 
-  private static void updateRectangleSize(Coordinate mouseWorld, Rectangle rect) {
+  private static void updateRectangleSize(Rectangle rect, Coordinate mouseWorld) {
     float deltaX = mouseWorld.getX() - rect.getX();
     float deltaY = mouseWorld.getY() - rect.getY();
     rect.setSize(deltaX, deltaY);
@@ -52,7 +54,8 @@ public class Frame {
       entity.render(agent);
     agent.shape.end();
     variables.render(agent);
-    RectangleRenderer.render(agent, rect);
+    if (input.isPressed(Trigger.MOUSE_LEFT))
+      RectangleRenderer.render(agent, fixedRect);
   }
 
   private static void clearBackground() {
