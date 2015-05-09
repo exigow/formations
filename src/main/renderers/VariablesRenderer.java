@@ -10,11 +10,20 @@ public class VariablesRenderer {
   private final Map<String, Object> variables = new HashMap<>();
 
   public void render(RenderAgent agent) {
+    String buffer = buildString(variables);
+    renderVariables(agent, buffer);
+  }
+
+  private static String buildString(Map<String, Object> map) {
     StringBuilder buffer = new StringBuilder();
-    for (String key : variables.keySet())
-      buffer.append(key).append(" = ").append(variables.get(key)).append("\n");
+    for (String key : map.keySet())
+      buffer.append(key).append(" = ").append(map.get(key)).append("\n");
+    return buffer.toString();
+  }
+
+  private void renderVariables(RenderAgent agent, String buffer) {
     agent.batch.begin();
-    agent.debugFont.drawMultiLine(agent.batch, buffer.toString(), 0, 0);
+    agent.debugFont.drawMultiLine(agent.batch, buffer, 0, 0);
     agent.batch.end();
   }
 
