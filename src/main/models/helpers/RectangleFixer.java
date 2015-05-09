@@ -12,7 +12,7 @@ public class RectangleFixer {
     }
     if (fixed.height < 0) {
       fixed.height = Math.abs(fixed.height);
-      fixed.x = fixed.getX() - fixed.height;
+      fixed.y = fixed.getY() - fixed.height;
     }
     return fixed;
   }
