@@ -3,6 +3,7 @@ package agents;
 import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
+import logging.Logger;
 import logic.camera.Camera;
 import logic.input.TickListener;
 import logic.input.states.Tick;
@@ -44,7 +45,11 @@ public class InputAgent {
     for (Trigger trigger : listeners.keySet()) {
       boolean pressed = isGdxPressed(trigger);
       TickListener listener = listeners.get(trigger);
+      Tick previousState = listener.state();
       listener.listen(pressed);
+      Tick actualState = listener.state();
+      if (previousState != actualState)
+        Logger.INPUT.info("Input " + trigger.name() + " changed from " + previousState + " to " + actualState);
     }
   }
 

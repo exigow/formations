@@ -10,7 +10,7 @@ public class AttributeOperationsTest {
 
   @Test
   public void testLength() throws Exception {
-    Entity a = new Entity(0f, 0f);
+    Entity a = new Entity();
     Entity b = new Entity(3f, 4f);
     assertEquals(lengthBetween(a, b), 5f);
     assertEquals(lengthBetween(b, a), 5f);

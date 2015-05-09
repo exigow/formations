@@ -4,7 +4,7 @@ public interface Angle {
 
   float MAX = 360f;
 
-  float angle();
+  float getAngle();
 
   void setAngle(float angle);
 

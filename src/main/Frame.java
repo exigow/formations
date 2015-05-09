@@ -4,6 +4,7 @@ import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
+import logging.Logger;
 import logic.camera.Camera;
 import logic.input.Trigger;
 import logic.input.states.Tick;
@@ -15,7 +16,6 @@ import models.helpers.CoordinatesToRectangleConverter;
 import renderers.EntityRenderer;
 import renderers.RectangleRenderer;
 import renderers.SelectionRenderer;
-import renderers.VariablesRenderer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +24,6 @@ public class Frame {
 
   private final RenderAgent agent = new RenderAgent();
   private final InputAgent input = new InputAgent();
-  private final VariablesRenderer variables = new VariablesRenderer();
   private final Camera camera = new Camera();
   private final World world = new World();
   private final Coordinate pinPoint = new CoordinateSimple();
@@ -36,7 +35,6 @@ public class Frame {
     camera.updateMovementRules(input);
     camera.update(deltaTime);
     input.update(camera);
-    variables.update("fps", Gdx.graphics.getFramesPerSecond());
     switch (input.stateOf(Trigger.MOUSE_LEFT)) {
       case ON_PRESS:
         pinPoint.set(input.getMouseWorld());
@@ -63,7 +61,6 @@ public class Frame {
     SelectionRenderer.render(agent, wantToSelect, 16);
     if (input.stateOf(Trigger.MOUSE_LEFT).equals(Tick.ON_HOLD))
       RectangleRenderer.render(agent, fixedRect);
-    variables.render(agent);
   }
 
   private static void clearBackground() {

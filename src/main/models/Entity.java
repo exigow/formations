@@ -1,11 +1,8 @@
 package models;
 
-import agents.RenderAgent;
 import attributes.Angle;
 import attributes.Coordinate;
 import attributes.Radius;
-
-import static com.badlogic.gdx.math.MathUtils.*;
 
 public class Entity implements Coordinate, Angle, Radius {
 
@@ -53,7 +50,7 @@ public class Entity implements Coordinate, Angle, Radius {
   }
 
   @Override
-  public float angle() {
+  public float getAngle() {
     return angle;
   }
 

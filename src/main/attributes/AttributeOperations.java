@@ -12,7 +12,7 @@ public class AttributeOperations {
   }
 
   public static float angleBetween(Angle first, Angle second) {
-    float difference = first.angle() - second.angle();
+    float difference = first.getAngle() - second.getAngle();
     return (((difference % Angle.MAX) + 540f) % Angle.MAX) - 180f;
   }
 
