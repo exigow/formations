@@ -1,13 +1,15 @@
 package logic.input.states;
 
-public enum  State {
+public enum Tick {
 
-  WAIT(false), PRESS(true), HOLD(true), RELEASE(true);
-
+  ON_WAIT(false),
+  ON_PRESS(true),
+  ON_HOLD(true),
+  ON_RELEASE(true);
 
   private final boolean pressed;
 
-  State(boolean pressed) {
+  Tick(boolean pressed) {
     this.pressed = pressed;
   }
 

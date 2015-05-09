@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -15,7 +17,7 @@ public class RectangleSelectionTest {
   private final static Entity ENTITY_INSIDE = new Entity(2, 2, 0, 0);
   private final static Entity ENTITY_OUTSIDE = new Entity(0, 0, 0, 0);
   private final static Entity ENTITY_COLLIDED_RADIUS = new Entity(5, 2, 0, 2);
-  private final static Collection<Entity> entities = Arrays.asList(ENTITY_INSIDE, ENTITY_OUTSIDE, ENTITY_COLLIDED_RADIUS);
+  private final static Set<Entity> entities = new HashSet<>(Arrays.asList(ENTITY_INSIDE, ENTITY_OUTSIDE, ENTITY_COLLIDED_RADIUS));
 
   @Test
   public void testFilter() throws Exception {

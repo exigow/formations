@@ -1,9 +1,9 @@
 package logic.selection;
 
-import java.util.Collection;
+import java.util.Set;
 
 public interface Selection<T> {
 
-  Collection<T> selectFrom(Collection<T> from);
+  Set<T> selectFrom(Set<T> from);
 
 }

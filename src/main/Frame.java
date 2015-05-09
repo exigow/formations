@@ -1,21 +1,26 @@
 import agents.InputAgent;
 import agents.RenderAgent;
 import attributes.Coordinate;
+import attributes.Radius;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import logic.camera.Camera;
 import logic.input.Trigger;
+import logic.input.states.Tick;
 import logic.selection.RectangleSimpleSelection;
+import models.CoordinateSimple;
 import models.Entity;
 import models.World;
-import models.helpers.RectangleFixer;
+import models.helpers.CoordinatesToRectangleConverter;
+import renderers.EntityRenderer;
 import renderers.RectangleRenderer;
+import renderers.SelectionRenderer;
 import renderers.VariablesRenderer;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Frame {
 
@@ -24,9 +29,10 @@ public class Frame {
   private final VariablesRenderer variables = new VariablesRenderer();
   private final Camera camera = new Camera();
   private final World world = new World();
-  private final Rectangle temporaryRect = new Rectangle();
+  private final Coordinate pinPoint = new CoordinateSimple();
   private final Rectangle fixedRect = new Rectangle();
-  //public final Collection<Entity> selected = new ArrayList<>();
+  private final Set<Entity> selected = new HashSet<>();
+  private final Set<Entity> wantToSelect = new HashSet<>();
 
   public void update(float deltaTime) {
     camera.updateMovementRules(input);
@@ -34,37 +40,32 @@ public class Frame {
     input.update(camera);
     variables.update("fps", Gdx.graphics.getFramesPerSecond());
     switch (input.stateOf(Trigger.MOUSE_LEFT)) {
-      case PRESS:
-        temporaryRect.setPosition(input.getMouseWorld().getX(), input.getMouseWorld().getY());
+      case ON_PRESS:
+        pinPoint.set(input.getMouseWorld());
         break;
-      case RELEASE:
-        Collection selected = new RectangleSimpleSelection<Entity>(fixedRect).selectFrom(world.entities);
-        System.out.println(selected);
+      case ON_HOLD:
+        Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, input.getMouseWorld());
+        fixedRect.set(fixed);
+        wantToSelect.clear();
+        wantToSelect.addAll(new RectangleSimpleSelection<Entity>(fixedRect).selectFrom(world.entities));
+        break;
+      case ON_RELEASE:
+        selected.clear();
+        selected.addAll(wantToSelect);
+        wantToSelect.clear();
         break;
     }
-    if (input.isPressed(Trigger.MOUSE_LEFT)) {
-      updateRectangleSize(temporaryRect, input.getMouseWorld());
-      Rectangle fix = RectangleFixer.fix(temporaryRect);
-      fixedRect.set(fix);
-    }
-  }
-
-  private static void updateRectangleSize(Rectangle rect, Coordinate pointer) {
-    float deltaX = pointer.getX() - rect.getX();
-    float deltaY = pointer.getY() - rect.getY();
-    rect.setSize(deltaX, deltaY);
   }
 
   public void render() {
     clearBackground();
     agent.setProjection(camera);
-    agent.shape.begin(ShapeRenderer.ShapeType.Line);
-    for (Entity entity : world.entities)
-      entity.render(agent);
-    agent.shape.end();
-    variables.render(agent);
-    if (input.isPressed(Trigger.MOUSE_LEFT))
+    EntityRenderer.render(agent, world.entities);
+    SelectionRenderer.render(agent, selected, 8);
+    SelectionRenderer.render(agent, wantToSelect, 16);
+    if (input.stateOf(Trigger.MOUSE_LEFT).equals(Tick.ON_HOLD))
       RectangleRenderer.render(agent, fixedRect);
+    variables.render(agent);
   }
 
   private static void clearBackground() {

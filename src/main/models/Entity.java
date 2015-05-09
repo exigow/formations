@@ -72,11 +72,4 @@ public class Entity implements Coordinate, Angle, Radius {
     this.size = size;
   }
 
-  public void render(RenderAgent agent) {
-    agent.shape.circle(x, y, size);
-    float toX = x + cos(angle * degreesToRadians) * size;
-    float toY = y + sin(angle * degreesToRadians) * size;
-    agent.shape.line(x, y, toX, toY);
-  }
-
 }

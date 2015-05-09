@@ -3,7 +3,7 @@ package logic.selection;
 import attributes.Coordinate;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RectangleSimpleSelection<T extends Coordinate> implements Selection<T>{
@@ -15,10 +15,14 @@ public class RectangleSimpleSelection<T extends Coordinate> implements Selection
   }
 
   @Override
-  public Collection<T> selectFrom(Collection<T> from) {
-    return from.stream().filter(
-      entity -> rectangle.contains(entity.getX(), entity.getY())
-    ).collect(Collectors.toList());
+  public Set<T> selectFrom(Set<T> from) {
+    return from.stream()
+      .filter(this::isInside)
+      .collect(Collectors.toSet());
+  }
+
+  private boolean isInside(Coordinate coordinate) {
+    return rectangle.contains(coordinate.getX(), coordinate.getY());
   }
 
 }

@@ -2,11 +2,10 @@ package agents;
 
 import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import logic.camera.Camera;
-import logic.input.StateListener;
-import logic.input.states.State;
+import logic.input.TickListener;
+import logic.input.states.Tick;
 import models.CoordinateSimple;
 import logic.input.Trigger;
 
@@ -18,12 +17,12 @@ public class InputAgent {
   private final Coordinate windowSize = new CoordinateSimple();
   private final Coordinate mouseWindow = new CoordinateSimple();
   private final Coordinate mouseWorld = new CoordinateSimple();
-  private final Map<Trigger, StateListener> listeners = initialiseMap(Trigger.values());
+  private final Map<Trigger, TickListener> listeners = initialiseMap(Trigger.values());
 
-  private static Map<Trigger, StateListener> initialiseMap(Trigger[] triggers) {
-    Map<Trigger, StateListener> map = new HashMap<>();
+  private static Map<Trigger, TickListener> initialiseMap(Trigger[] triggers) {
+    Map<Trigger, TickListener> map = new HashMap<>();
     for (Trigger trigger : triggers)
-      map.put(trigger, new StateListener());
+      map.put(trigger, new TickListener());
     return map;
   }
 
@@ -44,7 +43,7 @@ public class InputAgent {
   private void listenTriggers() {
     for (Trigger trigger : listeners.keySet()) {
       boolean pressed = isGdxPressed(trigger);
-      StateListener listener = listeners.get(trigger);
+      TickListener listener = listeners.get(trigger);
       listener.listen(pressed);
     }
   }
@@ -79,7 +78,7 @@ public class InputAgent {
     return Gdx.input.isButtonPressed(trigger.gdxKey);
   }
 
-  public State stateOf(Trigger trigger) {
+  public Tick stateOf(Trigger trigger) {
     return listeners.get(trigger).state();
   }
 

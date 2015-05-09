@@ -4,7 +4,7 @@ import attributes.Coordinate;
 import attributes.Radius;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RectangleSelection<T extends Coordinate & Radius> implements Selection<T>{
@@ -16,13 +16,13 @@ public class RectangleSelection<T extends Coordinate & Radius> implements Select
   }
 
   @Override
-  public Collection<T> selectFrom(Collection<T> from) {
-    return from.stream().filter(
-      entity -> isInside(entity, rectangle)
-    ).collect(Collectors.toList());
+  public Set<T> selectFrom(Set<T> from) {
+    return from.stream()
+      .filter(this::isInside)
+      .collect(Collectors.toSet());
   }
 
-  private boolean isInside(T entity, Rectangle rectangle) {
+  private boolean isInside(T entity) {
     float dist = coordinateToRectangleDistance(entity, rectangle);
     return dist < entity.getRadius();
   }
