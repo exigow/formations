@@ -4,7 +4,6 @@ import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
-import logging.Logger;
 import logic.camera.Camera;
 import logic.input.Trigger;
 import logic.input.states.Tick;
@@ -36,16 +35,16 @@ public class Frame {
     camera.update(deltaTime);
     input.update(camera);
     switch (input.stateOf(Trigger.MOUSE_LEFT)) {
-      case ON_PRESS:
+      case PRESS:
         pinPoint.set(input.getMouseWorld());
         break;
-      case ON_HOLD:
+      case HOLD:
         Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, input.getMouseWorld());
         fixedRect.set(fixed);
         wantToSelect.clear();
         wantToSelect.addAll(new RectangleSimpleSelection<Entity>(fixedRect).selectFrom(world.entities));
         break;
-      case ON_RELEASE:
+      case RELEASE:
         selected.clear();
         selected.addAll(wantToSelect);
         wantToSelect.clear();
@@ -59,7 +58,7 @@ public class Frame {
     EntityRenderer.render(agent, world.entities);
     SelectionRenderer.render(agent, selected, 8);
     SelectionRenderer.render(agent, wantToSelect, 16);
-    if (input.stateOf(Trigger.MOUSE_LEFT).equals(Tick.ON_HOLD))
+    if (input.stateOf(Trigger.MOUSE_LEFT).equals(Tick.HOLD))
       RectangleRenderer.render(agent, fixedRect);
   }
 

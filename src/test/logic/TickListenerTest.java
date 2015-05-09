@@ -16,24 +16,24 @@ public class TickListenerTest {
   public void fullStateChain() throws Exception {
     TickListener listener = new TickListener();
     listener.listen(OFF);
-    assertState(listener, ON_WAIT);
+    assertState(listener, WAIT);
     listener.listen(ON);
-    assertState(listener, ON_PRESS);
+    assertState(listener, PRESS);
     listener.listen(ON);
-    assertState(listener, ON_HOLD);
+    assertState(listener, HOLD);
     listener.listen(OFF);
-    assertState(listener, ON_RELEASE);
+    assertState(listener, RELEASE);
     listener.listen(OFF);
-    assertState(listener, ON_WAIT);
+    assertState(listener, WAIT);
   }
 
   @Test
   public void noChange() throws Exception {
     TickListener listener = new TickListener();
     listener.listen(OFF);
-    assertEquals(listener.state(), ON_WAIT);
+    assertEquals(listener.state(), WAIT);
     listener.listen(OFF);
-    assertEquals(listener.state(), ON_WAIT);
+    assertEquals(listener.state(), WAIT);
   }
 
   private static void assertState(TickListener listener, Tick tick) {

@@ -6,15 +6,15 @@ import static logic.input.states.Tick.*;
 
 public class TickListener {
 
-  private Tick actual = ON_WAIT;
+  private Tick actual = WAIT;
 
   public void listen(boolean triggered) {
     if (triggered) {
-      perform(ON_PRESS);
-      perform(ON_WAIT);
+      perform(PRESS);
+      perform(WAIT);
     } else {
-      perform(ON_RELEASE);
-      perform(ON_HOLD);
+      perform(RELEASE);
+      perform(HOLD);
     }
   }
 
@@ -33,14 +33,14 @@ public class TickListener {
 
   private static Tick nextFor(Tick tick) {
     switch (tick) {
-      case ON_WAIT:
-        return ON_PRESS;
-      case ON_PRESS:
-        return ON_HOLD;
-      case ON_HOLD:
-        return ON_RELEASE;
-      case ON_RELEASE:
-        return ON_WAIT;
+      case WAIT:
+        return PRESS;
+      case PRESS:
+        return HOLD;
+      case HOLD:
+        return RELEASE;
+      case RELEASE:
+        return WAIT;
     }
     return null;
   }

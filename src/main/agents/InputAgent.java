@@ -88,7 +88,7 @@ public class InputAgent {
   }
 
   public boolean isPressed(Trigger trigger) {
-    return !stateOf(trigger).equals(Tick.ON_WAIT);
+    return !stateOf(trigger).equals(Tick.WAIT);
   }
 
 }
