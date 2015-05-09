@@ -1,5 +1,6 @@
 import agents.InputAgent;
 import agents.RenderAgent;
+import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -30,18 +31,17 @@ public class Frame {
         rect.setPosition(input.getMouseWorld().getX(), input.getMouseWorld().getY());
         variables.update("rect", rect);
         break;
-      case RELEASE:
-        float deltaX = input.getMouseWorld().getX() - rect.getX();
-        float deltaY = input.getMouseWorld().getY() - rect.getY();
-        rect.setSize(deltaX, deltaY);
-        fixRectangle(rect);
-        variables.update("rect", rect);
-        break;
+    }
+    if (input.isPressed(Trigger.MOUSE_LEFT)) {
+      updateRectangleSize(input.getMouseWorld(), rect);
+      variables.update("rect", rect);
     }
   }
 
-  private static void fixRectangle(Rectangle rectangle) {
-    // todo
+  private static void updateRectangleSize(Coordinate mouseWorld, Rectangle rect) {
+    float deltaX = mouseWorld.getX() - rect.getX();
+    float deltaY = mouseWorld.getY() - rect.getY();
+    rect.setSize(deltaX, deltaY);
   }
 
   public void render() {
