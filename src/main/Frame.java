@@ -1,15 +1,14 @@
 import agents.InputAgent;
 import agents.RenderAgent;
-import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import logic.camera.Camera;
 import logic.input.Trigger;
-import models.CoordinateSimple;
 import models.Entity;
 import models.World;
+import renderers.RectangleRenderer;
 import renderers.VariablesRenderer;
 
 public class Frame {
@@ -19,32 +18,30 @@ public class Frame {
   private final VariablesRenderer variables = new VariablesRenderer();
   private final Camera camera = new Camera();
   private final World world = new World();
-  private final Coordinate from = new CoordinateSimple();
+  private final Rectangle rect = new Rectangle();
 
   public void update(float deltaTime) {
     camera.updateMovementRules(input);
     camera.update(deltaTime);
-    input.listenTriggers();
-    variables.present("fps", Gdx.graphics.getFramesPerSecond());
+    input.update(camera);
+    variables.update("fps", Gdx.graphics.getFramesPerSecond());
     switch (input.stateOf(Trigger.MOUSE_LEFT)) {
       case PRESS:
-        from.set(input.getMouseWindow());
-        variables.present("from", from);
+        rect.setPosition(input.getMouseWorld().getX(), input.getMouseWorld().getY());
+        variables.update("rect", rect);
         break;
       case RELEASE:
-        Coordinate to = new CoordinateSimple();
-        to.set(input.getMouseWindow());
-        Rectangle rect = toRectangle(from, to);
-        System.out.println(rect);
-        variables.present("to", to);
+        float deltaX = input.getMouseWorld().getX() - rect.getX();
+        float deltaY = input.getMouseWorld().getY() - rect.getY();
+        rect.setSize(deltaX, deltaY);
+        fixRectangle(rect);
+        variables.update("rect", rect);
         break;
     }
   }
 
-  private static Rectangle toRectangle(Coordinate from, Coordinate to) {
-    float deltaX = from.getX() - to.getX();
-    float deltaY = from.getY() - to.getY();
-    return new Rectangle(from.getX(), from.getY(), deltaX, deltaY);
+  private static void fixRectangle(Rectangle rectangle) {
+    // todo
   }
 
   public void render() {
@@ -55,6 +52,7 @@ public class Frame {
       entity.render(agent);
     agent.shape.end();
     variables.render(agent);
+    RectangleRenderer.render(agent, rect);
   }
 
   private static void clearBackground() {

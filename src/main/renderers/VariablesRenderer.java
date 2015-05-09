@@ -17,7 +17,7 @@ public class VariablesRenderer {
   private static String buildString(Map<String, Object> map) {
     StringBuilder buffer = new StringBuilder();
     for (String key : map.keySet())
-      buffer.append(key).append(" = ").append(map.get(key)).append("\n");
+      buffer.append("\"").append(key).append("\" = ").append(map.get(key)).append("\n");
     return buffer.toString();
   }
 
@@ -27,7 +27,7 @@ public class VariablesRenderer {
     agent.batch.end();
   }
 
-  public void present(String key, Object value) {
+  public void update(String key, Object value) {
     variables.put(key, value);
   }
 
