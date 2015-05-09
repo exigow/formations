@@ -1,10 +1,8 @@
 import agents.InputAgent;
 import agents.RenderAgent;
 import attributes.Coordinate;
-import attributes.Radius;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import logic.camera.Camera;
 import logic.input.Trigger;
