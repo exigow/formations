@@ -7,11 +7,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import logic.camera.Camera;
 import logic.input.Trigger;
+import logic.selection.RectangleSimpleSelection;
 import models.Entity;
 import models.World;
 import models.helpers.RectangleFixer;
 import renderers.RectangleRenderer;
 import renderers.VariablesRenderer;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Frame {
 
@@ -22,6 +26,7 @@ public class Frame {
   private final World world = new World();
   private final Rectangle temporaryRect = new Rectangle();
   private final Rectangle fixedRect = new Rectangle();
+  //public final Collection<Entity> selected = new ArrayList<>();
 
   public void update(float deltaTime) {
     camera.updateMovementRules(input);
@@ -32,6 +37,10 @@ public class Frame {
       case PRESS:
         temporaryRect.setPosition(input.getMouseWorld().getX(), input.getMouseWorld().getY());
         break;
+      case RELEASE:
+        Collection selected = new RectangleSimpleSelection<Entity>(fixedRect).selectFrom(world.entities);
+        System.out.println(selected);
+        break;
     }
     if (input.isPressed(Trigger.MOUSE_LEFT)) {
       updateRectangleSize(temporaryRect, input.getMouseWorld());
@@ -40,9 +49,9 @@ public class Frame {
     }
   }
 
-  private static void updateRectangleSize(Rectangle rect, Coordinate mouseWorld) {
-    float deltaX = mouseWorld.getX() - rect.getX();
-    float deltaY = mouseWorld.getY() - rect.getY();
+  private static void updateRectangleSize(Rectangle rect, Coordinate pointer) {
+    float deltaX = pointer.getX() - rect.getX();
+    float deltaY = pointer.getY() - rect.getY();
     rect.setSize(deltaX, deltaY);
   }
 

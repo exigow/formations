@@ -4,7 +4,8 @@ import agents.RenderAgent;
 import attributes.Angle;
 import attributes.Coordinate;
 import attributes.Radius;
-import com.badlogic.gdx.math.MathUtils;
+
+import static com.badlogic.gdx.math.MathUtils.*;
 
 public class Entity implements Coordinate, Angle, Radius {
 
@@ -73,8 +74,8 @@ public class Entity implements Coordinate, Angle, Radius {
 
   public void render(RenderAgent agent) {
     agent.shape.circle(x, y, size);
-    float toX = x + MathUtils.cos(angle * MathUtils.degreesToRadians) * size;
-    float toY = y + MathUtils.sin(angle * MathUtils.degreesToRadians) * size;
+    float toX = x + cos(angle * degreesToRadians) * size;
+    float toY = y + sin(angle * degreesToRadians) * size;
     agent.shape.line(x, y, toX, toY);
   }
 
