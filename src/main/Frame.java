@@ -1,5 +1,8 @@
 import agents.InputAgent;
 import agents.RenderAgent;
+import logic.input.TriggerAction;
+import logic.input.adapter.Adapter;
+import logic.input.adapter.TriggerAdapter;
 import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -29,6 +32,27 @@ public class Frame {
   private final Rectangle fixedRect = new Rectangle();
   private final Set<Entity> selected = new HashSet<>();
   private final Set<Entity> wantToSelect = new HashSet<>();
+
+  { // todo to co tu jest to eventy pozaklatkowe (czyli takie jak być powinny)
+    // todo należy zrobić refactor z tym związany, bo frame-based jest chujowy i czasami nie wyłapuje zmiany stanu,
+    // todo ...albo nawet całego inputu, jeśli klikniemy myszką szybko między refreshami
+    Adapter adapter = TriggerAdapter.instantiate(Trigger.MOUSE_LEFT,
+      new TriggerAction() {
+
+        @Override
+        public void onPress() {
+          System.out.println("asd");
+        }
+
+        @Override
+        public void onRelease() {
+          System.out.println("asd");
+        }
+
+      }
+    );
+    Gdx.input.setInputProcessor(adapter);
+  }
 
   public void update(float deltaTime) {
     camera.updateMovementRules(input);

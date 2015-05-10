@@ -1,5 +1,6 @@
 package logic.input;
 
+import logic.input.adapter.InputType;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 
@@ -18,12 +19,6 @@ public enum Trigger {
   Trigger(int gdxKey, InputType type) {
     this.gdxKey = gdxKey;
     this.type = type;
-  }
-
-  public enum InputType {
-
-    KEYBOARD, MOUSE
-
   }
 
 }

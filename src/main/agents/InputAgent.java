@@ -1,5 +1,6 @@
 package agents;
 
+import logic.input.adapter.InputType;
 import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
@@ -78,7 +79,7 @@ public class InputAgent {
   }
 
   private static boolean isGdxPressed(Trigger trigger) {
-    if (trigger.type == Trigger.InputType.KEYBOARD)
+    if (trigger.type == InputType.KEYBOARD)
       return Gdx.input.isKeyPressed(trigger.gdxKey);
     return Gdx.input.isButtonPressed(trigger.gdxKey);
   }
