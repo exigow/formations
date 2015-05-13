@@ -53,6 +53,7 @@ public class Frame {
   }
 
   private void updateSelection() {
+    wantToSelect.clear();
     wantToSelect.addAll(selector.update(input.mouse(camera), world.entities));
   }
 

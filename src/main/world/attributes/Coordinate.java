@@ -23,4 +23,8 @@ public interface Coordinate {
     set(getX() + x, getY() + y);
   }
 
+  default void scale(float factor) {
+    set(getX() * factor, getY() * factor);
+  }
+
 }
