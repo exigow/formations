@@ -54,7 +54,7 @@ public class Frame {
 
   private void updateSelection() {
     wantToSelect.clear();
-    wantToSelect.addAll(selector.update(input.mouse(camera), world.entities));
+    wantToSelect.addAll(selector.update(input.mouse(camera), world.allEntities()));
   }
 
   private static <T> void flush(Set<T> from, Set<T> to) {
@@ -66,7 +66,7 @@ public class Frame {
   public void render() {
     clearBackground();
     agent.setProjection(camera);
-    EntityRenderer.render(agent, world.entities);
+    EntityRenderer.render(agent, world.allEntities());
     SelectionRenderer.render(agent, selected, 8);
     SelectionRenderer.render(agent, wantToSelect, 16);
     if (isSelecting)

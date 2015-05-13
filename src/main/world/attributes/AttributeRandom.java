@@ -8,7 +8,7 @@ public class AttributeRandom {
   public static void randomize(Coordinate coordinate) {
     float x = randomNormal();
     float y = randomNormal();
-    coordinate.set(x, y);
+    coordinate.setPosition(x, y);
   }
 
   private static float randomNormal() {

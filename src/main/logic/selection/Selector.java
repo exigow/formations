@@ -15,7 +15,7 @@ public class Selector {
   private final Rectangle rectangle = new Rectangle();
 
   public void start(Coordinate where) {
-    pinPoint.set(where);
+    pinPoint.setPosition(where);
   }
 
   public Collection<Entity> update(Coordinate to, Set<Entity> entities) {

@@ -10,21 +10,25 @@ public interface Coordinate {
 
   void setY(float y);
 
-  default void set(float x, float y) {
+  default void setPosition(float x, float y) {
     setX(x);
     setY(y);
   }
 
-  default void set(Coordinate other) {
-    set(other.getX(), other.getY());
+  default void setPosition(Coordinate other) {
+    setPosition(other.getX(), other.getY());
   }
 
-  default void add(float x, float y) {
-    set(getX() + x, getY() + y);
+  default void addPosition(float x, float y) {
+    setPosition(getX() + x, getY() + y);
   }
 
-  default void scale(float factor) {
-    set(getX() * factor, getY() * factor);
+  default void addPosition(Coordinate other) {
+    addPosition(other.getX(), other.getY());
+  }
+
+  default void scalePosition(float factor) {
+    setPosition(getX() * factor, getY() * factor);
   }
 
 }

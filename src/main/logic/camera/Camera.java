@@ -30,7 +30,7 @@ public class Camera {
     float factor = 4f;
     float x = product.horizontal * factor;
     float y = product.vertical * factor;
-    target.set(x, y);
+    target.setPosition(x, y);
   }
 
   public void update(float deltaTime) {
@@ -39,7 +39,7 @@ public class Camera {
     float deltaY = (target.getY() - eye.getY()) * smooth;
     camera.translate(eye.getX(), eye.getY());
     camera.update();
-    eye.add(deltaX, deltaY);
+    eye.addPosition(deltaX, deltaY);
   }
 
 }

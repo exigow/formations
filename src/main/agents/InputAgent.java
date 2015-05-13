@@ -17,7 +17,7 @@ public class InputAgent {
     float x = Gdx.graphics.getWidth();
     float y = Gdx.graphics.getHeight();
     Coordinate result = new CoordinateSimple();
-    result.set(x, y);
+    result.setPosition(x, y);
     return result;
   }
 
@@ -25,7 +25,7 @@ public class InputAgent {
     float x = Gdx.input.getX();
     float y = Gdx.input.getY();
     Coordinate result = new CoordinateSimple();
-    result.set(x, y);
+    result.setPosition(x, y);
     return result;
   }
 
@@ -42,7 +42,7 @@ public class InputAgent {
     Vector3 asVector = new Vector3(coordinate.getX(), coordinate.getY(), 0f);
     Vector3 projected = camera.getOrthographicCamera().unproject(asVector);
     Coordinate result = new CoordinateSimple();
-    result.set(projected.x, projected.y);
+    result.setPosition(projected.x, projected.y);
     return result;
   }
 

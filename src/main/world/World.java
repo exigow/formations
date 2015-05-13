@@ -4,38 +4,46 @@ import com.badlogic.gdx.math.MathUtils;
 import world.attributes.Angle;
 import world.attributes.AttributeRandom;
 import world.attributes.Coordinate;
-import world.attributes.Radius;
 import world.models.CoordinateSimple;
 import world.models.Entity;
 import world.models.Group;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class World {
 
-  public final Set<Group<Entity>> entityGroups = new HashSet<>();
-  public final Set<Entity> entities = new HashSet<>();
+  public final Set<Group<Entity>> groups = new HashSet<>();
   {
     for (int g = 0; g < 16; g++) {
-      //Group<Entity> group = new Group<>();
-      Coordinate setupCoord = randomCoordinate(512f);
+      Group<Entity> group = new Group<>();
+      Coordinate setup = randomCoordinate(512f);
       for (int i = 0; i < 5; i++) {
         Entity entity = new Entity();
-        entity.set(randomCoordinate(64f));
-        entity.add(setupCoord.getX(), setupCoord.getY());
+        entity.setPosition(randomCoordinate(64f));
+        entity.addPosition(setup);
         entity.setAngle(MathUtils.random(Angle.MAX));
         entity.setRadius(MathUtils.random(4f, 8f));
-        entities.add(entity);
+        group.entities.add(entity);
       }
+      groups.add(group);
     }
   }
 
+  public Set<Entity> allEntities() {
+    return groups.stream()
+      .map(group -> group.entities)
+      .flatMap(Collection::stream)
+      .collect(Collectors.toSet());
+  }
+
   private static Coordinate randomCoordinate(float scale) {
-    Coordinate groupPosition = new CoordinateSimple();
-    AttributeRandom.randomize(groupPosition);
-    groupPosition.scale(scale);
-    return groupPosition;
+    Coordinate coordinate = new CoordinateSimple();
+    AttributeRandom.randomize(coordinate);
+    coordinate.scalePosition(scale);
+    return coordinate;
   }
 
 }
