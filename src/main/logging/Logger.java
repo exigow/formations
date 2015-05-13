@@ -5,12 +5,12 @@ import java.util.logging.Handler;
 
 public enum Logger {
 
-  INPUT("input");
+  INPUT;
 
   private final String name;
 
-  Logger(String name) {
-    this.name = createName(name);
+  {
+    name = createName();
     register();
   }
 
@@ -18,8 +18,8 @@ public enum Logger {
     juliLogger().info(msg);
   }
 
-  private static String createName(String name) {
-    return Logger.class.getName() + "." + name;
+  private String createName() {
+    return Logger.class.getName() + "." + name();
   }
 
   private java.util.logging.Logger juliLogger() {

@@ -13,7 +13,11 @@ public class ConsoleFormatter extends Formatter {
   @Override
   public String format(LogRecord record) {
     String formattedDate = TIME_FORMAT.format(dateOf(record));
-    return "[" + formattedDate + "] " + formatMessage(record) + LINE_SEPARATOR;
+    return surround(formattedDate) + " " + formatMessage(record) + LINE_SEPARATOR;
+  }
+
+  private static String surround(String source) {
+    return "[" + source + "]";
   }
 
   private static Date dateOf(LogRecord record) {

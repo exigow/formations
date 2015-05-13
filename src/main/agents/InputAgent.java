@@ -1,95 +1,49 @@
 package agents;
 
-import logic.input.adapter.InputType;
+import agents.helpers.ActionRegistrar;
 import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
-import logging.Logger;
 import logic.camera.Camera;
-import logic.input.TickListener;
-import logic.input.states.Tick;
+import logic.input.Key;
+import logic.input.actions.Action;
 import models.CoordinateSimple;
-import logic.input.Trigger;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class InputAgent {
 
-  private final Coordinate windowSize = new CoordinateSimple();
-  private final Coordinate mouseWindow = new CoordinateSimple();
-  private final Coordinate mouseWorld = new CoordinateSimple();
-  private final Map<Trigger, TickListener> listeners = initialiseMap(Trigger.values());
+  private final ActionRegistrar registrar = new ActionRegistrar();
 
-  private static Map<Trigger, TickListener> initialiseMap(Trigger[] triggers) {
-    Map<Trigger, TickListener> map = new HashMap<>();
-    for (Trigger trigger : triggers)
-      map.put(trigger, new TickListener());
-    return map;
+  public Coordinate windowSize() {
+    float x = Gdx.graphics.getWidth();
+    float y = Gdx.graphics.getHeight();
+    Coordinate result = new CoordinateSimple();
+    result.set(x, y);
+    return result;
   }
 
-  public void update(Camera camera) {
-    updateWindowSize();
-    updateMouseWindow();
-    updateMouseWorld(camera);
-    listenTriggers();
+  public Coordinate mouseWindow() {
+    float x = Gdx.input.getX();
+    float y = Gdx.input.getY();
+    Coordinate result = new CoordinateSimple();
+    result.set(x, y);
+    return result;
+  }
+
+  public Coordinate mouse(Camera camera) {
+    return unproject(mouseWindow(), camera);
+  }
+
+  public Action register(Key key, Action action) {
+    return registrar.register(key, action);
   }
 
   @SuppressWarnings("deprecation")
-  private void updateMouseWorld(Camera camera) {
-    Vector3 asVector = new Vector3(mouseWindow.getX(), mouseWindow.getY(), 0f);
+  private Coordinate unproject(Coordinate coordinate, Camera camera) {
+    Vector3 asVector = new Vector3(coordinate.getX(), coordinate.getY(), 0f);
     Vector3 projected = camera.getOrthographicCamera().unproject(asVector);
-    mouseWorld.set(projected.x, projected.y);
-  }
-
-  private void listenTriggers() {
-    for (Trigger trigger : listeners.keySet()) {
-      boolean pressed = isGdxPressed(trigger);
-      TickListener listener = listeners.get(trigger);
-      Tick previousState = listener.state();
-      listener.listen(pressed);
-      Tick actualState = listener.state();
-      if (previousState != actualState)
-        Logger.INPUT.info("Input " + trigger.name() + " changed from " + previousState + " to " + actualState);
-    }
-  }
-
-  public Coordinate getWindowSize() {
-    return windowSize;
-  }
-
-  private void updateWindowSize() {
-    float x = Gdx.graphics.getWidth();
-    float y = Gdx.graphics.getHeight();
-    windowSize.set(x, y);
-  }
-
-  private void updateMouseWindow() {
-    float x = Gdx.input.getX();
-    float y = Gdx.input.getY();
-    mouseWindow.set(x, y);
-  }
-
-  public Coordinate getMouseWindow() {
-    return mouseWindow;
-  }
-
-  public Coordinate getMouseWorld() {
-    return mouseWorld;
-  }
-
-  private static boolean isGdxPressed(Trigger trigger) {
-    if (trigger.type == InputType.KEYBOARD)
-      return Gdx.input.isKeyPressed(trigger.gdxKey);
-    return Gdx.input.isButtonPressed(trigger.gdxKey);
-  }
-
-  public Tick stateOf(Trigger trigger) {
-    return listeners.get(trigger).state();
-  }
-
-  public boolean isPressed(Trigger trigger) {
-    return !stateOf(trigger).equals(Tick.WAIT);
+    Coordinate result = new CoordinateSimple();
+    result.set(projected.x, projected.y);
+    return result;
   }
 
 }

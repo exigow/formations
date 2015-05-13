@@ -2,20 +2,23 @@ package logic.camera;
 
 import agents.InputAgent;
 import attributes.Coordinate;
-import models.CoordinateSimple;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import logic.camera.rules.ManualKeyboardRule;
-import logic.camera.rules.ManualMouseRule;
 import logic.camera.rules.MovementRule.Product;
 import logic.camera.rules.Resolver;
+import models.CoordinateSimple;
 
 public class Camera {
+
+  private final Resolver resolver;
+
+  public Camera(Resolver resolver) {
+    this.resolver = resolver;
+  }
 
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   private final Coordinate target = new CoordinateSimple();
   private final Coordinate eye = new CoordinateSimple();
-  private final Resolver resolver = new Resolver(new ManualKeyboardRule(), new ManualMouseRule());
 
   @Deprecated
   public OrthographicCamera getOrthographicCamera() {

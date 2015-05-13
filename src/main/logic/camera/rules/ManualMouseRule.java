@@ -9,8 +9,8 @@ public class ManualMouseRule implements MovementRule {
 
   @Override
   public Product specify(InputAgent agent) {
-    Coordinate mouse = agent.getMouseWindow();
-    Coordinate size = agent.getWindowSize();
+    Coordinate mouse = agent.mouseWindow();
+    Coordinate size = agent.windowSize();
     int horizontal = signFor(mouse.getX(), size.getX());
     int vertical = -signFor(mouse.getY(), size.getY());
     return new Product(horizontal, vertical);
