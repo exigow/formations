@@ -1,4 +1,4 @@
-package world;
+package world.models;
 
 import world.attributes.Angle;
 import world.attributes.Coordinate;

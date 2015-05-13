@@ -1,4 +1,4 @@
-package models;
+package world.models;
 
 import world.attributes.Coordinate;
 

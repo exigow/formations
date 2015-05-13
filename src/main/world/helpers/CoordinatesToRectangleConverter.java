@@ -1,4 +1,4 @@
-package models.helpers;
+package world.helpers;
 
 import world.attributes.Coordinate;
 import com.badlogic.gdx.math.Rectangle;

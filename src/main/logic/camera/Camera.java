@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import logic.camera.rules.MovementRule.Product;
 import logic.camera.rules.Resolver;
-import models.CoordinateSimple;
+import world.models.CoordinateSimple;
 
 public class Camera {
 

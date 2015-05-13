@@ -1,6 +1,7 @@
 package world;
 
-import models.helpers.RandomEntityGenerator;
+import world.helpers.RandomEntityGenerator;
+import world.models.Entity;
 
 import java.util.HashSet;
 import java.util.Set;

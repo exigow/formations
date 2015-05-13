@@ -2,7 +2,7 @@ package world.attributes;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import world.Entity;
+import world.models.Entity;
 
 import static world.attributes.AttributeOperations.*;
 

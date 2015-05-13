@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import logic.camera.Camera;
 import logic.input.Key;
 import logic.input.actions.Action;
-import models.CoordinateSimple;
+import world.models.CoordinateSimple;
 
 public class InputAgent {
 

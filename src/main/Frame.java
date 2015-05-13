@@ -8,7 +8,7 @@ import logic.camera.rules.ManualMouseRule;
 import logic.camera.rules.Resolver;
 import logic.input.Key;
 import logic.selection.Selector;
-import world.Entity;
+import world.models.Entity;
 import world.World;
 import renderers.EntityRenderer;
 import renderers.RectangleRenderer;

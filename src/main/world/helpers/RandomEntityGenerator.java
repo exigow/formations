@@ -1,8 +1,8 @@
-package models.helpers;
+package world.helpers;
 
 import world.attributes.Angle;
 import com.badlogic.gdx.math.MathUtils;
-import world.Entity;
+import world.models.Entity;
 
 public class RandomEntityGenerator {
 

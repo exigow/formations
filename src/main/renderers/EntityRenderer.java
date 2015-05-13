@@ -2,7 +2,7 @@ package renderers;
 
 import agents.RenderAgent;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import world.Entity;
+import world.models.Entity;
 
 import java.util.Set;
 
