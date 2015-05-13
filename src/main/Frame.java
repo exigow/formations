@@ -4,13 +4,13 @@ import attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
-import logging.Logger;
 import logic.camera.Camera;
 import logic.camera.rules.ManualKeyboardRule;
 import logic.camera.rules.ManualMouseRule;
 import logic.camera.rules.Resolver;
 import logic.input.Key;
 import logic.selection.RectangleSimpleSelection;
+import logic.selection.Selector;
 import models.CoordinateSimple;
 import models.Entity;
 import models.World;
@@ -28,25 +28,22 @@ public class Frame {
   private final InputAgent input = new InputAgent();
   private final Camera camera = new Camera(new Resolver(new ManualKeyboardRule(input), new ManualMouseRule()));
   private final World world = new World();
-  private final Coordinate pinPoint = new CoordinateSimple();
-  private final Rectangle fixedRect = new Rectangle();
   private final Set<Entity> selected = new HashSet<>();
   private final Set<Entity> wantToSelect = new HashSet<>();
-  private boolean tick = false;
+  private boolean isSelecting = false;
+  private final Selector selector = new Selector();
   {
     input.register(Key.MOUSE_LEFT,
       (state) -> {
         switch (state) {
           case PRESSED:
-            pinPoint.set(input.mouse(camera));
-            tick = true;
+            selector.start(input.mouse(camera));
+            isSelecting = true;
             break;
           case RELEASED:
             updateSelection();
-            selected.clear();
-            selected.addAll(wantToSelect);
-            wantToSelect.clear();
-            tick = false;
+            flush(wantToSelect, selected);
+            isSelecting = false;
             break;
         }
       }
@@ -56,15 +53,18 @@ public class Frame {
   public void update(float deltaTime) {
     camera.updateMovementRules(input);
     camera.update(deltaTime);
-    if (tick)
+    if (isSelecting)
       updateSelection();
   }
 
   private void updateSelection() {
-    Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, input.mouse(camera));
-    fixedRect.set(fixed);
-    wantToSelect.clear();
-    wantToSelect.addAll(new RectangleSimpleSelection<Entity>(fixedRect).selectFrom(world.entities));
+    wantToSelect.addAll(selector.update(input.mouse(camera), world.entities));
+  }
+
+  private static <T> void flush(Set<T> from, Set<T> to) {
+    to.clear();
+    to.addAll(from);
+    from.clear();
   }
 
   public void render() {
@@ -73,8 +73,8 @@ public class Frame {
     EntityRenderer.render(agent, world.entities);
     SelectionRenderer.render(agent, selected, 8);
     SelectionRenderer.render(agent, wantToSelect, 16);
-    if (tick)
-      RectangleRenderer.render(agent, fixedRect);
+    if (isSelecting)
+      RectangleRenderer.render(agent, selector.getRectangle());
   }
 
   private static void clearBackground() {
