@@ -1,6 +1,6 @@
 package models.helpers;
 
-import attributes.Coordinate;
+import world.attributes.Coordinate;
 import com.badlogic.gdx.math.Rectangle;
 
 public class CoordinatesToRectangleConverter {

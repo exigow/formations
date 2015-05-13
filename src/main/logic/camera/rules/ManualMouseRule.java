@@ -1,6 +1,6 @@
 package logic.camera.rules;
 
-import attributes.Coordinate;
+import world.attributes.Coordinate;
 import agents.InputAgent;
 
 public class ManualMouseRule implements MovementRule {

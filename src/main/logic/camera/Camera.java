@@ -1,7 +1,7 @@
 package logic.camera;
 
 import agents.InputAgent;
-import attributes.Coordinate;
+import world.attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import logic.camera.rules.MovementRule.Product;

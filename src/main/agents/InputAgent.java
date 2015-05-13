@@ -1,7 +1,7 @@
 package agents;
 
 import agents.helpers.ActionRegistrar;
-import attributes.Coordinate;
+import world.attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import logic.camera.Camera;

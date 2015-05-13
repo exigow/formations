@@ -1,9 +1,9 @@
 package logic.selection;
 
-import attributes.Coordinate;
+import world.attributes.Coordinate;
 import com.badlogic.gdx.math.Rectangle;
 import models.CoordinateSimple;
-import models.Entity;
+import world.Entity;
 import models.helpers.CoordinatesToRectangleConverter;
 
 import java.util.Collection;

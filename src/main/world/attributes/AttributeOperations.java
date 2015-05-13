@@ -1,4 +1,8 @@
-package attributes;
+package world.attributes;
+
+import world.attributes.Angle;
+import world.attributes.Coordinate;
+import world.attributes.Radius;
 
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;

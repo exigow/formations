@@ -1,7 +1,7 @@
 package logic.selection;
 
-import attributes.Coordinate;
-import attributes.Radius;
+import world.attributes.Coordinate;
+import world.attributes.Radius;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Set;

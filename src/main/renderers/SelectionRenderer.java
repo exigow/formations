@@ -1,8 +1,8 @@
 package renderers;
 
 import agents.RenderAgent;
-import attributes.Coordinate;
-import attributes.Radius;
+import world.attributes.Coordinate;
+import world.attributes.Radius;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.Set;

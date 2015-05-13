@@ -1,6 +1,6 @@
 package logic.selection;
 
-import attributes.Coordinate;
+import world.attributes.Coordinate;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Set;

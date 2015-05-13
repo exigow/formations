@@ -1,8 +1,8 @@
-package models;
+package world;
 
-import attributes.Angle;
-import attributes.Coordinate;
-import attributes.Radius;
+import world.attributes.Angle;
+import world.attributes.Coordinate;
+import world.attributes.Radius;
 
 public class Entity implements Coordinate, Angle, Radius {
 

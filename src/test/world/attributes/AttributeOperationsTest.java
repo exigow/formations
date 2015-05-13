@@ -1,10 +1,10 @@
-package attributes;
+package world.attributes;
 
-import models.Entity;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import world.Entity;
 
-import static attributes.AttributeOperations.*;
+import static world.attributes.AttributeOperations.*;
 
 public class AttributeOperationsTest {
 

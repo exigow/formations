@@ -1,6 +1,6 @@
 package models;
 
-import attributes.Coordinate;
+import world.attributes.Coordinate;
 
 public class CoordinateSimple implements Coordinate {
 
