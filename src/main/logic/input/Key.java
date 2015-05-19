@@ -9,7 +9,9 @@ public enum Key {
   KEY_W(Input.Keys.W),
   KEY_S(Input.Keys.S),
   KEY_A(Input.Keys.A),
-  KEY_D(Input.Keys.D);
+  KEY_D(Input.Keys.D),
+  KEY_E(Input.Keys.E),
+  KEY_Q(Input.Keys.Q);
 
   public final int gdxKey;
 

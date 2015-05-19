@@ -18,19 +18,22 @@ public class Resolver implements MovementRule {
   public Product specify(InputAgent agent) {
     int x = 0;
     int y = 0;
+    int z = 0;
     for (MovementRule rule : rules) {
       Product product = rule.specify(agent);
       x += product.horizontal;
       y += product.vertical;
+      z += product.depth;
     }
-    Product result = new Product(x, y);
+    Product result = new Product(x, y, z);
     return normalize(result);
   }
 
   private static Product normalize(Product input) {
     int x = normalize(input.horizontal);
     int y = normalize(input.vertical);
-    return new Product(x, y);
+    int z = normalize(input.depth);
+    return new Product(x, y, z);
   }
 
   private static int normalize(int vector) {

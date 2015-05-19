@@ -19,6 +19,8 @@ public class Camera {
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   private final Coordinate target = new CoordinateSimple();
   private final Coordinate eye = new CoordinateSimple();
+  private float targetZ = 1f;
+  private float eyeZ = targetZ;
 
   @Deprecated
   public OrthographicCamera getOrthographicCamera() {
@@ -27,19 +29,29 @@ public class Camera {
 
   public void updateMovementRules(InputAgent agent) {
     Product product = resolver.specify(agent);
-    float factor = 4f;
-    float x = product.horizontal * factor;
-    float y = product.vertical * factor;
-    target.setPosition(x, y);
+    float planeFactor = 4f;
+    float depthFactor = .0125f;
+    float x = product.horizontal * planeFactor;
+    float y = product.vertical * planeFactor;
+    float z = product.depth * depthFactor;
+    target.addPosition(x, y);
+    targetZ += z;
   }
 
   public void update(float deltaTime) {
     float smooth = deltaTime * 8f;
     float deltaX = (target.getX() - eye.getX()) * smooth;
     float deltaY = (target.getY() - eye.getY()) * smooth;
-    camera.translate(eye.getX(), eye.getY());
-    camera.update();
+    float deltaZ = (targetZ - eyeZ) * smooth;
     eye.addPosition(deltaX, deltaY);
+    eyeZ += deltaZ;
+    refreshCameraEye(camera, eye, eyeZ);
+  }
+
+  private static void refreshCameraEye(OrthographicCamera camera, Coordinate eye, float eyeZ) {
+    camera.position.set(eye.getX(), eye.getY(), 0f);
+    camera.zoom = eyeZ;
+    camera.update();
   }
 
 }

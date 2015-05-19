@@ -13,7 +13,7 @@ public class ManualMouseRule implements MovementRule {
     Coordinate size = agent.windowSize();
     int horizontal = signFor(mouse.getX(), size.getX());
     int vertical = -signFor(mouse.getY(), size.getY());
-    return new Product(horizontal, vertical);
+    return new Product(horizontal, vertical, 0);
   }
 
   private static int signFor(float position, float maxPosition) {

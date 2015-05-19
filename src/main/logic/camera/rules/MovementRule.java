@@ -14,10 +14,12 @@ public interface MovementRule {
 
     public final int horizontal;
     public final int vertical;
+    public final int depth;
 
-    public Product(int horizontal, int vertical) {
+    public Product(int horizontal, int vertical, int depth) {
       this.horizontal = horizontal;
       this.vertical = vertical;
+      this.depth = depth;
     }
 
   }
