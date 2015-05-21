@@ -17,13 +17,6 @@ public class ActionRegistrar {
 
   {
     Gdx.input.setInputProcessor(multiplexer);
-    multiplexer.addProcessor(new InputAdapter() {
-      @Override
-      public boolean mouseMoved(int screenX, int screenY) {
-        System.out.println(screenX + ", " + screenY);
-        return true;
-      }
-    });
   }
 
   public Action register(Key key, Action action) {
