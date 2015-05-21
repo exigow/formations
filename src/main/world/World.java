@@ -2,7 +2,6 @@ package world;
 
 import com.badlogic.gdx.math.MathUtils;
 import world.attributes.Angle;
-import world.attributes.AttributeRandom;
 import world.attributes.Coordinate;
 import world.models.CoordinateSimple;
 import world.models.Entity;

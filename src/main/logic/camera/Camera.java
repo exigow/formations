@@ -1,6 +1,7 @@
 package logic.camera;
 
 import agents.InputAgent;
+import com.badlogic.gdx.math.MathUtils;
 import world.attributes.Coordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,16 +12,17 @@ import world.models.CoordinateSimple;
 public class Camera {
 
   private final Resolver resolver;
-
-  public Camera(Resolver resolver) {
-    this.resolver = resolver;
-  }
-
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   private final Coordinate target = new CoordinateSimple();
   private final Coordinate eye = new CoordinateSimple();
   private float targetZ = 1f;
   private float eyeZ = targetZ;
+  private static final float MAX_ZOOM = 4f;
+  private static final float MIN_ZOOM = .0125f;
+
+  public Camera(Resolver resolver) {
+    this.resolver = resolver;
+  }
 
   @Deprecated
   public OrthographicCamera getOrthographicCamera() {
@@ -29,13 +31,14 @@ public class Camera {
 
   public void updateMovementRules(InputAgent agent) {
     Product product = resolver.specify(agent);
-    float planeFactor = 4f;
-    float depthFactor = .0125f;
+    float planeFactor = 16f;
+    float depthFactor = .05f;
     float x = product.horizontal * planeFactor;
     float y = product.vertical * planeFactor;
     float z = product.depth * depthFactor;
     target.addPosition(x, y);
     targetZ += z;
+    targetZ = MathUtils.clamp(targetZ, MIN_ZOOM, MAX_ZOOM);
   }
 
   public void update(float deltaTime) {
