@@ -10,6 +10,7 @@ public class Entity implements Coordinate, Angle, Radius {
   private float y;
   private float angle;
   private float size;
+  public Group parent;
 
   public Entity(float x, float y, float angle, float size) {
     setPosition(x, y);

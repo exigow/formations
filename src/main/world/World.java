@@ -25,7 +25,7 @@ public class World {
         entity.addPosition(setup);
         entity.setAngle(MathUtils.random(Angle.MAX));
         entity.setRadius(MathUtils.random(4f, 8f));
-        group.entities.add(entity);
+        group.join(entity);
       }
       groups.add(group);
     }
@@ -33,7 +33,7 @@ public class World {
 
   public Set<Entity> allEntities() {
     return groups.stream()
-      .map(group -> group.entities)
+      .map(Group::getEntities)
       .flatMap(Collection::stream)
       .collect(Collectors.toSet());
   }
