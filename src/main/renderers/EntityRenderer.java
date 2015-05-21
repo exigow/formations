@@ -4,13 +4,14 @@ import agents.RenderAgent;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import world.models.Entity;
 
+import java.util.Collection;
 import java.util.Set;
 
 import static com.badlogic.gdx.math.MathUtils.*;
 
 public class EntityRenderer {
 
-  public static void render(RenderAgent agent, Set<Entity> entities) {
+  public static void render(RenderAgent agent, Collection<Entity> entities) {
     agent.shape.begin(ShapeRenderer.ShapeType.Line);
     for (Entity entity : entities)
       renderEntity(agent, entity);

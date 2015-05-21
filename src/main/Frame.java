@@ -71,17 +71,10 @@ public class Frame {
     clearBackground();
     agent.setProjection(camera);
     EntityRenderer.render(agent, world.allEntities());
-    SelectionRenderer.render(agent, entitiesOf(selected), 8);
-    SelectionRenderer.render(agent, entitiesOf(wantToSelect), 16);
+    SelectionRenderer.render(agent, Group.entitiesOf(selected), 8);
+    SelectionRenderer.render(agent, Group.entitiesOf(wantToSelect), 16);
     if (isSelecting)
       RectangleRenderer.render(agent, selector.getRectangle());
-  }
-
-  private static Collection<Entity> entitiesOf(Collection<Group> groups) {
-    Collection<Entity> result = new ArrayList<>();
-    for (Group group : groups)
-      result .addAll(group.getEntities());
-    return result;
   }
 
   private static void clearBackground() {

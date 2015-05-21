@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import world.models.Entity;
 
 import java.util.Collection;
+import java.util.Set;
 
 public class SelectionRenderer {
 

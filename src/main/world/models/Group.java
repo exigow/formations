@@ -1,5 +1,7 @@
 package world.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,5 +30,13 @@ public class Group {
   public Set<Entity> getEntities() {
     return entities;
   }
+
+  public static Collection<Entity> entitiesOf(Collection<Group> groups) {
+    Collection<Entity> result = new ArrayList<>();
+    for (Group group : groups)
+      result.addAll(group.entities);
+    return result;
+  }
+
 
 }

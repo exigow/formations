@@ -31,7 +31,8 @@ public class World {
     }
   }
 
-  public Set<Entity> allEntities() {
+  @SuppressWarnings("deprecation")
+  public Collection<Entity> allEntities() {
     return groups.stream()
       .map(Group::getEntities)
       .flatMap(Collection::stream)
