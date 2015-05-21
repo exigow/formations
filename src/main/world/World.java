@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 public class World {
 
-  public final Set<Group<Entity>> groups = new HashSet<>();
+  public final Set<Group> groups = new HashSet<>();
   {
     for (int g = 0; g < 16; g++) {
-      Group<Entity> group = new Group<>();
+      Group group = new Group();
       Coordinate setup = randomCoordinate(512f);
       for (int i = 0; i < 5; i++) {
         Entity entity = new Entity();
@@ -54,6 +54,5 @@ public class World {
   private static float randomNormal() {
     return (-1f + MathUtils.random() * 2f);
   }
-
 
 }

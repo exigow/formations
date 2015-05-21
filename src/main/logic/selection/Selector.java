@@ -21,7 +21,7 @@ public class Selector {
   public Collection<Entity> update(Coordinate to, Set<Entity> entities) {
     Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, to);
     rectangle.set(fixed);
-    return new RectangleSimpleSelection<Entity>(fixed).selectFrom(entities);
+    return new RectangleSimpleSelection(fixed).selectFrom(entities);
   }
 
   public Rectangle getRectangle() {

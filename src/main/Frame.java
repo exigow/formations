@@ -27,6 +27,7 @@ public class Frame {
   private final Set<Entity> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
   private final Selector selector = new Selector();
+
   {
     input.register(Key.MOUSE_LEFT,
       (state) -> {

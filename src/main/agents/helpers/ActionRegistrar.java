@@ -2,6 +2,7 @@ package agents.helpers;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import logging.Logger;
 import logic.input.Key;
@@ -16,6 +17,13 @@ public class ActionRegistrar {
 
   {
     Gdx.input.setInputProcessor(multiplexer);
+    multiplexer.addProcessor(new InputAdapter() {
+      @Override
+      public boolean mouseMoved(int screenX, int screenY) {
+        System.out.println(screenX + ", " + screenY);
+        return true;
+      }
+    });
   }
 
   public Action register(Key key, Action action) {
