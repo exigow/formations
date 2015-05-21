@@ -1,9 +1,5 @@
 package world.attributes;
 
-import world.attributes.Angle;
-import world.attributes.Coordinate;
-import world.attributes.Radius;
-
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 
@@ -26,7 +22,7 @@ public class AttributeOperations {
     return atan2(deltaY, deltaX) * radiansToDegrees;
   }
 
-  public static <Mix extends Coordinate & Radius> boolean collisionBetween(Mix first, Mix second){
+  public static <T extends Coordinate & Radius> boolean collisionBetween(T first, T second){
     float length = lengthBetween(first, second);
     float sizeSum = first.getRadius() + second.getRadius();
     float result = length - sizeSum;

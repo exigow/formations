@@ -41,9 +41,20 @@ public class World {
 
   private static Coordinate randomCoordinate(float scale) {
     Coordinate coordinate = new CoordinateSimple();
-    AttributeRandom.randomize(coordinate);
+    randomize(coordinate);
     coordinate.scalePosition(scale);
     return coordinate;
   }
+
+  private static void randomize(Coordinate coordinate) {
+    float x = randomNormal();
+    float y = randomNormal();
+    coordinate.setPosition(x, y);
+  }
+
+  private static float randomNormal() {
+    return (-1f + MathUtils.random() * 2f);
+  }
+
 
 }
