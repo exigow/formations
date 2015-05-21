@@ -13,7 +13,10 @@ import world.World;
 import renderers.EntityRenderer;
 import renderers.RectangleRenderer;
 import renderers.SelectionRenderer;
+import world.models.Group;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,8 +26,8 @@ public class Frame {
   private final InputAgent input = new InputAgent();
   private final Camera camera = new Camera(new Resolver(new ManualKeyboardRule(input), new ManualMouseRule()));
   private final World world = new World();
-  private final Set<Entity> selected = new HashSet<>();
-  private final Set<Entity> wantToSelect = new HashSet<>();
+  private final Collection<Group> selected = new HashSet<>();
+  private final Collection<Group> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
   private final Selector selector = new Selector();
 
@@ -58,7 +61,7 @@ public class Frame {
     wantToSelect.addAll(selector.update(input.mouse(camera), world.allEntities()));
   }
 
-  private static <T> void flush(Set<T> from, Set<T> to) {
+  private static <T> void flush(Collection<T> from, Collection<T> to) {
     to.clear();
     to.addAll(from);
     from.clear();
@@ -68,10 +71,17 @@ public class Frame {
     clearBackground();
     agent.setProjection(camera);
     EntityRenderer.render(agent, world.allEntities());
-    SelectionRenderer.render(agent, selected, 8);
-    SelectionRenderer.render(agent, wantToSelect, 16);
+    SelectionRenderer.render(agent, entitiesOf(selected), 8);
+    SelectionRenderer.render(agent, entitiesOf(wantToSelect), 16);
     if (isSelecting)
       RectangleRenderer.render(agent, selector.getRectangle());
+  }
+
+  private static Collection<Entity> entitiesOf(Collection<Group> groups) {
+    Collection<Entity> result = new ArrayList<>();
+    for (Group group : groups)
+      result .addAll(group.getEntities());
+    return result;
   }
 
   private static void clearBackground() {
