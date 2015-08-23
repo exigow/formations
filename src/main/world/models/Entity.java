@@ -1,20 +1,18 @@
 package world.models;
 
 import com.badlogic.gdx.math.Vector2;
-import world.attributes.Angle;
-import world.attributes.Radius;
 
-public class Entity implements Angle, Radius {
+public class Entity {
 
   public final Vector2 position = new Vector2();
-  private float angle;
-  private float size;
-  public Group parent;
+  public float angle;
+  public float size;
+  public Group parent; // todo tak nie moze byc; ref. jest dwustronna (ent <-> group), a ma byc drzewo
 
   public Entity(float x, float y, float angle, float size) {
     position.set(x, y);
-    setAngle(angle);
-    setRadius(size);
+    this.angle = angle;
+    this.size = size;
   }
 
   public Entity(float x, float y, float angle) {
@@ -27,26 +25,6 @@ public class Entity implements Angle, Radius {
 
   public Entity() {
     this(0f, 0f);
-  }
-
-  @Override
-  public float getAngle() {
-    return angle;
-  }
-
-  @Override
-  public void setAngle(float angle) {
-    this.angle = angle;
-  }
-
-  @Override
-  public float getRadius() {
-    return size;
-  }
-
-  @Override
-  public void setRadius(float size) {
-    this.size = size;
   }
 
 }

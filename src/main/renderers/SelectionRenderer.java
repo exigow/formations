@@ -11,7 +11,7 @@ public class SelectionRenderer {
   public static void render(RenderAgent agent, Collection<Entity> entities, int border) {
     agent.shape.begin(ShapeRenderer.ShapeType.Line);
     for (Entity entity : entities)
-      agent.shape.circle(entity.position.x, entity.position.y, entity.getRadius() + border);
+      agent.shape.circle(entity.position.x, entity.position.y, entity.size + border);
     agent.shape.end();
   }
 

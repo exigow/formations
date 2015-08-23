@@ -18,9 +18,9 @@ public class EntityRenderer {
   }
 
   private static void renderEntity(RenderAgent agent, Entity entity) {
-    agent.shape.circle(entity.position.x, entity.position.y, entity.getRadius());
-    float toX = entity.position.x + cos(entity.getAngle() * degreesToRadians) * entity.getRadius();
-    float toY = entity.position.y + sin(entity.getAngle() * degreesToRadians) * entity.getRadius();
+    agent.shape.circle(entity.position.x, entity.position.y, entity.size);
+    float toX = entity.position.x + cos(entity.angle * degreesToRadians) * entity.size;
+    float toY = entity.position.y + sin(entity.angle * degreesToRadians) * entity.size;
     agent.shape.line(entity.position.x, entity.position.y, toX, toY);
   }
 
