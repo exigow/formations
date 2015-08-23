@@ -1,19 +1,18 @@
 package world.models;
 
+import com.badlogic.gdx.math.Vector2;
 import world.attributes.Angle;
-import world.attributes.Coordinate;
 import world.attributes.Radius;
 
-public class Entity implements Coordinate, Angle, Radius {
+public class Entity implements Angle, Radius {
 
-  private float x;
-  private float y;
+  public final Vector2 position = new Vector2();
   private float angle;
   private float size;
   public Group parent;
 
   public Entity(float x, float y, float angle, float size) {
-    setPosition(x, y);
+    position.set(x, y);
     setAngle(angle);
     setRadius(size);
   }
@@ -28,26 +27,6 @@ public class Entity implements Coordinate, Angle, Radius {
 
   public Entity() {
     this(0f, 0f);
-  }
-
-  @Override
-  public float getX() {
-    return x;
-  }
-
-  @Override
-  public void setX(float x) {
-    this.x = x;
-  }
-
-  @Override
-  public float getY() {
-    return y;
-  }
-
-  @Override
-  public void setY(float y) {
-    this.y = y;
   }
 
   @Override

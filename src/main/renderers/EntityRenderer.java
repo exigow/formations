@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import world.models.Entity;
 
 import java.util.Collection;
-import java.util.Set;
 
 import static com.badlogic.gdx.math.MathUtils.*;
 
@@ -19,10 +18,10 @@ public class EntityRenderer {
   }
 
   private static void renderEntity(RenderAgent agent, Entity entity) {
-    agent.shape.circle(entity.getX(), entity.getY(), entity.getRadius());
-    float toX = entity.getX() + cos(entity.getAngle() * degreesToRadians) * entity.getRadius();
-    float toY = entity.getY() + sin(entity.getAngle() * degreesToRadians) * entity.getRadius();
-    agent.shape.line(entity.getX(), entity.getY(), toX, toY);
+    agent.shape.circle(entity.position.x, entity.position.y, entity.getRadius());
+    float toX = entity.position.x + cos(entity.getAngle() * degreesToRadians) * entity.getRadius();
+    float toY = entity.position.y + sin(entity.getAngle() * degreesToRadians) * entity.getRadius();
+    agent.shape.line(entity.position.x, entity.position.y, toX, toY);
   }
 
 }

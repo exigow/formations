@@ -1,9 +1,8 @@
 package world;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import world.attributes.Angle;
-import world.attributes.Coordinate;
-import world.models.CoordinateSimple;
 import world.models.Entity;
 import world.models.Group;
 
@@ -18,11 +17,11 @@ public class World {
   {
     for (int g = 0; g < 16; g++) {
       Group group = new Group();
-      Coordinate setup = randomCoordinate(512f);
+      Vector2 setup = randomCoordinate(512f);
       for (int i = 0; i < 5; i++) {
         Entity entity = new Entity();
-        entity.setPosition(randomCoordinate(64f));
-        entity.addPosition(setup);
+        entity.position.set(randomCoordinate(64f));
+        entity.position.add(setup);
         entity.setAngle(MathUtils.random(Angle.MAX));
         entity.setRadius(MathUtils.random(4f, 8f));
         group.join(entity);
@@ -31,7 +30,6 @@ public class World {
     }
   }
 
-  @SuppressWarnings("deprecation")
   public Collection<Entity> allEntities() {
     return groups.stream()
       .map(Group::getEntities)
@@ -39,17 +37,17 @@ public class World {
       .collect(Collectors.toSet());
   }
 
-  private static Coordinate randomCoordinate(float scale) {
-    Coordinate coordinate = new CoordinateSimple();
+  private static Vector2 randomCoordinate(float scale) {
+    Vector2 coordinate = new Vector2();
     randomize(coordinate);
-    coordinate.scalePosition(scale);
+    coordinate.scl(scale);
     return coordinate;
   }
 
-  private static void randomize(Coordinate coordinate) {
+  private static void randomize(Vector2 coordinate) {
     float x = randomNormal();
     float y = randomNormal();
-    coordinate.setPosition(x, y);
+    coordinate.set(x, y);
   }
 
   private static float randomNormal() {

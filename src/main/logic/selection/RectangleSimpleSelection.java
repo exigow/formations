@@ -1,7 +1,7 @@
 package logic.selection;
 
 import com.badlogic.gdx.math.Rectangle;
-import world.attributes.Coordinate;
+import com.badlogic.gdx.math.Vector2;
 import world.models.Entity;
 
 import java.util.Collection;
@@ -15,14 +15,13 @@ public class RectangleSimpleSelection {
     this.rectangle = rectangle;
   }
 
+  // todo
   public Collection<Entity> selectFrom(Collection<Entity> from) {
-    return from.stream()
-      .filter(this::isInside)
-      .collect(Collectors.toSet());
+    return from.stream().filter(e -> isInside(e.position)).collect(Collectors.toList());
   }
 
-  private boolean isInside(Coordinate coordinate) {
-    return rectangle.contains(coordinate.getX(), coordinate.getY());
+  private boolean isInside(Vector2 coordinate) {
+    return rectangle.contains(coordinate.x, coordinate.y);
   }
 
 }

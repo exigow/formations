@@ -1,14 +1,14 @@
 package world.helpers;
 
-import world.attributes.Coordinate;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class CoordinatesToRectangleConverter {
 
-  public static Rectangle convert(Coordinate pinPoint, Coordinate pointer) {
-    float width = pointer.getX() - pinPoint.getX();
-    float height = pointer.getY() - pinPoint.getY();
-    Rectangle rect = new Rectangle(pinPoint.getX(), pinPoint.getY(), width, height);
+  public static Rectangle convert(Vector2 pinPoint, Vector2 pointer) {
+    float width = pointer.x - pinPoint.x;
+    float height = pointer.y - pinPoint.y;
+    Rectangle rect = new Rectangle(pinPoint.x, pinPoint.y, width, height);
     return fix(rect);
   }
 

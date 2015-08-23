@@ -1,7 +1,7 @@
 package logic.camera.rules;
 
-import world.attributes.Coordinate;
 import agents.InputAgent;
+import com.badlogic.gdx.math.Vector2;
 
 public class ManualMouseRule implements MovementRule {
 
@@ -9,10 +9,10 @@ public class ManualMouseRule implements MovementRule {
 
   @Override
   public Product specify(InputAgent agent) {
-    Coordinate mouse = agent.mouseWindow();
-    Coordinate size = agent.windowSize();
-    int horizontal = signFor(mouse.getX(), size.getX());
-    int vertical = -signFor(mouse.getY(), size.getY());
+    Vector2 mouse = agent.mouseWindow();
+    Vector2 size = agent.windowSize();
+    int horizontal = signFor(mouse.x, size.x);
+    int vertical = -signFor(mouse.y, size.y);
     return new Product(horizontal, vertical, 0);
   }
 

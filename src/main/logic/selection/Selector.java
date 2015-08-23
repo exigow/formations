@@ -1,26 +1,24 @@
 package logic.selection;
 
 import com.badlogic.gdx.math.Rectangle;
-import world.attributes.Coordinate;
+import com.badlogic.gdx.math.Vector2;
 import world.helpers.CoordinatesToRectangleConverter;
-import world.models.CoordinateSimple;
 import world.models.Entity;
 import world.models.Group;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Selector {
 
-  private final Coordinate pinPoint = new CoordinateSimple();
+  private final Vector2 pinPoint = new Vector2();
   private final Rectangle rectangle = new Rectangle();
 
-  public void start(Coordinate where) {
-    pinPoint.setPosition(where);
+  public void start(Vector2 where) {
+    pinPoint.set(where);
   }
 
-  public Collection<Group> update(Coordinate to, Collection<Entity> entities) {
+  public Collection<Group> update(Vector2 to, Collection<Entity> entities) {
     Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, to);
     rectangle.set(fixed);
     Collection<Entity> insides = new RectangleSimpleSelection(fixed).selectFrom(entities);
