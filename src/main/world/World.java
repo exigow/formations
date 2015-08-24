@@ -31,7 +31,7 @@ public class World {
 
   public Collection<Entity> allEntities() {
     return groups.stream()
-      .map(Group::getEntities)
+      .map(g -> g.entities)
       .flatMap(Collection::stream)
       .collect(Collectors.toSet());
   }

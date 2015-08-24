@@ -2,7 +2,7 @@ package logic.selection;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import world.helpers.CoordinatesToRectangleConverter;
+import helpers.CoordinatesToRectangleConverter;
 import world.models.Entity;
 import world.models.Group;
 

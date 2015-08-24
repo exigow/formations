@@ -8,17 +8,16 @@ import logic.camera.rules.ManualMouseRule;
 import logic.camera.rules.Resolver;
 import logic.input.Key;
 import logic.selection.Selector;
-import world.models.Entity;
-import world.World;
 import renderers.EntityRenderer;
 import renderers.RectangleRenderer;
 import renderers.SelectionRenderer;
+import world.World;
+import world.models.Entity;
 import world.models.Group;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 public class Frame {
 
@@ -71,10 +70,17 @@ public class Frame {
     clearBackground();
     agent.setProjection(camera);
     EntityRenderer.render(agent, world.allEntities());
-    SelectionRenderer.render(agent, Group.entitiesOf(selected), 8);
-    SelectionRenderer.render(agent, Group.entitiesOf(wantToSelect), 16);
+    SelectionRenderer.render(agent, entitiesOf(selected), 8);
+    SelectionRenderer.render(agent, entitiesOf(wantToSelect), 16);
     if (isSelecting)
       RectangleRenderer.render(agent, selector.getRectangle());
+  }
+
+  public static Collection<Entity> entitiesOf(Collection<Group> groups) {
+    Collection<Entity> result = new ArrayList<>();
+    for (Group group : groups)
+      result.addAll(group.entities);
+    return result;
   }
 
   private static void clearBackground() {

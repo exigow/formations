@@ -10,6 +10,8 @@ import logic.camera.rules.Resolver;
 
 public class Camera {
 
+  // todo zrobic klasy View (jako model) oraz helper OrthoCameraUpdater czy cu
+
   private final Resolver resolver;
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   private final Vector2 target = new Vector2();
