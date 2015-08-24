@@ -23,7 +23,7 @@ public class World {
         entity.position.add(setup);
         entity.angle = MathUtils.random(360);
         entity.size = MathUtils.random(4, 8);
-        group.join(entity);
+        group.entities.add(entity);
       }
       groups.add(group);
     }
