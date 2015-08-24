@@ -6,8 +6,8 @@ import helpers.CoordinatesToRectangleConverter;
 import world.models.Entity;
 import world.models.Group;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class Selector {
 
@@ -18,17 +18,19 @@ public class Selector {
     pinPoint.set(where);
   }
 
-  public Collection<Group> update(Vector2 to, Collection<Entity> entities) {
+  public Collection<Group> update(Vector2 to, Collection<Group> groups) {
     Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, to);
     rectangle.set(fixed);
-    Collection<Entity> insides = new RectangleSimpleSelection(fixed).selectFrom(entities);
-    return collectGroups(insides);
+    Collection<Group> result = new ArrayList<>();
+    for (Group group : groups)
+      for (Entity entity : group.entities)
+        if (isInside(entity.position))
+          result.add(group);
+    return result;
   }
 
-  private static Collection<Group> collectGroups(Collection<Entity> entities) {
-    return entities.stream()
-      .map(inside -> inside.parent)
-      .collect(Collectors.toSet());
+  private boolean isInside(Vector2 coordinate) {
+    return rectangle.contains(coordinate.x, coordinate.y);
   }
 
   public Rectangle getRectangle() {

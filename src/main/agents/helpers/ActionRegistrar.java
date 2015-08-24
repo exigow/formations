@@ -2,7 +2,6 @@ package agents.helpers;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import logging.Logger;
 import logic.input.Key;
@@ -31,6 +30,5 @@ public class ActionRegistrar {
       return new MouseWrapper(key, action);
     return new KeyboardWrapper(key, action);
   }
-
 
 }

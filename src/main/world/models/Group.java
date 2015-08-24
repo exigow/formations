@@ -10,7 +10,6 @@ public class Group {
   public final Set<Entity> entities = new HashSet<>();
 
   public void join(Entity entity) {
-    entity.parent = this;
     entities.add(entity);
   }
 
