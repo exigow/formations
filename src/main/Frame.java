@@ -72,7 +72,7 @@ public class Frame {
       renderer.renderRectangle(selector.getRectangle());
   }
 
-  public static Collection<Entity> entitiesOf(Collection<Group> groups) {
+  private static Collection<Entity> entitiesOf(Collection<Group> groups) {
     Collection<Entity> result = new ArrayList<>();
     for (Group group : groups)
       result.addAll(group.entities);

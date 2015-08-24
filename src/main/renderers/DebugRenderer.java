@@ -34,9 +34,6 @@ public class DebugRenderer {
 
   public void renderRectangle(Rectangle rectangle) {
     shape.begin(ShapeRenderer.ShapeType.Line);
-    float toX = rectangle.x + rectangle.width;
-    float toY = rectangle.y + rectangle.height;
-    shape.line(rectangle.getX(), rectangle.getY(), toX, toY);
     shape.rect(rectangle.getX(), rectangle.getY(), rectangle.width, rectangle.height);
     shape.end();
   }
