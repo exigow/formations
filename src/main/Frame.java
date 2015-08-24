@@ -1,5 +1,4 @@
 import agents.InputAgent;
-import agents.RenderAgent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import logic.camera.Camera;
@@ -8,9 +7,7 @@ import logic.camera.rules.ManualMouseRule;
 import logic.camera.rules.Resolver;
 import logic.input.Key;
 import logic.selection.Selector;
-import renderers.EntityRenderer;
-import renderers.RectangleRenderer;
-import renderers.SelectionRenderer;
+import renderers.DebugRenderer;
 import world.World;
 import world.models.Entity;
 import world.models.Group;
@@ -21,7 +18,7 @@ import java.util.HashSet;
 
 public class Frame {
 
-  private final RenderAgent agent = new RenderAgent();
+  private final DebugRenderer renderer = new DebugRenderer();
   private final InputAgent input = new InputAgent();
   private final Camera camera = new Camera(new Resolver(new ManualKeyboardRule(input), new ManualMouseRule()));
   private final World world = new World();
@@ -68,12 +65,12 @@ public class Frame {
 
   public void render() {
     clearBackground();
-    agent.setProjection(camera);
-    EntityRenderer.render(agent, world.allEntities());
-    SelectionRenderer.render(agent, entitiesOf(selected), 8);
-    SelectionRenderer.render(agent, entitiesOf(wantToSelect), 16);
+    renderer.shape.setProjectionMatrix(camera.getOrthographicCamera().combined);
+    renderer.renderEntities(world.allEntities());
+    renderer.renderSelection(entitiesOf(selected), 8);
+    renderer.renderSelection(entitiesOf(wantToSelect), 16);
     if (isSelecting)
-      RectangleRenderer.render(agent, selector.getRectangle());
+      renderer.renderRectangle(selector.getRectangle());
   }
 
   public static Collection<Entity> entitiesOf(Collection<Group> groups) {
