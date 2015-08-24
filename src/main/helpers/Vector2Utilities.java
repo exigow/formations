@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Vector2Utilities {
 
-  public static Vector2 randomCoordinate(float scale) {
+  public static Vector2 randomVector2(float scale) {
     Vector2 coordinate = new Vector2();
     randomize(coordinate);
     coordinate.scl(scale);
