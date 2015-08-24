@@ -1,6 +1,4 @@
 import agents.InputAgent;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import logic.camera.Camera;
 import logic.camera.rules.ManualKeyboardRule;
 import logic.camera.rules.ManualMouseRule;
@@ -15,6 +13,7 @@ import world.models.Group;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class Frame {
 
@@ -64,9 +63,9 @@ public class Frame {
   }
 
   public void render() {
-    clearBackground();
+    renderer.clearBackground();
     renderer.shape.setProjectionMatrix(camera.getOrthographicCamera().combined);
-    renderer.renderEntities(world.allEntities());
+    renderer.renderEntities(world.groups.stream().map(g -> g.entities).flatMap(Collection::stream).collect(Collectors.toList()));
     renderer.renderSelection(entitiesOf(selected), 8);
     renderer.renderSelection(entitiesOf(wantToSelect), 16);
     if (isSelecting)
@@ -78,11 +77,6 @@ public class Frame {
     for (Group group : groups)
       result.addAll(group.entities);
     return result;
-  }
-
-  private static void clearBackground() {
-    Gdx.gl.glClearColor(.25f, .25f, .25f, 1f);
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
 }

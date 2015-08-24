@@ -3,7 +3,6 @@ package agents.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import logging.Logger;
 import logic.input.Key;
 import logic.input.actions.Action;
 import logic.input.wrappers.KeyboardWrapper;
@@ -21,7 +20,6 @@ public class ActionRegistrar {
   public Action register(Key key, Action action) {
     Wrapper wrapper = instantiateWrapper(key, action);
     multiplexer.addProcessor(wrapper);
-    Logger.INPUT.info("Registered action on " + key);
     return action;
   }
 

@@ -1,7 +1,6 @@
 package logic.input.wrappers;
 
 import com.badlogic.gdx.InputAdapter;
-import logging.Logger;
 import logic.input.Key;
 import logic.input.State;
 import logic.input.actions.Action;
@@ -18,7 +17,6 @@ public abstract class Wrapper extends InputAdapter {
 
   protected boolean executeWithStateIfSame(int keyValue, State state) {
     if (key.gdxKey == keyValue) {
-      Logger.INPUT.info(key + " is " + state);
       action.execute(state);
       return true;
     }

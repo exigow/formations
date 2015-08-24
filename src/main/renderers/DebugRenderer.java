@@ -1,5 +1,7 @@
 package renderers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import world.models.Entity;
@@ -39,5 +41,9 @@ public class DebugRenderer {
     shape.end();
   }
 
+  public void clearBackground() {
+    Gdx.gl.glClearColor(.25f, .25f, .25f, 1f);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+  }
 
 }
