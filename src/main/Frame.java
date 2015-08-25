@@ -1,4 +1,5 @@
 import agents.InputAgent;
+import helpers.WorldDebugInitialiser;
 import logic.camera.Camera;
 import logic.camera.rules.ManualKeyboardRule;
 import logic.camera.rules.ManualMouseRule;
@@ -20,7 +21,7 @@ public class Frame {
   private final DebugRenderer renderer = new DebugRenderer();
   private final InputAgent input = new InputAgent();
   private final Camera camera = new Camera(new Resolver(new ManualKeyboardRule(input), new ManualMouseRule()));
-  private final World world = new World();
+  private final World world = WorldDebugInitialiser.init();
   private final Collection<Group> selected = new HashSet<>();
   private final Collection<Group> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
