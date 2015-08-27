@@ -12,12 +12,12 @@ public class MouseWrapper extends Wrapper {
 
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-    return executeWithStateIfSame(button, State.PRESSED);
+    return executeWithStateIfSame(button, State.UP);
   }
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-    return executeWithStateIfSame(button, State.RELEASED);
+    return executeWithStateIfSame(button, State.DOWN);
   }
 
 }

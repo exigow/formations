@@ -12,12 +12,12 @@ public class KeyboardWrapper extends Wrapper {
 
   @Override
   public boolean keyDown(int key) {
-    return executeWithStateIfSame(key, State.PRESSED);
+    return executeWithStateIfSame(key, State.UP);
   }
 
   @Override
   public boolean keyUp(int key) {
-    return executeWithStateIfSame(key, State.RELEASED);
+    return executeWithStateIfSame(key, State.DOWN);
   }
 
 }

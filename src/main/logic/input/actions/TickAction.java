@@ -13,9 +13,9 @@ public class TickAction implements Action {
 
   private static boolean stateOf(State state) {
     switch (state) {
-      case PRESSED:
+      case UP:
         return true;
-      case RELEASED:
+      case DOWN:
         return false;
     }
     return false;

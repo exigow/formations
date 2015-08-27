@@ -6,6 +6,7 @@ public enum Key {
 
   MOUSE_LEFT(Input.Buttons.LEFT),
   MOUSE_RIGHT(Input.Buttons.RIGHT),
+  MOUSE_SCROLL(0),
   KEY_W(Input.Keys.W),
   KEY_S(Input.Keys.S),
   KEY_A(Input.Keys.A),

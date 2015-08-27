@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import logic.input.Key;
 import logic.input.actions.Action;
 import logic.input.wrappers.KeyboardWrapper;
+import logic.input.wrappers.MouseScrollWrapper;
 import logic.input.wrappers.MouseWrapper;
 import logic.input.wrappers.Wrapper;
 
@@ -24,6 +25,8 @@ public class ActionRegistrar {
   }
 
   private static Wrapper instantiateWrapper(Key key, Action action) {
+    if (key == Key.MOUSE_SCROLL)
+      return new MouseScrollWrapper(key, action);
     if (key == Key.MOUSE_LEFT || key == Key.MOUSE_RIGHT)
       return new MouseWrapper(key, action);
     return new KeyboardWrapper(key, action);

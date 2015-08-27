@@ -2,9 +2,9 @@ package agents;
 
 import agents.helpers.ActionRegistrar;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import logic.camera.Camera;
 import logic.input.Key;
 import logic.input.actions.Action;
 
@@ -28,7 +28,7 @@ public class InputAgent {
     return result;
   }
 
-  public Vector2 mouse(Camera camera) {
+  public Vector2 mouse(OrthographicCamera camera) {
     return unproject(mouseWindow(), camera);
   }
 
@@ -37,9 +37,9 @@ public class InputAgent {
   }
 
   @SuppressWarnings("deprecation")
-  private Vector2 unproject(Vector2 coordinate, Camera camera) {
+  private Vector2 unproject(Vector2 coordinate, OrthographicCamera camera) {
     Vector3 asVector = new Vector3(coordinate.x, coordinate.y, 0);
-    Vector3 projected = camera.getOrthographicCamera().unproject(asVector);
+    Vector3 projected = camera.unproject(asVector);
     Vector2 result = new Vector2();
     result.set(projected.x, projected.y);
     return result;

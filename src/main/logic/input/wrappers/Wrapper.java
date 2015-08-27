@@ -8,7 +8,7 @@ import logic.input.actions.Action;
 public abstract class Wrapper extends InputAdapter {
 
   private final Key key;
-  private final Action action;
+  protected final Action action;
 
   public Wrapper(Key key, Action action) {
     this.key = key;
