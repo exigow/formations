@@ -8,11 +8,11 @@ import world.models.Group;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static helpers.Vector2Utilities.randomVector2;
 
-public class WorldDebugInitialiser {
+public class WorldDebugInitializer {
 
   public static World init() {
     World world = new World();
-    for (int g = 0; g < 16; g++) {
+    for (int g = 0; g < 32; g++) {
       Group group = spawnGroupWithEntities();
       world.groups.add(group);
     }
@@ -21,8 +21,9 @@ public class WorldDebugInitialiser {
 
   private static Group spawnGroupWithEntities() {
     Group group = new Group();
-    Vector2 pivot = randomVector2(512);
-    for (int i = 0; i < 5; i++) {
+    Vector2 pivot = randomVector2(1024);
+    int count = random(5, 11);
+    for (int i = 0; i < count; i++) {
       Entity entity = spawnEntity(pivot);
       group.entities.add(entity);
     }

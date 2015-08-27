@@ -2,7 +2,7 @@ import agents.InputAgent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import helpers.WorldDebugInitialiser;
+import helpers.WorldDebugInitializer;
 import logic.CameraController;
 import logic.input.Key;
 import logic.selection.Selector;
@@ -22,7 +22,7 @@ public class Frame {
   private final DebugRenderer renderer = new DebugRenderer();
   private final InputAgent input = new InputAgent();
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-  private final World world = WorldDebugInitialiser.init();
+  private final World world = WorldDebugInitializer.init();
   private final Set<Group> selected = new HashSet<>();
   private final Set<Group> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
