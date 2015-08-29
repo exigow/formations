@@ -1,9 +1,9 @@
-import agents.InputAgent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import helpers.WorldDebugInitializer;
 import logic.CameraController;
+import logic.input.Input;
 import logic.input.Key;
 import logic.selection.Selector;
 import renderers.DebugRenderer;
@@ -20,21 +20,20 @@ public class Frame {
   private final Vector3 cameraEye = new Vector3(0, 0, 1);
   private final Vector3 cameraEyeTarget = new Vector3(0, 0, 1);
   private final DebugRenderer renderer = new DebugRenderer();
-  private final InputAgent input = new InputAgent();
   private final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
   private final World world = WorldDebugInitializer.init();
   private final Set<Group> selected = new HashSet<>();
   private final Set<Group> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
   private final Selector selector = new Selector();
-  private final CameraController controller = new CameraController(input);
+  private final CameraController controller = new CameraController();
 
   {
-    input.register(Key.MOUSE_LEFT,
+    Input.register(Key.MOUSE_LEFT,
       (state) -> {
         switch (state) {
           case UP:
-            selector.start(input.mouse(camera));
+            selector.start(Input.mouse(camera));
             isSelecting = true;
             break;
           case DOWN:
@@ -49,12 +48,11 @@ public class Frame {
     );
   }
 
-  public void update(float deltaTime) {
+  public void update() {
     cameraEyeTarget.add(controller.actualMovementVector().scl(8, 8, .1f));
-    cameraEye.x += (cameraEyeTarget.x - cameraEye.x) * .125f;
-    cameraEye.y += (cameraEyeTarget.y - cameraEye.y) * .125f;
-    cameraEye.z += (cameraEyeTarget.z - cameraEye.z) * .125f;
-    //cameraEye
+    cameraEye.x += (cameraEyeTarget.x - cameraEye.x) * .25f;
+    cameraEye.y += (cameraEyeTarget.y - cameraEye.y) * .25f;
+    cameraEye.z += (cameraEyeTarget.z - cameraEye.z) * .25f;
     camera.position.set(cameraEye.x, cameraEye.y, 0);
     camera.zoom = cameraEye.z;
     camera.update();
@@ -64,7 +62,7 @@ public class Frame {
 
   private void updateSelection() {
     wantToSelect.clear();
-    wantToSelect.addAll(selector.update(input.mouse(camera), world.groups));
+    wantToSelect.addAll(selector.update(Input.mouse(camera), world.groups));
   }
 
   public void render() {

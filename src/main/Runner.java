@@ -1,5 +1,4 @@
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -29,8 +28,7 @@ public class Runner {
 
     @Override
     public void render() {
-      float deltaTime = Gdx.graphics.getDeltaTime();
-      frame.update(deltaTime);
+      frame.update();
       frame.render();
     }
 

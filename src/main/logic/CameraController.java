@@ -1,7 +1,7 @@
 package logic;
 
-import agents.InputAgent;
 import com.badlogic.gdx.math.Vector3;
+import logic.input.Input;
 import logic.input.Key;
 import logic.input.State;
 
@@ -13,12 +13,12 @@ public class CameraController {
   private boolean rightKeyTrigger = false;
   private int scrollValue = 0;
 
-  public CameraController(InputAgent agent) {
-    agent.register(Key.KEY_W, state -> upKeyTrigger = triggerKey(state));
-    agent.register(Key.KEY_S, state -> downKeyTrigger = triggerKey(state));
-    agent.register(Key.KEY_A, state -> leftKeyTrigger = triggerKey(state));
-    agent.register(Key.KEY_D, state -> rightKeyTrigger = triggerKey(state));
-    agent.register(Key.MOUSE_SCROLL, state -> scrollValue += scrollAcceleration(state));
+  public CameraController() {
+    Input.register(Key.KEY_W, state -> upKeyTrigger = triggerKey(state));
+    Input.register(Key.KEY_S, state -> downKeyTrigger = triggerKey(state));
+    Input.register(Key.KEY_A, state -> leftKeyTrigger = triggerKey(state));
+    Input.register(Key.KEY_D, state -> rightKeyTrigger = triggerKey(state));
+    Input.register(Key.MOUSE_SCROLL, state -> scrollValue += scrollAcceleration(state));
   }
 
   private static boolean triggerKey(State state) {
