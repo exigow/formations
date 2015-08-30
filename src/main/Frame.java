@@ -38,7 +38,7 @@ public class Frame {
       (state) -> {
         switch (state) {
           case UP:
-            startSelection(Input.mouse(camera));
+            pinPoint.set(Input.mouse(camera));
             isSelecting = true;
             break;
           case DOWN:
@@ -87,10 +87,6 @@ public class Frame {
     return result;
   }
 
-  public void startSelection(Vector2 where) {
-    pinPoint.set(where);
-  }
-
   public Collection<Group> updateSelection(Vector2 to, Collection<Group> groups) {
     Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, to);
     selectionRectangle.set(fixed);
@@ -105,6 +101,5 @@ public class Frame {
   private boolean isInside(Vector2 coordinate) {
     return selectionRectangle.contains(coordinate.x, coordinate.y);
   }
-
 
 }
