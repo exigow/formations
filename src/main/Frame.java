@@ -7,9 +7,9 @@ import logic.input.Input;
 import logic.input.Key;
 import logic.selection.Selector;
 import renderers.DebugRenderer;
+import world.Entity;
+import world.Group;
 import world.World;
-import world.models.Entity;
-import world.models.Group;
 
 import java.util.HashSet;
 import java.util.Set;

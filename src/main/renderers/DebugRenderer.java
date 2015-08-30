@@ -4,14 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import world.models.Entity;
+import world.Entity;
 
 import java.util.Collection;
 
 import static com.badlogic.gdx.math.MathUtils.*;
 
 public class DebugRenderer {
-  
+
   public final ShapeRenderer shape = new ShapeRenderer();
 
   public void renderEntities(Collection<Entity> entities) {

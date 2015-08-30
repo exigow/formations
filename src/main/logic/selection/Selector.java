@@ -3,8 +3,8 @@ package logic.selection;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import helpers.CoordinatesToRectangleConverter;
-import world.models.Entity;
-import world.models.Group;
+import world.Entity;
+import world.Group;
 
 import java.util.ArrayList;
 import java.util.Collection;

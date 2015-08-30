@@ -1,4 +1,4 @@
-package world.models;
+package world;
 
 import java.util.HashSet;
 import java.util.Set;

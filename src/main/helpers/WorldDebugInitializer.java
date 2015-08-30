@@ -1,9 +1,9 @@
 package helpers;
 
 import com.badlogic.gdx.math.Vector2;
+import world.Entity;
+import world.Group;
 import world.World;
-import world.models.Entity;
-import world.models.Group;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import static helpers.Vector2Utilities.randomVector2;

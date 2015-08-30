@@ -1,4 +1,4 @@
-package world.models;
+package world;
 
 import com.badlogic.gdx.math.Vector2;
 
