@@ -30,6 +30,8 @@ public class Frame {
   private final Set<Group> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
   private final CameraController controller = new CameraController();
+  public final Vector2 pinPoint = new Vector2();
+  public final Rectangle selectionRectangle = new Rectangle();
 
   {
     Input.register(Key.MOUSE_LEFT,
@@ -84,9 +86,6 @@ public class Frame {
       result.addAll(group.entities);
     return result;
   }
-
-  public final Vector2 pinPoint = new Vector2();
-  public final Rectangle selectionRectangle = new Rectangle();
 
   public void startSelection(Vector2 where) {
     pinPoint.set(where);
