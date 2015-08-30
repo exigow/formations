@@ -1,16 +1,20 @@
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import helpers.CoordinatesToRectangleConverter;
 import helpers.WorldDebugInitializer;
 import logic.CameraController;
 import logic.input.Input;
 import logic.input.Key;
-import logic.selection.Selector;
 import renderers.DebugRenderer;
 import world.Entity;
 import world.Group;
 import world.World;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,7 +29,6 @@ public class Frame {
   private final Set<Group> selected = new HashSet<>();
   private final Set<Group> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
-  private final Selector selector = new Selector();
   private final CameraController controller = new CameraController();
 
   {
@@ -33,7 +36,7 @@ public class Frame {
       (state) -> {
         switch (state) {
           case UP:
-            selector.start(Input.mouse(camera));
+            startSelection(Input.mouse(camera));
             isSelecting = true;
             break;
           case DOWN:
@@ -62,7 +65,7 @@ public class Frame {
 
   private void updateSelection() {
     wantToSelect.clear();
-    wantToSelect.addAll(selector.update(Input.mouse(camera), world.groups));
+    wantToSelect.addAll(updateSelection(Input.mouse(camera), world.groups));
   }
 
   public void render() {
@@ -72,7 +75,7 @@ public class Frame {
     renderer.renderSelection(entitiesOf(selected), 8);
     renderer.renderSelection(entitiesOf(wantToSelect), 16);
     if (isSelecting)
-      renderer.renderRectangle(selector.getRectangle());
+      renderer.renderRectangle(selectionRectangle);
   }
 
   private static Set<Entity> entitiesOf(Set<Group> groups) {
@@ -81,5 +84,28 @@ public class Frame {
       result.addAll(group.entities);
     return result;
   }
+
+  public final Vector2 pinPoint = new Vector2();
+  public final Rectangle selectionRectangle = new Rectangle();
+
+  public void startSelection(Vector2 where) {
+    pinPoint.set(where);
+  }
+
+  public Collection<Group> updateSelection(Vector2 to, Collection<Group> groups) {
+    Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, to);
+    selectionRectangle.set(fixed);
+    Collection<Group> result = new ArrayList<>();
+    for (Group group : groups)
+      for (Entity entity : group.entities)
+        if (isInside(entity.position))
+          result.add(group);
+    return result;
+  }
+
+  private boolean isInside(Vector2 coordinate) {
+    return selectionRectangle.contains(coordinate.x, coordinate.y);
+  }
+
 
 }
