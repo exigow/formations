@@ -73,7 +73,7 @@ public class Frame {
   public void render() {
     renderer.clearBackground();
     renderer.shape.setProjectionMatrix(camera.combined);
-    renderer.renderEntities(world.groups.stream().map(g -> g.entities).flatMap(Set::stream).collect(Collectors.toList()));
+    renderer.renderEntities(world.groups.stream().map(g -> g.entities).flatMap(Set::stream).collect(Collectors.toSet()));
     renderer.renderSelection(entitiesOf(selected), 8);
     renderer.renderSelection(entitiesOf(wantToSelect), 16);
     if (isSelecting)

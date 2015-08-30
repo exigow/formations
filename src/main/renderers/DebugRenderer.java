@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import world.Entity;
 
-import java.util.Collection;
+import java.util.Set;
 
 import static com.badlogic.gdx.math.MathUtils.*;
 
@@ -14,7 +14,7 @@ public class DebugRenderer {
 
   public final ShapeRenderer shape = new ShapeRenderer();
 
-  public void renderEntities(Collection<Entity> entities) {
+  public void renderEntities(Set<Entity> entities) {
     shape.begin(ShapeRenderer.ShapeType.Line);
     for (Entity entity : entities) {
       shape.circle(entity.position.x, entity.position.y, entity.size);
@@ -25,7 +25,7 @@ public class DebugRenderer {
     shape.end();
   }
 
-  public void renderSelection(Collection<Entity> entities, int border) {
+  public void renderSelection(Set<Entity> entities, int border) {
     shape.begin(ShapeRenderer.ShapeType.Line);
     for (Entity entity : entities)
       shape.circle(entity.position.x, entity.position.y, entity.size + border);
