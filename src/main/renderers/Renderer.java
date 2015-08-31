@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import helpers.ConvexHull;
-import world.Entity;
+import world.Ship;
 
 import java.util.Collection;
 
@@ -48,17 +48,17 @@ public class Renderer {
     imr.end();
   }
 
-  public void renderEntity(Entity entity, float border, Color fill, Color outline) {
-    Vector2 position = entity.place.position;
+  public void renderShip(Ship ship, float border, Color fill, Color outline) {
+    Vector2 position = ship.place.position;
     int segments = 6;
     shape.setColor(fill);
     shape.begin(ShapeRenderer.ShapeType.Filled);
-    shape.circle(position.x, position.y, entity.size + border, segments);
+    shape.circle(position.x, position.y, ship.size + border, segments);
     shape.end();
     shape.setColor(outline);
     shape.begin(ShapeRenderer.ShapeType.Line);
-    shape.circle(position.x, position.y, entity.size + border, segments);
-    float dir = entity.place.direction;
+    shape.circle(position.x, position.y, ship.size + border, segments);
+    float dir = ship.place.direction;
     Vector2 vector = new Vector2(cosDeg(dir), sinDeg(dir)).scl(32);
     shape.line(position.x, position.y, position.x + vector.x, position.y + vector.y);
     shape.end();

@@ -11,8 +11,8 @@ import logic.input.Key;
 import logic.input.State;
 import renderers.WorldDebugRenderer;
 import world.Collective;
-import world.Entity;
 import world.Group;
+import world.Ship;
 import world.World;
 import world.orders.Move;
 import world.orders.Order;
@@ -84,8 +84,8 @@ public class Frame {
       if (order instanceof Move) {
         Move moveOrder = (Move) order;
         for (Group group : collective.groups) {
-          for (Entity entity : group.entities) {
-            entity.moveTo(moveOrder.where, 0);
+          for (Ship ship : group.ships) {
+            ship.moveTo(moveOrder.where, 0);
           }
         }
       }
@@ -107,9 +107,9 @@ public class Frame {
     selectionRectangle.set(fixed);
     Collection<Group> result = new ArrayList<>();
     for (Group group : groups)
-      result.addAll(group.entities.stream()
-        .filter(entity -> isInsideSelection(entity.place.position))
-        .map(entity -> group)
+      result.addAll(group.ships.stream()
+        .filter(ship -> isInsideSelection(ship.place.position))
+        .map(ship -> group)
         .collect(Collectors.toList()));
     return result;
   }

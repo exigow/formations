@@ -6,6 +6,6 @@ import java.util.Set;
 // todo rename Squad
 public class Group {
 
-  public final Set<Entity> entities = new HashSet<>();
+  public final Set<Ship> ships = new HashSet<>();
 
 }

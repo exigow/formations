@@ -4,8 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import static helpers.MathUtilities.*;
 
-// todo rename Ship
-public class Entity {
+public class Ship {
 
   public Place place = new Place();
   public float size;

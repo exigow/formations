@@ -2,8 +2,8 @@ package helpers;
 
 import com.badlogic.gdx.math.Vector2;
 import world.Collective;
-import world.Entity;
 import world.Group;
+import world.Ship;
 import world.World;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -14,31 +14,31 @@ public class WorldDebugInitializer {
   public static World init() {
     World world = new World();
     for (int g = 0; g < 5; g++) {
-      Group group = spawnGroupWithEntities();
+      Group group = spawnGroupWithShips();
       world.collectives.add(Collective.of(group));
     }
-    world.collectives.add(Collective.of(spawnGroupWithEntities(), spawnGroupWithEntities()));
+    world.collectives.add(Collective.of(spawnGroupWithShips(), spawnGroupWithShips()));
     return world;
   }
 
-  private static Group spawnGroupWithEntities() {
+  private static Group spawnGroupWithShips() {
     Group group = new Group();
     Vector2 pivot = randomVector2(512);
     int count = random(3, 7);
     for (int i = 0; i < count; i++) {
-      Entity entity = spawnEntity(pivot);
-      group.entities.add(entity);
+      Ship ship = spawnShip(pivot);
+      group.ships.add(ship);
     }
     return group;
   }
 
-  private static Entity spawnEntity(Vector2 groupPosition) {
-    Entity entity = new Entity();
-    entity.place.position.set(randomVector2(128));
-    entity.place.position.add(groupPosition);
-    entity.place.direction = random(360);
-    entity.size = random(6, 8);
-    return entity;
+  private static Ship spawnShip(Vector2 groupPosition) {
+    Ship ship = new Ship();
+    ship.place.position.set(randomVector2(128));
+    ship.place.position.add(groupPosition);
+    ship.place.direction = random(360);
+    ship.size = random(6, 8);
+    return ship;
   }
 
 }

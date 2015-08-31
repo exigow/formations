@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import world.Collective;
-import world.Entity;
 import world.Group;
+import world.Ship;
 import world.World;
 
 import java.util.*;
@@ -20,39 +20,39 @@ public class WorldDebugRenderer {
 
   public void renderSelected(Set<Group> groups, float border) {
     for (Group group : groups)
-      for (Entity entity : group.entities)
-        renderer.renderEntity(entity, border, Colors.SELECTION.fill, Colors.SELECTION.outline);
+      for (Ship ship : group.ships)
+        renderer.renderShip(ship, border, Colors.SELECTION.fill, Colors.SELECTION.outline);
   }
 
   public void renderWorld(World world, Matrix4 projection) {
     renderer.setProjection(projection);
     clearBackground();
-    for (Entity entity : entitiesOf(world))
-      renderer.renderEntity(entity, 0, Colors.ENTITY.fill, Colors.ENTITY.outline);
+    for (Ship ship : shipsOf(world))
+      renderer.renderShip(ship, 0, Colors.SHIP.fill, Colors.SHIP.outline);
     for (Collective collective : world.collectives)
-      renderer.renderHull(positionsOf(entitiesOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
+      renderer.renderHull(positionsOf(shipsOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
     for (Collective collective : world.collectives)
       for (Group group : collective.groups)
-        renderer.renderHull(positionsOf(group.entities), Colors.GROUP.fill, Colors.GROUP.outline);
+        renderer.renderHull(positionsOf(group.ships), Colors.GROUP.fill, Colors.GROUP.outline);
   }
 
-  public Set<Entity> entitiesOf(World world) {
-    Set<Entity> result = new HashSet<>();
+  public Set<Ship> shipsOf(World world) {
+    Set<Ship> result = new HashSet<>();
     for (Collective collective : world.collectives)
       for (Group group : collective.groups)
-        result.addAll(group.entities);
+        result.addAll(group.ships);
     return result;
   }
 
-  private static Collection<Entity> entitiesOf(Collective collective) {
-    Collection<Entity> entities = new ArrayList<>();
+  private static Collection<Ship> shipsOf(Collective collective) {
+    Collection<Ship> ships = new ArrayList<>();
     for (Group group : collective.groups)
-      entities.addAll(group.entities);
-    return entities;
+      ships.addAll(group.ships);
+    return ships;
   }
 
-  private static Collection<Vector2> positionsOf(Collection<Entity> entities) {
-    return entities.stream().map(e -> e.place.position).collect(Collectors.toList());
+  private static Collection<Vector2> positionsOf(Collection<Ship> ships) {
+    return ships.stream().map(e -> e.place.position).collect(Collectors.toList());
   }
 
   private void clearBackground() {
@@ -85,7 +85,7 @@ public class WorldDebugRenderer {
     ), GROUP(
       1, 1, 0, .125f,
       1, 1, .5f, .5f
-    ), ENTITY(
+    ), SHIP(
       1, 1, 0, .125f,
       1, 1, .5f, .5f
     );
