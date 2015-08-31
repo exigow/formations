@@ -16,20 +16,8 @@ public class Input {
   private Input() {
   }
 
-  public static Vector2 windowSize() {
-    float x = Gdx.graphics.getWidth();
-    float y = Gdx.graphics.getHeight();
-    Vector2 result = new Vector2();
-    result.set(x, y);
-    return result;
-  }
-
   public static Vector2 mouseWindow() {
-    float x = Gdx.input.getX();
-    float y = Gdx.input.getY();
-    Vector2 result = new Vector2();
-    result.set(x, y);
-    return result;
+    return new Vector2(Gdx.input.getX(), Gdx.input.getY());
   }
 
   public static Vector2 mouse(OrthographicCamera camera) {
