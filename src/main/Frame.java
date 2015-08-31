@@ -11,8 +11,8 @@ import logic.input.Key;
 import logic.input.State;
 import renderers.WorldDebugRenderer;
 import world.Collective;
-import world.Group;
 import world.Place;
+import world.Squad;
 import world.World;
 import world.orders.MoveOrder;
 
@@ -30,8 +30,8 @@ public class Frame {
   private final OrthographicCamera camera = new OrthographicCamera();
   private final World world = WorldDebugInitializer.init();
   private final CameraController controller = new CameraController();
-  private final Set<Group> selected = new HashSet<>();
-  private final Set<Group> wantToSelect = new HashSet<>();
+  private final Set<Squad> selected = new HashSet<>();
+  private final Set<Squad> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
   private final Vector2 pinPoint = new Vector2();
   private final Rectangle selectionRectangle = new Rectangle();
@@ -56,12 +56,11 @@ public class Frame {
     Input.register(Key.MOUSE_RIGHT, state -> {
       if (state == State.DOWN) {
         Collective instantiated = world.instantiateCollective(selected);
-        instantiated.orders.clear();
         Place place = new Place();
         place.position.set(Input.mouse(camera));
         place.direction = 0;
+        instantiated.orders.clear();
         instantiated.orders.add(new MoveOrder(place));
-        System.out.println(instantiated.orders);
       }
     });
   }
@@ -92,14 +91,14 @@ public class Frame {
     }
   }
 
-  public Collection<Group> updateSelection(Vector2 to, Collection<Group> groups) {
+  public Collection<Squad> updateSelection(Vector2 to, Collection<Squad> squads) {
     Rectangle fixed = SelectionVectorsToRectangleConverter.convert(pinPoint, to);
     selectionRectangle.set(fixed);
-    Collection<Group> result = new ArrayList<>();
-    for (Group group : groups)
-      result.addAll(group.ships.stream()
+    Collection<Squad> result = new ArrayList<>();
+    for (Squad squad : squads)
+      result.addAll(squad.ships.stream()
         .filter(ship -> isInsideSelection(ship.place.position))
-        .map(ship -> group)
+        .map(ship -> squad)
         .collect(Collectors.toList()));
     return result;
   }
@@ -108,10 +107,10 @@ public class Frame {
     return selectionRectangle.contains(coordinate.x, coordinate.y);
   }
 
-  public Set<Group> groupsOf(World world) {
-    Set<Group> result = new HashSet<>();
+  public Set<Squad> groupsOf(World world) {
+    Set<Squad> result = new HashSet<>();
     for (Collective collective : world.collectives)
-      result.addAll(collective.groups.stream().collect(Collectors.toList()));
+      result.addAll(collective.squads.stream().collect(Collectors.toList()));
     return result;
   }
 

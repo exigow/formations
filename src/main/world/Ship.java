@@ -10,7 +10,7 @@ public class Ship {
   public float speed;
   public float maximumAvailableSpeed;
 
-  public void update() {
+  public void move() {
     float acceleration = .0125f;
     float directionToDesignation = pointDirection(destination.position, place.position);
     float distanceToDesignation = pointDistance(destination.position, place.position);

@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import world.Collective;
-import world.Group;
 import world.Ship;
+import world.Squad;
 import world.World;
 
 import java.util.*;
@@ -18,9 +18,9 @@ public class WorldDebugRenderer {
 
   private final Renderer renderer = Renderer.setup();
 
-  public void renderSelected(Set<Group> groups, float border) {
-    for (Group group : groups)
-      for (Ship ship : group.ships)
+  public void renderSelected(Set<Squad> squads, float border) {
+    for (Squad squad : squads)
+      for (Ship ship : squad.ships)
         renderer.renderShip(ship, border, Colors.SELECTION.fill, Colors.SELECTION.outline);
   }
 
@@ -32,14 +32,14 @@ public class WorldDebugRenderer {
     for (Collective collective : world.collectives)
       renderer.renderHull(positionsOf(shipsOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
     for (Collective collective : world.collectives)
-      for (Group group : collective.groups)
-        renderer.renderHull(positionsOf(group.ships), Colors.GROUP.fill, Colors.GROUP.outline);
+      for (Squad squad : collective.squads)
+        renderer.renderHull(positionsOf(squad.ships), Colors.GROUP.fill, Colors.GROUP.outline);
   }
 
   private static Collection<Ship> shipsOf(Collective collective) {
     Collection<Ship> ships = new ArrayList<>();
-    for (Group group : collective.groups)
-      ships.addAll(group.ships);
+    for (Squad squad : collective.squads)
+      ships.addAll(squad.ships);
     return ships;
   }
 

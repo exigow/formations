@@ -2,8 +2,8 @@ package helpers;
 
 import com.badlogic.gdx.math.Vector2;
 import world.Collective;
-import world.Group;
 import world.Ship;
+import world.Squad;
 import world.World;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -14,21 +14,21 @@ public class WorldDebugInitializer {
   public static World init() {
     World world = new World();
     for (int g = 0; g < 3; g++) {
-      Group group = spawnGroupWithShips(g + 1);
-      world.collectives.add(Collective.of(group));
+      Squad squad = spawnGroupWithShips(g + 1);
+      world.collectives.add(Collective.of(squad));
     }
     return world;
   }
 
-  private static Group spawnGroupWithShips(float modifier) {
-    Group group = new Group();
+  private static Squad spawnGroupWithShips(float modifier) {
+    Squad squad = new Squad();
     Vector2 pivot = randomVector2(512);
     int count = random(3, 7);
     for (int i = 0; i < count; i++) {
       Ship ship = spawnShip(pivot, modifier);
-      group.ships.add(ship);
+      squad.ships.add(ship);
     }
-    return group;
+    return squad;
   }
 
   private static Ship spawnShip(Vector2 groupPosition, float modifier) {

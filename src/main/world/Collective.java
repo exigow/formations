@@ -10,15 +10,15 @@ public class Collective {
   }
 
   public final List<MoveOrder> orders = new ArrayList<>();
-  public final Set<Group> groups = new HashSet<>();
+  public final Set<Squad> squads = new HashSet<>();
 
   public static Collective empty() {
     return new Collective();
   }
 
-  public static Collective of(Group... group) {
+  public static Collective of(Squad... squad) {
     Collective collective = new Collective();
-    collective.groups.addAll(Arrays.asList(group));
+    collective.squads.addAll(Arrays.asList(squad));
     return collective;
   }
 

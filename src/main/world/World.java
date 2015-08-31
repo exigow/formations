@@ -11,20 +11,20 @@ public class World {
 
   public final Set<Collective> collectives = new HashSet<>();
 
-  public Collective instantiateCollective(Set<Group> groups) {
+  public Collective instantiateCollective(Set<Squad> squads) {
     Collective result = Collective.empty();
-    for (Group group : groups) {
-      Collective stolen = collectiveOf(group);
-      stolen.groups.remove(group);
-      result.groups.add(group);
+    for (Squad squad : squads) {
+      Collective stolen = collectiveOf(squad);
+      stolen.squads.remove(squad);
+      result.squads.add(squad);
     }
     collectives.add(result);
     return result;
   }
 
-  private Collective collectiveOf(Group group) {
+  private Collective collectiveOf(Squad squad) {
     for (Collective collective : collectives)
-      if (collective.groups.contains(group))
+      if (collective.squads.contains(squad))
         return collective;
     throw new RuntimeException("Group must be in the collective");
   }
@@ -34,22 +34,22 @@ public class World {
       if (collective.orders.isEmpty())
         continue;
       MoveOrder order = collective.orders.get(0);
-      for (Group group : collective.groups) {
-        for (Ship ship : group.ships) {
+      for (Squad squad : collective.squads) {
+        for (Ship ship : squad.ships) {
           Vector2 asd = new Vector2(order.where.position);
           asd.add(Vector2Utilities.randomVector2(32));
           ship.destination.position.set(asd);
         }
       }
     }
-    allShips().forEach(world.Ship::update);
+    allShips().forEach(world.Ship::move);
   }
 
   public Set<Ship> allShips() {
     Set<Ship> result = new HashSet<>();
     for (Collective collective : collectives)
-      for (Group group : collective.groups)
-        result.addAll(group.ships);
+      for (Squad squad : collective.squads)
+        result.addAll(squad.ships);
     return result;
   }
 
