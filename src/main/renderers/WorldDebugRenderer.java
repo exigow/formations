@@ -52,7 +52,7 @@ public class WorldDebugRenderer {
   }
 
   private static Collection<Vector2> positionsOf(Collection<Entity> entities) {
-    return entities.stream().map(e -> e.position).collect(Collectors.toList());
+    return entities.stream().map(e -> e.place.position).collect(Collectors.toList());
   }
 
   private void clearBackground() {

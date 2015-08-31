@@ -108,7 +108,7 @@ public class Frame {
     Collection<Group> result = new ArrayList<>();
     for (Group group : groups)
       result.addAll(group.entities.stream()
-        .filter(entity -> isInsideSelection(entity.position))
+        .filter(entity -> isInsideSelection(entity.place.position))
         .map(entity -> group)
         .collect(Collectors.toList()));
     return result;

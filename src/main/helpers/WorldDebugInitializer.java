@@ -34,9 +34,9 @@ public class WorldDebugInitializer {
 
   private static Entity spawnEntity(Vector2 groupPosition) {
     Entity entity = new Entity();
-    entity.position.set(randomVector2(128));
-    entity.position.add(groupPosition);
-    entity.direction = random(360);
+    entity.place.position.set(randomVector2(128));
+    entity.place.position.add(groupPosition);
+    entity.place.direction = random(360);
     entity.size = random(6, 8);
     return entity;
   }
