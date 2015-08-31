@@ -44,7 +44,7 @@ public class CameraController {
   public Vector3 actualMovementVector() {
     Vector3 vector = new Vector3();
     vector.x = valueOfDimension(leftKeyTrigger, rightKeyTrigger);
-    vector.y = -valueOfDimension(upKeyTrigger, downKeyTrigger);
+    vector.y = valueOfDimension(upKeyTrigger, downKeyTrigger);
     vector.z = scrollValue;
     scrollValue = 0;
     return vector;
