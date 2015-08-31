@@ -8,8 +8,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import helpers.ConvexHull;
+import world.Entity;
 
 import java.util.Collection;
+
+import static com.badlogic.gdx.math.MathUtils.cosDeg;
+import static com.badlogic.gdx.math.MathUtils.sinDeg;
 
 public class Renderer {
 
@@ -44,15 +48,18 @@ public class Renderer {
     imr.end();
   }
 
-  public void renderCircle(Vector2 position, float radius, Color fill, Color outline) {
+  public void renderEntity(Entity entity, float border, Color fill, Color outline) {
+    Vector2 position = entity.position;
     int segments = 6;
     shape.setColor(fill);
     shape.begin(ShapeRenderer.ShapeType.Filled);
-    shape.circle(position.x, position.y, radius, segments);
+    shape.circle(position.x, position.y, entity.size + border, segments);
     shape.end();
     shape.setColor(outline);
     shape.begin(ShapeRenderer.ShapeType.Line);
-    shape.circle(position.x, position.y, radius, segments);
+    shape.circle(position.x, position.y, entity.size + border, segments);
+    Vector2 vector = new Vector2(cosDeg(entity.direction), sinDeg(entity.direction)).scl(32);
+    shape.line(position.x, position.y, position.x + vector.x, position.y + vector.y);
     shape.end();
   }
 

@@ -24,7 +24,7 @@ public class WorldDebugInitializer {
   private static Group spawnGroupWithEntities() {
     Group group = new Group();
     Vector2 pivot = randomVector2(512);
-    int count = random(3, 11);
+    int count = random(3, 7);
     for (int i = 0; i < count; i++) {
       Entity entity = spawnEntity(pivot);
       group.entities.add(entity);
@@ -36,8 +36,8 @@ public class WorldDebugInitializer {
     Entity entity = new Entity();
     entity.position.set(randomVector2(128));
     entity.position.add(groupPosition);
-    entity.angle = random(360);
-    entity.size = random(4, 8);
+    entity.direction = random(360);
+    entity.size = random(6, 8);
     return entity;
   }
 

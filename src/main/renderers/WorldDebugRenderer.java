@@ -18,17 +18,17 @@ public class WorldDebugRenderer {
 
   private final Renderer renderer = Renderer.setup();
 
-  public void renderSelection(Set<Group> groups, float border) {
+  public void renderSelected(Set<Group> groups, float border) {
     for (Group group : groups)
       for (Entity entity : group.entities)
-        renderer.renderCircle(entity.position, entity.size + border, Colors.SELECTION.fill, Colors.SELECTION.outline);
+        renderer.renderEntity(entity, border, Colors.SELECTION.fill, Colors.SELECTION.outline);
   }
 
   public void renderWorld(World world, Matrix4 projection) {
     renderer.setProjection(projection);
     clearBackground();
     for (Entity entity : entitiesOf(world))
-      renderer.renderCircle(entity.position, entity.size, Colors.ENTITY.fill, Colors.ENTITY.outline);
+      renderer.renderEntity(entity, 0, Colors.ENTITY.fill, Colors.ENTITY.outline);
     for (Collective collective : world.collectives)
       renderer.renderHull(positionsOf(entitiesOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
     for (Collective collective : world.collectives)

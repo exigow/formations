@@ -9,7 +9,7 @@ public class Collective {
   private Collective() {
   }
 
-  public final Queue<Order> orders = new ArrayDeque<>();
+  public final List<Order> orders = new ArrayList<>();
   public final Set<Group> groups = new HashSet<>();
 
   public static Collective empty() {

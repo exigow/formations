@@ -11,9 +11,11 @@ import logic.input.Key;
 import logic.input.State;
 import renderers.WorldDebugRenderer;
 import world.Collective;
+import world.Entity;
 import world.Group;
 import world.World;
 import world.orders.Move;
+import world.orders.Order;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,14 +76,28 @@ public class Frame {
     camera.position.set(cameraEye.x, cameraEye.y, 0);
     camera.zoom = cameraEye.z;
     camera.update();
+
+    for (Collective collective : world.collectives) {
+      if (collective.orders.isEmpty())
+        continue;
+      Order order = collective.orders.get(0);
+      if (order instanceof Move) {
+        Move moveOrder = (Move) order;
+        for (Group group : collective.groups) {
+          for (Entity entity : group.entities) {
+            entity.moveTo(moveOrder.where, 0);
+          }
+        }
+      }
+    }
   }
 
   public void render() {
     renderer.renderWorld(world, camera.combined);
-    renderer.renderSelection(selected, 4);
+    renderer.renderSelected(selected, 4);
     if (isSelecting) {
       updateSelection();
-      renderer.renderSelection(wantToSelect, 8);
+      renderer.renderSelected(wantToSelect, 8);
       renderer.renderSelection(selectionRectangle);
     }
   }
