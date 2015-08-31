@@ -10,7 +10,9 @@ import helpers.WorldDebugInitializer;
 import logic.CameraController;
 import logic.input.Input;
 import logic.input.Key;
+import logic.input.State;
 import renderers.DebugRenderer;
+import world.Collective;
 import world.Entity;
 import world.Group;
 import world.World;
@@ -52,6 +54,12 @@ public class Frame {
           break;
       }
     });
+    Input.register(Key.MOUSE_RIGHT, state -> {
+      if (state == State.DOWN) {
+        Logger.log("selected groups " + selected);
+        Collective newone = world.instantiateCollective(selected);
+      }
+    });
   }
 
 
@@ -72,9 +80,10 @@ public class Frame {
 
   public void render() {
     renderer.renderWorld(world, camera.combined);
+    renderer.renderEntities(entitiesOf(selected), Color.ORANGE, 2);
     if (isSelecting) {
       updateSelection();
-      renderer.renderEntities(entitiesOf(wantToSelect), Color.CYAN, 2);
+      renderer.renderEntities(entitiesOf(wantToSelect), Color.CYAN, 4);
       renderer.renderRectangle(selectionRectangle, Color.WHITE);
     }
   }
