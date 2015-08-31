@@ -10,10 +10,7 @@ import logic.input.Input;
 import logic.input.Key;
 import logic.input.State;
 import renderers.WorldDebugRenderer;
-import world.Collective;
-import world.Group;
-import world.Ship;
-import world.World;
+import world.*;
 import world.orders.Move;
 import world.orders.Order;
 
@@ -58,7 +55,10 @@ public class Frame {
       if (state == State.DOWN) {
         Collective instantiated = world.instantiateCollective(selected);
         instantiated.orders.clear();
-        instantiated.orders.add(new Move(Input.mouse(camera)));
+        Place place = new Place();
+        place.position.set(Input.mouse(camera));
+        place.direction = 0;
+        instantiated.orders.add(new Move(place));
       }
     });
   }
@@ -85,7 +85,7 @@ public class Frame {
         Move moveOrder = (Move) order;
         for (Group group : collective.groups) {
           for (Ship ship : group.ships) {
-            ship.moveTo(moveOrder.where, 0);
+            ship.moveTo(moveOrder.where);
           }
         }
       }

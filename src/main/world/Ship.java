@@ -1,7 +1,5 @@
 package world;
 
-import com.badlogic.gdx.math.Vector2;
-
 import static helpers.MathUtilities.*;
 
 public class Ship {
@@ -11,17 +9,17 @@ public class Ship {
   public float speed;
   public float maximumAvailableSpeed = 1f;
 
-  public void moveTo(Vector2 designation, float designationAngle) {
+  public void moveTo(Place destination) {
     float acceleration = .0125f;
-    float directionToDesignation = pointDirection(designation, place.position);
-    float distanceToDesignation = pointDistance(designation, place.position);
+    float directionToDesignation = pointDirection(destination.position, place.position);
+    float distanceToDesignation = pointDistance(destination.position, place.position);
     float flySpeedTarget = Math.min(distanceToDesignation * .025f, maximumAvailableSpeed);
     speed += (flySpeedTarget - speed) * acceleration;
     place.direction += angdiff(directionToDesignation, place.direction) * .0125f;
-    float fix = (float)Math.pow(1 - Math.min(pointDistance(place.position, designation), 128f) / 128f, 16f);
-    place.direction -= angdiff(place.direction, designationAngle) * fix;
-    float vx = lerp(ldx(speed, place.direction), (designation.x - place.position.x) * .125f, fix);
-    float vy = lerp(ldy(speed, place.direction), (designation.y - place.position.y) * .125f, fix);
+    float fix = (float)Math.pow(1 - Math.min(pointDistance(place.position, destination.position), 128f) / 128f, 16f);
+    place.direction -= angdiff(place.direction, destination.direction) * fix;
+    float vx = lerp(ldx(speed, place.direction), (destination.position.x - place.position.x) * .125f, fix);
+    float vy = lerp(ldy(speed, place.direction), (destination.position.y - place.position.y) * .125f, fix);
     place.position.add(vx, vy);
   }
 

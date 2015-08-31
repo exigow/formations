@@ -1,13 +1,13 @@
 package world.orders;
 
-import com.badlogic.gdx.math.Vector2;
+import world.Place;
 
 public class Move implements Order {
 
-  public final Vector2 where;
+  public final Place where;
 
-  public Move(Vector2 where) {
-    this.where = new Vector2(where);
+  public Move(Place where) {
+    this.where = where;
   }
 
 }
