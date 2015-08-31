@@ -1,6 +1,4 @@
-package logic.input.actions;
-
-import logic.input.State;
+package logic.input;
 
 @FunctionalInterface
 public interface Action {

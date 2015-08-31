@@ -24,7 +24,7 @@ public class DebugRenderer {
 
   private final static Color ENTITY_COLOR = Color.RED;
   private final static Color GROUP_HULL_COLOR = Color.GREEN;
-  private final static Color COLLECTIVE_HULL_COLOR = new Color(1, 0, 1, 1);
+  private final static Color COLLECTIVE_HULL_COLOR = Color.MAGENTA;
 
   private final ShapeRenderer shape = new ShapeRenderer();
 
@@ -41,13 +41,14 @@ public class DebugRenderer {
   }
 
   public void renderCollectiveOrders(World world) {
-    shape.setColor(Color.NAVY);
+    shape.setColor(Color.MAROON);
     shape.begin(ShapeRenderer.ShapeType.Line);
     for (Collective collective : world.collectives) {
       for (Order order : collective.orders) {
         if (order instanceof Move) {
           Move moveOrder = (Move) order;
-          shape.circle(moveOrder.where.x, moveOrder.where.y, 16);
+          for (Entity entity : entitiesOf(collective))
+            shape.line(entity.position.x, entity.position.y, moveOrder.where.x, moveOrder.where.y);
         }
       }
     }
@@ -57,10 +58,10 @@ public class DebugRenderer {
   public void renderWorld(World world, Matrix4 projection) {
     shape.setProjectionMatrix(projection);
     clearBackground();
+    renderCollectiveOrders(world);
     renderCollectivesHulls(world);
     renderGroupsHulls(world);
     renderEntities(world.allEntities(), ENTITY_COLOR, 0);
-    renderCollectiveOrders(world);
   }
 
   private void renderCollectivesHulls(World world) {

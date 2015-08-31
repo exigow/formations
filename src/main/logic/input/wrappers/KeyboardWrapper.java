@@ -1,8 +1,8 @@
 package logic.input.wrappers;
 
+import logic.input.Action;
 import logic.input.Key;
 import logic.input.State;
-import logic.input.actions.Action;
 
 public class KeyboardWrapper extends Wrapper {
 

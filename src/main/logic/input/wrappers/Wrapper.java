@@ -1,9 +1,9 @@
 package logic.input.wrappers;
 
 import com.badlogic.gdx.InputAdapter;
+import logic.input.Action;
 import logic.input.Key;
 import logic.input.State;
-import logic.input.actions.Action;
 
 public abstract class Wrapper extends InputAdapter {
 

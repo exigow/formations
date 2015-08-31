@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import logic.input.actions.Action;
 import logic.input.wrappers.KeyboardWrapper;
 import logic.input.wrappers.MouseScrollWrapper;
 import logic.input.wrappers.MouseWrapper;
