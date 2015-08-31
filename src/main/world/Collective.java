@@ -1,6 +1,6 @@
 package world;
 
-import world.orders.Order;
+import world.orders.MoveOrder;
 
 import java.util.*;
 
@@ -9,7 +9,7 @@ public class Collective {
   private Collective() {
   }
 
-  public final List<Order> orders = new ArrayList<>();
+  public final List<MoveOrder> orders = new ArrayList<>();
   public final Set<Group> groups = new HashSet<>();
 
   public static Collective empty() {

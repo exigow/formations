@@ -50,18 +50,26 @@ public class Renderer {
 
   public void renderShip(Ship ship, float border, Color fill, Color outline) {
     Vector2 position = ship.place.position;
-    int segments = 6;
     shape.setColor(fill);
     shape.begin(ShapeRenderer.ShapeType.Filled);
-    shape.circle(position.x, position.y, ship.size + border, segments);
+    renderCircle(position, ship.size + border);
     shape.end();
     shape.setColor(outline);
     shape.begin(ShapeRenderer.ShapeType.Line);
-    shape.circle(position.x, position.y, ship.size + border, segments);
+    renderCircle(position, ship.size + border);
     float dir = ship.place.direction;
     Vector2 vector = new Vector2(cosDeg(dir), sinDeg(dir)).scl(32);
     shape.line(position.x, position.y, position.x + vector.x, position.y + vector.y);
+    renderLine(position, ship.destination.position);
     shape.end();
+  }
+
+  private void renderLine(Vector2 from, Vector2 to) {
+    shape.line(from.x, from.y, to.x, to.y);
+  }
+
+  private void renderCircle(Vector2 where, float size) {
+    shape.circle(where.x, where.y, size, 6);
   }
 
   private void point(Vector2 position, Color color) {

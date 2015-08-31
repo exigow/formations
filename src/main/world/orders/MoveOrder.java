@@ -2,11 +2,11 @@ package world.orders;
 
 import world.Place;
 
-public class Move implements Order {
+public class MoveOrder {
 
   public final Place where;
 
-  public Move(Place where) {
+  public MoveOrder(Place where) {
     this.where = where;
   }
 

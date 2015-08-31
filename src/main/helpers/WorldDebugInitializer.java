@@ -13,31 +13,32 @@ public class WorldDebugInitializer {
 
   public static World init() {
     World world = new World();
-    for (int g = 0; g < 5; g++) {
-      Group group = spawnGroupWithShips();
+    for (int g = 0; g < 3; g++) {
+      Group group = spawnGroupWithShips(g + 1);
       world.collectives.add(Collective.of(group));
     }
-    world.collectives.add(Collective.of(spawnGroupWithShips(), spawnGroupWithShips()));
     return world;
   }
 
-  private static Group spawnGroupWithShips() {
+  private static Group spawnGroupWithShips(float modifier) {
     Group group = new Group();
     Vector2 pivot = randomVector2(512);
     int count = random(3, 7);
     for (int i = 0; i < count; i++) {
-      Ship ship = spawnShip(pivot);
+      Ship ship = spawnShip(pivot, modifier);
       group.ships.add(ship);
     }
     return group;
   }
 
-  private static Ship spawnShip(Vector2 groupPosition) {
+  private static Ship spawnShip(Vector2 groupPosition, float modifier) {
     Ship ship = new Ship();
     ship.place.position.set(randomVector2(128));
     ship.place.position.add(groupPosition);
     ship.place.direction = random(360);
-    ship.size = random(6, 8);
+    ship.size = 4 + 8 * (1 / modifier);
+    ship.maximumAvailableSpeed = modifier;
+    ship.destination.set(ship.place);
     return ship;
   }
 

@@ -7,4 +7,9 @@ public class Place {
   public final Vector2 position = new Vector2();
   public float direction;
 
+  public void set(Place from) {
+    position.set(from.position);
+    direction = from.direction;
+  }
+
 }

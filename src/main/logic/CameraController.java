@@ -5,6 +5,8 @@ import logic.input.Input;
 import logic.input.Key;
 import logic.input.State;
 
+import static logic.input.Input.triggerKey;
+
 public class CameraController {
 
   private boolean upKeyTrigger = false;
@@ -19,16 +21,6 @@ public class CameraController {
     Input.register(Key.KEY_A, state -> leftKeyTrigger = triggerKey(state));
     Input.register(Key.KEY_D, state -> rightKeyTrigger = triggerKey(state));
     Input.register(Key.MOUSE_SCROLL, state -> scrollValue += scrollAcceleration(state));
-  }
-
-  private static boolean triggerKey(State state) {
-    switch (state) {
-      case UP:
-        return true;
-      case DOWN:
-        return false;
-    }
-    throw new RuntimeException();
   }
 
   private static int scrollAcceleration(State state) {

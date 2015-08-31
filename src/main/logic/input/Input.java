@@ -43,6 +43,16 @@ public class Input {
     return action;
   }
 
+  public static boolean triggerKey(State state) {
+    switch (state) {
+      case UP:
+        return true;
+      case DOWN:
+        return false;
+    }
+    throw new RuntimeException();
+  }
+
   private static Wrapper instantiateWrapper(Key key, Action action) {
     if (key == Key.MOUSE_SCROLL)
       return new MouseScrollWrapper(key, action);

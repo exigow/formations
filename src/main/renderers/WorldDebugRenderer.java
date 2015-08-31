@@ -27,21 +27,13 @@ public class WorldDebugRenderer {
   public void renderWorld(World world, Matrix4 projection) {
     renderer.setProjection(projection);
     clearBackground();
-    for (Ship ship : shipsOf(world))
+    for (Ship ship : world.allShips())
       renderer.renderShip(ship, 0, Colors.SHIP.fill, Colors.SHIP.outline);
     for (Collective collective : world.collectives)
       renderer.renderHull(positionsOf(shipsOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
     for (Collective collective : world.collectives)
       for (Group group : collective.groups)
         renderer.renderHull(positionsOf(group.ships), Colors.GROUP.fill, Colors.GROUP.outline);
-  }
-
-  public Set<Ship> shipsOf(World world) {
-    Set<Ship> result = new HashSet<>();
-    for (Collective collective : world.collectives)
-      for (Group group : collective.groups)
-        result.addAll(group.ships);
-    return result;
   }
 
   private static Collection<Ship> shipsOf(Collective collective) {

@@ -10,9 +10,11 @@ import logic.input.Input;
 import logic.input.Key;
 import logic.input.State;
 import renderers.WorldDebugRenderer;
-import world.*;
-import world.orders.Move;
-import world.orders.Order;
+import world.Collective;
+import world.Group;
+import world.Place;
+import world.World;
+import world.orders.MoveOrder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +60,8 @@ public class Frame {
         Place place = new Place();
         place.position.set(Input.mouse(camera));
         place.direction = 0;
-        instantiated.orders.add(new Move(place));
+        instantiated.orders.add(new MoveOrder(place));
+        System.out.println(instantiated.orders);
       }
     });
   }
@@ -76,20 +79,7 @@ public class Frame {
     camera.position.set(cameraEye.x, cameraEye.y, 0);
     camera.zoom = cameraEye.z;
     camera.update();
-
-    for (Collective collective : world.collectives) {
-      if (collective.orders.isEmpty())
-        continue;
-      Order order = collective.orders.get(0);
-      if (order instanceof Move) {
-        Move moveOrder = (Move) order;
-        for (Group group : collective.groups) {
-          for (Ship ship : group.ships) {
-            ship.moveTo(moveOrder.where);
-          }
-        }
-      }
-    }
+    world.update();
   }
 
   public void render() {
