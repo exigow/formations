@@ -27,13 +27,21 @@ public class WorldDebugRenderer {
   public void renderWorld(World world, Matrix4 projection) {
     renderer.setProjection(projection);
     clearBackground();
-    for (Entity entity : world.allEntities())
+    for (Entity entity : entitiesOf(world))
       renderer.renderCircle(entity.position, entity.size, Colors.ENTITY.fill, Colors.ENTITY.outline);
     for (Collective collective : world.collectives)
       renderer.renderHull(positionsOf(entitiesOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
     for (Collective collective : world.collectives)
       for (Group group : collective.groups)
         renderer.renderHull(positionsOf(group.entities), Colors.GROUP.fill, Colors.GROUP.outline);
+  }
+
+  public Set<Entity> entitiesOf(World world) {
+    Set<Entity> result = new HashSet<>();
+    for (Collective collective : world.collectives)
+      for (Group group : collective.groups)
+        result.addAll(group.entities);
+    return result;
   }
 
   private static Collection<Entity> entitiesOf(Collective collective) {

@@ -3,7 +3,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import helpers.Logger;
 import helpers.SelectionVectorsToRectangleConverter;
 import helpers.WorldDebugInitializer;
 import logic.CameraController;
@@ -12,7 +11,6 @@ import logic.input.Key;
 import logic.input.State;
 import renderers.WorldDebugRenderer;
 import world.Collective;
-import world.Entity;
 import world.Group;
 import world.World;
 import world.orders.Move;
@@ -21,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Frame {
 
@@ -48,7 +47,6 @@ public class Frame {
           updateSelection();
           selected.clear();
           selected.addAll(wantToSelect);
-          Logger.log(selected.toString());
           wantToSelect.clear();
           isSelecting = false;
           break;
@@ -63,10 +61,9 @@ public class Frame {
     });
   }
 
-
   private void updateSelection() {
     wantToSelect.clear();
-    wantToSelect.addAll(updateSelection(Input.mouse(camera), world.allGroups()));
+    wantToSelect.addAll(updateSelection(Input.mouse(camera), groupsOf(world)));
   }
 
   public void update() {
@@ -94,16 +91,22 @@ public class Frame {
     selectionRectangle.set(fixed);
     Collection<Group> result = new ArrayList<>();
     for (Group group : groups)
-      for (Entity entity : group.entities)
-        if (isInside(entity.position))
-          result.add(group);
+      result.addAll(group.entities.stream()
+        .filter(entity -> isInsideSelection(entity.position))
+        .map(entity -> group)
+        .collect(Collectors.toList()));
     return result;
   }
 
-  private boolean isInside(Vector2 coordinate) {
+  private boolean isInsideSelection(Vector2 coordinate) {
     return selectionRectangle.contains(coordinate.x, coordinate.y);
   }
 
-
+  public Set<Group> groupsOf(World world) {
+    Set<Group> result = new HashSet<>();
+    for (Collective collective : world.collectives)
+      result.addAll(collective.groups.stream().collect(Collectors.toList()));
+    return result;
+  }
 
 }
