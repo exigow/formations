@@ -17,18 +17,14 @@ public class WorldDebugInitializer {
       Group group = spawnGroupWithEntities();
       world.collectives.add(Collective.of(group));
     }
-
-    ///Collective collective = new Collective();
-
     world.collectives.add(Collective.of(spawnGroupWithEntities(), spawnGroupWithEntities()));
-
     return world;
   }
 
   private static Group spawnGroupWithEntities() {
     Group group = new Group();
     Vector2 pivot = randomVector2(512);
-    int count = random(7, 11);
+    int count = random(3, 11);
     for (int i = 0; i < count; i++) {
       Entity entity = spawnEntity(pivot);
       group.entities.add(entity);
@@ -41,7 +37,7 @@ public class WorldDebugInitializer {
     entity.position.set(randomVector2(128));
     entity.position.add(groupPosition);
     entity.angle = random(360);
-    entity.size = random(2, 4);
+    entity.size = random(4, 8);
     return entity;
   }
 

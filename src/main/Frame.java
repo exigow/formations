@@ -1,5 +1,4 @@
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +10,7 @@ import logic.CameraController;
 import logic.input.Input;
 import logic.input.Key;
 import logic.input.State;
-import renderers.DebugRenderer;
+import renderers.WorldDebugRenderer;
 import world.Collective;
 import world.Entity;
 import world.Group;
@@ -27,7 +26,7 @@ public class Frame {
 
   private final Vector3 cameraEye = new Vector3(0, 0, 1);
   private final Vector3 cameraEyeTarget = new Vector3(cameraEye);
-  private final DebugRenderer renderer = new DebugRenderer();
+  private final WorldDebugRenderer renderer = new WorldDebugRenderer();
   private final OrthographicCamera camera = new OrthographicCamera();
   private final World world = WorldDebugInitializer.init();
   private final CameraController controller = new CameraController();
@@ -82,11 +81,11 @@ public class Frame {
 
   public void render() {
     renderer.renderWorld(world, camera.combined);
-    renderer.renderEntities(entitiesOf(selected), Color.ORANGE, 2);
+    renderer.renderSelection(selected, 4);
     if (isSelecting) {
       updateSelection();
-      renderer.renderEntities(entitiesOf(wantToSelect), Color.CYAN, 4);
-      renderer.renderRectangle(selectionRectangle, Color.WHITE);
+      renderer.renderSelection(wantToSelect, 8);
+      renderer.renderSelection(selectionRectangle);
     }
   }
 
@@ -99,13 +98,6 @@ public class Frame {
         if (isInside(entity.position))
           result.add(group);
     return result;
-  }
-
-  private static Set<Entity> entitiesOf(Collection<Group> groups) {
-    Set<Entity> entities = new HashSet<>();
-    for (Group group : groups)
-      entities.addAll(group.entities);
-    return entities;
   }
 
   private boolean isInside(Vector2 coordinate) {

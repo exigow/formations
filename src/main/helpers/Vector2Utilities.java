@@ -22,5 +22,4 @@ public class Vector2Utilities {
     return (-1f + com.badlogic.gdx.math.MathUtils.random() * 2f);
   }
 
-
 }
