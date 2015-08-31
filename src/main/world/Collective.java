@@ -1,5 +1,7 @@
 package world;
 
+import world.orders.Order;
+
 import java.util.*;
 
 public class Collective {

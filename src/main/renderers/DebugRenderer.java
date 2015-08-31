@@ -12,6 +12,8 @@ import world.Collective;
 import world.Entity;
 import world.Group;
 import world.World;
+import world.orders.Move;
+import world.orders.Order;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,10 +22,9 @@ import java.util.stream.Collectors;
 
 public class DebugRenderer {
 
-  private final static float ALPHA = 1f;
-  private final static Color ENTITY_COLOR = new Color(1, 0, 0, ALPHA);
-  private final static Color GROUP_HULL_COLOR = new Color(0, 1, 0, ALPHA);
-  private final static Color COLLECTIVE_HULL_COLOR = new Color(0, 0, 1, ALPHA);
+  private final static Color ENTITY_COLOR = Color.RED;
+  private final static Color GROUP_HULL_COLOR = Color.GREEN;
+  private final static Color COLLECTIVE_HULL_COLOR = new Color(1, 0, 1, 1);
 
   private final ShapeRenderer shape = new ShapeRenderer();
 
@@ -39,12 +40,27 @@ public class DebugRenderer {
     shape.end();
   }
 
+  public void renderCollectiveOrders(World world) {
+    shape.setColor(Color.NAVY);
+    shape.begin(ShapeRenderer.ShapeType.Line);
+    for (Collective collective : world.collectives) {
+      for (Order order : collective.orders) {
+        if (order instanceof Move) {
+          Move moveOrder = (Move) order;
+          shape.circle(moveOrder.where.x, moveOrder.where.y, 16);
+        }
+      }
+    }
+    shape.end();
+  }
+
   public void renderWorld(World world, Matrix4 projection) {
     shape.setProjectionMatrix(projection);
     clearBackground();
     renderCollectivesHulls(world);
     renderGroupsHulls(world);
     renderEntities(world.allEntities(), ENTITY_COLOR, 0);
+    renderCollectiveOrders(world);
   }
 
   private void renderCollectivesHulls(World world) {

@@ -16,6 +16,7 @@ import world.Collective;
 import world.Entity;
 import world.Group;
 import world.World;
+import world.orders.Move;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,8 +34,8 @@ public class Frame {
   private final Set<Group> selected = new HashSet<>();
   private final Set<Group> wantToSelect = new HashSet<>();
   private boolean isSelecting = false;
-  public final Vector2 pinPoint = new Vector2();
-  public final Rectangle selectionRectangle = new Rectangle();
+  private final Vector2 pinPoint = new Vector2();
+  private final Rectangle selectionRectangle = new Rectangle();
 
   {
     camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -56,8 +57,9 @@ public class Frame {
     });
     Input.register(Key.MOUSE_RIGHT, state -> {
       if (state == State.DOWN) {
-        Logger.log("selected groups " + selected);
-        Collective newone = world.instantiateCollective(selected);
+        Collective instantiated = world.instantiateCollective(selected);
+        instantiated.orders.clear();
+        instantiated.orders.add(new Move(Input.mouse(camera)));
       }
     });
   }
