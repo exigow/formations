@@ -12,7 +12,8 @@ public enum Key {
   KEY_A(Input.Keys.A),
   KEY_D(Input.Keys.D),
   KEY_E(Input.Keys.E),
-  KEY_Q(Input.Keys.Q);
+  KEY_Q(Input.Keys.Q),
+  SPACE(Input.Keys.SPACE);
 
   public final int gdxKey;
 

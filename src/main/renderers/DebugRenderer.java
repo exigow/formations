@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import helpers.ConvexHull;
 import world.Collective;
@@ -17,8 +18,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.badlogic.gdx.math.MathUtils.*;
-
 public class DebugRenderer {
 
   private final static float ALPHA = 1f;
@@ -28,14 +27,14 @@ public class DebugRenderer {
 
   private final ShapeRenderer shape = new ShapeRenderer();
 
-  private void renderEntities(Set<Entity> entities) {
-    shape.setColor(ENTITY_COLOR);
+  public void renderEntities(Set<Entity> entities, Color color, float border) {
+    shape.setColor(color);
     shape.begin(ShapeRenderer.ShapeType.Line);
     for (Entity entity : entities) {
-      shape.circle(entity.position.x, entity.position.y, entity.size);
-      float toX = entity.position.x + cos(entity.angle * degreesToRadians) * entity.size;
+      shape.circle(entity.position.x, entity.position.y, entity.size + border);
+      /*float toX = entity.position.x + cos(entity.angle * degreesToRadians) * entity.size;
       float toY = entity.position.y + sin(entity.angle * degreesToRadians) * entity.size;
-      shape.line(entity.position.x, entity.position.y, toX, toY);
+      shape.line(entity.position.x, entity.position.y, toX, toY);*/
     }
     shape.end();
   }
@@ -45,7 +44,7 @@ public class DebugRenderer {
     clearBackground();
     renderCollectivesHulls(world);
     renderGroupsHulls(world);
-    renderEntities(world.allEntities());
+    renderEntities(world.allEntities(), ENTITY_COLOR, 0);
   }
 
   private void renderCollectivesHulls(World world) {
@@ -90,6 +89,13 @@ public class DebugRenderer {
   private void clearBackground() {
     Gdx.gl.glClearColor(.25f, .25f, .25f, 1f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+  }
+
+  public void renderRectangle(Rectangle rectangle, Color color) {
+    shape.setColor(color);
+    shape.begin(ShapeRenderer.ShapeType.Line);
+    shape.rect(rectangle.getX(), rectangle.getY(), rectangle.width, rectangle.height);
+    shape.end();
   }
 
 }

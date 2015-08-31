@@ -2,6 +2,7 @@ package world;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class World {
 
@@ -12,6 +13,13 @@ public class World {
     for (Collective collective : collectives)
       for (Group group : collective.groups)
         result.addAll(group.entities);
+    return result;
+  }
+
+  public Set<Group> allGroups() {
+    Set<Group> result = new HashSet<>();
+    for (Collective collective : collectives)
+      result.addAll(collective.groups.stream().collect(Collectors.toList()));
     return result;
   }
 
