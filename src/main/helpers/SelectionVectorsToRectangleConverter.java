@@ -3,7 +3,7 @@ package helpers;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class CoordinatesToRectangleConverter {
+public class SelectionVectorsToRectangleConverter {
 
   public static Rectangle convert(Vector2 pinPoint, Vector2 pointer) {
     float width = pointer.x - pinPoint.x;

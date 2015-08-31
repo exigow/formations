@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import helpers.CoordinatesToRectangleConverter;
 import helpers.Logger;
+import helpers.SelectionVectorsToRectangleConverter;
 import helpers.WorldDebugInitializer;
 import logic.CameraController;
 import logic.input.Input;
@@ -91,7 +91,7 @@ public class Frame {
   }
 
   public Collection<Group> updateSelection(Vector2 to, Collection<Group> groups) {
-    Rectangle fixed = CoordinatesToRectangleConverter.convert(pinPoint, to);
+    Rectangle fixed = SelectionVectorsToRectangleConverter.convert(pinPoint, to);
     selectionRectangle.set(fixed);
     Collection<Group> result = new ArrayList<>();
     for (Group group : groups)
