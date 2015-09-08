@@ -5,11 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import helpers.SelectionVectorsToRectangleConverter;
 import helpers.WorldDebugInitializer;
+import helpers.WorldDebugRenderer;
 import logic.CameraController;
 import logic.input.Input;
 import logic.input.Key;
 import logic.input.State;
-import renderers.WorldDebugRenderer;
 import world.Collective;
 import world.Place;
 import world.Squad;
@@ -26,7 +26,6 @@ public class Frame {
 
   private final Vector3 cameraEye = new Vector3(0, 0, 1);
   private final Vector3 cameraEyeTarget = new Vector3(cameraEye);
-  private final WorldDebugRenderer renderer = new WorldDebugRenderer();
   private final OrthographicCamera camera = new OrthographicCamera();
   private final World world = WorldDebugInitializer.init();
   private final CameraController controller = new CameraController();
@@ -82,12 +81,12 @@ public class Frame {
   }
 
   public void render() {
-    renderer.renderWorld(world, camera.combined);
-    renderer.renderSelected(selected, 4);
+    WorldDebugRenderer.renderWorld(world, camera.combined);
+    WorldDebugRenderer.renderSelected(selected, 4);
     if (isSelecting) {
       updateSelection();
-      renderer.renderSelected(wantToSelect, 8);
-      renderer.renderSelection(selectionRectangle);
+      WorldDebugRenderer.renderSelected(wantToSelect, 8);
+      WorldDebugRenderer.renderSelection(selectionRectangle);
     }
   }
 

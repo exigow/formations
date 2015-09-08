@@ -1,4 +1,4 @@
-package renderers;
+package helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -16,24 +16,25 @@ import java.util.stream.Collectors;
 
 public class WorldDebugRenderer {
 
-  private final Renderer renderer = Renderer.setup();
-
-  public void renderSelected(Set<Squad> squads, float border) {
-    for (Squad squad : squads)
-      for (Ship ship : squad.ships)
-        renderer.renderShip(ship, border, Colors.SELECTION.fill, Colors.SELECTION.outline);
+  private WorldDebugRenderer() {
   }
 
-  public void renderWorld(World world, Matrix4 projection) {
-    renderer.setProjection(projection);
+  public static void renderSelected(Set<Squad> squads, float border) {
+    for (Squad squad : squads)
+      for (Ship ship : squad.ships)
+        RenderUtils.renderShip(ship, border, Colors.SELECTION.fill, Colors.SELECTION.outline);
+  }
+
+  public static void renderWorld(World world, Matrix4 projection) {
+    RenderUtils.setProjection(projection);
     clearBackground();
     for (Ship ship : world.allShips())
-      renderer.renderShip(ship, 0, Colors.SHIP.fill, Colors.SHIP.outline);
+      RenderUtils.renderShip(ship, 0, Colors.SHIP.fill, Colors.SHIP.outline);
     for (Collective collective : world.collectives)
-      renderer.renderHull(positionsOf(shipsOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
+      RenderUtils.renderHull(positionsOf(shipsOf(collective)), Colors.COLLECTIVE.fill, Colors.COLLECTIVE.outline);
     for (Collective collective : world.collectives)
       for (Squad squad : collective.squads)
-        renderer.renderHull(positionsOf(squad.ships), Colors.GROUP.fill, Colors.GROUP.outline);
+        RenderUtils.renderHull(positionsOf(squad.ships), Colors.GROUP.fill, Colors.GROUP.outline);
   }
 
   private static Collection<Ship> shipsOf(Collective collective) {
@@ -47,13 +48,13 @@ public class WorldDebugRenderer {
     return ships.stream().map(e -> e.place.position).collect(Collectors.toList());
   }
 
-  private void clearBackground() {
+  private static void clearBackground() {
     Gdx.gl.glClearColor(.25f, .25f, .25f, 1f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
-  public void renderSelection(Rectangle rectangle) {
-    renderer.renderHull(rectangleToHull(rectangle), Colors.SELECTION.fill, Colors.SELECTION.outline);
+  public static void renderSelection(Rectangle rectangle) {
+    RenderUtils.renderHull(rectangleToHull(rectangle), Colors.SELECTION.fill, Colors.SELECTION.outline);
   }
 
   private static List<Vector2> rectangleToHull(Rectangle rectangle) {
