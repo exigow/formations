@@ -1,4 +1,4 @@
-package helpers;
+package rendering;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -35,7 +35,7 @@ public class RenderUtils {
   }
 
   public static void renderHull(Collection<Vector2> positions, Color fill, Color outline) {
-    Vector2[] hulls = ConvexHull.convexHull(positions);
+    Vector2[] hulls = ConvexHullCalculator.calculateConvexHull(positions);
     RENDERER.begin(PROJECTION, GL20.GL_TRIANGLE_FAN);
     for (Vector2 hull : hulls)
       point(hull, fill);

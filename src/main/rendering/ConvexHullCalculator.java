@@ -1,17 +1,17 @@
-package helpers;
+package rendering;
 
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-public class ConvexHull {
+class ConvexHullCalculator {
 
   private static float cross(Vector2 o, Vector2 a, Vector2 b) {
     return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
   }
 
-  public static Vector2[] convexHull(Collection<Vector2> X) {
+  public static Vector2[] calculateConvexHull(Collection<Vector2> X) {
     Vector2[] P = toArray(X);
     if (P.length > 1) {
       int n = P.length, k = 0;
