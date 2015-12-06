@@ -34,6 +34,11 @@ public class RenderUtils {
     SHAPE.setProjectionMatrix(projection);
   }
 
+  public static void clearBackground() {
+    Gdx.gl.glClearColor(.25f, .25f, .25f, 1f);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+  }
+
   public static void renderHull(Collection<Vector2> positions, Color fill, Color outline) {
     Vector2[] hulls = ConvexHullCalculator.calculateConvexHull(positions);
     RENDERER.begin(PROJECTION, GL20.GL_TRIANGLE_FAN);

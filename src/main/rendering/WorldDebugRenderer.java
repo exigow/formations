@@ -1,8 +1,6 @@
 package rendering;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -27,7 +25,7 @@ public class WorldDebugRenderer {
 
   public static void renderWorld(World world, Matrix4 projection) {
     RenderUtils.setProjection(projection);
-    clearBackground();
+    RenderUtils.clearBackground();
     for (Ship ship : world.allShips())
       RenderUtils.renderShip(ship, 0, Colors.SHIP.fill, Colors.SHIP.outline);
     for (Collective collective : world.collectives)
@@ -46,11 +44,6 @@ public class WorldDebugRenderer {
 
   private static Collection<Vector2> positionsOf(Collection<Ship> ships) {
     return ships.stream().map(e -> e.place.position).collect(Collectors.toList());
-  }
-
-  private static void clearBackground() {
-    Gdx.gl.glClearColor(.25f, .25f, .25f, 1f);
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
   public static void renderSelection(Rectangle rectangle) {
