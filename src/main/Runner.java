@@ -1,4 +1,4 @@
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -13,7 +13,7 @@ public class Runner {
     new LwjglApplication(new Wrapper(), config);
   }
 
-  private static class Wrapper implements ApplicationListener {
+  private static class Wrapper extends ApplicationAdapter {
 
     private Frame frame;
 
@@ -23,25 +23,9 @@ public class Runner {
     }
 
     @Override
-    public void resize(int i, int i1) {
-    }
-
-    @Override
     public void render() {
       frame.update();
       frame.render();
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void dispose() {
     }
 
   }
