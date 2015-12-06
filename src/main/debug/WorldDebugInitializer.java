@@ -1,4 +1,4 @@
-package helpers;
+package debug;
 
 import com.badlogic.gdx.math.Vector2;
 import world.Collective;
