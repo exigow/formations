@@ -72,7 +72,7 @@ class RenderUtils {
   }
 
   private static void renderCircle(Vector2 where, float size) {
-    SHAPE.circle(where.x, where.y, size, 6);
+    SHAPE.circle(where.x, where.y, size);
   }
 
   private static void point(Vector2 position, Color color) {
