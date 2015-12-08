@@ -3,14 +3,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import debug.WorldDebugInitializer;
-import debug.WorldDebugRenderer;
 import helpers.SelectionVectorsToRectangleConverter;
+import helpers.WorldDebugInitializer;
 import logic.CameraController;
 import logic.input.Input;
 import logic.input.Key;
 import logic.input.State;
-import rendering.Draw;
+import rendering.WorldDebugRenderer;
 import world.Collective;
 import world.Place;
 import world.Squad;
@@ -82,9 +81,13 @@ public class Frame {
   }
 
   public void render() {
-    Draw.updateProjection(camera.combined);
-    Draw.clearBackground();
-    WorldDebugRenderer.renderWorld(world);
+    WorldDebugRenderer.renderWorld(world, camera.combined);
+    WorldDebugRenderer.renderSelected(selected, 4);
+    if (isSelecting) {
+      updateSelection();
+      WorldDebugRenderer.renderSelected(wantToSelect, 8);
+      WorldDebugRenderer.renderSelection(selectionRectangle);
+    }
   }
 
   public Collection<Squad> updateSelection(Vector2 to, Collection<Squad> squads) {
