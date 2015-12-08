@@ -1,7 +1,6 @@
 package world;
 
 import com.badlogic.gdx.math.Vector2;
-import helpers.Vector2Utilities;
 import world.orders.MoveOrder;
 
 import java.util.HashSet;
@@ -37,7 +36,6 @@ public class World {
       for (Squad squad : collective.squads) {
         for (Ship ship : squad.ships) {
           Vector2 asd = new Vector2(order.where.position);
-          asd.add(Vector2Utilities.randomVector2(32));
           ship.destination.position.set(asd);
         }
       }
