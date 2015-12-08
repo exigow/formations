@@ -14,7 +14,7 @@ import java.util.Collection;
 import static com.badlogic.gdx.math.MathUtils.cosDeg;
 import static com.badlogic.gdx.math.MathUtils.sinDeg;
 
-public class RenderUtils {
+class RenderUtils {
 
   private static final Matrix4 PROJECTION = new Matrix4();
   private static final ImmediateModeRenderer20 RENDERER = new ImmediateModeRenderer20(false, true, 0);
