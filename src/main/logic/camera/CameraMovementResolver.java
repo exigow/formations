@@ -1,4 +1,4 @@
-package logic;
+package logic.camera;
 
 import com.badlogic.gdx.math.Vector3;
 import logic.input.Input;
@@ -7,7 +7,7 @@ import logic.input.State;
 
 import static logic.input.Input.triggerKey;
 
-public class CameraController {
+class CameraMovementResolver {
 
   private boolean upKeyTrigger = false;
   private boolean downKeyTrigger = false;
@@ -15,7 +15,7 @@ public class CameraController {
   private boolean rightKeyTrigger = false;
   private int scrollValue = 0;
 
-  public CameraController() {
+  public CameraMovementResolver() {
     Input.register(Key.KEY_W, state -> upKeyTrigger = triggerKey(state));
     Input.register(Key.KEY_S, state -> downKeyTrigger = triggerKey(state));
     Input.register(Key.KEY_A, state -> leftKeyTrigger = triggerKey(state));

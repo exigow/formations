@@ -2,9 +2,7 @@ package logic.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import logic.input.wrappers.KeyboardWrapper;
 import logic.input.wrappers.MouseScrollWrapper;
 import logic.input.wrappers.MouseWrapper;
@@ -15,21 +13,10 @@ public class Input {
   private Input() {
   }
 
-  public static Vector2 mouseWindow() {
+  public static Vector2 mousePosition() {
     return new Vector2(Gdx.input.getX(), Gdx.input.getY());
   }
 
-  public static Vector2 mouse(OrthographicCamera camera) {
-    return unproject(mouseWindow(), camera);
-  }
-
-  private static Vector2 unproject(Vector2 coordinate, OrthographicCamera camera) {
-    Vector3 asVector = new Vector3(coordinate.x, coordinate.y, 0);
-    Vector3 projected = camera.unproject(asVector);
-    Vector2 result = new Vector2();
-    result.set(projected.x, projected.y);
-    return result;
-  }
 
   private final static InputMultiplexer multiplexer = new InputMultiplexer();
 
