@@ -24,7 +24,7 @@ public class WorldDebugInitializer {
 
   private static Squad spawnGroupWithShips(float modifier) {
     Squad squad = new Squad();
-    Vector2 pivot = randomVector2(512);
+    Vector2 pivot = createRandomVector2(512);
     int count = random(3, 7);
     for (int i = 0; i < count; i++) {
       Ship ship = spawnShip(pivot, modifier);
@@ -35,7 +35,7 @@ public class WorldDebugInitializer {
 
   private static Ship spawnShip(Vector2 groupPosition, float modifier) {
     Ship ship = new Ship();
-    ship.place.position.set(randomVector2(128));
+    ship.place.position.set(createRandomVector2(128));
     ship.place.position.add(groupPosition);
     ship.place.direction = random(360);
     ship.size = 4 + 8 * (1 / modifier);
@@ -44,7 +44,7 @@ public class WorldDebugInitializer {
     return ship;
   }
 
-  private static Vector2 randomVector2(float scale) {
+  private static Vector2 createRandomVector2(float scale) {
     Supplier<Float> ranged = () -> MathUtils.random(-1f, 1f);
     return new Vector2(ranged.get(), ranged.get()).scl(scale);
   }
