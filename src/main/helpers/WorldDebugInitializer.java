@@ -1,13 +1,15 @@
 package helpers;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import world.Collective;
 import world.Ship;
 import world.Squad;
 import world.World;
 
+import java.util.function.Supplier;
+
 import static com.badlogic.gdx.math.MathUtils.random;
-import static helpers.Vector2Utilities.randomVector2;
 
 public class WorldDebugInitializer {
 
@@ -40,6 +42,11 @@ public class WorldDebugInitializer {
     ship.maximumAvailableSpeed = modifier;
     ship.destination.set(ship.place);
     return ship;
+  }
+
+  private static Vector2 randomVector2(float scale) {
+    Supplier<Float> ranged = () -> MathUtils.random(-1f, 1f);
+    return new Vector2(ranged.get(), ranged.get()).scl(scale);
   }
 
 }
