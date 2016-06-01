@@ -1,5 +1,3 @@
-package rendering
-
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Matrix4
@@ -39,7 +37,7 @@ object Camera {
     eyeTarget.y = where.y
   }
 
-  fun zoom(distance: Float) {
+  fun zoomTo(distance: Float) {
     eyeTarget.z = distance;
   }
 
@@ -53,5 +51,7 @@ object Camera {
     ortho.position.set(eye.x, eye.y, 0f)
     ortho.zoom = eye.z
   }
+
+  fun position() = Vector2(eyeTarget.x, eyeTarget.y)
 
 }
