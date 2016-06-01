@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Matrix3
 import com.badlogic.gdx.math.Vector2
 
 object Renderer {
 
   val shape = ShapeRenderer()
-  val defaultTransform: Matrix3 = Matrix3().set(shape.transformMatrix);
 
   fun renderCircle(position: Vector2, radius: Float = 1f) {
     beginLine()
