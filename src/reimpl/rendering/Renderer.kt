@@ -1,6 +1,7 @@
 package rendering
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
@@ -33,6 +34,19 @@ object Renderer {
     shape.identity();
   }
 
+  fun renderGrid() {
+    shape.color.set(.25f, .25f, .25f, 1f)
+    val max = 16
+    val scale = 64f
+    beginLine()
+    for (x in -max..max)
+      shape.line(x * scale, scale * -max, x * scale, scale * max)
+    for (y in -max..max)
+      shape.line(scale * -max, y * scale, scale * max, y * scale)
+    end()
+    shape.color.set(Color.WHITE)
+  }
+
   private fun beginFilled() = shape.begin(ShapeRenderer.ShapeType.Filled)
 
   private fun beginLine() = shape.begin(ShapeRenderer.ShapeType.Line)
@@ -45,7 +59,7 @@ object Renderer {
   }
 
   private fun clear() {
-    Gdx.gl.glClearColor(.25f, .25f, .25f, 1f)
+    Gdx.gl.glClearColor(.125f, .125f, .125f, 1f)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
   }
 

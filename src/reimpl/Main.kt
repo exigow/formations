@@ -1,3 +1,5 @@
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import game.Ship
 import game.Squad
 import game.World
@@ -6,11 +8,12 @@ import rendering.Renderer
 
 class Main {
 
-  val world = World.randomWorld()
+  private val world = World.randomWorld()
 
   fun onRender() {
     Camera.update(1f)
     Renderer.reset()
+    Renderer.renderGrid()
     for (squad: Squad in world.squads) {
       for (ship: Ship in squad.ships) {
         Renderer.renderCircle(ship.position, 4f);
@@ -18,6 +21,13 @@ class Main {
       }
     }
     Renderer.renderCircle(Camera.unprojectedWorldMouse(), 4f)
+
+    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+      Camera.lookAt(Camera.unprojectedWorldMouse())
+      Camera.zoom(.925f)
+    } else {
+      Camera.zoom(1f)
+    }
   }
 
 }
