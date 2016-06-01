@@ -17,7 +17,7 @@ object Camera {
     ortho.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
   }
 
-  fun matrix(): Matrix4 = ortho.combined
+  fun projectionMatrix(): Matrix4 = ortho.combined
 
   fun update(delta: Float) {
     val factor = .015f;

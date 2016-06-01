@@ -50,7 +50,7 @@ object Renderer {
   }
 
   private fun updateProjection() {
-    shape.projectionMatrix.set(Camera.matrix())
+    shape.projectionMatrix.set(Camera.projectionMatrix())
   }
 
 }
