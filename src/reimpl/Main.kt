@@ -22,17 +22,17 @@ class Main {
     }
     Renderer.renderCircle(Camera.unprojectedWorldMouse(), 8f)
 
-    if (Inputs.mouseLeft.isPressed()) {
+    if (Inputs.mouseRight.isPressed()) {
       movementPivot.set(Camera.position()).add(Camera.unprojectedWorldMouse());
       Camera.zoomTo(.925f)
     }
-    if (Inputs.mouseLeft.isHeld()) {
+    if (Inputs.mouseRight.isHeld()) {
       val difference = Vector2()
       difference.set(movementPivot)
       difference.sub(Camera.unprojectedWorldMouse())
       Camera.lookAt(difference)
     }
-    if (Inputs.mouseLeft.isReleased()) {
+    if (Inputs.mouseRight.isReleased()) {
       Camera.zoomTo(1f)
     }
   }
