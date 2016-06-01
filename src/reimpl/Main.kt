@@ -20,13 +20,11 @@ class Main {
         Renderer.renderArrow(ship.position, 16f, ship.angle)
       }
     }
-    Renderer.renderCircle(Camera.unprojectedWorldMouse(), 16f)
-    Renderer.renderCircle(movementPivot, 16f)
-
+    Renderer.renderCircle(Camera.unprojectedWorldMouse(), 8f)
 
     if (Inputs.mouseLeft.isPressed()) {
       movementPivot.set(Camera.position()).add(Camera.unprojectedWorldMouse());
-      //Camera.zoomTo(.875f)
+      Camera.zoomTo(.925f)
     }
     if (Inputs.mouseLeft.isHeld()) {
       val difference = Vector2()
@@ -35,7 +33,7 @@ class Main {
       Camera.lookAt(difference)
     }
     if (Inputs.mouseLeft.isReleased()) {
-      //Camera.zoomTo(1f)
+      Camera.zoomTo(1f)
     }
   }
 
