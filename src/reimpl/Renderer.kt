@@ -3,6 +3,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 
 object Renderer {
@@ -43,6 +44,12 @@ object Renderer {
       shape.line(scale * -max, y * scale, scale * max, y * scale)
     end()
     shape.color.set(Color.WHITE)
+  }
+
+  fun renderRectangle(rect: Rectangle) {
+    beginLine()
+    shape.rect(rect.x, rect.y, rect.width, rect.height)
+    end()
   }
 
   private fun beginFilled() = shape.begin(ShapeRenderer.ShapeType.Filled)

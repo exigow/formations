@@ -9,6 +9,7 @@ class SelectionTool {
   private val startPivot = Vector2()
   private val endPivot = Vector2()
   private val list = ArrayList<Ship>()
+  private val rect = Rectangle()
 
   fun startFrom(where: Vector2) = startPivot.set(where)
 
@@ -16,12 +17,15 @@ class SelectionTool {
 
   fun updateSelection(world: World) {
     list.clear()
-    val rectangle = Converter.convert(startPivot, endPivot);
-    val shipsInside = world.collectShips().filter { rectangle.contains(it.position) };
+    val updatedRect = Converter.convert(startPivot, endPivot);
+    rect.set(updatedRect);
+    val shipsInside = world.collectShips().filter { rect.contains(it.position) }
     list.addAll(shipsInside)
   }
 
   fun selectedShips() = list
+
+  fun selectionRectangle()  = rect
 
   private companion object Converter {
 

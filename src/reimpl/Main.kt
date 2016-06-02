@@ -40,6 +40,7 @@ class Main {
     if (Inputs.mouseLeft.isHeld()) {
       selectionTool.endTo(Camera.unprojectedWorldMouse())
       selectionTool.updateSelection(world)
+      Renderer.renderRectangle(selectionTool.selectionRectangle())
     }
     if (Inputs.mouseLeft.isReleased())
       selectionTool.selectedShips().forEach { println("--> $it") }
