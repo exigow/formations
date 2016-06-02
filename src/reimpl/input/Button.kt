@@ -12,22 +12,18 @@ abstract class Button(val key: Int) {
   abstract fun getSignal(): Boolean
 
   fun update() {
-    val source = getSignal();
-    changed = false;
+    val source = getSignal()
+    changed = false
     if (source) {
-      if (actualStep == State.PRESS) {
-        changeTo(State.HOLD);
-      }
-      if (actualStep == State.WAIT) {
-        changeTo(State.PRESS);
-      }
+      if (actualStep == State.PRESS)
+        changeTo(State.HOLD)
+      if (actualStep == State.WAIT)
+        changeTo(State.PRESS)
     } else {
-      if (actualStep == State.RELEASE) {
-        changeTo(State.WAIT);
-      }
-      if (actualStep == State.HOLD) {
-        changeTo(State.RELEASE);
-      }
+      if (actualStep == State.RELEASE)
+        changeTo(State.WAIT)
+      if (actualStep == State.HOLD)
+        changeTo(State.RELEASE)
     }
   }
 
