@@ -1,16 +1,18 @@
 import com.badlogic.gdx.math.Vector2
 import game.Ship
 import game.World
-import input.PlayerInput
+import input.Input
+import input.adapters.KeyboardButtonAdapter
 
 class Main {
 
   private val world = World.randomWorld()
   private val movementPivot = Vector2()
   private val selectionTool = SelectionTool()
+  val x = KeyboardButtonAdapter(0)
 
   fun onRender() {
-    PlayerInput.updateStates()
+    Input.update()
     Camera.update(1f)
     Renderer.reset()
     Renderer.renderGrid()
@@ -18,30 +20,30 @@ class Main {
       Renderer.renderCircle(ship.position, 4f);
       Renderer.renderArrow(ship.position, 16f, ship.angle)
     }
-    Renderer.renderCircle(PlayerInput.getMousePositionInWorld(), 8f)
+    Renderer.renderCircle(Input.getMousePositionInWorld(), 8f)
 
-    if (PlayerInput.mouseRight.isPressed()) {
-      movementPivot.set(Camera.position()).add(PlayerInput.getMousePositionInWorld());
+    if (Input.Button.MOUSE_RIGHT.isPressed()) {
+      movementPivot.set(Camera.position()).add(Input.getMousePositionInWorld());
       Camera.zoomTo(.925f)
     }
-    if (PlayerInput.mouseRight.isHeld()) {
+    if (Input.Button.MOUSE_RIGHT.isHeld()) {
       val difference = Vector2()
       difference.set(movementPivot)
-      difference.sub(PlayerInput.getMousePositionInWorld())
+      difference.sub(Input.getMousePositionInWorld())
       Camera.lookAt(difference)
     }
-    if (PlayerInput.mouseRight.isReleased()) {
+    if (Input.Button.MOUSE_RIGHT.isReleased()) {
       Camera.zoomTo(1f)
     }
 
-    if (PlayerInput.mouseLeft.isPressed())
-      selectionTool.startFrom(PlayerInput.getMousePositionInWorld())
-    if (PlayerInput.mouseLeft.isHeld()) {
-      selectionTool.endTo(PlayerInput.getMousePositionInWorld())
+    if (Input.Button.MOUSE_LEFT.isPressed())
+      selectionTool.startFrom(Input.getMousePositionInWorld())
+    if (Input.Button.MOUSE_LEFT.isHeld()) {
+      selectionTool.endTo(Input.getMousePositionInWorld())
       selectionTool.updateSelection(world)
       Renderer.renderRectangle(selectionTool.selectionRectangle())
     }
-    if (PlayerInput.mouseLeft.isReleased()) {
+    if (Input.Button.MOUSE_LEFT.isReleased()) {
       println("selection begin")
       selectionTool.selectedShips().forEach { println("--> $it") }
       println("selection end")

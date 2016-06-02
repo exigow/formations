@@ -1,6 +1,6 @@
-package input
+package input.adapters
 
-abstract class Button(val key: Int) {
+abstract class ButtonAdapter(val key: Int) {
 
   private enum class State {
     WAIT, PRESS, HOLD, RELEASE
