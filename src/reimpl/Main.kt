@@ -16,7 +16,7 @@ class Main {
     Camera.update(1f)
     Renderer.reset()
     Renderer.renderGrid()
-    for (ship: Ship in world.allShips()) {
+    for (ship: Ship in world.findAllShips()) {
       Renderer.renderCircle(ship.position, 4f);
       Renderer.renderArrow(ship.position, 16f, ship.angle)
     }

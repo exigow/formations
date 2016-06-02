@@ -1,6 +1,7 @@
 package game
 
 import com.badlogic.gdx.math.MathUtils.random
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import java.util.*
 
@@ -29,7 +30,7 @@ class World {
 
   }
 
-  fun allShips(): List<Ship> {
+  fun findAllShips(): List<Ship> {
     val result = ArrayList<Ship>()
     for (squad: Squad in squads)
       for (ship: Ship in squad.ships)
@@ -38,7 +39,7 @@ class World {
   }
 
   fun findClosestShip(checkingPoint: Vector2): Ship {
-    val ships = allShips()
+    val ships = findAllShips()
     val firstShip = ships.iterator().next();
     var result = firstShip
     fun distanceTo(s: Ship) = s.position.dst(checkingPoint)
@@ -51,6 +52,11 @@ class World {
       }
     }
     return result
+  }
+
+  fun findShipsInside(rectangle: Rectangle): List<Ship> {
+    fun isInside(ship: Ship) = rectangle.contains(ship.position)
+    return findAllShips().filter { isInside(it) }
   }
 
 }
