@@ -59,4 +59,11 @@ class World {
     return findAllShips().filter { isInside(it) }
   }
 
+  fun findSquad(ship: Ship): Squad {
+    for (squad: Squad in squads)
+      if (squad.ships.contains(ship))
+        return squad
+    throw RuntimeException()
+  }
+
 }

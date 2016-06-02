@@ -19,8 +19,11 @@ class Main {
     }
     Renderer.renderCircle(Input.getMousePositionInWorld(), 8f)
 
-    val closest = world.findClosestShip(Input.getMousePositionInWorld())
-    Renderer.renderCircle(closest.position, 32f)
+    val closestShip = world.findClosestShip(Input.getMousePositionInWorld())
+    val closestSquad = world.findSquad(closestShip)
+    Renderer.renderCircle(closestShip.position, 24f)
+    for (ship: Ship in closestSquad.ships)
+      Renderer.renderCircle(ship.position, 18f)
   }
 
 }
