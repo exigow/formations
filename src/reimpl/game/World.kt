@@ -29,11 +29,27 @@ class World {
 
   }
 
-  fun collectShips(): List<Ship> {
+  fun allShips(): List<Ship> {
     val result = ArrayList<Ship>()
     for (squad: Squad in squads)
       for (ship: Ship in squad.ships)
         result.add(ship)
+    return result
+  }
+
+  fun findClosestShip(checkingPoint: Vector2): Ship {
+    val ships = allShips()
+    val firstShip = ships.iterator().next();
+    var result = firstShip
+    fun distanceTo(s: Ship) = s.position.dst(checkingPoint)
+    var distance = distanceTo(firstShip)
+    for (ship: Ship in ships) {
+      val newDistance = distanceTo(ship)
+      if (newDistance < distance) {
+        distance = newDistance
+        result = ship
+      }
+    }
     return result
   }
 

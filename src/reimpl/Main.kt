@@ -16,7 +16,7 @@ class Main {
     Camera.update(1f)
     Renderer.reset()
     Renderer.renderGrid()
-    for (ship: Ship in world.collectShips()) {
+    for (ship: Ship in world.allShips()) {
       Renderer.renderCircle(ship.position, 4f);
       Renderer.renderArrow(ship.position, 16f, ship.angle)
     }
@@ -48,6 +48,9 @@ class Main {
       selectionTool.selectedShips().forEach { println("--> $it") }
       println("selection end")
     }
+
+    val closest = world.findClosestShip(Input.getMousePositionInWorld())
+    Renderer.renderCircle(closest.position, 32f)
   }
 
 }

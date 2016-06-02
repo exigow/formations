@@ -19,7 +19,7 @@ class SelectionTool {
     list.clear()
     val updatedRect = Converter.convert(startPivot, endPivot);
     rect.set(updatedRect);
-    val shipsInside = world.collectShips().filter { rect.contains(it.position) }
+    val shipsInside = world.allShips().filter { rect.contains(it.position) }
     list.addAll(shipsInside)
   }
 
