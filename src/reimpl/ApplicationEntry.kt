@@ -7,8 +7,8 @@ object ApplicationEntry {
 
   @JvmStatic fun main(args: Array<String>) {
     val config = LwjglApplicationConfiguration()
-    config.width = 1024
-    config.height = 640
+    config.width = 1280
+    config.height = 800
     config.samples = 8
     config.title = "Test"
     LwjglApplication(LazyInitialisationAdapter(), config)
