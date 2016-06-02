@@ -1,3 +1,5 @@
+package interaction
+
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import game.Ship
@@ -17,7 +19,7 @@ class SelectionTool {
 
   fun updateSelection(world: World) {
     list.clear()
-    val updatedRect = Converter.convert(startPivot, endPivot);
+    val updatedRect = convert(startPivot, endPivot);
     rect.set(updatedRect);
     val shipsInside = world.findShipsInside(rect)
     list.addAll(shipsInside)
