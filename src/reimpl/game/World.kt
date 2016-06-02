@@ -18,7 +18,7 @@ class World {
         fun randomizeVec(max: Float) = Vector2(randomize(max), randomize(max))
         val pivotPosition = randomizeVec(512f)
         val squad = Squad()
-        repeat(random(7, 13), {
+        repeat(random(3, 7), {
           val ship = Ship.randomShip()
           ship.position.set(pivotPosition).add(randomizeVec(96f))
           squad.ships.add(ship)
