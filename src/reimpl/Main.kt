@@ -42,8 +42,11 @@ class Main {
       selectionTool.updateSelection(world)
       Renderer.renderRectangle(selectionTool.selectionRectangle())
     }
-    if (Inputs.mouseLeft.isReleased())
+    if (Inputs.mouseLeft.isReleased()) {
+      println("selection begin")
       selectionTool.selectedShips().forEach { println("--> $it") }
+      println("selection end")
+    }
   }
 
 }
