@@ -29,4 +29,12 @@ class World {
 
   }
 
+  fun collectShips(): List<Ship> {
+    val result = ArrayList<Ship>()
+    for (squad: Squad in squads)
+      for (ship: Ship in squad.ships)
+        result.add(ship)
+    return result
+  }
+
 }

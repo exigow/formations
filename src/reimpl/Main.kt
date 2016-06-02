@@ -1,6 +1,5 @@
 import com.badlogic.gdx.math.Vector2
 import game.Ship
-import game.Squad
 import game.World
 import input.Inputs
 
@@ -8,17 +7,16 @@ class Main {
 
   private val world = World.randomWorld()
   private val movementPivot = Vector2()
+  private val selectionTool = SelectionTool()
 
   fun onRender() {
     Inputs.updateStates()
     Camera.update(1f)
     Renderer.reset()
     Renderer.renderGrid()
-    for (squad: Squad in world.squads) {
-      for (ship: Ship in squad.ships) {
-        Renderer.renderCircle(ship.position, 4f);
-        Renderer.renderArrow(ship.position, 16f, ship.angle)
-      }
+    for (ship: Ship in world.collectShips()) {
+      Renderer.renderCircle(ship.position, 4f);
+      Renderer.renderArrow(ship.position, 16f, ship.angle)
     }
     Renderer.renderCircle(Camera.unprojectedWorldMouse(), 8f)
 
@@ -35,6 +33,16 @@ class Main {
     if (Inputs.mouseRight.isReleased()) {
       Camera.zoomTo(1f)
     }
+
+
+    if (Inputs.mouseLeft.isPressed())
+      selectionTool.startFrom(Camera.unprojectedWorldMouse())
+    if (Inputs.mouseLeft.isHeld()) {
+      selectionTool.endTo(Camera.unprojectedWorldMouse())
+      selectionTool.updateSelection(world)
+    }
+    if (Inputs.mouseLeft.isReleased())
+      selectionTool.selectedShips().forEach { println("--> $it") }
   }
 
 }

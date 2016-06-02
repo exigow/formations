@@ -20,4 +20,9 @@ class Ship {
 
   }
 
+  override fun toString(): String{
+    val hexHash = Integer.toHexString(hashCode())
+    return "ship ($hexHash) (position=$position, angle=$angle)"
+  }
+
 }
