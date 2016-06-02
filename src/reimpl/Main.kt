@@ -1,7 +1,7 @@
 import com.badlogic.gdx.math.Vector2
 import game.Ship
 import game.World
-import input.Inputs
+import input.PlayerInput
 
 class Main {
 
@@ -10,7 +10,7 @@ class Main {
   private val selectionTool = SelectionTool()
 
   fun onRender() {
-    Inputs.updateStates()
+    PlayerInput.updateStates()
     Camera.update(1f)
     Renderer.reset()
     Renderer.renderGrid()
@@ -18,31 +18,30 @@ class Main {
       Renderer.renderCircle(ship.position, 4f);
       Renderer.renderArrow(ship.position, 16f, ship.angle)
     }
-    Renderer.renderCircle(Camera.unprojectedWorldMouse(), 8f)
+    Renderer.renderCircle(PlayerInput.getMousePositionInWorld(), 8f)
 
-    if (Inputs.mouseRight.isPressed()) {
-      movementPivot.set(Camera.position()).add(Camera.unprojectedWorldMouse());
+    if (PlayerInput.mouseRight.isPressed()) {
+      movementPivot.set(Camera.position()).add(PlayerInput.getMousePositionInWorld());
       Camera.zoomTo(.925f)
     }
-    if (Inputs.mouseRight.isHeld()) {
+    if (PlayerInput.mouseRight.isHeld()) {
       val difference = Vector2()
       difference.set(movementPivot)
-      difference.sub(Camera.unprojectedWorldMouse())
+      difference.sub(PlayerInput.getMousePositionInWorld())
       Camera.lookAt(difference)
     }
-    if (Inputs.mouseRight.isReleased()) {
+    if (PlayerInput.mouseRight.isReleased()) {
       Camera.zoomTo(1f)
     }
 
-
-    if (Inputs.mouseLeft.isPressed())
-      selectionTool.startFrom(Camera.unprojectedWorldMouse())
-    if (Inputs.mouseLeft.isHeld()) {
-      selectionTool.endTo(Camera.unprojectedWorldMouse())
+    if (PlayerInput.mouseLeft.isPressed())
+      selectionTool.startFrom(PlayerInput.getMousePositionInWorld())
+    if (PlayerInput.mouseLeft.isHeld()) {
+      selectionTool.endTo(PlayerInput.getMousePositionInWorld())
       selectionTool.updateSelection(world)
       Renderer.renderRectangle(selectionTool.selectionRectangle())
     }
-    if (Inputs.mouseLeft.isReleased()) {
+    if (PlayerInput.mouseLeft.isReleased()) {
       println("selection begin")
       selectionTool.selectedShips().forEach { println("--> $it") }
       println("selection end")

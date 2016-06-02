@@ -9,7 +9,6 @@ object Camera {
   private val ortho: OrthographicCamera = OrthographicCamera();
   private val eye = Vector3(0f, 0f, 1f)
   private val eyeTarget = Vector3(eye)
-  private val worldMouse = Vector2()
 
   init {
     ortho.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
@@ -25,11 +24,6 @@ object Camera {
     eye.z += (eyeTarget.z - eye.z) * zoomFactor * delta;
     updateCameraPosition()
     ortho.update()
-    updateWorldMouse()
-  }
-
-  fun unprojectedWorldMouse(): Vector2 {
-    return worldMouse;
   }
 
   fun lookAt(where: Vector2) {
@@ -41,10 +35,10 @@ object Camera {
     eyeTarget.z = distance;
   }
 
-  private fun updateWorldMouse() {
-    val mouseWindow = Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
-    val result = ortho.unproject(mouseWindow)
-    worldMouse.set(result.x, result.y)
+  fun unproject(position: Vector2): Vector2 {
+    val threeDimensionalPosition = Vector3(position.x, position.y, 0f)
+    val result = ortho.unproject(threeDimensionalPosition)
+    return Vector2(result.x, result.y)
   }
 
   private fun updateCameraPosition() {
