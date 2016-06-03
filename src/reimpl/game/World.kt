@@ -66,4 +66,20 @@ class World {
     throw RuntimeException()
   }
 
+  fun findSquadsInside(rectangle: Rectangle): List<Squad> {
+    return squads.filter { isInside(it, rectangle) }.distinct()
+  }
+
+  private fun isInside(squad: Squad, rectangle: Rectangle): Boolean {
+    for (ship in squad.ships)
+      if (hasShipInside(rectangle, ship))
+        return true
+    return false
+  }
+
+
+  private fun hasShipInside(rectangle: Rectangle, ship: Ship): Boolean {
+    return rectangle.contains(ship.position)
+  }
+
 }

@@ -2,30 +2,20 @@ package interaction
 
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
-import game.Ship
-import game.World
-import java.util.*
 
 class SelectionTool {
 
   private val startPivot = Vector2()
   private val endPivot = Vector2()
-  private val list = ArrayList<Ship>()
   private val rect = Rectangle()
 
   fun startFrom(where: Vector2) = startPivot.set(where)
 
-  fun endTo(where: Vector2) = endPivot.set(where)
-
-  fun updateSelection(world: World) {
-    list.clear()
+  fun endTo(where: Vector2) {
+    endPivot.set(where)
     val updatedRect = convert(startPivot, endPivot);
     rect.set(updatedRect);
-    val shipsInside = world.findShipsInside(rect)
-    list.addAll(shipsInside)
   }
-
-  fun selectedShips() = list
 
   fun selectionRectangle()  = rect
 

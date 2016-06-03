@@ -3,13 +3,16 @@ package interaction
 import Camera
 import Renderer
 import com.badlogic.gdx.math.Vector2
+import game.Squad
 import game.World
 import input.Input
+import java.util.*
 
 object Interaction {
 
   private val movementPivot = Vector2()
-  private val selectionTool = SelectionTool()
+  private val selection = SelectionTool()
+  private val highlightedSquads = ArrayList<Squad>()
 
   fun interact(world: World) {
     if (Input.Button.MOUSE_RIGHT.isPressed()) {
@@ -27,17 +30,27 @@ object Interaction {
     }
 
     if (Input.Button.MOUSE_LEFT.isPressed())
-      selectionTool.startFrom(Input.getMousePositionInWorld())
+      selection.startFrom(Input.getMousePositionInWorld())
     if (Input.Button.MOUSE_LEFT.isHeld()) {
-      selectionTool.endTo(Input.getMousePositionInWorld())
-      selectionTool.updateSelection(world)
-      Renderer.renderRectangle(selectionTool.selectionRectangle())
+      selection.endTo(Input.getMousePositionInWorld())
+      highlightedSquads.clear()
+      highlightedSquads.addAll(world.findSquadsInside(selection.selectionRectangle()))
+      Renderer.renderRectangle(selection.selectionRectangle())
     }
     if (Input.Button.MOUSE_LEFT.isReleased()) {
-      println("selection begin")
+    //  selected.clear()
+      //world.findSquadsInside(selectionTool.selectionRectangle()).forEach { println(it) }
+      /*println("selection begin")
       selectionTool.selectedShips().forEach { println("--> $it") }
-      println("selection end")
+      println("selection end")*/
+      //selected.clear();
+      //selected.addAll()
     }
+
+
+    for (squad in highlightedSquads)
+      for (ship in squad.ships)
+        Renderer.renderCircle(ship.position, 32f)
   }
 
 }
