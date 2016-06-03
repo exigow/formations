@@ -19,6 +19,8 @@ class SelectionTool {
 
   fun selectionRectangle()  = rect
 
+  fun distanceFromStartingPoint() = startPivot.dst(endPivot)
+
   private companion object Converter {
 
     fun convert(pinPoint: Vector2, pointer: Vector2): Rectangle {
