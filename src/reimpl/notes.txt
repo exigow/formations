@@ -1,0 +1,25 @@
+AGE OF EMPIRES 2:
+
+oneclick na jednostce: zaznacza tą jednostkę
+doubleclick na jednostce : zaznacza wszystkie widoczne jednostki tego samego typy na ekranie
+strzałki: można przemieszczać mapę
+ctrl + 1..9 : tworzy grupę. jednostka może mieć tylko jedną grupę w danym momencie (dziwnie, nie?)
+
+tryby jednostki:
+* agresywny: zobaczy, to zaczyna gonić z celem zabicia przeciwnika. przerywa pościg po utraceniu go z widoku
+* defensywny: zobaczy, atakuje i goni do krótkiego zasięgu. wraca po przekroczeniu zasięgu, lub utraceniu go z widoku
+* utrzymania pozycji: nigdy się nie rusza. atakuje dopiero kiedy jest w bezpośrednim zasięgu (takim, wobec którego nie wymagany jest ruch)
+* pasywny: stoi w miejscu. atakowany, nie reaguje.
+
+rozkazy:
+* atakuj i idź: po kliknięciu na button (lpm) kursor przechodzi w tryb wyznaczania celu. można kliknąc tylko ziemię. po kliknięciu, rozkaz jest wykonywany
+* patrol: po kliknięciu (lpm) kursor przechodziu w tryb wyznaczania celu. można kliknąć tylko ziemię. można stackować shiftem. patrol to chodzenie od pozycji startowej do beacona. stackowane, robi z tego "pierścień" (np. a->b->c->a)
+* chroń: po kliknięciu (lpm) kursor przechodziu w tryb wyznaczania celu. można kliknąć tylko JEDNOSTKĘ. działa to tak, że jeśli chronione się oddali, gonimy go. jeśli chroniony zostanie zaatakowany, atakujemy atakującego
+* śledź: po kliknięciu (lpm) kursor przechodziu w tryb wyznaczania celu. można kliknąć tylko JEDNOSTKĘ. jeśli cel się oddali, goń go.
+* zabij się: zabija jednostkę
+* stop: zatrzymuje wszystkie rozkazy (button jest widoczny tylko, jeśli wykonuje się jakiś rozkaz)
+
+--------------------------------------------
+
+
+
