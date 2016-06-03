@@ -1,7 +1,7 @@
 import game.Ship
 import game.World
 import input.Input
-import interaction.Interaction
+import interaction.NewInteraction
 
 class Main {
 
@@ -17,8 +17,11 @@ class Main {
       Renderer.renderArrow(ship.position, 16f, ship.angle)
     Renderer.renderCircle(Input.getMousePositionInWorld(), 8f)
 
-    Interaction.interact(world)
+    //Interaction.interact(world)
 
+
+
+    NewInteraction.propagate(world)
 
     /*val closestShip = world.findClosestShip(Input.getMousePositionInWorld())
     val closestSquad = world.findSquad(closestShip)
