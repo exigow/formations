@@ -7,21 +7,16 @@ class SelectionTool {
 
   private val startPivot = Vector2()
   private val endPivot = Vector2()
-  private val rect = Rectangle()
 
   fun startFrom(where: Vector2) = startPivot.set(where)
 
-  fun endTo(where: Vector2) {
-    endPivot.set(where)
-    val updatedRect = convert(startPivot, endPivot);
-    rect.set(updatedRect);
-  }
+  fun endTo(where: Vector2) = endPivot.set(where)
 
-  fun selectionRectangle()  = rect
+  fun selectionRectangle() = convert(startPivot, endPivot)
 
   fun distanceFromStartingPoint() = startPivot.dst(endPivot)
 
-  private companion object Converter {
+  private companion object {
 
     fun convert(pinPoint: Vector2, pointer: Vector2): Rectangle {
       val width = pointer.x - pinPoint.x
