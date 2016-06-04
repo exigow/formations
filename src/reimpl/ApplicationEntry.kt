@@ -9,8 +9,6 @@ object ApplicationEntry {
     val config = LwjglApplicationConfiguration()
     config.width = 1280
     config.height = 800
-    config.samples = 8
-    config.title = "Test"
     LwjglApplication(LazyInitialisationAdapter(), config)
   }
 
