@@ -18,10 +18,10 @@ class SelectionTool {
 
   private companion object {
 
-    fun convert(pinPoint: Vector2, pointer: Vector2): Rectangle {
-      val width = pointer.x - pinPoint.x
-      val height = pointer.y - pinPoint.y
-      val rect = Rectangle(pinPoint.x, pinPoint.y, width, height)
+    fun convert(start: Vector2, end: Vector2): Rectangle {
+      val width = end.x - start.x
+      val height = end.y - start.y
+      val rect = Rectangle(start.x, start.y, width, height)
       return fixInvertedVectors(rect)
     }
 
