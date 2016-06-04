@@ -29,11 +29,11 @@ class SelectionTool {
       val fixed = Rectangle(source)
       if (fixed.width < 0) {
         fixed.width = Math.abs(fixed.width)
-        fixed.x = fixed.getX() - fixed.width
+        fixed.x = fixed.x - fixed.width
       }
       if (fixed.height < 0) {
         fixed.height = Math.abs(fixed.height)
-        fixed.y = fixed.getY() - fixed.height
+        fixed.y = fixed.y - fixed.height
       }
       return fixed
     }
