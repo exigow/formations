@@ -15,6 +15,7 @@ object Interaction {
   private val highlightedSquads = ArrayList<Squad>()
   private val selectedSquads = ArrayList<Squad>()
   private var singleSelectionLock = true
+  private val pointerRadius = 20f
 
   fun interact(world: World) {
     val select = Input.Button.MOUSE_LEFT;
@@ -39,7 +40,7 @@ object Interaction {
       selection.startFrom(pointer)
     if (select.isHeld()) {
       selection.endTo(pointer)
-      if (selection.distanceFromStartingPoint() > 20f)
+      if (selection.distanceFromStartingPoint() > pointerRadius)
         singleSelectionLock = false
       if (singleSelectionLock == false) {
         highlightedSquads.clear()
@@ -63,12 +64,12 @@ object Interaction {
     renderSquadsShips(highlightedSquads, 18f)
     renderSquadsShips(selectedSquads, 16f)
     if (hoveringSquad != null)
-      renderSquadsShips(listOf(hoveringSquad), 20f)
+      renderSquadsShips(listOf(hoveringSquad), pointerRadius)
   }
 
   private fun findPointerHoveringSquad(pointer: Vector2, world: World): Squad? {
     val ship = world.findClosestShip(pointer)
-    if (pointer.dst(ship.position) < 20f)
+    if (pointer.dst(ship.position) < pointerRadius)
       return world.findSquad(ship)
     return null;
   }
