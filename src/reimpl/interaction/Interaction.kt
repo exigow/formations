@@ -43,16 +43,15 @@ object Interaction {
       if (selection.distanceFromStartingPoint() > pointerRadius)
         singleSelectionLock = false
       if (singleSelectionLock == false) {
+        val squadsInsideSelection = world.findSquadsInside(selection.selectionRectangle())
         highlightedSquads.clear()
-        highlightedSquads.addAll(world.findSquadsInside(selection.selectionRectangle()))
+        highlightedSquads.addAll(squadsInsideSelection)
         Renderer.renderRectangle(selection.selectionRectangle())
       }
     }
     if (select.isReleased()) {
       if (singleSelectionLock == false) {
-        selectedSquads.clear()
-        selectedSquads.addAll(highlightedSquads)
-        highlightedSquads.clear()
+        flush(highlightedSquads, selectedSquads)
         singleSelectionLock = true
       } else {
         selectedSquads.clear()
@@ -65,6 +64,12 @@ object Interaction {
     renderSquadsShips(selectedSquads, 16f)
     if (hoveringSquad != null)
       renderSquadsShips(listOf(hoveringSquad), pointerRadius)
+  }
+
+  private fun <T> flush(from: MutableList<T>, to: MutableList<T>) {
+    to.clear()
+    to.addAll(from)
+    from.clear()
   }
 
   private fun findPointerHoveringSquad(pointer: Vector2, world: World): Squad? {
