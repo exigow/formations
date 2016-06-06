@@ -1,6 +1,5 @@
 package interaction
 
-import Camera
 import Renderer
 import com.badlogic.gdx.math.Vector2
 import game.Squad
@@ -10,8 +9,9 @@ import java.util.*
 
 object Interaction {
 
-  private val movementPivot = Vector2()
-  private val selection = SelectionTool()
+  // todo rename all "tools" to "components" + create sub package???
+  private val selectionTool = SelectionTool()
+  private val movementTool = MiddleClickCameraMovementTool()
   private val highlightedSquads = ArrayList<Squad>()
   private val selectedSquads = ArrayList<Squad>()
   private var singleSelectionLock = true
@@ -19,39 +19,27 @@ object Interaction {
 
   fun interact(world: World) {
     val select = Input.Button.MOUSE_LEFT;
-    val cameraPuppet = Input.Button.MOUSE_MIDDLE;
     val pointer = Input.getMousePositionInWorld();
     val hoveringSquad = findPointerHoveringSquad(pointer, world);
 
-    if (cameraPuppet.isPressed()) {
-      movementPivot.set(Camera.position()).add(Input.getMousePositionInWorld());
-      Camera.zoomTo(.925f)
-    }
-    if (cameraPuppet.isHeld()) {
-      val difference = Vector2()
-      difference.set(movementPivot)
-      difference.sub(Input.getMousePositionInWorld())
-      Camera.lookAt(difference)
-    }
-    if (cameraPuppet.isReleased())
-      Camera.zoomTo(1f)
+    movementTool.update()
 
     if (select.isPressed())
-      selection.startFrom(pointer)
+      selectionTool.startFrom(pointer)
     if (select.isHeld()) {
-      selection.endTo(pointer)
-      if (selection.distanceFromStartingPoint() > pointerRadius)
+      selectionTool.endTo(pointer)
+      if (selectionTool.distanceFromStartingPoint() > pointerRadius)
         singleSelectionLock = false
       if (singleSelectionLock == false) {
-        val squadsInsideSelection = world.findSquadsInside(selection.selectionRectangle())
+        val squadsInsideSelection = world.findSquadsInside(selectionTool.selectionRectangle())
         highlightedSquads.clear()
         highlightedSquads.addAll(squadsInsideSelection)
-        Renderer.renderRectangle(selection.selectionRectangle())
+        Renderer.renderRectangle(selectionTool.selectionRectangle())
       }
     }
     if (select.isReleased()) {
       if (singleSelectionLock == false) {
-        flush(highlightedSquads, selectedSquads)
+        flushList(highlightedSquads, selectedSquads)
         singleSelectionLock = true
       } else {
         selectedSquads.clear()
@@ -66,7 +54,7 @@ object Interaction {
       renderSquadsShips(listOf(hoveringSquad), pointerRadius)
   }
 
-  private fun <T> flush(from: MutableList<T>, to: MutableList<T>) {
+  private fun <T> flushList(from: MutableList<T>, to: MutableList<T>) {
     to.clear()
     to.addAll(from)
     from.clear()
