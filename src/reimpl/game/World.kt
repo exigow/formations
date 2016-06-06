@@ -1,5 +1,6 @@
 package game
 
+import MathUtilities
 import com.badlogic.gdx.math.MathUtils.random
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
@@ -14,13 +15,11 @@ class World {
     fun randomWorld(): World {
       val world = World();
       repeat(random(5, 7), {
-        fun randomize(max: Float) = random(-max, max).toFloat()
-        fun randomizeVec(max: Float) = Vector2(randomize(max), randomize(max))
-        val pivotPosition = randomizeVec(512f)
+        val pivotPosition = MathUtilities.randomVector2().scl(512f)
         val squad = Squad()
         repeat(random(3, 7), {
           val ship = Ship.randomShip()
-          ship.position.set(pivotPosition).add(randomizeVec(96f))
+          ship.position.set(pivotPosition).add(MathUtilities.randomVector2().scl(96f))
           squad.ships.add(ship)
         })
         world.squads.add(squad)
