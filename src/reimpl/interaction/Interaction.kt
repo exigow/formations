@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import game.Squad
 import game.World
 import input.Input
+import input.adapters.ButtonAdapter.State.*
 import java.util.*
 
 object Interaction {
@@ -21,33 +22,35 @@ object Interaction {
     val select = Input.Button.MOUSE_LEFT;
     val pointer = Input.getMousePositionInWorld();
     val hoveringSquad = findPointerHoveringSquad(pointer, world);
-
     movementTool.update()
-
-    if (select.isPressed())
-      selectionTool.startFrom(pointer)
-    if (select.isHeld()) {
-      selectionTool.endTo(pointer)
-      if (selectionTool.distanceFromStartingPoint() > pointerRadius)
-        singleSelectionLock = false
-      if (singleSelectionLock == false) {
-        val squadsInsideSelection = world.findSquadsInside(selectionTool.selectionRectangle())
-        highlightedSquads.clear()
-        highlightedSquads.addAll(squadsInsideSelection)
-        Renderer.renderRectangle(selectionTool.selectionRectangle())
+    when (select.state()) {
+      PRESS -> {
+        selectionTool.startFrom(pointer)
+      }
+      HOLD -> {
+        selectionTool.endTo(pointer)
+        if (selectionTool.distanceFromStartingPoint() > pointerRadius)
+          singleSelectionLock = false
+        if (singleSelectionLock == false) {
+          val squadsInsideSelection = world.findSquadsInside(selectionTool.selectionRectangle())
+          highlightedSquads.clear()
+          highlightedSquads.addAll(squadsInsideSelection)
+          Renderer.renderRectangle(selectionTool.selectionRectangle())
+        }
+      }
+      RELEASE -> {
+        if (singleSelectionLock == false) {
+          flushList(highlightedSquads, selectedSquads)
+          singleSelectionLock = true
+        } else {
+          selectedSquads.clear()
+          if (hoveringSquad != null)
+            selectedSquads.add(hoveringSquad);
+        }
+      }
+      WAIT -> {
       }
     }
-    if (select.isReleased()) {
-      if (singleSelectionLock == false) {
-        flushList(highlightedSquads, selectedSquads)
-        singleSelectionLock = true
-      } else {
-        selectedSquads.clear()
-        if (hoveringSquad != null)
-          selectedSquads.add(hoveringSquad);
-      }
-    }
-
     renderSquadsShips(highlightedSquads, 18f)
     renderSquadsShips(selectedSquads, 16f)
     if (hoveringSquad != null)

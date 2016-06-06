@@ -24,7 +24,8 @@ class MiddleClickCameraMovementTool {
       RELEASE -> {
         Camera.zoomTo(1f)
       }
-      WAIT -> {}
+      WAIT -> {
+      }
     }
   }
 
