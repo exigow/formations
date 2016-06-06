@@ -11,9 +11,16 @@ object Input {
 
   enum class Button(private val adapter: ButtonAdapter) {
 
+    // mouse
     MOUSE_LEFT(MouseButtonAdapter(Input.Buttons.LEFT)),
     MOUSE_RIGHT(MouseButtonAdapter(Input.Buttons.RIGHT)),
-    MOUSE_MIDDLE(MouseButtonAdapter(Input.Buttons.MIDDLE));
+    MOUSE_MIDDLE(MouseButtonAdapter(Input.Buttons.MIDDLE)),
+
+    // arrows
+    ARROW_UP(MouseButtonAdapter(Input.Keys.UP)),
+    ARROW_DOWN(MouseButtonAdapter(Input.Keys.DOWN)),
+    ARROW_LEFT(MouseButtonAdapter(Input.Keys.LEFT)),
+    ARROW_RIGHT(MouseButtonAdapter(Input.Keys.RIGHT));
 
     fun isPressed() = adapter.isPressed()
 

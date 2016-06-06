@@ -12,7 +12,7 @@ object Interaction {
 
   // todo rename all "tools" to "components" + create sub package???
   private val selectionTool = SelectionTool()
-  private val movementTool = MiddleClickCameraMovementTool()
+  private val movementTool = CameraMiddleClickMovementTool()
   private val highlightedSquads = ArrayList<Squad>()
   private val selectedSquads = ArrayList<Squad>()
   private var singleSelectionLock = true

@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import input.Input
 import input.adapters.ButtonAdapter.State.*
 
-class MiddleClickCameraMovementTool {
+class CameraMiddleClickMovementTool {
 
   private val movementPivot = Vector2()
 
