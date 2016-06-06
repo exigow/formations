@@ -28,14 +28,14 @@ abstract class ButtonAdapter(val key: Int) {
   }
 
   private fun changeTo(state: State) {
-    actualStep = state;
-    changed = true;
+    actualStep = state
+    changed = true
   }
 
-  fun isPressed() = actualStep == State.PRESS;
+  fun isPressed() = actualStep == State.PRESS
 
-  fun isHeld() = actualStep == State.HOLD;
+  fun isHeld() = actualStep == State.HOLD
 
-  fun isReleased() = actualStep == State.RELEASE;
+  fun isReleased() = actualStep == State.RELEASE
 
 }
