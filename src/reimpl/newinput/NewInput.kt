@@ -1,5 +1,6 @@
 package newinput
 
+import Camera
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
@@ -7,12 +8,12 @@ import java.util.*
 
 object NewInput {
 
-  fun initialise() {
+  init {
     Gdx.input.inputProcessor = InputWrapper;
   }
 
   fun update(delta: Float) {
-    val position = mouseScreenPosition()
+    val position = Mouse.screenPosition()
     Mouse.values().filter { it.isTicking }
       .forEach {
         it.onTickRegistrar.forEach {
@@ -21,9 +22,9 @@ object NewInput {
       }
   }
 
-  private fun mouseScreenPosition(): Vector2 {
+  /*private fun mouseScreenPosition(): Vector2 {
     return Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
-  }
+  }*/
 
   private object InputWrapper : InputAdapter() {
 
@@ -39,7 +40,7 @@ object NewInput {
       val button = Mouse.findByKey(key) ?: return false
       button.isTicking = true
       val position = wrapToVector2(screenX, screenY)
-      button.onReleaseRegistrar.forEach { it.invoke(position) }
+      button.onPressRegistrar.forEach { it.invoke(position) }
       return true
     }
 
@@ -58,11 +59,14 @@ object NewInput {
     val onTickRegistrar = ArrayList<(position: Vector2, delta: Float) -> Unit>()
     var isTicking = false
 
-    fun registerOnPress(event: (position: Vector2) -> Unit) = onPressRegistrar.add { event.invoke(it) }
+    fun registerOnPress(event: (position: Vector2) -> Unit) =
+      onPressRegistrar.add { event.invoke(it) }
 
-    fun registerOnRelease(event: (position: Vector2) -> Unit) = onReleaseRegistrar.add { event.invoke(it) }
+    fun registerOnRelease(event: (position: Vector2) -> Unit) =
+      onReleaseRegistrar.add { event.invoke(it) }
 
-    fun registerOnPressedTick(event: (position: Vector2, delta: Float) -> Unit) = onTickRegistrar.add { position, delta -> event.invoke(position, delta) }
+    fun registerOnPressedTick(event: (position: Vector2, delta: Float) -> Unit) =
+      onTickRegistrar.add { position, delta -> event.invoke(position, delta) }
 
     fun clearRegistrars() {
       onPressRegistrar.clear()
@@ -73,6 +77,10 @@ object NewInput {
     companion object {
 
       fun findByKey(gdxKey: Int): Mouse? = Mouse.values().find { it.gdxKey == gdxKey }
+
+      fun screenPosition() = Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
+
+      fun position() = Camera.unproject(screenPosition())
 
     }
 

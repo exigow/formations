@@ -1,4 +1,5 @@
 import com.badlogic.gdx.Gdx
+import game.Ship
 import game.World
 import newinput.NewInput
 
@@ -7,8 +8,6 @@ class Main {
   private val world = World.randomWorld()
 
   init {
-    NewInput.initialise()
-
     NewInput.Mouse.LEFT.registerOnRelease { pointer -> println("left released on $pointer") }
     NewInput.Mouse.LEFT.registerOnPress { pointer -> println("left pressed on $pointer") }
     NewInput.Mouse.LEFT.registerOnPressedTick { pointer, delta -> println("left ticking on $pointer with delta $delta") }
@@ -21,13 +20,11 @@ class Main {
     Renderer.reset()
     Renderer.renderGrid()
 
-    /*for (ship: Ship in world.findAllShips())
+    for (ship: Ship in world.findAllShips())
       Renderer.renderArrow(ship.position, 16f, ship.angle)
-    Renderer.renderCircle(Input.getMousePositionInWorld(), 8f)
+    Renderer.renderCircle(NewInput.Mouse.position(), 8f)
 
-    Interaction.interact(world)*/
-
-    NewInput.Mouse.LEFT.registerOnPress { println("siemanko") }
+    //Interaction.interact(world)
   }
 
 }
