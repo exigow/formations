@@ -21,6 +21,8 @@ object Input {
 
     fun isReleased() = adapter.isReleased();
 
+    fun state() = adapter.state()
+
     companion object {
 
       fun updateStates() = Button.values().forEach { it.adapter.update() }

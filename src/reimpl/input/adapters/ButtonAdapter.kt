@@ -2,7 +2,7 @@ package input.adapters
 
 abstract class ButtonAdapter(val key: Int) {
 
-  private enum class State {
+  enum class State {
     WAIT, PRESS, HOLD, RELEASE
   }
 
@@ -10,6 +10,8 @@ abstract class ButtonAdapter(val key: Int) {
   private var changed = false;
 
   abstract fun getSignal(): Boolean
+
+  fun state() = actualStep
 
   fun update() {
     val source = getSignal()
