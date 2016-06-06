@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2
 
 object Renderer {
 
-  val shape = ShapeRenderer()
+  private val shape = ShapeRenderer()
 
   fun renderCircle(position: Vector2, radius: Float = 1f) {
     shape.begin(Line)
