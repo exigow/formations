@@ -1,29 +1,46 @@
 package interaction
 
-import Renderer
-import com.badlogic.gdx.math.Vector2
-import game.Squad
 import game.World
-import input.Input
-import input.adapters.ButtonAdapter.State.*
-import java.util.*
 
 object Interaction {
 
-  // todo rename all "tools" to "components" + create sub package???
-  private val selectionTool = SelectionTool()
-  private val movementTool = CameraMiddleClickMovementTool()
+  /*private val selectionTool = SelectionRectangle()
   private val highlightedSquads = ArrayList<Squad>()
   private val selectedSquads = ArrayList<Squad>()
   private var singleSelectionLock = true
-  private val pointerRadius = 20f
+  private val pointerRadius = 20f*/
 
-  fun interact(world: World) {
-    val select = Input.Button.MOUSE_LEFT;
-    val pointer = Input.getMousePositionInWorld();
+  fun initialise(world: World) {
+    /*val key = Input.Mouse.LEFT;
+    val pointer = Input.Mouse.position();
     val hoveringSquad = findPointerHoveringSquad(pointer, world);
-    movementTool.update()
-    when (select.state()) {
+
+    key.registerOnPress {
+      selectionTool.startFrom(pointer)
+    }
+    key.registerOnPressedTick {
+      selectionTool.endTo(pointer)
+      if (selectionTool.distanceFromStartingPoint() > pointerRadius)
+        singleSelectionLock = false
+      if (singleSelectionLock == false) {
+        val squadsInsideSelection = world.findSquadsInside(selectionTool.selectionRectangle())
+        highlightedSquads.clear()
+        highlightedSquads.addAll(squadsInsideSelection)
+        Renderer.renderRectangle(selectionTool.selectionRectangle())
+      }
+    }*/
+    /*key.registerOnRelease {
+      if (singleSelectionLock == false) {
+        flushList(highlightedSquads, selectedSquads)
+        singleSelectionLock = true
+      } else {
+        selectedSquads.clear()
+        if (hoveringSquad != null)
+          selectedSquads.add(hoveringSquad);
+      }
+    }*/
+
+    /*when (select.state()) {
       PRESS -> {
         selectionTool.startFrom(pointer)
       }
@@ -50,14 +67,14 @@ object Interaction {
       }
       WAIT -> {
       }
-    }
-    renderSquadsShips(highlightedSquads, 18f)
+    }*/
+    /*renderSquadsShips(highlightedSquads, 18f)
     renderSquadsShips(selectedSquads, 16f)
     if (hoveringSquad != null)
-      renderSquadsShips(listOf(hoveringSquad), pointerRadius)
+      renderSquadsShips(listOf(hoveringSquad), pointerRadius)*/
   }
 
-  private fun <T> flushList(from: MutableList<T>, to: MutableList<T>) {
+  /*private fun <T> flushList(from: MutableList<T>, to: MutableList<T>) {
     to.clear()
     to.addAll(from)
     from.clear()
@@ -74,6 +91,6 @@ object Interaction {
     for (squad in squads)
       for (ship in squad.ships)
         Renderer.renderCircle(ship.position, radius)
-  }
+  }*/
 
 }

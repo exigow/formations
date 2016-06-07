@@ -2,53 +2,103 @@ package input
 
 import Camera
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
+import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
-import input.adapters.ButtonAdapter
-import input.adapters.MouseButtonAdapter
+import java.util.*
 
 object Input {
 
-  enum class Button(private val adapter: ButtonAdapter) {
+  init {
+    Gdx.input.inputProcessor = InputWrapper;
+  }
 
-    // mouse
-    MOUSE_LEFT(MouseButtonAdapter(Input.Buttons.LEFT)),
-    MOUSE_RIGHT(MouseButtonAdapter(Input.Buttons.RIGHT)),
-    MOUSE_MIDDLE(MouseButtonAdapter(Input.Buttons.MIDDLE)),
+  fun update() {
+    Mouse.values().filter { it.isTicking }
+      .forEach {
+        it.onTickRegistrar.forEach {
+          it.performEvent()
+        }
+      }
+  }
 
-    // arrows
-    ARROW_UP(MouseButtonAdapter(Input.Keys.UP)),
-    ARROW_DOWN(MouseButtonAdapter(Input.Keys.DOWN)),
-    ARROW_LEFT(MouseButtonAdapter(Input.Keys.LEFT)),
-    ARROW_RIGHT(MouseButtonAdapter(Input.Keys.RIGHT));
+  private object InputWrapper : InputAdapter() {
 
-    fun isPressed() = adapter.isPressed()
+    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, key: Int): Boolean {
+      val button = Mouse.findByKey(key) ?: return false
+      button.isTicking = false
+      button.onReleaseRegistrar.forEach { it.performEvent() }
+      return true
+    }
 
-    fun isHeld() = adapter.isHeld()
+    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, key: Int): Boolean {
+      val button = Mouse.findByKey(key) ?: return false
+      button.isTicking = true
+      button.onPressRegistrar.forEach { it.performEvent() }
+      return true
+    }
 
-    fun isReleased() = adapter.isReleased();
+  }
 
-    fun state() = adapter.state()
+  enum class Mouse(private val gdxKey: Int) {
+
+    LEFT(0),
+    RIGHT(1),
+    MIDDLE(2);
+
+    val onPressRegistrar = HashSet<Event>() // todo wez to jakos zprywatyzuj
+    val onReleaseRegistrar = HashSet<Event>() // todo wez to jakos zprywatyzuj
+    val onTickRegistrar = HashSet<Event>() // todo wez to jakos zprywatyzuj
+    var isTicking = false // todo wez to jakos zprywatyzuj
+
+    fun registerOnPress(event: Event) = onPressRegistrar.add(event)
+
+    fun registerOnRelease(event: Event) = onReleaseRegistrar.add(event)
+
+    fun registerOnPressedTick(event: Event) = onTickRegistrar.add(event)
+
+    fun unregisterOnPress(event: Event) = onPressRegistrar.remove(event)
+
+    fun unregisterOnRelease(event: Event) = onReleaseRegistrar.remove(event)
+
+    fun unregisterOnPressedTick(event: Event) = onTickRegistrar.remove(event)
+
+    // todo unregister method for unbind action feature
+
+    fun clearRegistrars() {
+      onPressRegistrar.clear()
+      onReleaseRegistrar.clear()
+      onTickRegistrar.clear()
+    }
 
     companion object {
 
-      fun updateStates() = Button.values().forEach { it.adapter.update() }
+      fun findByKey(gdxKey: Int): Mouse? = Mouse.values().find { it.gdxKey == gdxKey }
+
+      fun screenPosition() = Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
+
+      fun position() = Camera.unproject(screenPosition())
 
     }
 
   }
 
-  fun update() {
-    Button.updateStates()
-  }
+  abstract  class Event {
 
-  fun getMousePositionOnScreen(): Vector2 {
-    return Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
-  }
+    abstract fun performEvent()
 
-  fun getMousePositionInWorld(): Vector2 {
-    val screenPosition = getMousePositionOnScreen()
-    return Camera.unproject(screenPosition)
+    companion object {
+
+      fun of(lam: () -> Unit): Event {
+        val obj = object : Event() {
+
+          override fun performEvent() = lam.invoke()
+
+        }
+        return obj
+      }
+
+    }
+
   }
 
 }
