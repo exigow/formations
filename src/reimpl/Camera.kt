@@ -39,6 +39,10 @@ object Camera {
     eyeTarget.z += amount
   }
 
+  fun moveRelative(vector: Vector2) {
+    eyeTarget.add(vector.x, vector.y, 0f)
+  }
+
   fun unproject(position: Vector2): Vector2 {
     val threeDimensionalPosition = Vector3(position.x, position.y, 0f)
     val result = ortho.unproject(threeDimensionalPosition)
