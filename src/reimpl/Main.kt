@@ -4,6 +4,7 @@ import input.Input
 import interaction.actions.ActionsRegistrar
 import interaction.actions.CameraArrowsMovementAction
 import interaction.actions.CameraMiddleClickMovementAction
+import interaction.actions.CameraScrollZoomingAction
 
 class Main {
 
@@ -12,6 +13,7 @@ class Main {
   init {
     ActionsRegistrar.addAction(CameraMiddleClickMovementAction)
     ActionsRegistrar.addAction(CameraArrowsMovementAction)
+    ActionsRegistrar.addAction(CameraScrollZoomingAction)
     ActionsRegistrar.bindAll()
   }
 
@@ -24,7 +26,7 @@ class Main {
     Renderer.renderGrid()
     for (ship: Ship in world.findAllShips())
       Renderer.renderArrow(ship.position, 16f, ship.angle)
-    Renderer.renderCircle(Input.Mouse.position(), 8f)
+    Renderer.renderCircle(Input.Button.position(), 8f)
 
     //if (SelectionAction.isSelecting)
       //Renderer.renderRectangle(SelectionAction.rectangle())

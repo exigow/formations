@@ -13,66 +13,66 @@ object Input {
   }
 
   fun update() {
-    Mouse.values().filter { it.isTicking }
+    Button.values().filter { it.isTicking }
       .forEach {
-        it.onTickRegistrar.forEach {
-          it.performEvent()
-        }
+        it.onTick.performAllEvents()
       }
   }
 
   private object InputWrapper : InputAdapter() {
 
-    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, key: Int): Boolean {
-      val button = Mouse.findByKey(key) ?: return false
-      button.isTicking = false
-      button.onReleaseRegistrar.forEach { it.performEvent() }
+    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, key: Int)= buttonUp(key)
+
+    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, key: Int) = buttonDown(key)
+
+    override fun keyUp(keycode: Int) = buttonUp(keycode)
+
+    override fun keyDown(keycode: Int) = buttonDown(keycode)
+
+    override fun scrolled(amount: Int): Boolean {
+      when (amount) {
+        1 -> Scroll.onScrollIn.performAllEvents()
+        -1 -> Scroll.onScrollOut.performAllEvents()
+      }
       return true
     }
 
-    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, key: Int): Boolean {
-      val button = Mouse.findByKey(key) ?: return false
+    private fun buttonUp(gdxKey: Int): Boolean {
+      val button = Button.findByKey(gdxKey) ?: return false
+      button.isTicking = false
+      button.onRelease.performAllEvents()
+      return true
+    }
+
+    private fun buttonDown(gdxKey: Int): Boolean {
+      val button = Button.findByKey(gdxKey) ?: return false
       button.isTicking = true
-      button.onPressRegistrar.forEach { it.performEvent() }
+      button.onPress.performAllEvents()
       return true
     }
 
   }
 
-  enum class Mouse(private val gdxKey: Int) {
+  enum class Button(private val gdxKey: Int) {
 
-    LEFT(0),
-    RIGHT(1),
-    MIDDLE(2);
+    MOUSE_LEFT(com.badlogic.gdx.Input.Buttons.LEFT),
+    MOUSE_RIGHT(com.badlogic.gdx.Input.Buttons.RIGHT),
+    MOUSE_MIDDLE(com.badlogic.gdx.Input.Buttons.MIDDLE),
 
-    val onPressRegistrar = HashSet<Event>() // todo wez to jakos zprywatyzuj
-    val onReleaseRegistrar = HashSet<Event>() // todo wez to jakos zprywatyzuj
-    val onTickRegistrar = HashSet<Event>() // todo wez to jakos zprywatyzuj
-    var isTicking = false // todo wez to jakos zprywatyzuj
+    SPACE(com.badlogic.gdx.Input.Keys.SPACE),
+    ARROW_UP(com.badlogic.gdx.Input.Keys.UP),
+    ARROW_DOWN(com.badlogic.gdx.Input.Keys.DOWN),
+    ARROW_LEFT(com.badlogic.gdx.Input.Keys.LEFT),
+    ARROW_RIGHT(com.badlogic.gdx.Input.Keys.RIGHT);
 
-    fun registerOnPress(event: Event) = onPressRegistrar.add(event)
-
-    fun registerOnRelease(event: Event) = onReleaseRegistrar.add(event)
-
-    fun registerOnPressedTick(event: Event) = onTickRegistrar.add(event)
-
-    fun unregisterOnPress(event: Event) = onPressRegistrar.remove(event)
-
-    fun unregisterOnRelease(event: Event) = onReleaseRegistrar.remove(event)
-
-    fun unregisterOnPressedTick(event: Event) = onTickRegistrar.remove(event)
-
-    // todo unregister method for unbind action feature
-
-    fun clearRegistrars() {
-      onPressRegistrar.clear()
-      onReleaseRegistrar.clear()
-      onTickRegistrar.clear()
-    }
+    val onPress = Registrar()
+    val onRelease = Registrar()
+    val onTick = Registrar()
+    var isTicking = false
 
     companion object {
 
-      fun findByKey(gdxKey: Int): Mouse? = Mouse.values().find { it.gdxKey == gdxKey }
+      fun findByKey(gdxKey: Int): Button? = Button.values().find { it.gdxKey == gdxKey }
 
       fun screenPosition() = Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
 
@@ -82,7 +82,26 @@ object Input {
 
   }
 
-  abstract  class Event {
+  object Scroll {
+
+    val onScrollIn = Registrar()
+    val onScrollOut = Registrar()
+
+  }
+
+  class Registrar {
+
+    private val registers = HashSet<Event>()
+
+    fun register(event: Event) = registers.add(event)
+
+    fun unregister(event: Event) = registers.remove(event)
+
+    fun performAllEvents() = registers.forEach { it.performEvent() }
+
+  }
+
+  abstract class Event {
 
     abstract fun performEvent()
 
@@ -100,5 +119,6 @@ object Input {
     }
 
   }
+
 
 }

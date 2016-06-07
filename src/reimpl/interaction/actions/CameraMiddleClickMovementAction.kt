@@ -6,32 +6,33 @@ import input.Input
 
 object CameraMiddleClickMovementAction : Action {
 
-  private val key = Input.Mouse.MIDDLE
+  private val key = Input.Button.MOUSE_MIDDLE
   private val movementPivot = Vector2()
   private var lock = false
+  private val zoomBounceAmount = .1f
 
   private val startSelecting = Input.Event.of {
-    movementPivot.set(Camera.position()).add(Input.Mouse.position());
-    Camera.zoomTo(.925f)
+    movementPivot.set(Camera.position()).add(Input.Button.position());
+    Camera.zoomRelative(-zoomBounceAmount)
   }
   private val continueSelectingOnTick = Input.Event.of {
     Camera.lookAt(calculateDifference())
   }
   private val endSelection = Input.Event.of {
     Camera.lookAt(calculateDifference())
-    Camera.zoomTo(1f)
+    Camera.zoomRelative(zoomBounceAmount)
   }
 
   override fun bind() {
-    key.registerOnPress(startSelecting)
-    key.registerOnPressedTick(continueSelectingOnTick)
-    key.registerOnRelease(endSelection)
+    key.onPress.register(startSelecting)
+    key.onTick.register(continueSelectingOnTick)
+    key.onRelease.register(endSelection)
   }
 
   override fun unbind() {
-    key.unregisterOnPress(startSelecting)
-    key.unregisterOnPressedTick(continueSelectingOnTick)
-    key.unregisterOnRelease(endSelection)
+    key.onPress.unregister(startSelecting)
+    key.onTick.unregister(continueSelectingOnTick)
+    key.onRelease.unregister(endSelection)
   }
 
   override fun conflictsWith() = setOf(CameraArrowsMovementAction)
@@ -41,7 +42,7 @@ object CameraMiddleClickMovementAction : Action {
   fun calculateDifference(): Vector2 {
     val difference = Vector2()
     difference.set(movementPivot)
-    return difference.sub(Input.Mouse.position())
+    return difference.sub(Input.Button.position())
   }
 
 

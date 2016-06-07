@@ -7,11 +7,11 @@ import input.Input
 class SelectionAction {
 
   private val selectionTool = SelectionRectangle()
-  private val key = Input.Mouse.LEFT;
+  private val key = Input.Button.MOUSE_LEFT;
   var isSelecting = false
 
   fun registerEvent() {
-    fun pointer() = Input.Mouse.position()
+    fun pointer() = Input.Button.position()
     /*key.registerOnPress {
       selectionTool.startFrom(pointer())
       isSelecting = true

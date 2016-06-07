@@ -35,6 +35,10 @@ object Camera {
     eyeTarget.z = distance;
   }
 
+  fun zoomRelative(amount: Float) {
+    eyeTarget.z += amount
+  }
+
   fun unproject(position: Vector2): Vector2 {
     val threeDimensionalPosition = Vector3(position.x, position.y, 0f)
     val result = ortho.unproject(threeDimensionalPosition)
