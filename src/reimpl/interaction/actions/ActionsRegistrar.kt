@@ -12,4 +12,8 @@ object ActionsRegistrar {
     actions.forEach { it.bind() }
   }
 
+  fun unbindAll() {
+    actions.forEach { it.unbind() }
+  }
+
 }
