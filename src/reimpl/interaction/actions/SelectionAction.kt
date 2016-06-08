@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import input.Input
 
-class SelectionAction {
+object SelectionAction {
 
   private val selectionTool = SelectionRectangle()
   private val key = Input.Button.MOUSE_LEFT;
@@ -33,7 +33,7 @@ class SelectionAction {
     }*/
   }
 
-  fun rectangle() = selectionTool.selectionRectangle()
+  //fun rectangle() = selectionTool.selectionRectangle()
 
   private class SelectionRectangle {
 

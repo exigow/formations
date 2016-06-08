@@ -6,7 +6,7 @@ import input.Input
 
 object CameraArrowsMovementAction : Action {
 
-  val keyVectorMappings = mapOf(
+  private val keyVectorMappings = mapOf(
     Input.Button.ARROW_UP to Vector2(0f, 1f),
     Input.Button.ARROW_DOWN to Vector2(0f, -1f),
     Input.Button.ARROW_LEFT to Vector2(-1f, 0f),
@@ -14,12 +14,13 @@ object CameraArrowsMovementAction : Action {
   ).mapValues { entry ->
     val vec = entry.value
     Input.Event.of {
-      if (!CameraMiddleClickMovementAction.isWorking())
+      //if (!CameraMiddleClickMovementAction.isWorking())
+      // todo if (ActionRegistrar.isActionWorking(CameraMiddleClickMovementAction))
         moveCamera(vec)
     }
   }
 
-  fun moveCamera(relative: Vector2) {
+  private fun moveCamera(relative: Vector2) {
     val movementFactor = 16f
     val result = Vector2(relative).scl(movementFactor)
     Camera.moveRelative(result)

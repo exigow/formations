@@ -4,7 +4,7 @@ import Camera
 import com.badlogic.gdx.math.Vector2
 import input.Input
 
-object CameraMiddleClickMovementAction : Action {
+class CameraMiddleClickMovementAction : Action {
 
   private val key = Input.Button.MOUSE_MIDDLE
   private val movementPivot = Vector2()
@@ -39,7 +39,7 @@ object CameraMiddleClickMovementAction : Action {
 
   override fun isWorking() = lock
 
-  fun calculateDifference(): Vector2 {
+  private fun calculateDifference(): Vector2 {
     val difference = Vector2()
     difference.set(movementPivot)
     return difference.sub(Input.Button.position())

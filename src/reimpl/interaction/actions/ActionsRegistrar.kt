@@ -16,4 +16,8 @@ object ActionsRegistrar {
     actions.forEach { it.unbind() }
   }
 
+  fun isActionWorking(action: Action): Boolean {
+    return true
+  }
+
 }

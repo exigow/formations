@@ -9,9 +9,10 @@ import interaction.actions.CameraScrollZoomingAction
 class Main {
 
   private val world = World.randomWorld()
+  // private val camera = Camera.setup()
 
   init {
-    ActionsRegistrar.addAction(CameraMiddleClickMovementAction)
+    ActionsRegistrar.addAction(CameraMiddleClickMovementAction())
     ActionsRegistrar.addAction(CameraArrowsMovementAction)
     ActionsRegistrar.addAction(CameraScrollZoomingAction)
     ActionsRegistrar.bindAll()

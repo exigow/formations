@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector3
 
 object Camera {
 
+  // refactor to typical class (not singleton)
+
   private val ortho: OrthographicCamera = OrthographicCamera();
   private val eye = Vector3(0f, 0f, 1f)
   private val eyeTarget = Vector3(eye)
