@@ -37,8 +37,6 @@ object CameraMiddleClickMovementAction : Action {
     key.onRelease.unregister(endSelection)
   }
 
-  override fun conflictsWith() = setOf(CameraArrowsMovementAction)
-
   override fun isWorking() = lock
 
   fun calculateDifference(): Vector2 {

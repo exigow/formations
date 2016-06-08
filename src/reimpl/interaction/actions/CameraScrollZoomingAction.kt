@@ -8,10 +8,12 @@ object CameraScrollZoomingAction : Action {
   private val zoomAmount = .075f
   private val scroll = Input.Scroll
   private val zoomIn = Input.Event.of {
-    Camera.zoomRelative(zoomAmount)
+    if (!CameraMiddleClickMovementAction.isWorking())
+      Camera.zoomRelative(zoomAmount)
   }
   private val zoomOut = Input.Event.of {
-    Camera.zoomRelative(-zoomAmount)
+    if (!CameraMiddleClickMovementAction.isWorking())
+      Camera.zoomRelative(-zoomAmount)
   }
 
   override fun bind() {
@@ -23,8 +25,6 @@ object CameraScrollZoomingAction : Action {
     scroll.onScrollIn.unregister(zoomIn)
     scroll.onScrollOut.unregister(zoomOut)
   }
-
-  override fun conflictsWith() = emptySet<Action>() // no conflicts
 
   override fun isWorking() = false // actions are instant (without state)
 

@@ -6,8 +6,6 @@ interface Action {
 
   fun unbind()
 
-  fun conflictsWith(): Set<Action>
-
   fun isWorking(): Boolean
 
 }

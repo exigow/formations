@@ -14,7 +14,7 @@ object CameraArrowsMovementAction : Action {
   ).mapValues { entry ->
     val vec = entry.value
     Input.Event.of {
-      //if (!CameraMiddleClickMovementAction.isWorking())
+      if (!CameraMiddleClickMovementAction.isWorking())
         moveCamera(vec)
     }
   }
@@ -33,11 +33,6 @@ object CameraArrowsMovementAction : Action {
     keyVectorMappings.keys.forEach { it.onTick.unregister(keyVectorMappings[it]!!) }
   }
 
-  override fun conflictsWith() = setOf(CameraMiddleClickMovementAction)
-
-  override fun isWorking(): Boolean {
-
-    return false
-  }
+  override fun isWorking() = false
 
 }
