@@ -14,7 +14,8 @@ object CameraArrowsMovementAction : Action {
   ).mapValues { entry ->
     val vec = entry.value
     Input.Event.of {
-      moveCamera(vec)
+      //if (!CameraMiddleClickMovementAction.isWorking())
+        moveCamera(vec)
     }
   }
 

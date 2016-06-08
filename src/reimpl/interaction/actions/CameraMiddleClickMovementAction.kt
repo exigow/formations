@@ -14,6 +14,7 @@ object CameraMiddleClickMovementAction : Action {
   private val startSelecting = Input.Event.of {
     movementPivot.set(Camera.position()).add(Input.Button.position());
     Camera.zoomRelative(-zoomBounceAmount)
+    lock = true
   }
   private val continueSelectingOnTick = Input.Event.of {
     Camera.lookAt(calculateDifference())
@@ -21,6 +22,7 @@ object CameraMiddleClickMovementAction : Action {
   private val endSelection = Input.Event.of {
     Camera.lookAt(calculateDifference())
     Camera.zoomRelative(zoomBounceAmount)
+    lock = false
   }
 
   override fun bind() {
