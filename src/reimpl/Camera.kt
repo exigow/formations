@@ -12,12 +12,14 @@ object Camera {
 
   init {
     ortho.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+    ortho.up.set(0f, 1f, 0f);
+    ortho.direction.set(0f, 0f, -1f);
   }
 
   fun projectionMatrix(): Matrix4 = ortho.combined
 
   fun update(delta: Float) {
-    val planeFactor = .125f;
+    val planeFactor = .375f;
     val zoomFactor = .25f;
     eye.x += (eyeTarget.x - eye.x) * planeFactor * delta;
     eye.y += (eyeTarget.y - eye.y) * planeFactor * delta;

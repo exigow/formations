@@ -12,13 +12,14 @@ object CameraArrowsMovementAction : Action {
     Input.Button.ARROW_LEFT to Vector2(-1f, 0f),
     Input.Button.ARROW_RIGHT to Vector2(1f, 0f)
   ).mapValues { entry ->
+    val vec = entry.value
     Input.Event.of {
-      moveCamera(entry.value)
+      moveCamera(vec)
     }
   }
 
   fun moveCamera(relative: Vector2) {
-    val movementFactor = 8f
+    val movementFactor = 16f
     val result = Vector2(relative).scl(movementFactor)
     Camera.moveRelative(result)
   }
