@@ -15,4 +15,6 @@ object MathUtilities {
     return from * (1 - percent) + to * percent;
   }
 
+  //fun min(a: Float, b: Float) = Math.min()
+
 }

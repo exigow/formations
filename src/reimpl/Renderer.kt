@@ -6,14 +6,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
+import core.Camera
 
 object Renderer {
 
   private val shape = ShapeRenderer()
 
-  fun renderCircle(position: Vector2, radius: Float = 1f) {
+  fun renderCircle(position: Vector2, radius: Float = 1f, segments: Int = 8) {
     shape.begin(Line)
-    shape.circle(position.x, position.y, radius)
+    shape.circle(position.x, position.y, radius, segments)
     shape.end()
   }
 
@@ -53,18 +54,14 @@ object Renderer {
     shape.end()
   }
 
-  fun reset() {
+  fun reset(camera: Camera) {
+    shape.projectionMatrix.set(camera.projectionMatrix())
     clear()
-    updateProjection()
   }
 
   private fun clear() {
     Gdx.gl.glClearColor(.125f, .125f, .125f, 1f)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-  }
-
-  private fun updateProjection() {
-    shape.projectionMatrix.set(Camera.projectionMatrix())
   }
 
 }

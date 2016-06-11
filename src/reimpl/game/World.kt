@@ -53,6 +53,13 @@ class World {
     return result
   }
 
+  fun findClosestShipInMaxRadius(checkingPoint: Vector2, radius: Float): Ship? {
+    val ship = findClosestShip(checkingPoint);
+    if (ship.position.dst(checkingPoint) < radius)
+      return ship
+    return null
+  }
+
   fun findShipsInside(rectangle: Rectangle): List<Ship> {
     fun isInside(ship: Ship) = rectangle.contains(ship.position)
     return findAllShips().filter { isInside(it) }

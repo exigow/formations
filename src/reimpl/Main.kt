@@ -1,38 +1,37 @@
+import actions.CameraArrowsMovementAction
+import actions.CameraMiddleClickMovementAction
+import actions.CameraScrollZoomAction
+import actions.CameraUnitZoomDoubleClickAction
+import com.badlogic.gdx.Gdx
+import core.Camera
+import core.input.EventRegistry
 import game.Ship
 import game.World
-import input.Input
-import interaction.actions.ActionsRegistrar
-import interaction.actions.CameraArrowsMovementAction
-import interaction.actions.CameraMiddleClickMovementAction
-import interaction.actions.CameraScrollZoomingAction
 
 class Main {
 
   private val world = World.randomWorld()
-  // private val camera = Camera.setup()
+  private val camera = Camera()
+  private val eventRegistry = EventRegistry()
 
   init {
-    ActionsRegistrar.addAction(CameraMiddleClickMovementAction())
-    ActionsRegistrar.addAction(CameraArrowsMovementAction)
-    ActionsRegistrar.addAction(CameraScrollZoomingAction)
-    ActionsRegistrar.bindAll()
+    CameraScrollZoomAction(camera).bind(eventRegistry)
+    CameraUnitZoomDoubleClickAction(world, camera).bind(eventRegistry)
+    CameraMiddleClickMovementAction(camera).bind(eventRegistry)
+    CameraArrowsMovementAction(camera).bind(eventRegistry)
   }
 
   fun onRender() {
-    Input.update()
+    val delta = Gdx.graphics.deltaTime
+    camera.update(delta)
+    eventRegistry.updatePressingTicks(delta)
 
-    Camera.update(1f)
-
-    Renderer.reset()
+    Renderer.reset(camera)
     Renderer.renderGrid()
     for (ship: Ship in world.findAllShips())
       Renderer.renderArrow(ship.position, 16f, ship.angle)
-    Renderer.renderCircle(Input.Button.position(), 8f)
+    Renderer.renderCircle(camera.mousePosition(), camera.scaledClickRadius(), 16)
 
-    //if (SelectionAction.isSelecting)
-      //Renderer.renderRectangle(SelectionAction.rectangle())
-
-    //Interaction.interact(world)
   }
 
 }
