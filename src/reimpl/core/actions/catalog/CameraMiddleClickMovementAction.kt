@@ -1,8 +1,9 @@
-package actions
+package core.actions.catalog
 
 import com.badlogic.gdx.math.Vector2
 import core.Camera
-import core.input.EventRegistry
+import core.actions.Action
+import core.input.event.EventBundle
 import core.input.mappings.ButtonState
 import core.input.mappings.MouseButton
 
@@ -12,8 +13,9 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
   private val movementPivot = Vector2()
   private val zoomBounceAmount = .1f
 
-  override fun bind(registry: EventRegistry) {
-    registry.newEventOnMouse { button, state ->
+  override fun events() = object : EventBundle {
+
+    override fun onMouse(): (MouseButton, ButtonState) -> Unit = { button, state ->
       if (isMiddleClick(button)) {
         when (state) {
           ButtonState.PRESS -> onStart()
@@ -21,12 +23,17 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
         }
       }
     }
-    registry.newEventOnTick { if (isMoving) onTick() }
+
+    override fun onTick(): (Float) -> Unit = {
+      if (isMoving)
+        updatePositionOnTick()
+    }
+
   }
 
   private fun isMiddleClick(button: MouseButton) = button == MouseButton.MOUSE_MIDDLE
 
-  override fun discardOn() = setOf(CameraScrollZoomAction::class)
+  override fun conflictsWith() = setOf(CameraScrollZoomAction::class)
 
   private fun onStart() {
     isMoving = true
@@ -34,7 +41,7 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
     cameraDep.zoomRelative(-zoomBounceAmount)
   }
 
-  private fun onTick() {
+  private fun updatePositionOnTick() {
     cameraDep.lookAt(calculateDifference())
   }
 

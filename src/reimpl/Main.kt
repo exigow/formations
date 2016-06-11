@@ -1,10 +1,10 @@
-import actions.CameraArrowsMovementAction
-import actions.CameraMiddleClickMovementAction
-import actions.CameraScrollZoomAction
-import actions.CameraUnitZoomDoubleClickAction
 import com.badlogic.gdx.Gdx
 import core.Camera
-import core.input.EventRegistry
+import core.actions.catalog.CameraArrowsMovementAction
+import core.actions.catalog.CameraMiddleClickMovementAction
+import core.actions.catalog.CameraScrollZoomAction
+import core.actions.catalog.CameraUnitZoomDoubleClickAction
+import core.input.event.EventRegistry
 import game.Ship
 import game.World
 
@@ -15,10 +15,10 @@ class Main {
   private val eventRegistry = EventRegistry()
 
   init {
-    CameraScrollZoomAction(camera).bind(eventRegistry)
-    CameraUnitZoomDoubleClickAction(world, camera).bind(eventRegistry)
-    CameraMiddleClickMovementAction(camera).bind(eventRegistry)
-    CameraArrowsMovementAction(camera).bind(eventRegistry)
+    eventRegistry.registerBundle(CameraScrollZoomAction(camera).events())
+    eventRegistry.registerBundle(CameraMiddleClickMovementAction(camera).events())
+    eventRegistry.registerBundle(CameraArrowsMovementAction(camera).events())
+    eventRegistry.registerBundle(CameraUnitZoomDoubleClickAction(world, camera).events())
   }
 
   fun onRender() {

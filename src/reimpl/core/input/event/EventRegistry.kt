@@ -1,4 +1,4 @@
-package core.input
+package core.input.event
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
@@ -15,20 +15,11 @@ class EventRegistry {
     Gdx.input.inputProcessor = GdxInputWrapper;
   }
 
-  fun newEventOnKeyboard(event: (button: KeyboardButton, state: ButtonState) -> Unit) {
-    keyboardEvents += event
-  }
-
-  fun newEventOnMouse(event: (button: MouseButton, state: ButtonState) -> Unit) {
-    mouseEvents += event
-  }
-
-  fun newEventOnScroll(event: (direction: ScrollDirection) -> Unit) {
-    scrollEvents += event
-  }
-
-  fun newEventOnTick(event: (delta: Float) -> Unit) {
-    tickEvents += event
+  fun registerBundle(bundle: EventBundle) {
+    keyboardEvents += bundle.onKeyboard()
+    mouseEvents += bundle.onMouse()
+    scrollEvents += bundle.onMouseScroll()
+    tickEvents += bundle.onTick()
   }
 
   fun updatePressingTicks(delta: Float) {

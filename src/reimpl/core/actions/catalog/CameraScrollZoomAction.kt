@@ -1,16 +1,20 @@
-package actions
+package core.actions.catalog
 
 import core.Camera
-import core.input.EventRegistry
+import core.actions.Action
+import core.input.event.EventBundle
 import core.input.mappings.ScrollDirection
 
 class CameraScrollZoomAction(private val cameraDep: Camera) : Action {
 
-  override fun bind(registry: EventRegistry) {
-    registry.newEventOnScroll { direction ->
+  override fun events() = object : EventBundle {
+
+    override fun onMouseScroll(): (ScrollDirection) -> Unit = {
+      direction ->
       val amount = directionToCameraZoomAmount(direction)
       cameraDep.zoomRelative(amount)
     }
+
   }
 
   private fun directionToCameraZoomAmount(direction: ScrollDirection): Float {
@@ -21,6 +25,6 @@ class CameraScrollZoomAction(private val cameraDep: Camera) : Action {
     }
   }
 
-  override fun discardOn() = setOf(CameraMiddleClickMovementAction::class)
+  override fun conflictsWith() = setOf(CameraMiddleClickMovementAction::class)
 
 }

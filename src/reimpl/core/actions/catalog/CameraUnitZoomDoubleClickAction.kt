@@ -1,7 +1,8 @@
-package actions
+package core.actions.catalog
 
 import core.Camera
-import core.input.EventRegistry
+import core.actions.Action
+import core.input.event.EventBundle
 import core.input.mappings.ButtonState
 import core.input.mappings.MouseButton
 import game.Ship
@@ -13,14 +14,17 @@ class CameraUnitZoomDoubleClickAction(private val worldDep: World, val cameraDep
   private var timer: Float = minimumDoubleClickTime
   private var previousShip: Ship? = null
 
-  override fun bind(registry: EventRegistry) {
-    registry.newEventOnMouse { button, state ->
+  override fun events() = object : EventBundle {
+
+    override fun onMouse(): (MouseButton, ButtonState) -> Unit = { button, state ->
       if (isLeftMouseClicked(button, state))
         doOnClick()
     }
-    registry.newEventOnTick { delta ->
+
+    override fun onTick(): (Float) -> Unit = { delta ->
       countTime(delta)
     }
+
   }
 
   private fun isLeftMouseClicked(button: MouseButton, state: ButtonState) = button == MouseButton.MOUSE_LEFT && state == ButtonState.PRESS
