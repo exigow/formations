@@ -17,8 +17,7 @@ class CameraArrowsMovementAction(private val cameraDep: Camera) : Action {
     KeyboardButton.ARROW_RIGHT to Vector2(1f, 0f)
   ).mapValues { entry -> toEvent(entry.value) }
   private val ticks = toMutableMap(keyVectorMappings.keys.map { it to false}.toMap())
-
-  override fun events() = object : EventBundle {
+  private val events = object : EventBundle {
 
     override fun onKeyboard(): (KeyboardButton, ButtonState) -> Unit = {
       button, state ->
@@ -38,6 +37,8 @@ class CameraArrowsMovementAction(private val cameraDep: Camera) : Action {
     }
 
   }
+
+  override fun events() = events
 
   private fun toEvent(vec: Vector2): () -> Unit {
     return {

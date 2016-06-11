@@ -12,8 +12,7 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
   private var isMoving = false
   private val movementPivot = Vector2()
   private val zoomBounceAmount = .1f
-
-  override fun events() = object : EventBundle {
+  private val events = object : EventBundle {
 
     override fun onMouse(): (MouseButton, ButtonState) -> Unit = { button, state ->
       if (isMiddleClick(button)) {
@@ -30,6 +29,8 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
     }
 
   }
+
+  override fun events() = events
 
   private fun isMiddleClick(button: MouseButton) = button == MouseButton.MOUSE_MIDDLE
 

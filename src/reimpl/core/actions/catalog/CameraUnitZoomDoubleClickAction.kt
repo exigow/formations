@@ -13,8 +13,7 @@ class CameraUnitZoomDoubleClickAction(private val worldDep: World, val cameraDep
   private val minimumDoubleClickTime = .25f // in seconds
   private var timer: Float = minimumDoubleClickTime
   private var previousShip: Ship? = null
-
-  override fun events() = object : EventBundle {
+  private val events = object : EventBundle {
 
     override fun onMouse(): (MouseButton, ButtonState) -> Unit = { button, state ->
       if (isLeftMouseClicked(button, state))
@@ -26,6 +25,8 @@ class CameraUnitZoomDoubleClickAction(private val worldDep: World, val cameraDep
     }
 
   }
+
+  override fun events() = events
 
   private fun isLeftMouseClicked(button: MouseButton, state: ButtonState) = button == MouseButton.MOUSE_LEFT && state == ButtonState.PRESS
 

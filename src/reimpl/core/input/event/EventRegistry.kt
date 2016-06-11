@@ -22,16 +22,18 @@ class EventRegistry {
     tickEvents += bundle.onTick()
   }
 
+  fun clearRegister() = listOf(keyboardEvents, mouseEvents, scrollEvents, tickEvents).forEach { it.clear() }
+
   fun updatePressingTicks(delta: Float) {
     tickEvents.forEach { it.invoke(delta) }
   }
 
   private companion object GdxInputWrapper : InputAdapter() {
 
-    val keyboardEvents: MutableList<(button: KeyboardButton, state: ButtonState) -> Unit> = ArrayList();
-    val mouseEvents: MutableList<(button: MouseButton, state: ButtonState) -> Unit> = ArrayList();
-    val scrollEvents: MutableList<(ScrollDirection) -> Unit> = ArrayList();
-    val tickEvents: MutableList<(delta: Float) -> Unit> = ArrayList();
+    val keyboardEvents: MutableSet<(button: KeyboardButton, state: ButtonState) -> Unit> = HashSet();
+    val mouseEvents: MutableSet<(button: MouseButton, state: ButtonState) -> Unit> = HashSet();
+    val scrollEvents: MutableSet<(ScrollDirection) -> Unit> = HashSet();
+    val tickEvents: MutableSet<(delta: Float) -> Unit> = HashSet();
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, key: Int) = performTouch(key, ButtonState.RELEASE)
 

@@ -7,7 +7,7 @@ import core.input.mappings.ScrollDirection
 
 class CameraScrollZoomAction(private val cameraDep: Camera) : Action {
 
-  override fun events() = object : EventBundle {
+  private val events = object : EventBundle {
 
     override fun onMouseScroll(): (ScrollDirection) -> Unit = {
       direction ->
@@ -16,6 +16,8 @@ class CameraScrollZoomAction(private val cameraDep: Camera) : Action {
     }
 
   }
+
+  override fun events() = events
 
   private fun directionToCameraZoomAmount(direction: ScrollDirection): Float {
     val strength = .125f
