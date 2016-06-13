@@ -30,7 +30,7 @@ class Main {
     for (ship: Ship in world.findAllShips())
       Renderer.renderArrow(ship.position, 16f, ship.angle)
     Renderer.renderCircle(camera.mousePosition(), camera.scaledClickRadius(), 16)
-
+    Renderer.renderRectangle(selectionAction.rectangle())
   }
 
 }

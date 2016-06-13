@@ -38,11 +38,13 @@ class SelectionAction(val cameraDep: Camera) : Action {
   private fun startSelection() {
     selectionTool.startFrom(pointer())
     isSelecting = true
+    println("selection starts")
   }
 
   private fun endSelection() {
     updateSelection()
     isSelecting = false
+    println("selection ends")
   }
 
   override fun events() = events
@@ -76,7 +78,7 @@ class SelectionAction(val cameraDep: Camera) : Action {
     }*/
   //}
 
-  //fun rectangle() = selectionTool.selectionRectangle()
+  fun rectangle() = selectionTool.selectionRectangle()
 
   private class SelectionRectangle {
 
