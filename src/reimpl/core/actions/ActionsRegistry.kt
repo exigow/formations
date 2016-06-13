@@ -54,10 +54,10 @@ class ActionsRegistry {
   private fun hasWorkingConflicts(action: Action): Boolean {
     if (action.discardOn().isEmpty())
       return false
-    val conflict: Action = findInstanceOfKClass(action.discardOn().first()) // todo zamien na petle
-    if (conflict.isWorking()) {
-      println("${action.javaClass.simpleName} has working conflict (instance of: ${conflict.javaClass.simpleName})")
-      return true
+    for (conflict in action.discardOn()) {
+      val instance = findInstanceOfKClass(conflict)
+      if (instance.isWorking())
+        return true
     }
     return false
   }
@@ -66,7 +66,7 @@ class ActionsRegistry {
     for (action in actions)
       if (action.javaClass.kotlin == clazz)
         return action
-    throw RuntimeException("Action instance (class: ${clazz.simpleName}) not found in registry")
+    throw RuntimeException("Action instance (class: $clazz) not found in registry")
   }
 
 }
