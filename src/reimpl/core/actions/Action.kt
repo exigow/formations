@@ -5,8 +5,10 @@ import kotlin.reflect.KClass
 
 interface Action {
 
-  fun conflictsWith(): Set<KClass<*>> = emptySet()
+  fun discardOn(): Set<KClass<*>> = emptySet()
 
   fun events(): EventBundle
+
+  fun isWorking(): Boolean = false
 
 }

@@ -27,6 +27,6 @@ class CameraScrollZoomAction(private val cameraDep: Camera) : Action {
     }
   }
 
-  override fun conflictsWith() = setOf(CameraMiddleClickMovementAction::class)
+  override fun discardOn() = setOf(CameraMiddleClickMovementAction::class)
 
 }

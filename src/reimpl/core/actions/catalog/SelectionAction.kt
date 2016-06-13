@@ -2,8 +2,52 @@ package core.actions.catalog
 
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
+import core.Camera
+import core.actions.Action
+import core.input.event.EventBundle
+import core.input.mappings.ButtonState
+import core.input.mappings.MouseButton
 
-class SelectionAction {
+class SelectionAction(val cameraDep: Camera) : Action {
+
+  private val selectionTool = SelectionRectangle()
+  private var isSelecting = false
+  private val events = object : EventBundle {
+
+    override fun onMouse(): (MouseButton, ButtonState) -> Unit = {
+      button, state ->
+      if (isLeftMouse(button)) {
+        when (state) {
+          ButtonState.PRESS -> startSelection()
+          ButtonState.RELEASE -> endSelection()
+        }
+      }
+    }
+
+    override fun onTick(): (Float) -> Unit = {
+      if (isSelecting)
+        updateSelection()
+    }
+
+  }
+
+  private fun isLeftMouse(button: MouseButton) = button == MouseButton.MOUSE_LEFT
+
+  private fun updateSelection() = selectionTool.endTo(pointer())
+
+  private fun startSelection() {
+    selectionTool.startFrom(pointer())
+    isSelecting = true
+  }
+
+  private fun endSelection() {
+    updateSelection()
+    isSelecting = false
+  }
+
+  override fun events() = events
+
+  private fun pointer() = cameraDep.mousePosition()
 
   //private val selectionTool = SelectionRectangle()
   //private val key = Input.Button.MOUSE_LEFT;
@@ -33,8 +77,6 @@ class SelectionAction {
   //}
 
   //fun rectangle() = selectionTool.selectionRectangle()
-
-
 
   private class SelectionRectangle {
 

@@ -60,4 +60,6 @@ class CameraArrowsMovementAction(private val cameraDep: Camera) : Action {
     ButtonState.RELEASE -> false
   }
 
+  override fun discardOn() = setOf(CameraMiddleClickMovementAction::class)
+
 }

@@ -1,10 +1,7 @@
 import com.badlogic.gdx.Gdx
 import core.Camera
-import core.actions.catalog.CameraArrowsMovementAction
-import core.actions.catalog.CameraMiddleClickMovementAction
-import core.actions.catalog.CameraScrollZoomAction
-import core.actions.catalog.CameraUnitZoomDoubleClickAction
-import core.input.event.EventRegistry
+import core.actions.ActionsRegistry
+import core.actions.catalog.*
 import game.Ship
 import game.World
 
@@ -12,19 +9,21 @@ class Main {
 
   private val world = World.randomWorld()
   private val camera = Camera()
-  private val eventRegistry = EventRegistry()
+  private val actions = ActionsRegistry()
+  private val selectionAction = SelectionAction(camera)
 
   init {
-    eventRegistry.registerBundle(CameraScrollZoomAction(camera).events())
-    eventRegistry.registerBundle(CameraMiddleClickMovementAction(camera).events())
-    eventRegistry.registerBundle(CameraArrowsMovementAction(camera).events())
-    eventRegistry.registerBundle(CameraUnitZoomDoubleClickAction(world, camera).events())
+    actions.addAction(CameraScrollZoomAction(camera))
+    actions.addAction(CameraMiddleClickMovementAction(camera))
+    actions.addAction(CameraArrowsMovementAction(camera))
+    actions.addAction(CameraUnitZoomDoubleClickAction(world, camera))
+    actions.addAction(selectionAction)
   }
 
   fun onRender() {
     val delta = Gdx.graphics.deltaTime
     camera.update(delta)
-    eventRegistry.updatePressingTicks(delta)
+    actions.update(delta)
 
     Renderer.reset(camera)
     Renderer.renderGrid()

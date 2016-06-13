@@ -34,8 +34,6 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
 
   private fun isMiddleClick(button: MouseButton) = button == MouseButton.MOUSE_MIDDLE
 
-  override fun conflictsWith() = setOf(CameraScrollZoomAction::class)
-
   private fun onStart() {
     isMoving = true
     movementPivot.set(cameraDep.position()).add(cameraDep.mousePosition());
@@ -57,4 +55,7 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
     difference.set(movementPivot)
     return difference.sub(cameraDep.mousePosition())
   }
+
+  override fun isWorking() = isMoving
+
 }
