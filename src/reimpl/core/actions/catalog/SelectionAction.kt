@@ -37,6 +37,7 @@ class SelectionAction(val cameraDep: Camera) : Action {
 
   private fun startSelection() {
     selectionTool.startFrom(pointer())
+    updateSelection()
     isSelecting = true
     println("selection starts")
   }
@@ -79,6 +80,8 @@ class SelectionAction(val cameraDep: Camera) : Action {
   //}
 
   fun rectangle() = selectionTool.selectionRectangle()
+
+  override fun isWorking(): Boolean = isSelecting && selectionTool.distanceFromStartingPoint() > cameraDep.scaledClickRadius()
 
   private class SelectionRectangle {
 

@@ -26,6 +26,8 @@ class CameraUnitZoomDoubleClickAction(private val worldDep: World, val cameraDep
 
   }
 
+  override fun discardOn() = setOf(SelectionAction::class)
+
   override fun events() = events
 
   private fun isLeftMouseClicked(button: MouseButton, state: ButtonState) = button == MouseButton.MOUSE_LEFT && state == ButtonState.PRESS
