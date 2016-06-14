@@ -1,6 +1,7 @@
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import core.Logger
 
 
 object ApplicationEntry {
@@ -17,6 +18,7 @@ object ApplicationEntry {
     private var frame: Main? = null
 
     override fun create() {
+      Logger.APPLICATION.log("instantiating")
       frame = Main()
     }
 
