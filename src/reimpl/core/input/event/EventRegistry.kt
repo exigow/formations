@@ -15,8 +15,6 @@ class EventRegistry {
     Gdx.input.inputProcessor = GdxInputWrapper;
   }
 
-  //  todo zamien wszystkie lambdy na eventy (zeby nie pisac caly czas tych tasiemcow z typami)
-
   fun registerBundle(bundle: EventBundle) {
     keyboardEvents += bundle.onKeyboard()
     mouseEvents += bundle.onMouse()
