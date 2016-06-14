@@ -24,6 +24,7 @@ class SelectionAction(val cameraDep: Camera, val world: World) : Action {
           1 -> selectSingleSquad()
           2 -> selectVisibleSquads()
           3 -> selectAllSquads()
+          else -> Logger.ACTION.log("TOO MUCH CLICKZ")
         }
         if (!hasStillTime()) {
           time = 0f;
