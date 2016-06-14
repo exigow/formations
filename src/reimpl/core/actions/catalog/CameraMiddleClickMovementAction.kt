@@ -8,7 +8,7 @@ import core.input.mappings.MouseButton
 
 class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
 
-  private var isMoving = false
+  private var isDragging = false
   private val movementPivot = Vector2()
   private val zoomBounceAmount = .1f
 
@@ -17,13 +17,13 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
     override fun onPress() {
       movementPivot.set(cameraDep.position()).add(cameraDep.mousePosition());
       cameraDep.zoomRelative(-zoomBounceAmount)
-      isMoving = true
+      isDragging = true
     }
 
     override fun onRelease() {
       cameraDep.lookAt(calculateDifference())
       cameraDep.zoomRelative(zoomBounceAmount)
-      isMoving = false
+      isDragging = false
     }
 
     override fun onHold(delta: Float) {
@@ -40,6 +40,6 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
     return difference.sub(cameraDep.mousePosition())
   }
 
-  override fun isWorking() = isMoving
+  override fun isWorking() = isDragging
 
 }
