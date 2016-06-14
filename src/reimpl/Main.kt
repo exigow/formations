@@ -1,7 +1,10 @@
 import com.badlogic.gdx.Gdx
 import core.Camera
 import core.actions.ActionsRegistry
-import core.actions.catalog.*
+import core.actions.catalog.CameraArrowsMovementAction
+import core.actions.catalog.CameraMiddleClickMovementAction
+import core.actions.catalog.CameraScrollZoomAction
+import core.actions.catalog.SelectionAction
 import game.Ship
 import game.World
 
@@ -10,13 +13,12 @@ class Main {
   private val world = World.randomWorld()
   private val camera = Camera()
   private val actions = ActionsRegistry()
-  private val selectionAction = SelectionAction(camera)
+  private val selectionAction = SelectionAction(camera, world)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
     actions.addAction(CameraMiddleClickMovementAction(camera))
     actions.addAction(CameraArrowsMovementAction(camera))
-    actions.addAction(CameraUnitZoomDoubleClickAction(world, camera))
     actions.addAction(selectionAction)
   }
 
@@ -27,10 +29,19 @@ class Main {
 
     Renderer.reset(camera)
     Renderer.renderGrid()
-    for (ship: Ship in world.findAllShips())
+    for (ship in world.findAllShips())
       renderShip(ship)
     renderMouse()
-    Renderer.renderRectangle(selectionAction.rectangle())
+    renderSelectionRect()
+
+    for (ship in selectionAction.selectedSquads().flatMap { e -> e.ships })
+      Renderer.renderCircle(ship.position, 24f)
+  }
+
+  fun renderSelectionRect() {
+    val rect = selectionAction.rectangle()
+    if (rect != null)
+      Renderer.renderRectangle(rect)
   }
 
   fun renderShip(ship: Ship) {
