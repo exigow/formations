@@ -6,14 +6,18 @@ import core.actions.catalog.CameraMiddleClickMovementAction
 import core.actions.catalog.CameraScrollZoomAction
 import core.actions.catalog.selecting.SelectionAction
 import game.Ship
+import game.Squad
 import game.World
+import java.util.*
 
 class Main {
 
   private val world = World.randomWorld()
   private val camera = Camera()
   private val actions = ActionsRegistry()
-  private val selectionAction = SelectionAction(camera, world)
+  private val selectedSquads: MutableList<Squad> = ArrayList()
+  private val highlightedSquads: MutableList<Squad> = ArrayList()
+  private val selectionAction = SelectionAction(camera, world, highlighted = highlightedSquads, selected = selectedSquads)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -31,18 +35,26 @@ class Main {
     Renderer.renderGrid()
     for (ship in world.findAllShips())
       renderShip(ship)
+
+    for (ship in selectedSquads.flatMap { s -> s.ships })
+      Renderer.renderCircle(ship.position, 32f)
+    for (ship in highlightedSquads.flatMap { s -> s.ships })
+      Renderer.renderCircle(ship.position, 48f)
+
     renderMouse()
-    //renderSelectionRect()
+
+    Renderer.renderRectangle(camera.worldVisibilityRectangle(-128f))
+    renderSelectionRect()
 
     /*for (ship in selectionAction.selectedSquads().flatMap { e -> e.ships })
       Renderer.renderCircle(ship.position, 24f)*/
   }
 
-  /*fun renderSelectionRect() {
-    val rect = selectionAction.rectangle()
+  fun renderSelectionRect() {
+    val rect = selectionAction.selectionRectangle()
     if (rect != null)
       Renderer.renderRectangle(rect)
-  }*/
+  }
 
   fun renderShip(ship: Ship) {
     Renderer.renderArrow(ship.position, 16f, ship.angle)

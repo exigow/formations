@@ -3,6 +3,7 @@ package core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Matrix4
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 
@@ -68,5 +69,13 @@ class Camera {
   fun scaledClickRadius() = 16f * renderingScale()
 
   fun renderingScale() = eye.z
+
+  fun worldVisibilityRectangle(border: Float = 0f): Rectangle {
+    val w = ortho.viewportWidth + border
+    val h = ortho.viewportHeight + border
+    val x = eye.x - (w / 2f * eye.z)
+    val y = eye.y - (h / 2f * eye.z)
+    return Rectangle(x, y, w * eye.z, h * eye.z);
+  }
 
 }

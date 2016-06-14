@@ -15,7 +15,7 @@ object ApplicationEntry {
   private fun createCofing(): LwjglApplicationConfiguration {
     val config = LwjglApplicationConfiguration()
     config.width = 1280
-    config.height = 800
+    config.height = 640
     return config
   }
 
