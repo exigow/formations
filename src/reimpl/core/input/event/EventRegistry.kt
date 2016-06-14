@@ -2,6 +2,7 @@ package core.input.event
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
+import core.Logger
 import core.input.mappings.ButtonState
 import core.input.mappings.KeyboardButton
 import core.input.mappings.MouseButton
@@ -16,6 +17,7 @@ class EventRegistry {
   }
 
   fun registerBundle(bundle: EventBundle) {
+    Logger.EVENT_REGISTRY.log("registering new event bundle ($bundle)")
     keyboardEvents += bundle.onKeyboard()
     mouseEvents += bundle.onMouse()
     scrollEvents += bundle.onMouseScroll()
