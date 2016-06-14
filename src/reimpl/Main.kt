@@ -28,9 +28,21 @@ class Main {
     Renderer.reset(camera)
     Renderer.renderGrid()
     for (ship: Ship in world.findAllShips())
-      Renderer.renderArrow(ship.position, 16f, ship.angle)
-    Renderer.renderCircle(camera.mousePosition(), camera.scaledClickRadius(), 16)
+      renderShip(ship)
+    renderMouse()
     Renderer.renderRectangle(selectionAction.rectangle())
+  }
+
+  fun renderShip(ship: Ship) {
+    Renderer.renderArrow(ship.position, 16f, ship.angle)
+    Renderer.renderCross(ship.position, camera.renderingScale() * 8f)
+  }
+
+  fun renderMouse() {
+    val pos = camera.mousePosition()
+    val radius = camera.scaledClickRadius()
+    Renderer.renderCross(pos, radius)
+    Renderer.renderCircle(pos, radius, 16)
   }
 
 }
