@@ -21,7 +21,7 @@ class CameraUnitZoomDoubleClickAction(private val worldDep: World, val cameraDep
     }
 
     override fun onTick(): (Float) -> Unit = { delta ->
-      countTime(delta)
+      updateTimer(delta)
     }
 
   }
@@ -33,17 +33,24 @@ class CameraUnitZoomDoubleClickAction(private val worldDep: World, val cameraDep
   private fun isLeftMouseClicked(button: MouseButton, state: ButtonState) = button == MouseButton.MOUSE_LEFT && state == ButtonState.PRESS
 
   private fun doOnClick() {
-    val radius = cameraDep.scaledClickRadius()
-    val ship = worldDep.findClosestShipInMaxRadius(cameraDep.mousePosition(), radius)
-    if (timer < minimumDoubleClickTime && ship == previousShip && ship != null) {
-      cameraDep.lookAt(ship.position)
-      cameraDep.zoomTo(.75f)
-    }
+    val ship = selectShip()
+    if (timer < minimumDoubleClickTime && ship == previousShip && ship != null)
+      focusCameraOn(ship)
     previousShip = ship
     timer = 0f
   }
 
-  private fun countTime(delta: Float) {
+  private fun selectShip(): Ship? {
+    val radius = cameraDep.scaledClickRadius()
+    return worldDep.findClosestShipInMaxRadius(cameraDep.mousePosition(), radius)
+  }
+
+  private fun focusCameraOn(ship: Ship) {
+    cameraDep.lookAt(ship.position)
+    cameraDep.zoomTo(.75f)
+  }
+
+  private fun updateTimer(delta: Float) {
     timer += delta
   }
 
