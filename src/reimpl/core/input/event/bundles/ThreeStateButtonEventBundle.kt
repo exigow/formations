@@ -14,6 +14,8 @@ abstract class ThreeStateButtonEventBundle(private val button: MouseButton) {
 
   abstract fun onHold(delta: Float)
 
+  open fun onTick(delta: Float) {}
+
   fun toBundle() = object : EventBundle {
 
     override fun onMouse(): (MouseButton, ButtonState) -> Unit = {
@@ -33,6 +35,7 @@ abstract class ThreeStateButtonEventBundle(private val button: MouseButton) {
 
     override fun onTick(): (Float) -> Unit = {
       delta ->
+      onTick(delta)
       if (isBetween)
         onHold(delta)
     }
