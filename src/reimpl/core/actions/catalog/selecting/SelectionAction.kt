@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import core.Camera
 import core.Logger
 import core.actions.Action
+import core.actions.catalog.CameraMiddleClickMovementAction
 import core.input.event.bundles.ThreeStateButtonEventBundle
 import core.input.mappings.MouseButton
 import game.Squad
@@ -113,8 +114,10 @@ class SelectionAction(val cameraDep: Camera, val world: World, val highlighted: 
 
   private fun findHoveringShip() = world.findClosestShipInMaxRadius(cameraDep.mousePosition(), cameraDep.scaledClickRadius())
 
-  private fun hasStillTime() = time < .25f
+  private fun hasStillTime() = time < .25f // in seconds
 
   override fun events() = events
+
+  override fun discardOn() = setOf(CameraMiddleClickMovementAction::class)
 
 }
