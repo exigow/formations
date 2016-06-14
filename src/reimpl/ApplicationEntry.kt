@@ -7,7 +7,7 @@ import core.Logger
 object ApplicationEntry {
 
   @JvmStatic fun main(args: Array<String>) {
-    Logger.APPLICATION.log("Running.")
+    Logger.APPLICATION.log("Starting.")
     val config = createCofing()
     LwjglApplication(LazyInitialisationAdapter(), config)
   }
