@@ -35,6 +35,13 @@ object Renderer {
     shape.identity();
   }
 
+  fun renderCross(position: Vector2, size: Float = 16f) {
+    shape.begin(Line)
+    shape.line(position.x - size, position.y, position.x + size, position.y)
+    shape.line(position.x, position.y - size, position.x, position.y + size)
+    shape.end()
+  }
+
   fun renderGrid() {
     shape.color.set(.25f, .25f, .25f, 1f)
     val max = 16

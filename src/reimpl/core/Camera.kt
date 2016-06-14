@@ -65,6 +65,8 @@ class Camera {
 
   fun mousePosition() = unproject(mouseScreenPosition())
 
-  fun scaledClickRadius() = 16f * eye.z
+  fun scaledClickRadius() = 16f * renderingScale()
+
+  fun renderingScale() = eye.z
 
 }
