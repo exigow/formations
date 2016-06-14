@@ -1,6 +1,5 @@
 package core.actions
 
-import core.Logger
 import core.input.event.EventBundle
 import core.input.event.EventRegistry
 import core.input.mappings.ButtonState
@@ -16,7 +15,6 @@ class ActionsRegistry {
   private val eventRegistry = EventRegistry()
 
   fun addAction(action: Action) {
-    Logger.ACTION_REGISTRY.log("registering new action ($action)")
     actions.add(action)
     val wrappedEvents = wrapWithLock(action, lock = {
       originalFun ->

@@ -4,7 +4,7 @@ import core.actions.ActionsRegistry
 import core.actions.catalog.CameraArrowsMovementAction
 import core.actions.catalog.CameraMiddleClickMovementAction
 import core.actions.catalog.CameraScrollZoomAction
-import core.actions.catalog.SelectionAction
+import core.actions.catalog.selecting.SelectionAction
 import game.Ship
 import game.World
 
@@ -32,17 +32,17 @@ class Main {
     for (ship in world.findAllShips())
       renderShip(ship)
     renderMouse()
-    renderSelectionRect()
+    //renderSelectionRect()
 
-    for (ship in selectionAction.selectedSquads().flatMap { e -> e.ships })
-      Renderer.renderCircle(ship.position, 24f)
+    /*for (ship in selectionAction.selectedSquads().flatMap { e -> e.ships })
+      Renderer.renderCircle(ship.position, 24f)*/
   }
 
-  fun renderSelectionRect() {
+  /*fun renderSelectionRect() {
     val rect = selectionAction.rectangle()
     if (rect != null)
       Renderer.renderRectangle(rect)
-  }
+  }*/
 
   fun renderShip(ship: Ship) {
     Renderer.renderArrow(ship.position, 16f, ship.angle)

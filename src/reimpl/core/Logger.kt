@@ -7,11 +7,12 @@ enum class Logger {
 
   ACTION,
   EVENT_REGISTRY,
-  ACTION_REGISTRY;
+  ACTION_REGISTRY,
+  APPLICATION;
 
   fun log(message: String) {
     val time = toFixedLength(formattedNow(), 12)
-    val label = toFixedLength(this.name, 16)
+    val label = toFixedLength(this.name, 12)
     println("$time: [$label]: $message")
   }
 
