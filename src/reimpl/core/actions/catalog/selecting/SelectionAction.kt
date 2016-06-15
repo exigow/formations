@@ -2,8 +2,8 @@ package core.actions.catalog.selecting
 
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
+import commons.Logger
 import core.Camera
-import core.Logger
 import core.actions.Action
 import core.actions.catalog.CameraMiddleClickMovementAction
 import core.input.event.bundles.ThreeStateButtonEventBundle
