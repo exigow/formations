@@ -2,8 +2,7 @@ package game
 
 import com.badlogic.gdx.math.MathUtils.random
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
-import commons.MathUtilities.randomVector2
+import commons.math.Vec2
 import java.util.*
 
 class World {
@@ -15,11 +14,11 @@ class World {
     fun randomWorld(): World {
       val world = World();
       repeat(random(5, 7), {
-        val pivotPosition = randomVector2().scl(512f)
+        val pivotPosition = Vec2.random() * 512f
         val squad = Squad()
         repeat(random(3, 7), {
           val ship = Ship.randomShip()
-          ship.position.set(pivotPosition).add(randomVector2().scl(96f))
+          ship.position = pivotPosition + (Vec2.random() * 96f)
           squad.ships.add(ship)
         })
         world.squads.add(squad)
@@ -37,11 +36,11 @@ class World {
     return result
   }
 
-  fun findClosestShip(checkingPoint: Vector2): Ship {
+  fun findClosestShip(checkingPoint: Vec2): Ship {
     val ships = findAllShips()
     val firstShip = ships.iterator().next();
     var result = firstShip
-    fun distanceTo(s: Ship) = s.position.dst(checkingPoint)
+    fun distanceTo(s: Ship) = s.position.distanceTo(checkingPoint)
     var distance = distanceTo(firstShip)
     for (ship: Ship in ships) {
       val newDistance = distanceTo(ship)
@@ -53,15 +52,15 @@ class World {
     return result
   }
 
-  fun findClosestShipInMaxRadius(checkingPoint: Vector2, radius: Float): Ship? {
+  fun findClosestShipInMaxRadius(checkingPoint: Vec2, radius: Float): Ship? {
     val ship = findClosestShip(checkingPoint);
-    if (ship.position.dst(checkingPoint) < radius)
+    if (ship.position.distanceTo(checkingPoint) < radius)
       return ship
     return null
   }
 
   fun findShipsInside(rectangle: Rectangle): List<Ship> {
-    fun isInside(ship: Ship) = rectangle.contains(ship.position)
+    fun isInside(ship: Ship) = rectangle.contains(ship.position.toVector2())
     return findAllShips().filter { isInside(it) }
   }
 
@@ -85,7 +84,7 @@ class World {
 
 
   private fun hasShipInside(rectangle: Rectangle, ship: Ship): Boolean {
-    return rectangle.contains(ship.position)
+    return rectangle.contains(ship.position.toVector2())
   }
 
 }

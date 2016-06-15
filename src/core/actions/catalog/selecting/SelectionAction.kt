@@ -1,8 +1,8 @@
 package core.actions.catalog.selecting
 
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
 import commons.Logger
+import commons.math.Vec2
 import core.Camera
 import core.actions.Action
 import core.actions.catalog.CameraMiddleClickMovementAction
@@ -15,14 +15,14 @@ class SelectionAction(val cameraDep: Camera, val world: World, val highlighted: 
 
   private var time = 0f
   private var clickCounter = 0
-  private val draggingPoint = Vector2()
+  private var draggingPoint = Vec2.zero()
   private var isDragging = false
   private val selectionRect = SelectionRectangle()
 
   private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_LEFT) {
 
     override fun onPress() {
-      draggingPoint.set(cameraDep.mousePosition())
+      draggingPoint = cameraDep.mousePosition()
       isDragging = false
       if (isHoveringSomething()) {
         clickCounter += 1
@@ -53,7 +53,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val highlighted: 
     }
 
     override fun onHold(delta: Float) {
-      val dragLength = draggingPoint.dst(cameraDep.mousePosition())
+      val dragLength = draggingPoint.distanceTo(cameraDep.mousePosition())
       if (dragLength > 16f && !isDragging) {
         isDragging = true
         Logger.ACTION.log("Highlighting with rectangle (dragging).")

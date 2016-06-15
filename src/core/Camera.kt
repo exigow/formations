@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
+import commons.math.Vec2
 
 class Camera {
 
@@ -32,7 +32,7 @@ class Camera {
     ortho.update()
   }
 
-  fun lookAt(where: Vector2) {
+  fun lookAt(where: Vec2) {
     target.x = where.x
     target.y = where.y
   }
@@ -45,14 +45,14 @@ class Camera {
     target.z += amount
   }
 
-  fun moveRelative(vector: Vector2) {
+  fun moveRelative(vector: Vec2) {
     target.add(vector.x, vector.y, 0f)
   }
 
-  fun unproject(position: Vector2): Vector2 {
+  fun unproject(position: Vec2): Vec2 {
     val threeDimensionalPosition = Vector3(position.x, position.y, 0f)
     val result = ortho.unproject(threeDimensionalPosition)
-    return Vector2(result.x, result.y)
+    return Vec2(result.x, result.y)
   }
 
   private fun updateCameraPosition() {
@@ -60,9 +60,9 @@ class Camera {
     ortho.zoom = eye.z
   }
 
-  fun position() = Vector2(target.x, target.y)
+  fun position() = Vec2(target.x, target.y)
 
-  fun mouseScreenPosition() = Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
+  fun mouseScreenPosition() = Vec2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
 
   fun mousePosition() = unproject(mouseScreenPosition())
 

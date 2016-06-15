@@ -1,6 +1,6 @@
 package core.actions.catalog
 
-import com.badlogic.gdx.math.Vector2
+import commons.math.Vec2
 import core.Camera
 import core.actions.Action
 import core.input.event.EventBundle
@@ -11,10 +11,10 @@ import java.util.*
 class CameraArrowsMovementAction(private val cameraDep: Camera) : Action {
 
   private val keyVectorMappings = mapOf(
-    KeyboardButton.ARROW_UP to Vector2(0f, 1f),
-    KeyboardButton.ARROW_DOWN to Vector2(0f, -1f),
-    KeyboardButton.ARROW_LEFT to Vector2(-1f, 0f),
-    KeyboardButton.ARROW_RIGHT to Vector2(1f, 0f)
+    KeyboardButton.ARROW_UP to Vec2(0f, 1f),
+    KeyboardButton.ARROW_DOWN to Vec2(0f, -1f),
+    KeyboardButton.ARROW_LEFT to Vec2(-1f, 0f),
+    KeyboardButton.ARROW_RIGHT to Vec2(1f, 0f)
   ).mapValues { entry -> toEvent(entry.value) }
   private val ticks = toMutableMap(keyVectorMappings.keys.map { it to false}.toMap())
   private val events = object : EventBundle {
@@ -40,10 +40,10 @@ class CameraArrowsMovementAction(private val cameraDep: Camera) : Action {
 
   override fun events() = events
 
-  private fun toEvent(vec: Vector2): () -> Unit {
+  private fun toEvent(vec: Vec2): () -> Unit {
     return {
       val movementFactor = 16f
-      val result = Vector2(vec).scl(movementFactor)
+      val result = vec * movementFactor
       cameraDep.moveRelative(result)
     }
   }

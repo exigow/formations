@@ -2,12 +2,12 @@ package game
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.MathUtils.random
-import com.badlogic.gdx.math.Vector2
+import commons.math.Vec2
 
 
 class Ship {
 
-  val position: Vector2 = Vector2();
+  var position: Vec2 = Vec2.zero();
   var angle: Float = 0f;
 
   companion object {

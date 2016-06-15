@@ -1,24 +1,24 @@
 package core.actions.catalog.selecting
 
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
+import commons.math.Vec2
 
 class SelectionRectangle {
 
-  private val startPivot = Vector2()
-  private val endPivot = Vector2()
+  private var startPivot = Vec2.zero()
+  private var endPivot = Vec2.zero()
 
-  fun startFrom(where: Vector2) = startPivot.set(where)
+  fun startFrom(where: Vec2) {startPivot = where}
 
-  fun endTo(where: Vector2) = endPivot.set(where)
+  fun endTo(where: Vec2) {endPivot = where}
 
   fun selectionRectangle() = convert(startPivot, endPivot)
 
-  fun distanceFromStartingPoint() = startPivot.dst(endPivot)
+  fun distanceFromStartingPoint() = startPivot.distanceTo(endPivot)
 
   private companion object {
 
-    fun convert(start: Vector2, end: Vector2): Rectangle {
+    fun convert(start: Vec2, end: Vec2): Rectangle {
       val width = end.x - start.x
       val height = end.y - start.y
       val rect = Rectangle(start.x, start.y, width, height)

@@ -5,20 +5,20 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
+import commons.math.Vec2
 import core.Camera
 
 object Renderer {
 
   private val shape = ShapeRenderer()
 
-  fun renderCircle(position: Vector2, radius: Float = 1f, segments: Int = 8) {
+  fun renderCircle(position: Vec2, radius: Float = 1f, segments: Int = 8) {
     shape.begin(Line)
     shape.circle(position.x, position.y, radius, segments)
     shape.end()
   }
 
-  fun renderArrow(position: Vector2, scale: Float = 16f, angle: Float = 0f) {
+  fun renderArrow(position: Vec2, scale: Float = 16f, angle: Float = 0f) {
     val vertices: FloatArray = floatArrayOf(
       -1f, -.5f,
       -.75f, 0f,
@@ -35,7 +35,7 @@ object Renderer {
     shape.identity();
   }
 
-  fun renderCross(position: Vector2, size: Float = 16f) {
+  fun renderCross(position: Vec2, size: Float = 16f) {
     shape.begin(Line)
     shape.line(position.x - size, position.y, position.x + size, position.y)
     shape.line(position.x, position.y - size, position.x, position.y + size)

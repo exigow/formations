@@ -1,6 +1,6 @@
 package core.actions.catalog
 
-import com.badlogic.gdx.math.Vector2
+import commons.math.Vec2
 import core.Camera
 import core.actions.Action
 import core.input.event.bundles.ThreeStateButtonEventBundle
@@ -9,13 +9,13 @@ import core.input.mappings.MouseButton
 class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
 
   private var isDragging = false
-  private val movementPivot = Vector2()
+  private var movementPivot = Vec2.zero()
   private val zoomBounceAmount = .1f
 
   private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_MIDDLE) {
 
     override fun onPress() {
-      movementPivot.set(cameraDep.position()).add(cameraDep.mousePosition());
+      movementPivot = cameraDep.position() + cameraDep.mousePosition();
       cameraDep.zoomRelative(-zoomBounceAmount)
       isDragging = true
     }
@@ -34,10 +34,8 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
 
   override fun events() = events
 
-  private fun calculateDifference(): Vector2 {
-    val difference = Vector2()
-    difference.set(movementPivot)
-    return difference.sub(cameraDep.mousePosition())
+  private fun calculateDifference(): Vec2 {
+    return movementPivot - cameraDep.mousePosition()
   }
 
   override fun isWorking() = isDragging

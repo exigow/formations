@@ -1,5 +1,8 @@
 package commons.math
 
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+
 data class Vec2(val x: Float, val y: Float) {
 
   operator fun plus(other: Vec2) = copy(x + other.x, y + other.y)
@@ -29,13 +32,18 @@ data class Vec2(val x: Float, val y: Float) {
 
   fun isZero() = x == 0f && y == 0f
 
+  fun toVector2(): Vector2 = Vector2(x, y)
+
   companion object {
 
     @JvmStatic fun zero() = Vec2(0f, 0f)
 
     @JvmStatic fun one() = Vec2(1f, 1f)
 
-    //@JvmStatic fun random() = Vec2(1f, 1f) // todo
+    @JvmStatic fun random(): Vec2 {
+      fun rand() = MathUtils.random(-1f, 1f)
+      return Vec2(rand(), rand())
+    }
 
   }
 
