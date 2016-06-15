@@ -26,8 +26,8 @@ class Vec2Test {
 
   @Test fun testLength() {
     assertEquals(Vec2.zero().length(), 0f)
-    assertEquals(Vec2(1f, 0f).length(), 1f);
-    assertEquals(Vec2(3f, 4f).length(), 5f);
+    assertEquals(Vec2(1f, 0f).length(), 1f)
+    assertEquals(Vec2(3f, 4f).length(), 5f)
   }
 
   @Test fun testDistanceTo() {
