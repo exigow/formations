@@ -5,19 +5,18 @@ import core.actions.catalog.CameraArrowsMovementAction
 import core.actions.catalog.CameraMiddleClickMovementAction
 import core.actions.catalog.CameraScrollZoomAction
 import core.actions.catalog.selecting.SelectionAction
+import game.PlayerContext
 import game.Ship
 import game.Squad
 import game.World
-import java.util.*
 
 class Main {
 
   private val world = World.randomWorld()
   private val camera = Camera()
   private val actions = ActionsRegistry()
-  private val selectedSquads: MutableList<Squad> = ArrayList()
-  private val highlightedSquads: MutableList<Squad> = ArrayList()
-  private val selectionAction = SelectionAction(camera, world, highlighted = highlightedSquads, selected = selectedSquads)
+  private val context = PlayerContext()
+  private val selectionAction = SelectionAction(camera, world, context)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -30,25 +29,16 @@ class Main {
     val delta = Gdx.graphics.deltaTime
     camera.update(delta)
     actions.update(delta)
-
     Renderer.reset(camera)
     Renderer.renderGrid()
-    for (ship in world.findAllShips())
-      renderShip(ship)
-
-    for (ship in selectedSquads.flatMap { s -> s.ships })
-      Renderer.renderCircle(ship.position, 32f)
-    for (ship in highlightedSquads.flatMap { s -> s.ships })
-      Renderer.renderCircle(ship.position, 48f)
-
+    forEachShip(world.squads, {renderShip(it)})
+    forEachShip(context.selected, {Renderer.renderCircle(it.position, 32f)})
+    forEachShip(context.highlighted, {Renderer.renderCircle(it.position, 48f)})
     renderMouse()
-
-    Renderer.renderRectangle(camera.worldVisibilityRectangle(-128f))
     renderSelectionRect()
-
-    /*for (ship in selectionAction.selectedSquads().flatMap { e -> e.ships })
-      Renderer.renderCircle(ship.position, 24f)*/
   }
+
+  private fun forEachShip(ships: List<Squad>, f: (ship: Ship) -> Unit) = ships.flatMap { s -> s.ships }.forEach { f.invoke(it) }
 
   fun renderSelectionRect() {
     val rect = selectionAction.selectionRectangle()

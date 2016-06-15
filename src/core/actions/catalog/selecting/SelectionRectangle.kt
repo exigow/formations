@@ -8,13 +8,16 @@ class SelectionRectangle {
   private var startPivot = Vec2.zero()
   private var endPivot = Vec2.zero()
 
-  fun startFrom(where: Vec2) {startPivot = where}
+  /*fun startFrom(where: Vec2) {startPivot = where}
 
-  fun endTo(where: Vec2) {endPivot = where}
+  fun endTo(where: Vec2) {endPivot = where}*/
+
+  fun updatePivots(from: Vec2, to: Vec2) {
+    startPivot = from
+    endPivot = to
+  }
 
   fun selectionRectangle() = convert(startPivot, endPivot)
-
-  fun distanceFromStartingPoint() = startPivot.distanceTo(endPivot)
 
   private companion object {
 
