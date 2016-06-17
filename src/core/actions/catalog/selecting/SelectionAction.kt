@@ -115,4 +115,6 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
 
   override fun discardOn() = setOf(CameraMiddleClickMovementAction::class)
 
+  override fun isWorking() = isDragging
+
 }
