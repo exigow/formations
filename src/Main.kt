@@ -4,6 +4,7 @@ import core.actions.ActionsRegistry
 import core.actions.catalog.CameraArrowsMovementAction
 import core.actions.catalog.CameraMiddleClickMovementAction
 import core.actions.catalog.CameraScrollZoomAction
+import core.actions.catalog.OrderingActionClass
 import core.actions.catalog.selecting.SelectionAction
 import game.PlayerContext
 import game.Ship
@@ -23,6 +24,7 @@ class Main {
     actions.addAction(CameraMiddleClickMovementAction(camera))
     actions.addAction(CameraArrowsMovementAction(camera))
     actions.addAction(selectionAction)
+    actions.addAction(OrderingActionClass(context))
   }
 
   fun onRender() {

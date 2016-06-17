@@ -26,4 +26,6 @@ class PlayerContext {
     hovered = squad
   }
 
+  fun hasSelection() = !selected.isEmpty()
+
 }
