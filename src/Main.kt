@@ -59,8 +59,7 @@ class Main {
   fun renderMouse() {
     val pos = camera.mousePosition()
     val radius = camera.scaledClickRadius()
-    Renderer.renderCross(pos, radius)
-    Renderer.renderCircle(pos, radius, 16)
+    Renderer.renderCross(pos, radius / 2f)
   }
 
 }

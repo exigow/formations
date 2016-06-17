@@ -18,3 +18,6 @@
 # WYZNACZANIE ROZKAZÓW
 
 **Prawy klik** jest wywłaszczony na wyznaczanie rozkazów.
+
+## Zachowania (w każdym przypadku wymagane jest zaznaczenie)
+
