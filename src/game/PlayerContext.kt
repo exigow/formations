@@ -5,8 +5,9 @@ import java.util.*
 
 class PlayerContext {
 
-  val selected: MutableList<Squad> = ArrayList()
-  val highlighted: MutableList<Squad> = ArrayList()
+  val selected: MutableList<Squad> = ArrayList() // todo private
+  val highlighted: MutableList<Squad> = ArrayList()  // todo private
+  var hovered: Squad? = null  // todo private
 
   fun migrateHighlightToSelection() {
     selected.clear()
@@ -19,6 +20,10 @@ class PlayerContext {
   fun replaceHighlightedWith(squads: List<Squad>) {
     highlighted.clear()
     highlighted.addAll(squads)
+  }
+
+  fun updateHover(squad: Squad?) {
+    hovered = squad
   }
 
 }

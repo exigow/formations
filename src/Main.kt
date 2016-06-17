@@ -32,8 +32,11 @@ class Main {
     Renderer.reset(camera)
     Renderer.renderGrid()
     forEachShip(world.squads, {renderShip(it)})
-    forEachShip(context.selected, {Renderer.renderCircle(it.position, 32f)})
-    forEachShip(context.highlighted, {Renderer.renderCircle(it.position, 48f)})
+    forEachShip(context.selected, {Renderer.renderCircle(it.position, 16f)})
+    forEachShip(context.highlighted, {Renderer.renderCircle(it.position, 24f)})
+    if (context.hovered != null)
+      for (hoverShip in context.hovered!!.ships)
+        Renderer.renderCircle(hoverShip.position, 32f)
     renderMouse()
     renderSelectionRect()
   }

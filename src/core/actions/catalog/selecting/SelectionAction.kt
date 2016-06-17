@@ -19,25 +19,27 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
   private var draggingPoint = Vec2.zero()
   private var isDragging = false
   private val selectionRect = SelectionRectangle()
-
+  private var previousSquad: Squad? = null
   private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_LEFT) {
 
     override fun onPress() {
+      updateHover()
       draggingPoint = cameraDep.mousePosition()
       isDragging = false
-      if (isHoveringSomething()) {
+      if (context.hovered != null) {
+        val squad = context.hovered!!
+        if (squad != previousSquad)
+          resetClickingCombo()
+        previousSquad = squad
         clickCounter += 1
         time = 0f
-        val squad = findHoveringSquad()
         when (clickCounter) {
           1 -> hoverSingleSquad(squad)
           2 -> hoverVisibleSquads()
           3 -> hoverAllSquads()
         }
-        if (!hasStillTime()) {
-          time = 0f;
-          clickCounter = 0
-        }
+        if (!hasStillTime())
+          resetClickingCombo()
       } else {
         onBackgroundClick()
       }
@@ -65,12 +67,18 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
     }
 
     override fun onTick(delta: Float) {
+      updateHover()
       time += delta
       if (!hasStillTime())
-        clickCounter = 0
+        resetClickingCombo()
     }
 
   }.toBundle()
+
+  private fun resetClickingCombo() {
+    time = 0f;
+    clickCounter = 0
+  }
 
   fun selectionRectangle(): Rectangle? {
     val rect = selectionRect.selectionRectangle()
@@ -100,11 +108,13 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
     Logger.ACTION.log("Highlighting all squads (triple click).")
   }
 
-  private fun isHoveringSomething() = findHoveringShip() != null
+  private fun updateHover() = context.updateHover(findHoveringSquad())
 
-  private fun findHoveringSquad(): Squad {
+  private fun findHoveringSquad(): Squad? {
     val ship = findHoveringShip()
-    return world.findSquad(ship!!)
+    if (ship != null)
+      return world.findSquad(ship)
+    return null
   }
 
   private fun findHoveringShip() = world.findClosestShipInMaxRadius(cameraDep.mousePosition(), cameraDep.scaledClickRadius())
