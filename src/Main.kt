@@ -1,4 +1,5 @@
 import com.badlogic.gdx.Gdx
+import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.CameraArrowsMovementAction
@@ -35,7 +36,7 @@ class Main {
     Renderer.reset(camera)
     Renderer.renderGrid()
     forEachShip(world.squads, {renderShip(it)})
-    world.squads.forEach { Renderer.renderCircle(it.center(), 4f * camera.renderingScale(), 4) }
+    world.squads.forEach { renderPoint(it.center()) }
     forEachShip(context.selected, {Renderer.renderCircle(it.position, 16f, 4)})
     forEachShip(context.highlighted, {Renderer.renderCircle(it.position, 24f, 4)})
     if (context.hovered != null)
@@ -61,6 +62,10 @@ class Main {
 
   fun renderShip(ship: Ship) {
     Renderer.renderArrow(ship.position, 16f, ship.angle)
+  }
+
+  fun renderPoint(where: Vec2) {
+    Renderer.renderCircle(where, 4f * camera.renderingScale(), 4)
   }
 
   fun renderMouse() {

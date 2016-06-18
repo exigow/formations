@@ -8,7 +8,7 @@ class PlayerContext {
   val selected: MutableList<Squad> = ArrayList() // todo private
   val highlighted: MutableList<Squad> = ArrayList()  // todo private
   var hovered: Squad? = null  // todo private
-  val collectives: MutableList<Collective> = ArrayList()
+  //val collectives: MutableList<Collective> = ArrayList()
 
   fun migrateHighlightToSelection() {
     selected.clear()
