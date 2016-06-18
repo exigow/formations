@@ -5,11 +5,12 @@ import core.actions.catalog.CameraArrowsMovementAction
 import core.actions.catalog.CameraMiddleClickMovementAction
 import core.actions.catalog.CameraScrollZoomAction
 import core.actions.catalog.OrderingActionClass
-import core.actions.catalog.selecting.SelectionAction
+import core.actions.catalog.SelectionAction
 import game.PlayerContext
 import game.Ship
 import game.Squad
 import game.World
+import game.orders.MoveOrder
 
 class Main {
 
@@ -24,7 +25,7 @@ class Main {
     actions.addAction(CameraMiddleClickMovementAction(camera))
     actions.addAction(CameraArrowsMovementAction(camera))
     actions.addAction(selectionAction)
-    actions.addAction(OrderingActionClass(context))
+    actions.addAction(OrderingActionClass(camera, context))
   }
 
   fun onRender() {
@@ -34,11 +35,18 @@ class Main {
     Renderer.reset(camera)
     Renderer.renderGrid()
     forEachShip(world.squads, {renderShip(it)})
+    world.squads.forEach { Renderer.renderCross(it.center()) }
     forEachShip(context.selected, {Renderer.renderCircle(it.position, 16f)})
     forEachShip(context.highlighted, {Renderer.renderCircle(it.position, 24f)})
     if (context.hovered != null)
       for (hoverShip in context.hovered!!.ships)
         Renderer.renderCircle(hoverShip.position, 32f)
+    for (squad in world.squads) {
+      if (!squad.orders.isEmpty()) {
+        val moveOrder = squad.orders.iterator().next() as MoveOrder
+        Renderer.renderLine(squad.center(), moveOrder.where)
+      }
+    }
     renderMouse()
     renderSelectionRect()
   }

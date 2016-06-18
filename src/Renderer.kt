@@ -42,6 +42,12 @@ object Renderer {
     shape.end()
   }
 
+  fun renderLine(from: Vec2, to: Vec2) {
+    shape.begin(Line)
+    shape.line(from.x, from.y, to.x, to.y)
+    shape.end()
+  }
+
   fun renderGrid() {
     shape.color.set(.25f, .25f, .25f, 1f)
     val max = 16

@@ -3,7 +3,7 @@ package core.actions.catalog
 import commons.math.Vec2
 import core.Camera
 import core.actions.Action
-import core.actions.catalog.selecting.SelectionAction
+import core.actions.catalog.SelectionAction
 import core.input.event.bundles.ThreeStateButtonEventBundle
 import core.input.mappings.MouseButton
 

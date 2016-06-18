@@ -1,4 +1,4 @@
-package core.actions.catalog.selecting
+package core.actions.catalog
 
 import com.badlogic.gdx.math.Rectangle
 import commons.Logger
@@ -6,6 +6,8 @@ import commons.math.Vec2
 import core.Camera
 import core.actions.Action
 import core.actions.catalog.CameraMiddleClickMovementAction
+import core.actions.catalog.utils.DraggingTool
+import core.actions.catalog.utils.SelectionRectangle
 import core.input.event.bundles.ThreeStateButtonEventBundle
 import core.input.mappings.MouseButton
 import game.PlayerContext
@@ -16,16 +18,14 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
 
   private var time = 0f
   private var clickCounter = 0
-  private var draggingPoint = Vec2.zero()
-  private var isDragging = false
+  private val draggingTool = DraggingTool()
   private val selectionRect = SelectionRectangle()
   private var previousSquad: Squad? = null
   private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_LEFT) {
 
     override fun onPress() {
       updateHover()
-      draggingPoint = cameraDep.mousePosition()
-      isDragging = false
+      draggingTool.pinTo(cameraDep.mousePosition())
       if (context.hovered != null) {
         val squad = context.hovered!!
         if (squad != previousSquad)
@@ -46,7 +46,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
     }
 
     override fun onRelease() {
-      isDragging = false
+      draggingTool.reset()
       if (!context.highlighted.isEmpty()) {
         Logger.ACTION.log("Selecting highlighted squads.")
         context.migrateHighlightToSelection()
@@ -54,13 +54,9 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
     }
 
     override fun onHold(delta: Float) {
-      val dragLength = draggingPoint.distanceTo(cameraDep.mousePosition())
-      if (dragLength > 16f && !isDragging) {
-        isDragging = true
-        Logger.ACTION.log("Highlighting with rectangle (dragging).")
-      }
-      if (isDragging) {
-        selectionRect.updatePivots(from = draggingPoint, to = cameraDep.mousePosition())
+      draggingTool.update(cameraDep.mousePosition())
+      if (draggingTool.isDragging()) {
+        selectionRect.updatePivots(from = draggingTool.startingPosition(), to = cameraDep.mousePosition())
         val insideRect = world.findSquadsInside(selectionRect.selectionRectangle())
         context.replaceHighlightedWith(insideRect)
       }
@@ -82,7 +78,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
 
   fun selectionRectangle(): Rectangle? {
     val rect = selectionRect.selectionRectangle()
-    if (isDragging)
+    if (draggingTool.isDragging())
       return rect
     return null
   }
@@ -125,6 +121,6 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
 
   override fun discardOn() = setOf(CameraMiddleClickMovementAction::class)
 
-  override fun isWorking() = isDragging
+  override fun isWorking() = draggingTool.isDragging()
 
 }

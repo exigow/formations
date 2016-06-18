@@ -1,4 +1,4 @@
-package core.actions.catalog.selecting
+package core.actions.catalog.utils
 
 import com.badlogic.gdx.math.Rectangle
 import commons.math.Vec2
@@ -7,10 +7,6 @@ class SelectionRectangle {
 
   private var startPivot = Vec2.zero()
   private var endPivot = Vec2.zero()
-
-  /*fun startFrom(where: Vec2) {startPivot = where}
-
-  fun endTo(where: Vec2) {endPivot = where}*/
 
   fun updatePivots(from: Vec2, to: Vec2) {
     startPivot = from
