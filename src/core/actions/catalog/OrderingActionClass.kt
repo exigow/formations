@@ -14,7 +14,6 @@ import kotlin.reflect.KClass
 
 class OrderingActionClass(val camera: Camera, val context: PlayerContext, val world: World) : Action {
 
-  private val draggingTool = DraggingTool()
   private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_RIGHT) {
 
     override fun onPress() {
@@ -28,11 +27,9 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext, val wo
     }
 
     override fun onRelease() {
-
     }
 
     override fun onHold(delta: Float) {
-      draggingTool.update(camera.mousePosition(), camera.scaledClickRadius())
     }
 
   }.toBundle()
@@ -42,13 +39,9 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext, val wo
   }
 
   fun orderBackground() {
-    val pointer = camera.mousePosition()
-    draggingTool.pinTo(pointer)
-    Logger.ACTION.log("Move order to $pointer for ${context.selected}.")
-
-
+    Logger.ACTION.log("Move order.")
     val new = world.joinToNewCollective(context.selected)
-    val order = MoveOrder(pointer, 0f)
+    val order = MoveOrder(camera.mousePosition(), 0f)
     new.orders.add(order)
   }
 
