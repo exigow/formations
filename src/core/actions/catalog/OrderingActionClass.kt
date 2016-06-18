@@ -9,6 +9,7 @@ import core.input.mappings.MouseButton
 import game.PlayerContext
 import game.Squad
 import game.orders.MoveOrder
+import kotlin.reflect.KClass
 
 class OrderingActionClass(val camera: Camera, val context: PlayerContext) : Action {
 
@@ -57,6 +58,8 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext) : Acti
   }
 
   override fun events() = events
+
+  override fun discardOn() = setOf(SelectionAction::class)
 
 }
 
