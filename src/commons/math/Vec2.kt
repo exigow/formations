@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2
 data class Vec2(val x: Float, val y: Float) {
 
   constructor(x: Int, y: Int) : this(x.toFloat(), y.toFloat())
+  constructor(x: Float, y: Int) : this(x, y.toFloat())
+  constructor(x: Int, y: Float) : this(x.toFloat(), y)
 
   operator fun plus(other: Vec2) = copy(x + other.x, y + other.y)
 
