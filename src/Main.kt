@@ -41,7 +41,7 @@ class Main {
     renderMouse()
     renderSelectionRect()
 
-    world.allSquads().forEach {
+    world.collectives.flatMap { it.squads }.forEach {
       val input = it.ships.map { it.position }
       val out = ConvexHull.calculate(input)
       val iter = out.iterator()

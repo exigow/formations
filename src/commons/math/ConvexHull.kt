@@ -13,7 +13,8 @@ object ConvexHull {
   }
 
   private fun calculateHull(input: List<Vec2>): List<Vec2> {
-    val arrayInput = vectorsToFloatArray(input)
+    val inflated = input.flatMap { inflate(it, 32f) }
+    val arrayInput = vectorsToFloatArray(inflated)
     val arrayConvex = com.badlogic.gdx.math.ConvexHull().computePolygon(arrayInput, false)
     return floatArrayToVectors(arrayConvex)
   }
@@ -37,5 +38,12 @@ object ConvexHull {
     }
     return result
   }
+
+  private fun inflate(vec: Vec2, scale: Float): List<Vec2> = listOf(
+    Vec2(vec.x + scale, vec.y),
+    Vec2(vec.x - scale, vec.y),
+    Vec2(vec.x, vec.y + scale),
+    Vec2(vec.x, vec.y - scale)
+  )
 
 }
