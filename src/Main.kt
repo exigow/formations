@@ -1,4 +1,5 @@
 import com.badlogic.gdx.Gdx
+import commons.math.ConvexHull
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
@@ -39,6 +40,18 @@ class Main {
     context.hovered?.ships?.forEach { Renderer.renderCircle(it.position, 28f, 16) }
     renderMouse()
     renderSelectionRect()
+
+    world.allSquads().forEach {
+      val input = it.ships.map { it.position }
+      val out = ConvexHull.calculate(input)
+      val iter = out.iterator()
+      var prev = iter.next()
+      while (iter.hasNext()) {
+        val next = iter.next()
+        Renderer.renderLine(prev, next)
+        prev = next
+      }
+    }
   }
 
   fun renderSelectionRect() {
