@@ -52,16 +52,10 @@ data class Vec2(val x: Float, val y: Float) {
     fun average(set: List<Vec2>): Vec2 {
       val iter = set.iterator()
       val first = iter.next()
-      var x = first.x
-      var y = first.y
-      while (iter.hasNext()) {
-        val next = iter.next()
-        x += next.x
-        y += next.y
-      }
-      x /= set.size
-      y /= set.size
-      return Vec2(x, y)
+      var result = first
+      while (iter.hasNext())
+        result += iter.next()
+      return result / set.size.toFloat()
     }
 
   }
