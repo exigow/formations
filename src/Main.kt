@@ -35,18 +35,18 @@ class Main {
     Renderer.reset(camera)
     Renderer.renderGrid()
     forEachShip(world.squads, {renderShip(it)})
-    world.squads.forEach { Renderer.renderCross(it.center()) }
-    forEachShip(context.selected, {Renderer.renderCircle(it.position, 16f)})
-    forEachShip(context.highlighted, {Renderer.renderCircle(it.position, 24f)})
+    world.squads.forEach { Renderer.renderCircle(it.center(), 4f * camera.renderingScale(), 4) }
+    forEachShip(context.selected, {Renderer.renderCircle(it.position, 16f, 4)})
+    forEachShip(context.highlighted, {Renderer.renderCircle(it.position, 24f, 4)})
     if (context.hovered != null)
       for (hoverShip in context.hovered!!.ships)
-        Renderer.renderCircle(hoverShip.position, 32f)
-    for (squad in world.squads) {
+        Renderer.renderCircle(hoverShip.position, 28f, 16)
+    /*for (squad in world.squads) {
       if (!squad.orders.isEmpty()) {
         val moveOrder = squad.orders.iterator().next() as MoveOrder
         Renderer.renderLine(squad.center(), moveOrder.where)
       }
-    }
+    }*/
     renderMouse()
     renderSelectionRect()
   }
@@ -61,7 +61,6 @@ class Main {
 
   fun renderShip(ship: Ship) {
     Renderer.renderArrow(ship.position, 16f, ship.angle)
-    Renderer.renderCross(ship.position, camera.renderingScale() * 8f)
   }
 
   fun renderMouse() {

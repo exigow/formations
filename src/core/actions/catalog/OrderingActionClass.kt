@@ -43,11 +43,12 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext) : Acti
     val pointer = camera.mousePosition()
     draggingTool.pinTo(pointer)
     Logger.ACTION.log("Move order to $pointer for ${context.selected}.")
-    for (selected in context.selected) {
+
+    /*for (selected in context.selected) {
       val order = MoveOrder(pointer, 0f)
       selected.orders.clear()
       selected.orders.add(order)
-    }
+    }*/
     //Logger.ACTION.log("Setting orders on background.")
   }
 
