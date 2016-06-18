@@ -48,6 +48,10 @@ object Renderer {
     shape.end()
   }
 
+  fun renderDiamond(where: Vec2, size: Float) {
+    Renderer.renderCircle(where, size, 4)
+  }
+
   fun renderGrid() {
     shape.color.set(.25f, .25f, .25f, 1f)
     val max = 16

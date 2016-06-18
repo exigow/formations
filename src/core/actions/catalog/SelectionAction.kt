@@ -100,7 +100,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
   }
 
   fun hoverAllSquads() {
-    context.replaceHighlightedWith(world.squads)
+    context.replaceHighlightedWith(world.collectives.flatMap { it.squads })
     Logger.ACTION.log("Highlighting all squads (triple click).")
   }
 
@@ -109,7 +109,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
   private fun findHoveringSquad(): Squad? {
     val ship = findHoveringShip()
     if (ship != null)
-      return world.findSquad(ship)
+      return world.findSquadOf(ship)
     return null
   }
 

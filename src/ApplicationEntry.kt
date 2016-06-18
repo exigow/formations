@@ -8,11 +8,11 @@ object ApplicationEntry {
 
   @JvmStatic fun main(args: Array<String>) {
     Logger.APPLICATION.log("Starting.")
-    val config = createCofing()
+    val config = createConfig()
     LwjglApplication(LazyInitialisationAdapter(), config)
   }
 
-  private fun createCofing(): LwjglApplicationConfiguration {
+  private fun createConfig(): LwjglApplicationConfiguration {
     val config = LwjglApplicationConfiguration()
     config.width = 1280
     config.height = 640
@@ -28,7 +28,7 @@ object ApplicationEntry {
       frame = Main()
     }
 
-    override fun render() = frame!!.onRender()
+    override fun render() = frame!!.onFrame()
 
   }
 

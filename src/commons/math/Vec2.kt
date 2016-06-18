@@ -49,13 +49,30 @@ data class Vec2(val x: Float, val y: Float) {
 
   object Calculations {
 
-    fun average(set: List<Vec2>): Vec2 {
-      val iter = set.iterator()
-      val first = iter.next()
+    fun average(list: List<Vec2>): Vec2 {
+      val iterator = list.iterator()
+      val first = iterator.next()
       var result = first
-      while (iter.hasNext())
-        result += iter.next()
-      return result / set.size.toFloat()
+      while (iterator.hasNext())
+        result += iterator.next()
+      return result / list.size.toFloat()
+    }
+
+    fun closest(list: List<Vec2>, around: Vec2): Vec2 {
+      val iterator = list.iterator()
+      val first = iterator.next()
+      var result = first
+      fun calcDist(to: Vec2) = to.distanceTo(around)
+      var distance = calcDist(result)
+      while (iterator.hasNext()) {
+        val next = iterator.next()
+        val newDistance = calcDist(next)
+        if (newDistance < distance) {
+          distance = newDistance
+          result = next
+        }
+      }
+      return result
     }
 
   }

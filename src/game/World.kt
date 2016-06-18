@@ -7,7 +7,7 @@ import java.util.*
 
 class World {
 
-  val squads: MutableList<Squad> = ArrayList();
+  val collectives: MutableList<Collective> = ArrayList();
 
   companion object {
 
@@ -21,70 +21,34 @@ class World {
           ship.position = pivotPosition + (Vec2.random() * 96f)
           squad.ships.add(ship)
         })
-        world.squads.add(squad)
+        world.collectives.add(Collective.singleton(squad))
       })
       return world;
     }
 
   }
 
-  fun findAllShips(): List<Ship> {
-    val result = ArrayList<Ship>()
-    for (squad: Squad in squads)
-      for (ship: Ship in squad.ships)
-        result.add(ship)
-    return result
-  }
-
   fun findClosestShip(checkingPoint: Vec2): Ship {
-    val ships = findAllShips()
-    val firstShip = ships.iterator().next();
-    var result = firstShip
-    fun distanceTo(s: Ship) = s.position.distanceTo(checkingPoint)
-    var distance = distanceTo(firstShip)
-    for (ship: Ship in ships) {
-      val newDistance = distanceTo(ship)
-      if (newDistance < distance) {
-        distance = newDistance
-        result = ship
-      }
-    }
-    return result
+    val positions = allShips().map { it.position }
+    val closest = Vec2.Calculations.closest(positions, checkingPoint)
+    return allShips().find { it.position == closest }!!
   }
 
   fun findClosestShipInMaxRadius(checkingPoint: Vec2, radius: Float): Ship? {
-    val ship = findClosestShip(checkingPoint);
+    val ship = findClosestShip(checkingPoint)
     if (ship.position.distanceTo(checkingPoint) < radius)
       return ship
     return null
   }
 
-  fun findShipsInside(rectangle: Rectangle): List<Ship> {
-    fun isInside(ship: Ship) = rectangle.contains(ship.position.toVector2())
-    return findAllShips().filter { isInside(it) }
-  }
+  fun findSquadOf(ship: Ship) = allSquads().find { it.ships.contains(ship) }!!
 
-  fun findSquad(ship: Ship): Squad {
-    for (squad: Squad in squads)
-      if (squad.ships.contains(ship))
-        return squad
-    throw RuntimeException()
-  }
+  fun findSquadsInside(rectangle: Rectangle) = collectives.flatMap { it.squads }
+    .filter { it.ships.any { rectangle.contains(it.position.toVector2()) } }
+    .distinct()
 
-  fun findSquadsInside(rectangle: Rectangle): List<Squad> {
-    return squads.filter { isInside(it, rectangle) }.distinct()
-  }
+  fun allSquads() = collectives.flatMap { it.squads }
 
-  private fun isInside(squad: Squad, rectangle: Rectangle): Boolean {
-    for (ship in squad.ships)
-      if (hasShipInside(rectangle, ship))
-        return true
-    return false
-  }
-
-
-  private fun hasShipInside(rectangle: Rectangle, ship: Ship): Boolean {
-    return rectangle.contains(ship.position.toVector2())
-  }
+  fun allShips() = allSquads().flatMap { it.ships }
 
 }
