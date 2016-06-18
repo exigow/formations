@@ -1,6 +1,5 @@
 package commons.math
 
-import com.badlogic.gdx.utils.FloatArray
 import java.util.*
 
 object ConvexHull {
@@ -19,8 +18,8 @@ object ConvexHull {
     return floatArrayToVectors(arrayConvex)
   }
 
-  private fun vectorsToFloatArray(vectors: List<Vec2>): FloatArray {
-    val points = FloatArray()
+  private fun vectorsToFloatArray(vectors: List<Vec2>): com.badlogic.gdx.utils.FloatArray {
+    val points = com.badlogic.gdx.utils.FloatArray()
     for (vector in vectors) {
       points.add(vector.x)
       points.add(vector.y)
@@ -28,7 +27,7 @@ object ConvexHull {
     return points
   }
 
-  private fun floatArrayToVectors(array: FloatArray): List<Vec2> {
+  private fun floatArrayToVectors(array: com.badlogic.gdx.utils.FloatArray): List<Vec2> {
     val result = ArrayList<Vec2>()
     var i = 0
     while (i < array.size) {
