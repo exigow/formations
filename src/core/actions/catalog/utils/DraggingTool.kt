@@ -13,9 +13,9 @@ class DraggingTool {
     lock = false
   }
 
-  fun update(where: Vec2) {
+  fun update(where: Vec2, maxDistance: Float) {
     val dragLength = pivot.distanceTo(where)
-    if (dragLength > 16f && !lock) {
+    if (dragLength > maxDistance && !lock) {
       Logger.ACTION.log("Is dragging.")
       lock = true
     }

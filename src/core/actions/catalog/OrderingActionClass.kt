@@ -30,7 +30,7 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext) : Acti
     }
 
     override fun onHold(delta: Float) {
-      draggingTool.update(camera.mousePosition())
+      draggingTool.update(camera.mousePosition(), camera.scaledClickRadius())
     }
 
   }.toBundle()
