@@ -20,7 +20,7 @@ class Main {
     actions.addAction(CameraMiddleClickMovementAction(camera))
     actions.addAction(CameraArrowsMovementAction(camera))
     actions.addAction(selectionAction)
-    actions.addAction(OrderingActionClass(camera, context))
+    actions.addAction(OrderingActionClass(camera, context, world))
   }
 
   fun onFrame() {
@@ -40,18 +40,12 @@ class Main {
     context.hovered?.ships?.forEach { Renderer.renderCircle(it.position, 28f, 16) }
     renderMouse()
     renderSelectionRect()
-
-    world.collectives.flatMap { it.squads }.forEach {
-      val input = it.ships.map { it.position }
-      val out = ConvexHull.calculate(input)
-      val iter = out.iterator()
-      var prev = iter.next()
-      while (iter.hasNext()) {
-        val next = iter.next()
-        Renderer.renderLine(prev, next)
-        prev = next
-      }
+    world.collectives.forEach {
+      val positions = it.squads.flatMap { it.ships }.map { it.position }
+      Renderer.renderConvexHull(positions)
     }
+
+    println(world.collectives.size)
   }
 
   fun renderSelectionRect() {

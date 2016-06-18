@@ -8,10 +8,11 @@ import core.input.event.bundles.ThreeStateButtonEventBundle
 import core.input.mappings.MouseButton
 import game.PlayerContext
 import game.Squad
+import game.World
 import game.orders.MoveOrder
 import kotlin.reflect.KClass
 
-class OrderingActionClass(val camera: Camera, val context: PlayerContext) : Action {
+class OrderingActionClass(val camera: Camera, val context: PlayerContext, val world: World) : Action {
 
   private val draggingTool = DraggingTool()
   private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_RIGHT) {
@@ -45,12 +46,10 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext) : Acti
     draggingTool.pinTo(pointer)
     Logger.ACTION.log("Move order to $pointer for ${context.selected}.")
 
-    /*for (selected in context.selected) {
-      val order = MoveOrder(pointer, 0f)
-      selected.orders.clear()
-      selected.orders.add(order)
-    }*/
-    //Logger.ACTION.log("Setting orders on background.")
+
+    val new = world.joinToNewCollective(context.selected)
+    val order = MoveOrder(pointer, 0f)
+    new.orders.add(order)
   }
 
   fun doNothing() {

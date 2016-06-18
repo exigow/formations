@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
+import commons.math.ConvexHull
 import commons.math.Vec2
 import core.Camera
 
@@ -50,6 +51,17 @@ object Renderer {
 
   fun renderDiamond(where: Vec2, size: Float) {
     Renderer.renderCircle(where, size, 4)
+  }
+
+  fun renderConvexHull(vectors: List<Vec2>) {
+    val out = ConvexHull.calculate(vectors)
+    val iter = out.iterator()
+    var prev = iter.next()
+    while (iter.hasNext()) {
+      val next = iter.next()
+      Renderer.renderLine(prev, next)
+      prev = next
+    }
   }
 
   fun renderGrid() {

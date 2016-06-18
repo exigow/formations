@@ -51,4 +51,20 @@ class World {
 
   fun allShips() = allSquads().flatMap { it.ships }
 
+  fun joinToNewCollective(squads: List<Squad>): Collective {
+    val result = ArrayList<Squad>()
+    for (squad in squads) {
+      val modified = findCollectiveOf(squad)
+      modified.squads.remove(squad)
+      if (modified.squads.isEmpty())
+        collectives.remove(modified)
+      result.add(squad)
+    }
+    val new = Collective(result)
+    collectives.add(new)
+    return new
+  }
+
+  private fun findCollectiveOf(squad: Squad) = collectives.find { it.squads.contains(squad) }!!
+
 }

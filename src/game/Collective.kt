@@ -1,17 +1,18 @@
 package game
 
 import game.orders.Order
+import java.util.*
 
 class Collective(
 
-  val squads: List<Squad>,
-  val orders: List<Order>
+  val squads: MutableList<Squad>,
+  val orders: MutableList<Order> = ArrayList()
 
 ) {
 
   companion object {
 
-    fun singleton(squad: Squad) = Collective(listOf(squad), emptyList())
+    fun singleton(squad: Squad) = Collective(mutableListOf(squad))
 
   }
 
