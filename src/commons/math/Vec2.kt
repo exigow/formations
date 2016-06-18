@@ -17,9 +17,13 @@ data class Vec2(val x: Float, val y: Float) {
 
   operator fun times(multiplier: Float) = copy(x * multiplier, y * multiplier)
 
+  operator fun times(multiplier: Int) = times(multiplier.toFloat())
+
   operator fun div(other: Vec2) = copy(x / other.x, y / other.y)
 
   operator fun div(divider: Float) = copy(x / divider, y / divider)
+
+  operator fun div(divider: Int) = div(divider.toFloat())
 
   fun length() = FastMath.sqrt(x * x + y * y)
 
