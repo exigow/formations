@@ -44,8 +44,6 @@ class Main {
       val positions = it.squads.flatMap { it.ships }.map { it.position }
       Renderer.renderConvexHull(positions)
     }
-
-    println(world.collectives.size)
   }
 
   fun renderSelectionRect() {
