@@ -43,8 +43,13 @@ class Main {
       val positions = it.squads.flatMap { it.ships }.map { it.position }
       Renderer.renderConvexHull(positions)
       if (!it.orders.isEmpty()) {
-        val order = it.orders.first() as MoveOrder
-        Renderer.renderLineArrow(it.center(), order.where)
+        val iter = it.orders.iterator()
+        var prev = it.center()
+        while (iter.hasNext()) {
+          val next = (iter.next() as MoveOrder).where
+          Renderer.renderLineArrow(prev, next)
+          prev = next
+        }
       }
     }
   }

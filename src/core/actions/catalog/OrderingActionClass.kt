@@ -1,6 +1,7 @@
 package core.actions.catalog
 
 import commons.Logger
+import commons.math.Vec2
 import core.Camera
 import core.actions.Action
 import core.input.event.EventBundle
@@ -57,6 +58,7 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext, val wo
     val new = world.joinToNewCollective(context.selected)
     val order = MoveOrder(camera.mousePosition(), 0f)
     new.orders.add(order)
+    new.orders.add(MoveOrder(camera.mousePosition() + Vec2(128, 0), 0f))
   }
 
   fun doNothing() {
