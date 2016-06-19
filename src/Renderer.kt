@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import commons.math.ConvexHull
+import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
+import java.util.*
 
 object Renderer {
 
@@ -19,21 +21,41 @@ object Renderer {
     shape.end()
   }
 
-  fun renderArrow(position: Vec2, scale: Float = 16f, angle: Float = 0f) {
-    val vertices: FloatArray = floatArrayOf(
-      -1f, -.5f,
-      -.75f, 0f,
-      -1f, .5f,
-      1f, 0f
-    );
+  fun renderDart(position: Vec2, scale: Float = 16f, angle: Float = 0f) {
+    val vertices = arrayOf(
+      Vec2(-1f, -.5f),
+      Vec2(-.75f, 0f),
+      Vec2(-1f, .5f),
+      Vec2(1f, 0f)
+    )
+    renderPolygon(vertices, position, scale, angle)
+  }
+
+  fun renderLineArrow(from: Vec2, to: Vec2) {
+    renderLine(from, to)
+    val dir = -from.directionTo(to) + FastMath.pi / 2
+    val a = FastMath.pi / 4
+    val l = 16f
+    renderLine(to, Vec2(to.x + FastMath.cos(dir + a) * l, to.y + FastMath.sin(dir + a) * l))
+    renderLine(to, Vec2(to.x + FastMath.cos(dir - a) * l, to.y + FastMath.sin(dir - a) * l))
+  }
+
+  private fun renderPolygon(vectors: Array<Vec2>, position: Vec2, scale: Float, angle: Float) {
     shape.identity();
     shape.translate(position.x, position.y, 0f)
     shape.rotate(0f, 0f, 1f, angle * MathUtils.radiansToDegrees)
     shape.scale(scale, scale, scale)
     shape.begin(Line)
-    shape.polygon(vertices)
+    shape.polygon(vectorsToVertices(vectors))
     shape.end()
     shape.identity();
+  }
+
+  private fun vectorsToVertices(vectors: Array<Vec2>): FloatArray {
+    val list = ArrayList<Float>(vectors.size / 2)
+    for (vector in vectors)
+      list.addAll(listOf(vector.x, vector.y))
+    return list.toFloatArray()
   }
 
   fun renderCross(position: Vec2, size: Float = 16f) {

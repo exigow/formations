@@ -32,7 +32,7 @@ class Main {
   fun render() {
     Renderer.reset(camera)
     Renderer.renderGrid()
-    world.allShips().forEach { Renderer.renderArrow(it.position, 16f, it.angle) }
+    world.allShips().forEach { Renderer.renderDart(it.position, 16f, it.angle) }
     world.allSquads().forEach { Renderer.renderDiamond(it.center(), camera.renderingScale() * 4f) }
     context.selected.flatMap { it.ships }.forEach { Renderer.renderCircle(it.position, 16f, 4) }
     context.highlighted.flatMap { it.ships }.forEach { Renderer.renderCircle(it.position, 24f, 4) }
@@ -44,7 +44,7 @@ class Main {
       Renderer.renderConvexHull(positions)
       if (!it.orders.isEmpty()) {
         val order = it.orders.first() as MoveOrder
-        Renderer.renderLine(it.center(), order.where)
+        Renderer.renderLineArrow(it.center(), order.where)
       }
     }
   }

@@ -3,6 +3,8 @@ package commons.math
 
 object FastMath {
 
+  val pi = Math.PI.toFloat()
+
   fun sqrt(x: Float) = Math.sqrt(x.toDouble()).toFloat()
 
   fun cos(x: Float) = Math.cos(x.toDouble()).toFloat()

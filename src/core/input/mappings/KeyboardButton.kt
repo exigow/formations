@@ -3,6 +3,7 @@ package core.input.mappings
 enum class KeyboardButton(val gdxKey: Int) {
 
   SPACE(com.badlogic.gdx.Input.Keys.SPACE),
+  SHIFT(com.badlogic.gdx.Input.Keys.SHIFT_LEFT),
 
   ARROW_UP(com.badlogic.gdx.Input.Keys.UP),
   ARROW_DOWN(com.badlogic.gdx.Input.Keys.DOWN),
