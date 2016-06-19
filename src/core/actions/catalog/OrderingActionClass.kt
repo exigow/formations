@@ -3,36 +3,37 @@ package core.actions.catalog
 import commons.Logger
 import core.Camera
 import core.actions.Action
-import core.actions.catalog.utils.DraggingTool
-import core.input.event.bundles.ThreeStateButtonEventBundle
+import core.input.event.EventBundle
+import core.input.mappings.ButtonState
 import core.input.mappings.MouseButton
 import game.PlayerContext
 import game.Squad
 import game.World
 import game.orders.MoveOrder
-import kotlin.reflect.KClass
 
 class OrderingActionClass(val camera: Camera, val context: PlayerContext, val world: World) : Action {
 
-  private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_RIGHT) {
+  private val events = object : EventBundle {
 
-    override fun onPress() {
-      if (context.hasSelection())
-        if (context.isHovering())
-          orderOn(context.hovered!!)
-        else
-          orderBackground()
+    override fun onMouse(): (MouseButton, ButtonState) -> Unit = {
+      button, state ->
+      if (isLeftPressed(button, state))
+        onPress()
+    }
+
+  }
+
+  private fun isLeftPressed(button: MouseButton, state: ButtonState) = button == MouseButton.MOUSE_RIGHT && state == ButtonState.PRESS
+
+  private fun onPress() {
+    if (context.hasSelection())
+      if (context.isHovering())
+        orderOn(context.hovered!!)
       else
-        doNothing()
-    }
-
-    override fun onRelease() {
-    }
-
-    override fun onHold(delta: Float) {
-    }
-
-  }.toBundle()
+        orderBackground()
+    else
+      doNothing()
+  }
 
   fun orderOn(target: Squad) {
     Logger.ACTION.log("Setting orders on hover: $target.")
