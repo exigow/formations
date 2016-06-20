@@ -81,6 +81,12 @@ data class Vec2(val x: Float, val y: Float) {
       return result
     }
 
+    fun lerp(from: Vec2, to: Vec2, amount: Float): Vec2 {
+      val x = FastMath.lerp(from.x, to.x, amount)
+      val y = FastMath.lerp(from.y, to.y, amount)
+      return Vec2(x, y)
+    }
+
   }
 
   override fun toString() = "($x, $y)"

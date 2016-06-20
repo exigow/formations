@@ -5,6 +5,7 @@ import core.actions.catalog.*
 import game.PlayerContext
 import game.World
 import game.orders.MoveOrder
+import ui.SelectionAnimation
 
 class Main {
 
@@ -13,6 +14,7 @@ class Main {
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
   private val selectionAction = SelectionAction(camera, world, context)
+  private var step = 0f
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -26,6 +28,7 @@ class Main {
     val delta = Gdx.graphics.deltaTime
     camera.update(delta)
     actions.update(delta)
+    step += delta
     render()
   }
 
@@ -34,7 +37,10 @@ class Main {
     Renderer.renderGrid()
     world.allShips().forEach { Renderer.renderDart(it.position, 16f, it.angle) }
     world.allSquads().forEach { Renderer.renderDiamond(it.center(), camera.renderingScale() * 4f) }
-    context.selected.flatMap { it.ships }.forEach { Renderer.renderCircle(it.position, 16f, 4) }
+    context.selected.flatMap { it.ships }.forEach {
+      //Renderer.renderCircle(it.position, 16f, 4)
+      SelectionAnimation.render(it.position, step % 2)
+    }
     context.highlighted.flatMap { it.ships }.forEach { Renderer.renderCircle(it.position, 24f, 4) }
     context.hovered?.ships?.forEach { Renderer.renderCircle(it.position, 28f, 16) }
     renderMouse()
