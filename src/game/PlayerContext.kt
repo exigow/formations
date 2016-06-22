@@ -1,14 +1,15 @@
 package game
 
+import com.badlogic.gdx.math.Rectangle
 import java.util.*
 
 
 class PlayerContext {
 
-  val selected: MutableList<Squad> = ArrayList() // todo private
-  val highlighted: MutableList<Squad> = ArrayList()  // todo private
-  var hovered: Squad? = null  // todo private
-  //val collectives: MutableList<Collective> = ArrayList()
+  val selected: MutableList<Squad> = ArrayList()
+  val highlighted: MutableList<Squad> = ArrayList()
+  var hovered: Squad? = null
+  var selectionRect: Rectangle? = null
 
   fun migrateHighlightToSelection() {
     selected.clear()

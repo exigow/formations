@@ -2,10 +2,8 @@ package core.actions.catalog
 
 import com.badlogic.gdx.math.Rectangle
 import commons.Logger
-import commons.math.Vec2
 import core.Camera
 import core.actions.Action
-import core.actions.catalog.CameraMiddleClickMovementAction
 import core.actions.catalog.utils.DraggingTool
 import core.actions.catalog.utils.SelectionRectangle
 import core.input.event.bundles.ThreeStateButtonEventBundle
@@ -67,6 +65,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
       time += delta
       if (!hasStillTime())
         resetClickingCombo()
+      context.selectionRect = selectionRectangle()
     }
 
   }.toBundle()
@@ -76,7 +75,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
     clickCounter = 0
   }
 
-  fun selectionRectangle(): Rectangle? {
+  private fun selectionRectangle(): Rectangle? {
     val rect = selectionRect.selectionRectangle()
     if (draggingTool.isDragging())
       return rect

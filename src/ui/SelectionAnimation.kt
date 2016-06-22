@@ -1,11 +1,15 @@
 package ui
 
+import Renderer
 import commons.math.FastMath
 import commons.math.Vec2
 
 object SelectionAnimation {
 
   fun render(where: Vec2, step: Float) {
+    val epsilon = .0125f
+    if (step > 2 - epsilon || step < 0 + epsilon)
+      return
     val size = 32f
     for (i in 0..4) {
       val deg = i * FastMath.pi / 2f

@@ -4,8 +4,7 @@ import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
-import game.orders.MoveOrder
-import ui.SelectionAnimation
+import ui.UserInterfaceRenderer
 
 class Main {
 
@@ -13,14 +12,13 @@ class Main {
   private val camera = Camera()
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
-  private val selectionAction = SelectionAction(camera, world, context)
-  private var step = 0f
+  private val uiRenderer = UserInterfaceRenderer(context, camera, world)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
     actions.addAction(CameraMiddleClickMovementAction(camera))
     actions.addAction(CameraArrowsMovementAction(camera))
-    actions.addAction(selectionAction)
+    actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
   }
 
@@ -28,48 +26,10 @@ class Main {
     val delta = Gdx.graphics.deltaTime
     camera.update(delta)
     actions.update(delta)
-    step += delta
-    render()
-  }
-
-  fun render() {
     Renderer.reset(camera)
     Renderer.renderGrid()
     world.allShips().forEach { Renderer.renderDart(it.position, 16f, it.angle) }
-    world.allSquads().forEach { Renderer.renderDiamond(it.center(), camera.renderingScale() * 4f) }
-    context.selected.flatMap { it.ships }.forEach {
-      //Renderer.renderCircle(it.position, 16f, 4)
-      SelectionAnimation.render(it.position, step % 2)
-    }
-    context.highlighted.flatMap { it.ships }.forEach { Renderer.renderCircle(it.position, 24f, 4) }
-    context.hovered?.ships?.forEach { Renderer.renderCircle(it.position, 28f, 16) }
-    renderMouse()
-    renderSelectionRect()
-    world.collectives.forEach {
-      val positions = it.squads.flatMap { it.ships }.map { it.position }
-      Renderer.renderConvexHull(positions)
-      if (!it.orders.isEmpty()) {
-        val iter = it.orders.iterator()
-        var prev = it.center()
-        while (iter.hasNext()) {
-          val next = (iter.next() as MoveOrder).where
-          Renderer.renderLineArrow(prev, next)
-          prev = next
-        }
-      }
-    }
-  }
-
-  fun renderSelectionRect() {
-    val rect = selectionAction.selectionRectangle()
-    if (rect != null)
-      Renderer.renderRectangle(rect)
-  }
-
-  fun renderMouse() {
-    val pos = camera.mousePosition()
-    val radius = camera.scaledClickRadius()
-    Renderer.renderCross(pos, radius)
+    uiRenderer.render(delta)
   }
 
 }
