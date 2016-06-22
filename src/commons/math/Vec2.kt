@@ -46,6 +46,8 @@ data class Vec2(val x: Float, val y: Float) {
 
     @JvmStatic fun one() = Vec2(1f, 1f)
 
+    @JvmStatic fun rotated(angle: Float) = Vec2(FastMath.cos(angle), FastMath.sin(angle))
+
     @JvmStatic fun random(): Vec2 {
       fun rand() = MathUtils.random(-1f, 1f)
       return Vec2(rand(), rand())

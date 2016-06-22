@@ -2,6 +2,7 @@ package ui
 
 import Renderer
 import com.badlogic.gdx.math.Rectangle
+import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
 import game.Collective
@@ -39,10 +40,11 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     if (context.selectionRect != null) {
       rectangleSequence.show()
       rectangle.set(context.selectionRect)
+      Renderer.renderRectangle(rectangle)
     } else
       rectangleSequence.hide()
     rectangleSequence.update(delta * 2)
-    PathAnimation.render(createRectanglePath(rectangle), rectangleSequence.animaionStep())
+    PathAnimation.render(createRectanglePath(rectangle.plusBorder(8f * camera.renderingScale())), rectangleSequence.animaionStep(), divided = false)
   }
 
   fun createDiamondPaths(): Map<Vec2, Vec2> {
@@ -83,12 +85,20 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     val rightUp = leftUp + Vec2(rect.width, 0)
     val leftDown = leftUp + Vec2(0, rect.height)
     val rightDown = leftUp + Vec2(rect.width, rect.height)
-    return mapOf(
-      leftUp to rightUp,
-      rightUp to rightDown,
-      rightDown to leftDown,
-      leftDown to leftUp
-    )
+    val q = FastMath.pi / 4f
+    return createCornerPath(leftUp, 0f)
+      .plus(createCornerPath(rightUp, q * 2))
+      .plus(createCornerPath(leftDown, q * 3))
+      .plus(createCornerPath(rightDown, q * 4))
+  }
+
+  fun createCornerPath(where: Vec2, angle: Float): Map<Vec2, Vec2> {
+    val r = Vec2.rotated(angle)
+    println(r)
+    val len = 32
+    val a = where + Vec2(1, 0) * len
+    val b = where + Vec2(0, 1) * len
+    return mapOf(a to where, b to where)
   }
 
   fun Map<Vec2, Vec2>.add(addition: Vec2) = this.mapKeys { addition + it.key }.mapValues { addition + it.value }
@@ -145,6 +155,14 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
       hover.update(delta)
     }
 
+  }
+
+  fun Rectangle.plusBorder(border: Float): Rectangle {
+    val w = width + border
+    val h = height + border
+    val x = x - (border / 2f)
+    val y = y - (border / 2f)
+    return Rectangle(x, y, w, h);
   }
 
 }
