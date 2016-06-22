@@ -34,9 +34,7 @@ class AnimationSequence {
     )
     if (state == State.OUT)
       step = 0f
-    val newState = map[state]!!
-    println("set to ${newState.target}")
-    state = newState
+    state = map[state]!!
   }
 
   private fun canChange(): Boolean {
