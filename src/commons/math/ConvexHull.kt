@@ -39,15 +39,8 @@ object ConvexHull {
     return result
   }
 
-  private fun inflate(vec: Vec2, scale: Float): List<Vec2> = listOf(
-    Vec2(vec.x + scale, vec.y),
-    Vec2(vec.x - scale, vec.y),
-    Vec2(vec.x, vec.y + scale),
-    Vec2(vec.x, vec.y - scale)
-  )
-
-  /*private fun inflate(vec: Vec2, scale: Float, quality: Int = 10) = sequenceOf(1..quality).map {
-    vec + Vec2.rotated(it.step.toFloat() / quality) * scale
-  }.toList()*/
+  private fun inflate(vec: Vec2, scale: Float, quality: Int = 16) = (1..quality).map {
+    vec + Vec2.rotated(it.toFloat() / quality * FastMath.pi * 2) * scale
+  }.toList()
 
 }
