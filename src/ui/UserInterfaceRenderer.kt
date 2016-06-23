@@ -15,6 +15,7 @@ import java.util.*
 
 class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val world: World) {
 
+  private val diamondSize = 24f
   private var time = 0f
   private val animations: MutableMap<Squad, AnimationSequenceSquadBundle> = HashMap()
   private val rectangleSequence = AnimationSequence()
@@ -24,7 +25,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     updateAnimationsKeys()
     updateAnimationsStates(delta)
     time += delta
-    context.selected.flatMap { it.ships }.forEach { Renderer.renderDiamond(it.position, 24f) }
+    context.selected.flatMap { it.ships }.forEach { Renderer.renderDiamond(it.position, (diamondSize - 4f) * camera.renderingScale()) }
     renderMouse()
     //world.collectives.forEach { it.render() }
     performRectangleAnimation(delta)
@@ -48,7 +49,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   }
 
   fun createDiamondPaths(): Map<Vec2, Vec2> {
-    val scale = 32
+    val scale = diamondSize * camera.renderingScale()
     val left = Vec2(-scale, 0)
     val right = Vec2(scale, 0)
     val up = Vec2(0, -scale)
@@ -62,7 +63,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   }
 
   fun createCrossPaths(): Map<Vec2, Vec2> {
-    val scale = 32
+    val scale = diamondSize * camera.renderingScale()
     val div = 2
     val leftUpA = Vec2(-scale, -scale)
     val leftUpB = leftUpA / div
@@ -94,8 +95,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
 
   fun createCornerPath(where: Vec2, angle: Float): Map<Vec2, Vec2> {
     val r = Vec2.rotated(angle)
-    println(r)
-    val len = 32
+    val len = 32 * camera.renderingScale()
     val a = where + Vec2(1, 0) * len
     val b = where + Vec2(0, 1) * len
     return mapOf(a to where, b to where)

@@ -14,8 +14,9 @@ object ApplicationEntry {
 
   private fun createConfig(): LwjglApplicationConfiguration {
     val config = LwjglApplicationConfiguration()
-    config.width = 1280
-    config.height = 640
+    config.width = 1600
+    config.height = 900
+    config.samples = 8
     return config
   }
 
