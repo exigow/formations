@@ -1,6 +1,5 @@
 package game
 
-import com.badlogic.gdx.math.MathUtils.random
 import com.badlogic.gdx.math.Rectangle
 import commons.math.Vec2
 import java.util.*
@@ -13,16 +12,16 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      repeat(random(5, 7), {
+      for (squadIteration in 1..3) {
         val pivotPosition = Vec2.random() * 512f
         val squad = Squad()
-        repeat(random(3, 7), {
-          val ship = Ship.randomShip()
+        repeat(squadIteration, {
+          val ship = Ship.randomShip(UnitConfiguration.fighterType())
           ship.position = pivotPosition + (Vec2.random() * 96f)
           squad.ships.add(ship)
         })
         world.collectives.add(Collective.singleton(squad))
-      })
+      }
       return world;
     }
 

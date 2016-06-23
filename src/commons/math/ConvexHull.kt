@@ -46,4 +46,8 @@ object ConvexHull {
     Vec2(vec.x, vec.y - scale)
   )
 
+  /*private fun inflate(vec: Vec2, scale: Float, quality: Int = 10) = sequenceOf(1..quality).map {
+    vec + Vec2.rotated(it.step.toFloat() / quality) * scale
+  }.toList()*/
+
 }

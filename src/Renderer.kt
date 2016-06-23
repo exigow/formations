@@ -71,6 +71,17 @@ object Renderer {
     shape.end()
   }
 
+  fun renderArc(where: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8) {
+    fun sample(angle: Float) = where + Vec2.rotated(angle) * radius
+    var prev = sample(start)
+    for (iteration in 1..quality) {
+      val angle = start + (iteration.toFloat() / quality) * (end - start)
+      val next = sample(angle)
+      renderLine(prev, next)
+      prev = next
+    }
+  }
+
   fun renderDiamond(where: Vec2, size: Float) {
     Renderer.renderCircle(where, size, 4)
   }
