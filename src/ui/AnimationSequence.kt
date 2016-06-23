@@ -20,7 +20,7 @@ class AnimationSequence {
     timer += delta
     if (canChange())
       goToNextState()
-    step += (state.target - step) * .375f
+    step += (state.target - step) * .5f
   }
 
   fun animaionStep() = step
