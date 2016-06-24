@@ -19,22 +19,17 @@ class Ship(val config: UnitConfiguration) {
 
     angleAcceleration -= angleDiff * config.rotationSpeedAcceleration * delta
     angleAcceleration = lockAngle(angleAcceleration, config.rotationSpeedMax)
-    val damping = FastMath.pow(config.rotationSpeedDumping, delta)
-    angleAcceleration *= damping
+    val angleDamping = FastMath.pow(config.rotationSpeedDumping, delta)
+    angleAcceleration *= angleDamping
     angle += angleAcceleration * delta
 
-
-    //val dist = position.distanceTo(movementTarget)
-    //velocityAcceleration += Math.min(dist, 1f)
-
-
-
-    if (canAccelerateForward()) {
-      println("yes")
-      //position += Vec2.rotated(angle)
-    } else
-      println("no")
-    //println(velocityAcceleration)
+    val dist = position.distanceTo(movementTarget)
+    if (dist > 64f && canAccelerateForward())
+      velocityAcceleration += 1 * delta
+    val velocityDamping = FastMath.pow(config.thrusterSpeedDumping, delta)
+    velocityAcceleration *= velocityDamping
+    velocityAcceleration = Math.min(velocityAcceleration, config.thrusterSpeedMax)
+    position += Vec2.rotated(angle) * velocityAcceleration
   }
 
   private fun lockAngle(a: Float, max: Float) = Math.max(Math.min(a, max), -max)

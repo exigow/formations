@@ -18,7 +18,7 @@ data class UnitConfiguration(
 
   val thrusterSpeedAcceleration: Float,
   val thrusterSpeedMax: Float,
-  val thrusterSpeedDamping: Float,
+  val thrusterSpeedDumping: Float,
 
   val rotationSpeedAcceleration: Float,
   val rotationSpeedMax: Float,
@@ -39,7 +39,7 @@ data class UnitConfiguration(
 
       thrusterSpeedAcceleration = .375f,
       thrusterSpeedMax = 4f,
-      thrusterSpeedDamping = .25f,
+      thrusterSpeedDumping = .875f,
 
       rotationSpeedAcceleration = 1.75f,
       rotationSpeedMax = 2.25f,
@@ -53,12 +53,17 @@ data class UnitConfiguration(
       if (!condition)
         throw RuntimeException("Validation error: ")
     }
-    ensure(accelerationAngle <= FastMath.pi)
     ensure(!displayedName.isEmpty())
+
+    ensure(accelerationAngle <= FastMath.pi)
+
     ensure(thrusterSpeedAcceleration >= 0f)
     ensure(thrusterSpeedMax >= 0f)
+    ensure(thrusterSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
+
     ensure(rotationSpeedAcceleration >= 0f)
     ensure(rotationSpeedMax >= 0f)
+    ensure(rotationSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
   }
 
 }

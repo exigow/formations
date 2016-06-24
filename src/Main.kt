@@ -37,41 +37,55 @@ class Main {
   }
 
   private fun Ship.render() {
-    Renderer.renderDart(position, 16f, angle)
-    renderAngle(position, angle, config.accelerationAngle, 64f);
-    renderSpeed(position, angle, config.thrusterSpeedAcceleration * 64, config.thrusterSpeedMax * 64)
-    renderRotation(position, angle, config.rotationSpeedAcceleration * .5f, config.rotationSpeedMax * .5f)
-    renderMovementTarget(position, movementTarget)
+    renderBody()
+    renderThrusterState()
+    renderRotationState()
+    renderMovementTarget()
+    renderAccelerationAngle()
   }
 
-  private fun renderMovementTarget(from: Vec2, to: Vec2) {
-    Renderer.renderLineArrow(to - Vec2.rotated(from.directionTo(to)) * 32f, to, 16f)
-    Renderer.renderDiamond(to, 8f)
-  }
+  private fun Ship.renderBody() = Renderer.renderDart(position, 16f, angle)
 
-  private fun renderRotation(where: Vec2, angle: Float, acceleration: Float, max: Float) {
-    fun arc(amount: Float, length: Float) = Renderer.renderArc(where, length, angle - amount, angle + amount)
-    arc(acceleration, 96f)
-    arc(max, 128f)
-  }
-
-  private fun renderAngle(where: Vec2, angle: Float, range: Float, radius: Float) {
-    val start = angle - range
-    val end = angle + range
-    Renderer.renderLine(where, where + Vec2.rotated(start) * radius)
-    Renderer.renderLine(where, where + Vec2.rotated(end) * radius)
-    Renderer.renderArc(where, radius, start, end)
-  }
-
-  private fun renderSpeed(where: Vec2, angle: Float, acceleration: Float, max: Float) {
-    Renderer.renderLineDotted(where, where + Vec2.rotated(angle) * max, 8f)
+  private fun Ship.renderThrusterState() {
+    val scale = 64f
+    val max = config.thrusterSpeedMax * scale
+    val current = velocityAcceleration * scale
+    Renderer.renderLineDotted(position, position + Vec2.rotated(angle) * max, 8f)
     fun horizon(length: Float, size: Float) {
-      val pivot = where + Vec2.rotated(angle) * length
+      val pivot = position + Vec2.rotated(angle) * length
       val horizontal = Vec2.rotated(angle + FastMath.pi / 2) * size
       Renderer.renderLine(pivot + horizontal, pivot - horizontal)
     }
     horizon(max, 16f)
-    horizon(acceleration, 8f)
+    horizon(current, 8f)
+  }
+
+  private fun Ship.renderMovementTarget() {
+    Renderer.renderLineDotted(position, movementTarget, 4f)
+    Renderer.renderLineArrow(movementTarget - Vec2.rotated(position.directionTo(movementTarget)) * 32f, movementTarget, 16f)
+  }
+
+  private fun Ship.renderRotationState() {
+    val angleScale = .25f
+    val distanceScale = 128f
+    fun arc(amount: Float, length: Float) = Renderer.renderArc(position, length, angle - amount, angle + amount)
+    arc(config.rotationSpeedMax * angleScale, distanceScale)
+    fun pivot(a: Float, thickness: Float) {
+      val vec = Vec2.rotated(angle + a * angleScale)
+      Renderer.renderLine(position + vec * (distanceScale - thickness), position + vec * (distanceScale + thickness))
+    }
+    pivot(angleAcceleration, 8f)
+    pivot(config.rotationSpeedMax, 16f)
+    pivot(-config.rotationSpeedMax, 16f)
+  }
+
+  private fun Ship.renderAccelerationAngle() {
+    val length = 96f
+    val start = angle - config.accelerationAngle
+    val end = angle + config.accelerationAngle
+    Renderer.renderLine(position, position + Vec2.rotated(start) * length)
+    Renderer.renderLine(position, position + Vec2.rotated(end) * length)
+    Renderer.renderArc(position, length, start, end)
   }
 
 }
