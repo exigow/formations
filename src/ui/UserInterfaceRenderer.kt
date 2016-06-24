@@ -133,7 +133,8 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
       var prev = this.center()
       while (iter.hasNext()) {
         val next = (iter.next() as MoveOrder).where
-        Renderer.renderLineArrow(prev, next)
+        //Renderer.renderLineArrow(prev, next)
+        Renderer.renderCross(next, 8f)
         prev = next
       }
     }

@@ -31,6 +31,7 @@ class Main {
     actions.update(delta)
     Renderer.reset(camera)
     Renderer.renderGrid()
+    world.allShips().forEach { it.update(delta) }
     world.allShips().forEach { it.render() }
     uiRenderer.render(delta)
   }
@@ -40,6 +41,13 @@ class Main {
     renderAngle(position, angle, config.accelerationAngle, 64f);
     renderSpeed(position, angle, config.thrusterSpeedAcceleration * 64, config.thrusterSpeedMax * 64)
     renderRotation(position, angle, config.rotationSpeedAcceleration * .5f, config.rotationSpeedMax * .5f)
+    renderMovementTarget(position, movementTarget)
+  }
+
+  private fun renderMovementTarget(from: Vec2, to: Vec2) {
+    val dir = -from.directionTo(to) - FastMath.pi / 2
+    Renderer.renderLineArrow(to - Vec2.rotated(dir) * 32f, to, 16f)
+    Renderer.renderDiamond(to, 8f)
   }
 
   private fun renderRotation(where: Vec2, angle: Float, acceleration: Float, max: Float) {

@@ -31,11 +31,11 @@ object Renderer {
     renderPolygon(vertices, position, scale, angle)
   }
 
-  fun renderLineArrow(from: Vec2, to: Vec2) {
+  fun renderLineArrow(from: Vec2, to: Vec2, scale: Float = 16f) {
     renderLine(from, to)
     val dir = -from.directionTo(to) + FastMath.pi / 2
     val a = FastMath.pi / 4
-    val l = 16f
+    val l = scale
     renderLine(to, Vec2(to.x + FastMath.cos(dir + a) * l, to.y + FastMath.sin(dir + a) * l))
     renderLine(to, Vec2(to.x + FastMath.cos(dir - a) * l, to.y + FastMath.sin(dir - a) * l))
   }
@@ -82,7 +82,7 @@ object Renderer {
     }
   }
 
-  fun renderArc(where: Vec2, radius: Float, start: Float, end: Float, quality: Int = 32) {
+  fun renderArc(where: Vec2, radius: Float, start: Float, end: Float, quality: Int = 64) {
     fun sample(angle: Float) = where + Vec2.rotated(angle) * radius
     var prev = sample(start)
     for (iteration in 1..quality) {

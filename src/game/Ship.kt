@@ -9,6 +9,11 @@ class Ship(val config: UnitConfiguration) {
 
   var position: Vec2 = Vec2.zero();
   var angle: Float = 0f;
+  var movementTarget = Vec2.zero();
+
+  fun update(delta: Float) {
+    //angle += delta
+  }
 
   companion object {
 
