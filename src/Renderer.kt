@@ -82,7 +82,7 @@ object Renderer {
     }
   }
 
-  fun renderArc(where: Vec2, radius: Float, start: Float, end: Float, quality: Int = 64) {
+  fun renderArc(where: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8) {
     fun sample(angle: Float) = where + Vec2.rotated(angle) * radius
     var prev = sample(start)
     for (iteration in 1..quality) {
