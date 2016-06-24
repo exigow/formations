@@ -12,7 +12,7 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      for (squadIteration in 1..3) {
+      for (squadIteration in 1..1) {
         val pivotPosition = Vec2.random() * 512f
         val squad = Squad()
         repeat(squadIteration, {

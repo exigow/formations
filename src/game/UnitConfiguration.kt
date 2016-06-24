@@ -29,11 +29,11 @@ data class UnitConfiguration(
 
     fun fighterType() = UnitConfiguration(
       displayedName = "Fighter",
-      accelerationAngle = 1f,
-      thrusterSpeedAcceleration = .25f,
-      thrusterSpeedMax = 1f,
-      rotationSpeedAcceleration = 1f,
-      rotationSpeedMax = 1f
+      accelerationAngle = 2.5f,
+      thrusterSpeedAcceleration = .375f,
+      thrusterSpeedMax = 4f,
+      rotationSpeedAcceleration = .275f,
+      rotationSpeedMax = .875f
     )
 
   }

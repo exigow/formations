@@ -71,7 +71,18 @@ object Renderer {
     shape.end()
   }
 
-  fun renderArc(where: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8) {
+  fun renderLineDotted(from: Vec2, to: Vec2, dotLength: Float) {
+    var passed = 0f
+    val rotatedVector = Vec2.rotated(-from.directionTo(to) - FastMath.pi / 2)
+    while (passed < from.distanceTo(to)) {
+      val alpha = rotatedVector * passed
+      val delta = rotatedVector * (passed + dotLength)
+      renderLine(from + alpha, from + delta)
+      passed += dotLength * 2
+    }
+  }
+
+  fun renderArc(where: Vec2, radius: Float, start: Float, end: Float, quality: Int = 32) {
     fun sample(angle: Float) = where + Vec2.rotated(angle) * radius
     var prev = sample(start)
     for (iteration in 1..quality) {
