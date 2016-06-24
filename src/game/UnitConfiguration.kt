@@ -17,7 +17,8 @@ data class UnitConfiguration(
   val thrusterSpeedAcceleration: Float,
   val thrusterSpeedMax: Float,
   val rotationSpeedAcceleration: Float,
-  val rotationSpeedMax: Float
+  val rotationSpeedMax: Float,
+  val rotationSpeedDumping: Float
 
 ) {
 
@@ -29,11 +30,12 @@ data class UnitConfiguration(
 
     fun fighterType() = UnitConfiguration(
       displayedName = "Fighter",
-      accelerationAngle = 2.5f,
+      accelerationAngle = 1.25f,
       thrusterSpeedAcceleration = .375f,
       thrusterSpeedMax = 4f,
-      rotationSpeedAcceleration = .275f,
-      rotationSpeedMax = .875f
+      rotationSpeedAcceleration = 1.75f,
+      rotationSpeedMax = 2.25f,
+      rotationSpeedDumping = .25f
     )
 
   }

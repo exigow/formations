@@ -2,18 +2,43 @@ package game
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.MathUtils.random
+import commons.math.FastMath
 import commons.math.Vec2
 
 
 class Ship(val config: UnitConfiguration) {
 
-  var position: Vec2 = Vec2.zero();
-  var angle: Float = 0f;
+  var position = Vec2.zero();
+  var angle = 0f;
+  var angleAcceleration = 0f;
   var movementTarget = Vec2.zero();
 
   fun update(delta: Float) {
-    //angle += delta
+    val angleDiff = calculateAngleDifferenceToTarget();
+
+    angleAcceleration -= angleDiff * config.rotationSpeedAcceleration * delta
+    angleAcceleration = lockAngle(angleAcceleration, config.rotationSpeedMax)
+    val damping = FastMath.pow(config.rotationSpeedDumping, delta)
+    angleAcceleration *= damping
+    angle += angleAcceleration * delta
+
+    if (canAccelerateForward()) {
+      println("yes")
+      position += Vec2.rotated(angle)
+    } else
+      println("no")
   }
+
+  private fun lockAngle(a: Float, max: Float) = Math.max(Math.min(a, max), -max)
+
+  private fun canAccelerateForward(): Boolean {
+    val angdiff = calculateAngleDifferenceToTarget()
+    if (Math.abs(angdiff) < config.accelerationAngle)
+      return true
+    return false
+  }
+
+  private fun calculateAngleDifferenceToTarget() = FastMath.angleDifference(angle, position.directionTo(movementTarget))
 
   companion object {
 

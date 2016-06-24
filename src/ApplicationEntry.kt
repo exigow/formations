@@ -17,6 +17,7 @@ object ApplicationEntry {
     config.width = 1600
     config.height = 900
     config.samples = 8
+    //config.foregroundFPS = 10
     return config
   }
 

@@ -15,4 +15,8 @@ object FastMath {
 
   fun atan2(x: Float, y: Float) = Math.atan2(y.toDouble(), x.toDouble()).toFloat()
 
+  fun angleDifference(a: Float, b: Float) = (a - b + pi) % (pi * 2f) - pi
+
+  fun pow(a: Float, b: Float) = Math.pow(a.toDouble(), b.toDouble()).toFloat()
+
 }

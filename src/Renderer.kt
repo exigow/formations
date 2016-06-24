@@ -33,8 +33,8 @@ object Renderer {
 
   fun renderLineArrow(from: Vec2, to: Vec2, scale: Float = 16f) {
     renderLine(from, to)
-    val dir = -from.directionTo(to) + FastMath.pi / 2
-    val a = FastMath.pi / 4
+    val dir = from.directionTo(to)
+    val a = FastMath.pi * .75f
     val l = scale
     renderLine(to, Vec2(to.x + FastMath.cos(dir + a) * l, to.y + FastMath.sin(dir + a) * l))
     renderLine(to, Vec2(to.x + FastMath.cos(dir - a) * l, to.y + FastMath.sin(dir - a) * l))
@@ -73,7 +73,7 @@ object Renderer {
 
   fun renderLineDotted(from: Vec2, to: Vec2, dotLength: Float) {
     var passed = 0f
-    val rotatedVector = Vec2.rotated(-from.directionTo(to) - FastMath.pi / 2)
+    val rotatedVector = Vec2.rotated(from.directionTo(to))
     while (passed < from.distanceTo(to)) {
       val alpha = rotatedVector * passed
       val delta = rotatedVector * (passed + dotLength)

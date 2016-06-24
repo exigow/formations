@@ -32,7 +32,7 @@ data class Vec2(val x: Float, val y: Float) {
 
   fun distanceTo(other: Vec2) = (this - other).length()
 
-  fun directionTo(other: Vec2) = (this - other).angleInRadians()
+  fun directionTo(other: Vec2) = -(this - other).angleInRadians() - FastMath.pi / 2
 
   fun angleInRadians() = FastMath.atan2(y, x)
 

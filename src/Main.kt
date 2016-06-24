@@ -45,8 +45,7 @@ class Main {
   }
 
   private fun renderMovementTarget(from: Vec2, to: Vec2) {
-    val dir = -from.directionTo(to) - FastMath.pi / 2
-    Renderer.renderLineArrow(to - Vec2.rotated(dir) * 32f, to, 16f)
+    Renderer.renderLineArrow(to - Vec2.rotated(from.directionTo(to)) * 32f, to, 16f)
     Renderer.renderDiamond(to, 8f)
   }
 

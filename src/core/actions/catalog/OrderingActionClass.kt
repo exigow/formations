@@ -57,6 +57,10 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext, val wo
     Logger.ACTION.log("Move order.")
     val new = world.joinToNewCollective(context.selected)
     val order = MoveOrder(camera.mousePosition(), 0f)
+
+    // todo remove this shit soon
+    new.squads.flatMap { it.ships }.forEach { it.movementTarget = camera.mousePosition() }
+
     new.orders.add(order)
     new.orders.add(MoveOrder(camera.mousePosition() + Vec2(128, 0), 0f))
   }

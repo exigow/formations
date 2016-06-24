@@ -9,7 +9,6 @@ import game.Collective
 import game.PlayerContext
 import game.Squad
 import game.World
-import game.orders.MoveOrder
 import java.util.*
 
 
@@ -128,16 +127,16 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   fun Collective.render() {
     val positions = this.squads.flatMap { it.ships }.map { it.position }
     Renderer.renderConvexHull(positions)
-    if (!this.orders.isEmpty()) {
+    /*if (!this.orders.isEmpty()) {
       val iter = this.orders.iterator()
       var prev = this.center()
       while (iter.hasNext()) {
         val next = (iter.next() as MoveOrder).where
-        //Renderer.renderLineArrow(prev, next)
+        Renderer.renderLineArrow(prev, next)
         Renderer.renderCross(next, 8f)
         prev = next
       }
-    }
+    }*/
   }
 
   fun renderMouse() {
