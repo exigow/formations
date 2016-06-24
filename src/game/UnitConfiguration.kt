@@ -44,6 +44,11 @@ data class UnitConfiguration(
         throw RuntimeException("Validation error: ")
     }
     ensure(accelerationAngle <= FastMath.pi)
+    ensure(!displayedName.isEmpty())
+    ensure(thrusterSpeedAcceleration >= 0f)
+    ensure(thrusterSpeedMax >= 0f)
+    ensure(rotationSpeedAcceleration >= 0f)
+    ensure(rotationSpeedMax >= 0f)
   }
 
 }
