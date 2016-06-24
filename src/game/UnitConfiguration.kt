@@ -13,9 +13,13 @@ import commons.math.FastMath
 data class UnitConfiguration(
 
   val displayedName: String,
+
   val accelerationAngle: Float,
+
   val thrusterSpeedAcceleration: Float,
   val thrusterSpeedMax: Float,
+  val thrusterSpeedDamping: Float,
+
   val rotationSpeedAcceleration: Float,
   val rotationSpeedMax: Float,
   val rotationSpeedDumping: Float
@@ -30,9 +34,13 @@ data class UnitConfiguration(
 
     fun fighterType() = UnitConfiguration(
       displayedName = "Fighter",
+
       accelerationAngle = 1.25f,
+
       thrusterSpeedAcceleration = .375f,
       thrusterSpeedMax = 4f,
+      thrusterSpeedDamping = .25f,
+
       rotationSpeedAcceleration = 1.75f,
       rotationSpeedMax = 2.25f,
       rotationSpeedDumping = .25f
