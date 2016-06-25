@@ -28,4 +28,10 @@ object FastMath {
     return x
   }
 
+  // todo https://en.wikipedia.org/wiki/Smoothstep -> smoothstep
+  fun smoothstep(from: Float, to: Float, percent: Float): Float = TODO()
+
+  // todo https://en.wikipedia.org/wiki/Smoothstep -> smootherstep
+  fun smootherstep(from: Float, to: Float, percent: Float): Float = TODO()
+
 }
