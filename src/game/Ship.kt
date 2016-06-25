@@ -28,8 +28,10 @@ class Ship(val config: UnitConfiguration) {
     val dist = position.distanceTo(movementTarget)
     if (dist > config.size && canAccelerateForward())
       velocityAcceleration += config.thrusterSpeedAcceleration * delta
-    val velocityDamping = FastMath.pow(config.thrusterSpeedDumping, delta)
-    velocityAcceleration *= velocityDamping
+    if (!canAccelerateForward()) {
+      val velocityDamping = FastMath.pow(config.thrusterSpeedDumping, delta)
+      velocityAcceleration *= velocityDamping
+    }
     velocityAcceleration = Math.min(velocityAcceleration, config.thrusterSpeedMax)
     position += Vec2.rotated(angle) * velocityAcceleration
   }
