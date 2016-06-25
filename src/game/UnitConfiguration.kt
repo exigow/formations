@@ -34,20 +34,36 @@ data class UnitConfiguration(
 
   companion object {
 
-    fun fighterType() = UnitConfiguration(
+    fun fighter() = UnitConfiguration(
       displayedName = "Fighter",
 
       size = 16f,
 
       accelerationAngle = 1.25f,
 
-      thrusterSpeedAcceleration = .375f,
+      thrusterSpeedAcceleration = .875f,
       thrusterSpeedMax = 4f,
       thrusterSpeedDumping = .875f,
 
       rotationSpeedAcceleration = 1.75f,
       rotationSpeedMax = 2.25f,
       rotationSpeedDumping = .25f
+    )
+
+    fun carrier() = UnitConfiguration(
+      displayedName = "Carrier",
+
+      size = 128f,
+
+      accelerationAngle = .375f,
+
+      thrusterSpeedAcceleration = .125f,
+      thrusterSpeedMax = 2f,
+      thrusterSpeedDumping = .925f,
+
+      rotationSpeedAcceleration = 0.125f,
+      rotationSpeedMax = .375f,
+      rotationSpeedDumping = .375f
     )
 
   }

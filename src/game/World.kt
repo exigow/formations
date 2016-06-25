@@ -12,27 +12,20 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      world.collectives.add(singleFighter(Vec2(256, 0)))
-      world.collectives.add(singleFighter(Vec2(-256, 0)))
-      /*for (squadIteration in 1..2) {
-        val pivotPosition = Vec2.random() * 512f
-        val squad = Squad()
-        repeat(squadIteration, {
-          val ship = Ship.randomShip(UnitConfiguration.fighterType())
-          ship.position = pivotPosition + (Vec2.random() * 96f)
-          squad.ships.add(ship)
-        })
-        world.collectives.add(Collective.singleton(squad))
-      }
-      return world;*/
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0)))
+      world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(-256, 0)))
       return world
     }
 
-    private fun singleFighter(where: Vec2): Collective {
-      val s = Ship(UnitConfiguration.fighterType())
-      s.position = where
-      s.movementTarget = where
-      return Collective.singleton(Squad.singleton(s))
+    private fun instantiate(config: UnitConfiguration, where: Vec2, count: Int = 1): Collective {
+      val squad = Squad()
+      for (i in 1..count) {
+        val ship = Ship(config)
+        ship.position = where
+        ship.movementTarget = where + Vec2.random() * 128f
+        squad.ships += ship
+      }
+      return Collective.singleton(squad)
     }
 
   }
