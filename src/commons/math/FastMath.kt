@@ -10,6 +10,7 @@ object FastMath {
 
   fun cos(x: Float) = Math.cos(x.toDouble()).toFloat()
 
+  // todo http://www.java-gaming.org/topics/fast-math-sin-cos-lookup-tables/24191/view.html
   fun sin(x: Float) = Math.sin(x.toDouble()).toFloat()
 
   inline fun lerp(from: Float, to: Float, percent: Float) = (1 - percent) * from + percent * to
