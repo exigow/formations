@@ -1,6 +1,7 @@
 package commons.math
 
 
+@Suppress("NOTHING_TO_INLINE")
 object FastMath {
 
   val pi = Math.PI.toFloat()
@@ -11,7 +12,7 @@ object FastMath {
 
   fun sin(x: Float) = Math.sin(x.toDouble()).toFloat()
 
-  fun lerp(from: Float, to: Float, percent: Float) = from * (1 - percent) + to * percent
+  inline fun lerp(from: Float, to: Float, percent: Float) = (1 - percent) * from + percent * to
 
   fun atan2(x: Float, y: Float) = Math.atan2(y.toDouble(), x.toDouble()).toFloat()
 
@@ -19,6 +20,12 @@ object FastMath {
 
   fun pow(a: Float, b: Float) = Math.pow(a.toDouble(), b.toDouble()).toFloat()
 
-  fun clamp(x: Float, min: Float, max: Float) = Math.min(Math.max(min, x), max)
+  inline fun clamp(x: Float, min: Float, max: Float): Float {
+    if (x > max)
+      return max
+    if (x < min)
+      return min
+    return x
+  }
 
 }
