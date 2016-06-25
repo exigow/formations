@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
+import commons.math.FastMath
 import commons.math.Vec2
 
 class Camera {
@@ -22,6 +23,7 @@ class Camera {
   fun projectionMatrix(): Matrix4 = ortho.combined
 
   fun update(delta: Float) {
+    target.z = FastMath.clamp(target.z, 1f, 16f)
     val planeFactor = 16f;
     val zoomFactor = 12f;
     fun limit(f: Float) = Math.min(f * delta, 1f)

@@ -22,7 +22,9 @@ data class UnitConfiguration(
 
   val rotationSpeedAcceleration: Float,
   val rotationSpeedMax: Float,
-  val rotationSpeedDumping: Float
+  val rotationSpeedDumping: Float,
+
+  val goalReachDistance: Float
 
 ) {
 
@@ -43,7 +45,9 @@ data class UnitConfiguration(
 
       rotationSpeedAcceleration = 1.75f,
       rotationSpeedMax = 2.25f,
-      rotationSpeedDumping = .25f
+      rotationSpeedDumping = .25f,
+
+      goalReachDistance = 64f
     )
 
   }

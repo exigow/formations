@@ -63,6 +63,8 @@ class Main {
   private fun Ship.renderMovementTarget() {
     Renderer.renderLineDotted(position, movementTarget, 16f)
     Renderer.renderLineArrow(movementTarget - Vec2.rotated(position.directionTo(movementTarget)) * 32f, movementTarget, 16f)
+
+    Renderer.renderLine(movementTarget, movementTarget + Vec2.rotated(movementTargetAngle) * 32)
   }
 
   private fun Ship.renderRotationState() {

@@ -19,4 +19,6 @@ object FastMath {
 
   fun pow(a: Float, b: Float) = Math.pow(a.toDouble(), b.toDouble()).toFloat()
 
+  fun clamp(x: Float, min: Float, max: Float) = Math.min(Math.max(min, x), max)
+
 }

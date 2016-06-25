@@ -13,6 +13,7 @@ class Ship(val config: UnitConfiguration) {
   var angleAcceleration = 0f;
   var velocityAcceleration = 0f
   var movementTarget = Vec2.zero();
+  var movementTargetAngle = 0f
 
   fun update(delta: Float) {
     val angleDiff = calculateAngleDifferenceToTarget();
@@ -24,7 +25,7 @@ class Ship(val config: UnitConfiguration) {
     angle += angleAcceleration * delta
 
     val dist = position.distanceTo(movementTarget)
-    if (dist > 64f && canAccelerateForward())
+    if (dist > config.goalReachDistance && canAccelerateForward())
       velocityAcceleration += 1 * delta
     val velocityDamping = FastMath.pow(config.thrusterSpeedDumping, delta)
     velocityAcceleration *= velocityDamping

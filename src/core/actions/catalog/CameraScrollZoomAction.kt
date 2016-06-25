@@ -12,7 +12,8 @@ class CameraScrollZoomAction(private val cameraDep: Camera) : Action {
     override fun onMouseScroll(): (ScrollDirection) -> Unit = {
       direction ->
       val amount = directionToCameraZoomAmount(direction)
-      cameraDep.zoomRelative(amount)
+      val strength = amount * .25f * cameraDep.renderingScale()
+      cameraDep.zoomRelative(strength)
     }
 
   }
@@ -20,10 +21,9 @@ class CameraScrollZoomAction(private val cameraDep: Camera) : Action {
   override fun events() = events
 
   private fun directionToCameraZoomAmount(direction: ScrollDirection): Float {
-    val strength = .125f
     return when (direction) {
-      ScrollDirection.SCROLLING_UP -> strength
-      ScrollDirection.SCROLLING_DOWN -> -strength
+      ScrollDirection.SCROLLING_UP -> 1f
+      ScrollDirection.SCROLLING_DOWN -> -1f
     }
   }
 
