@@ -33,7 +33,7 @@ class Ship(val config: UnitConfiguration) {
     position += Vec2.rotated(angle) * velocityAcceleration
   }
 
-  private fun lockAngle(a: Float, max: Float) = Math.max(Math.min(a, max), -max)
+  private fun lockAngle(a: Float, max: Float) = FastMath.clamp(a, -max, max)
 
   private fun canAccelerateForward() = Math.abs(calculateAngleDifferenceToTarget()) < config.accelerationAngle
 
