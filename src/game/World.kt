@@ -12,7 +12,9 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      for (squadIteration in 1..1) {
+      world.collectives.add(singleFighter(Vec2(256, 0)))
+      world.collectives.add(singleFighter(Vec2(-256, 0)))
+      /*for (squadIteration in 1..2) {
         val pivotPosition = Vec2.random() * 512f
         val squad = Squad()
         repeat(squadIteration, {
@@ -22,7 +24,15 @@ class World {
         })
         world.collectives.add(Collective.singleton(squad))
       }
-      return world;
+      return world;*/
+      return world
+    }
+
+    private fun singleFighter(where: Vec2): Collective {
+      val s = Ship(UnitConfiguration.fighterType())
+      s.position = where
+      s.movementTarget = where
+      return Collective.singleton(Squad.singleton(s))
     }
 
   }

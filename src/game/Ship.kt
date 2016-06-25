@@ -1,7 +1,5 @@
 package game
 
-import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.MathUtils.random
 import commons.math.FastMath
 import commons.math.Vec2
 
@@ -25,7 +23,7 @@ class Ship(val config: UnitConfiguration) {
     angle += angleAcceleration * delta
 
     val dist = position.distanceTo(movementTarget)
-    if (dist > config.goalReachDistance && canAccelerateForward())
+    if (dist > config.size && canAccelerateForward())
       velocityAcceleration += 1 * delta
     val velocityDamping = FastMath.pow(config.thrusterSpeedDumping, delta)
     velocityAcceleration *= velocityDamping
@@ -38,20 +36,5 @@ class Ship(val config: UnitConfiguration) {
   private fun canAccelerateForward() = Math.abs(calculateAngleDifferenceToTarget()) < config.accelerationAngle
 
   private fun calculateAngleDifferenceToTarget() = FastMath.angleDifference(angle, position.directionTo(movementTarget))
-
-  companion object {
-
-    fun randomShip(config: UnitConfiguration): Ship {
-      val s = Ship(config)
-      s.angle = random(0f, MathUtils.PI2)
-      return s;
-    }
-
-  }
-
-  override fun toString(): String{
-    val hexHash = Integer.toHexString(hashCode())
-    return "ship ($hexHash) (position=$position, angle=$angle)"
-  }
 
 }

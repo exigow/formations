@@ -14,6 +14,8 @@ data class UnitConfiguration(
 
   val displayedName: String,
 
+  val size: Float,
+
   val accelerationAngle: Float,
 
   val thrusterSpeedAcceleration: Float,
@@ -22,9 +24,7 @@ data class UnitConfiguration(
 
   val rotationSpeedAcceleration: Float,
   val rotationSpeedMax: Float,
-  val rotationSpeedDumping: Float,
-
-  val goalReachDistance: Float
+  val rotationSpeedDumping: Float
 
 ) {
 
@@ -37,6 +37,8 @@ data class UnitConfiguration(
     fun fighterType() = UnitConfiguration(
       displayedName = "Fighter",
 
+      size = 16f,
+
       accelerationAngle = 1.25f,
 
       thrusterSpeedAcceleration = .375f,
@@ -45,9 +47,7 @@ data class UnitConfiguration(
 
       rotationSpeedAcceleration = 1.75f,
       rotationSpeedMax = 2.25f,
-      rotationSpeedDumping = .25f,
-
-      goalReachDistance = 64f
+      rotationSpeedDumping = .25f
     )
 
   }
