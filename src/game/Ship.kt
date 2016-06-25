@@ -18,9 +18,12 @@ class Ship(val config: UnitConfiguration) {
 
     angleAcceleration -= angleDiff * config.rotationSpeedAcceleration * delta
     angleAcceleration = lockAngle(angleAcceleration, config.rotationSpeedMax)
-    val angleDamping = FastMath.pow(config.rotationSpeedDumping, delta)
-    angleAcceleration *= angleDamping
+    if (canAccelerateForward()) {
+      val angleDamping = FastMath.pow(config.rotationSpeedDumping, delta)
+      angleAcceleration *= angleDamping
+    }
     angle += angleAcceleration * delta
+    println(angleAcceleration)
 
     val dist = position.distanceTo(movementTarget)
     if (dist > config.size && canAccelerateForward())
