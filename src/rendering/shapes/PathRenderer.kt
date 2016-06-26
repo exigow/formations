@@ -10,14 +10,37 @@ object PathRenderer {
 
   fun update(camera: Camera) = GdxInternal.update(camera.projectionMatrix())
 
-  fun render(path: Path, color: Color = Color.WHITE) {
+  fun renderLines(path: Path) {
     val i = path.elements.iterator()
     var prev = i.next()
     while (i.hasNext()) {
       val next = i.next()
-      GdxInternal.line(prev, next, color)
+      GdxInternal.line(prev, next, Color.WHITE)
       prev = next
     }
+  }
+
+  fun renderPoints(path: Path) {
+    val i = path.elements.iterator()
+    while (i.hasNext()) {
+      val next = i.next()
+      GdxInternal.point(next, Color.WHITE)
+    }
+  }
+
+  /*fun renderDotted(path: Path, dotLength: Float) {
+    val i = path.elements.iterator()
+    var prev = i.next()
+    while (i.hasNext()) {
+      val next = i.next()
+      GdxInternal.line(prev, next, Color.WHITE)
+      prev = next
+    }
+  }*/
+
+
+  private fun subdividePath(path: Path) {
+
   }
 
   private object GdxInternal {
@@ -26,8 +49,15 @@ object PathRenderer {
 
     fun line(from: Vec2, to: Vec2, color: Color) {
       shape.setColor(color.r, color.g, color.b, 1f)
-      shape.begin(com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line)
+      shape.begin(ShapeRenderer.ShapeType.Line)
       shape.line(from.x, from.y, to.x, to.y)
+      shape.end()
+    }
+
+    fun point(where: Vec2, color: Color) {
+      shape.setColor(color.r, color.g, color.b, 1f)
+      shape.begin(ShapeRenderer.ShapeType.Line)
+      shape.line(where.x, where.y, where.x + 4, where.y + 4)
       shape.end()
     }
 
