@@ -28,16 +28,6 @@ object PathRenderer {
     }
   }
 
-  /*fun renderDotted(path: Path, dotLength: Float) {
-    val i = path.elements.iterator()
-    var prev = i.next()
-    while (i.hasNext()) {
-      val next = i.next()
-      GdxInternal.line(prev, next, Color.WHITE)
-      prev = next
-    }
-  }*/
-
   private object GdxInternal {
 
     private val shape = ShapeRenderer()

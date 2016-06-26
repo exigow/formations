@@ -47,6 +47,43 @@ class Path(val elements: List<Vec2>) {
     return Path(result)
   }
 
+  fun cut(preserve: Int, remove: Int): List<Path> {
+    val paths: MutableList<Path> = ArrayList()
+
+    val i = elements.iterator()
+
+    val aggregatedToAdd: MutableList<Vec2> = ArrayList()
+
+    var counter = 0
+    var preserving = true
+    fun swap() {
+      preserving = !preserving
+      counter = 0
+    }
+
+    while (i.hasNext()) {
+      val next = i.next()
+
+      if (preserving)
+        if (counter < preserve) {
+          aggregatedToAdd += next
+          counter++
+        } else {
+          val cpy = ArrayList<Vec2>()
+          cpy.addAll(aggregatedToAdd)
+          paths += Path(cpy)
+          aggregatedToAdd.clear()
+          swap()
+        }
+      else
+        if (counter < remove)
+          counter++
+        else
+          swap()
+    }
+    return paths
+  }
+
   fun length(): Float {
     val i = elements.iterator()
     var prev = i.next()
@@ -57,6 +94,17 @@ class Path(val elements: List<Vec2>) {
       prev = next
     }
     return result
+  }
+
+  fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
+  override fun toString(): String{
+    return "Path(elements=$elements)"
+  }
+
+  companion object {
+
+    fun asListOf(vararg elements: Vec2) = listOf(Path(elements.toList()))
+
   }
 
 }
