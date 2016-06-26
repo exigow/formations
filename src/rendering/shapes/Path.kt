@@ -43,6 +43,7 @@ class Path(val elements: List<Vec2>) {
       left -= distance
       prev = next
     }
+    result += prev
     return Path(result)
   }
 

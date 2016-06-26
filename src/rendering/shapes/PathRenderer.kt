@@ -38,11 +38,6 @@ object PathRenderer {
     }
   }*/
 
-
-  private fun subdividePath(path: Path) {
-
-  }
-
   private object GdxInternal {
 
     private val shape = ShapeRenderer()
@@ -57,7 +52,7 @@ object PathRenderer {
     fun point(where: Vec2, color: Color) {
       shape.setColor(color.r, color.g, color.b, 1f)
       shape.begin(ShapeRenderer.ShapeType.Line)
-      shape.line(where.x, where.y, where.x + 4, where.y + 4)
+      shape.line(where.x - 1, where.y - 1, where.x + 1, where.y + 1)
       shape.end()
     }
 

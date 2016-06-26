@@ -38,7 +38,9 @@ class Main {
     //uiRenderer.render(delta)
 
     PathRenderer.update(camera)
-    val path = ShapeFactory.rectangle(camera.mousePosition()).paths.first()
+    //val path = ShapeFactory.rectangle(camera.mousePosition()).paths.first()
+
+    val path = ShapeFactory.cone(0f, 1f, 32).scale(camera.mousePosition()).paths.first()
     //PathRenderer.renderLines(path)
     /*val a = Vec2(-256, 0)
     val b = camera.mousePosition()
@@ -46,7 +48,7 @@ class Main {
     val d = Vec2(384, 0)
     val path = Path(listOf(a, b, c, d))*/
 
-    //PathRenderer.renderPoints(path)
+    //PathRenderer.renderLines(path.populate(64f))
     PathRenderer.renderPoints(path.populate(32f))
   }
 
