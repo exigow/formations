@@ -1,6 +1,5 @@
 package ui
 
-import Renderer
 import com.badlogic.gdx.math.Rectangle
 import commons.math.FastMath
 import commons.math.Vec2
@@ -9,6 +8,7 @@ import game.Collective
 import game.PlayerContext
 import game.Squad
 import game.World
+import rendering.Renderer
 import java.util.*
 
 
@@ -132,8 +132,8 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
       var prev = this.center()
       while (iter.hasNext()) {
         val next = (iter.next() as MoveOrder).where
-        Renderer.renderLineArrow(prev, next)
-        Renderer.renderCross(next, 8f)
+        rendering.Renderer.renderLineArrow(prev, next)
+        rendering.Renderer.renderCross(next, 8f)
         prev = next
       }
     }*/

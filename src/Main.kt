@@ -7,6 +7,7 @@ import core.actions.catalog.*
 import game.PlayerContext
 import game.Ship
 import game.World
+import rendering.Renderer
 import ui.UserInterfaceRenderer
 
 class Main {

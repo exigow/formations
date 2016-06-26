@@ -1,7 +1,7 @@
 package ui
 
-import Renderer
 import commons.math.Vec2
+import rendering.Renderer
 
 object PathAnimation {
 

@@ -1,3 +1,5 @@
+package rendering
+
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
@@ -94,7 +96,7 @@ object Renderer {
   }
 
   fun renderDiamond(where: Vec2, size: Float) {
-    Renderer.renderCircle(where, size, 4)
+    renderCircle(where, size, 4)
   }
 
   fun renderConvexHull(vectors: List<Vec2>) {
@@ -103,7 +105,7 @@ object Renderer {
     var prev = iter.next()
     while (iter.hasNext()) {
       val next = iter.next()
-      Renderer.renderLine(prev, next)
+      renderLine(prev, next)
       prev = next
     }
   }
