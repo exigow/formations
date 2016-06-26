@@ -21,7 +21,7 @@ class Path(val elements: List<Vec2>) {
     return Path(result)
   }
 
-  fun populate(density: Float): Path {
+  fun populate(density: Float, preserveCorners: Boolean = false): Path {
     val result: MutableList<Vec2> = ArrayList()
     val i = elements.iterator()
     var prev = i.next()
@@ -37,6 +37,8 @@ class Path(val elements: List<Vec2>) {
         result += pivot
         passed += density
         left += density
+        if (preserveCorners)
+          result += next
       }
       left -= distance
       prev = next
