@@ -10,17 +10,17 @@ import commons.math.Vec2
 
 class Camera {
 
-  private val ortho: OrthographicCamera = OrthographicCamera();
+  val ortho: OrthographicCamera = OrthographicCamera();
   private val eye = Vector3(0f, 0f, 1f)
   private val target = Vector3(eye)
 
   init {
     ortho.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-    ortho.up.set(0f, 1f, 0f);
-    ortho.direction.set(0f, 0f, -1f);
+    //ortho.up.set(0f, 1f, 0f);
+    //ortho.direction.set(0f, 0f, -1f);
   }
 
-  fun projectionMatrix(): Matrix4 = ortho.combined
+  fun projectionMatrix(): Matrix4 = ortho.combined.cpy()
 
   fun update(delta: Float) {
     target.z = FastMath.clamp(target.z, .5f, 16f)

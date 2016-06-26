@@ -38,6 +38,10 @@ data class Vec2(val x: Float, val y: Float) {
 
   fun isZero() = x == 0f && y == 0f
 
+  fun onlyX() = Vec2(x, 0)
+
+  fun onlyY() = Vec2(0, y)
+
   fun toVector2(): Vector2 = Vector2(x, y)
 
   companion object {
@@ -47,6 +51,8 @@ data class Vec2(val x: Float, val y: Float) {
     @JvmStatic fun one() = Vec2(1f, 1f)
 
     @JvmStatic fun rotated(angle: Float) = Vec2(FastMath.cos(angle), FastMath.sin(angle))
+
+    @JvmStatic fun scaled(scale: Float) = Vec2.one() * scale
 
     @JvmStatic fun random(): Vec2 {
       fun rand() = MathUtils.random(-1f, 1f)

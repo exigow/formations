@@ -1,6 +1,8 @@
 import com.badlogic.gdx.ApplicationAdapter
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.badlogic.gdx.graphics.GL20
 import commons.Logger
 
 
@@ -30,7 +32,15 @@ object ApplicationEntry {
       frame = Main()
     }
 
-    override fun render() = frame!!.onFrame()
+    override fun render() {
+      clearBackground()
+      frame!!.onFrame()
+    }
+
+    private fun clearBackground() {
+      Gdx.gl.glClearColor(.125f, .125f, .125f, 1f)
+      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+    }
 
   }
 
