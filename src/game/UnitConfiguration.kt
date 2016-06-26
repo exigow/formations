@@ -66,6 +66,22 @@ data class UnitConfiguration(
       rotationSpeedDumping = .375f
     )
 
+    fun asteroid() = UnitConfiguration(
+      displayedName = "Asteroid",
+
+      size = 32f,
+
+      accelerationAngle = 0f,
+
+      thrusterSpeedAcceleration = 0f,
+      thrusterSpeedMax = 0f,
+      thrusterSpeedDumping = 0f,
+
+      rotationSpeedAcceleration = 0f,
+      rotationSpeedMax = 0f,
+      rotationSpeedDumping = 0f
+    )
+
   }
 
   fun validate() {

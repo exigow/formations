@@ -56,8 +56,8 @@ class Main {
       val horizontal = Vec2.rotated(angle + FastMath.pi / 2) * size
       Renderer.renderLine(pivot + horizontal, pivot - horizontal)
     }
-    horizon(max, 16f)
-    horizon(current, 8f)
+    horizon(max, 8f)
+    horizon(current, 16f)
   }
 
   private fun Ship.renderMovementTarget() {
@@ -76,9 +76,9 @@ class Main {
       val vec = Vec2.rotated(angle + a * angleScale)
       Renderer.renderLine(position + vec * (distanceScale - thickness), position + vec * (distanceScale + thickness))
     }
-    pivot(angleAcceleration, 8f)
-    pivot(config.rotationSpeedMax, 16f)
-    pivot(-config.rotationSpeedMax, 16f)
+    pivot(angleAcceleration, 16f)
+    pivot(config.rotationSpeedMax, 8f)
+    pivot(-config.rotationSpeedMax, 8f)
   }
 
   private fun Ship.renderAccelerationAngle() {

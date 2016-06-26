@@ -23,7 +23,7 @@ class Camera {
   fun projectionMatrix(): Matrix4 = ortho.combined
 
   fun update(delta: Float) {
-    target.z = FastMath.clamp(target.z, 1f, 16f)
+    target.z = FastMath.clamp(target.z, .5f, 16f)
     val planeFactor = 16f;
     val zoomFactor = 12f;
     fun limit(f: Float) = Math.min(f * delta, 1f)
