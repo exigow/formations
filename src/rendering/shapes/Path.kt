@@ -21,7 +21,7 @@ class Path(val elements: List<Vec2>) {
     return Path(result)
   }
 
-  fun populate(density: Float, preserveCorners: Boolean = false): Path {
+  fun populate(density: Float): Path {
     val result: MutableList<Vec2> = ArrayList()
     val i = elements.iterator()
     var prev = i.next()
@@ -37,8 +37,6 @@ class Path(val elements: List<Vec2>) {
         result += pivot
         passed += density
         left += density
-        if (preserveCorners)
-          result += next
       }
       left -= distance
       prev = next
@@ -47,39 +45,17 @@ class Path(val elements: List<Vec2>) {
     return Path(result)
   }
 
-  fun cut(preserve: Int, remove: Int): List<Path> {
+  fun slice(): List<Path> {
     val paths: MutableList<Path> = ArrayList()
-
     val i = elements.iterator()
-
-    val aggregatedToAdd: MutableList<Vec2> = ArrayList()
-
-    var counter = 0
     var preserving = true
-    fun swap() {
-      preserving = !preserving
-      counter = 0
-    }
-
+    var prev = i.next()
     while (i.hasNext()) {
       val next = i.next()
-
       if (preserving)
-        if (counter < preserve) {
-          aggregatedToAdd += next
-          counter++
-        } else {
-          val cpy = ArrayList<Vec2>()
-          cpy.addAll(aggregatedToAdd)
-          paths += Path(cpy)
-          aggregatedToAdd.clear()
-          swap()
-        }
-      else
-        if (counter < remove)
-          counter++
-        else
-          swap()
+        paths += Path.asListOf(prev, next)
+      preserving = !preserving
+      prev = next
     }
     return paths
   }

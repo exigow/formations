@@ -48,10 +48,11 @@ class Main {
     val d = Vec2(384, 0)
     val path = Path(listOf(a, b, c, d))
 
-    for (subPath in path.populate(32f).cut(preserve = 3, remove = 1))
+    for (subPath in path.populate(32f).slice()) {
       PathRenderer.renderLines(subPath)
+    }
 
-    PathRenderer.renderPoints(path)
+    //PathRenderer.renderPoints(path.populate(32f))
   }
 
   fun render() {
