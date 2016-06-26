@@ -9,8 +9,8 @@ import game.Ship
 import game.World
 import rendering.Color
 import rendering.Draw
-import rendering.shapes.Path
 import rendering.shapes.PathRenderer
+import rendering.shapes.ShapeFactory
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -42,17 +42,18 @@ class Main {
 
     //val path = ShapeFactory.rectangle(camera.mousePosition()).first()
     //PathRenderer.renderLines(path)
-    val a = Vec2(-256, 0)
+    /*val a = Vec2(-256, 0)
     val b = camera.mousePosition()
     val c = Vec2(256, 0)
     val d = Vec2(384, 0)
-    val path = Path(listOf(a, b, c, d))
+    val path = Path(listOf(a, b, c, d))*/
 
-    for (subPath in path.populate(32f).slice()) {
+    val path = ShapeFactory.cone(0f, 1f, 32).first().scale(camera.mousePosition())
+    for (subPath in path.populate(8f).slice()) {
       PathRenderer.renderLines(subPath)
     }
 
-    //PathRenderer.renderPoints(path.populate(32f))
+    //PathRenderer.renderPoints(path)
   }
 
   fun render() {
