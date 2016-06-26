@@ -59,7 +59,7 @@ object Shapes {
     val leftDown = leftUp + Vec2(0, rect.height)
     val rightDown = leftUp + Vec2(rect.width, rect.height)
     val sequence = arrayOf(leftUp, rightUp, rightDown, leftDown)
-    polygonLooped(sequence, color)
+    fromEachToEachLooped(sequence, { from, to -> lineDotted(from, to, 8f, color)})
   }
 
   fun cone(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = defaultColor) {

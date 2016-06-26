@@ -39,7 +39,6 @@ class Main {
   fun render() {
     Shapes.update(camera)
     Shapes.grid(size = Vec2.scaled(1024f), density = 32, color = Color.DARK_GRAY)
-    Shapes.lineDotted(Vec2.zero(), camera.mousePosition(), 16f)
     world.allShips().forEach { it.render() }
   }
 
