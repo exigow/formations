@@ -9,7 +9,7 @@ import game.Collective
 import game.PlayerContext
 import game.Squad
 import game.World
-import rendering.Shapes
+import rendering.Draw
 import java.util.*
 
 
@@ -25,7 +25,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     updateAnimationsKeys()
     updateAnimationsStates(delta)
     time += delta
-    context.selected.flatMap { it.ships }.forEach { Shapes.diamond(it.position, (diamondSize - 4f) * camera.renderingScale()) }
+    context.selected.flatMap { it.ships }.forEach { Draw.diamond(it.position, (diamondSize - 4f) * camera.renderingScale()) }
     renderMouse()
     world.collectives.forEach { it.render() }
     performRectangleAnimation(delta)
@@ -41,7 +41,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     if (context.selectionRect != null) {
       rectangleSequence.show()
       rectangle.set(context.selectionRect)
-      Shapes.rectangle(rectangle)
+      Draw.rectangle(rectangle)
     } else
       rectangleSequence.hide()
     rectangleSequence.update(delta * 2)
@@ -128,7 +128,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   fun Collective.render() {
     val positions = this.squads.flatMap { it.ships }.map { it.position }
     val hull = ConvexHull.calculate(positions)
-    Shapes.polygonLooped(hull.toTypedArray())
+    Draw.polygonLooped(hull.toTypedArray())
     /*if (!this.orders.isEmpty()) {
       val iter = this.orders.iterator()
       var prev = this.center()
@@ -141,7 +141,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     }*/
   }
 
-  fun renderMouse() = Shapes.cross(camera.mousePosition(), camera.scaledClickRadius())
+  fun renderMouse() = Draw.cross(camera.mousePosition(), camera.scaledClickRadius())
 
   private class AnimationSequenceSquadBundle(
     val highlight: AnimationSequence = AnimationSequence(),

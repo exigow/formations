@@ -1,7 +1,7 @@
 package ui
 
 import commons.math.Vec2
-import rendering.Shapes
+import rendering.Draw
 
 object PathAnimation {
 
@@ -23,7 +23,7 @@ object PathAnimation {
     fun lazy(x: Float) = Vec2.Calculations.lerp(from, to, x)
     val a = lazy(Math.min(amount, 1f))
     val b = lazy(Math.max(amount - 1, 0f))
-    Shapes.line(a, b)
+    Draw.line(a, b)
   }
 
 }

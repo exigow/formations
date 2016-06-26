@@ -8,7 +8,7 @@ import game.PlayerContext
 import game.Ship
 import game.World
 import rendering.Color
-import rendering.Shapes
+import rendering.Draw
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -37,8 +37,8 @@ class Main {
   }
 
   fun render() {
-    Shapes.update(camera)
-    Shapes.grid(size = Vec2.scaled(1024f), density = 32, color = Color.DARK_GRAY)
+    Draw.update(camera)
+    Draw.grid(size = Vec2.scaled(1024f), density = 32, color = Color.DARK_GRAY)
     world.allShips().forEach { it.render() }
   }
 
@@ -56,29 +56,29 @@ class Main {
     val scale = 64f
     val max = config.thrusterSpeedMax * scale
     val current = velocityAcceleration * scale
-    Shapes.lineDotted(position, position + Vec2.rotated(angle) * max, 8f)
+    Draw.lineDotted(position, position + Vec2.rotated(angle) * max, 8f)
     fun horizon(length: Float, size: Float) {
       val pivot = position + Vec2.rotated(angle) * length
       val horizontal = Vec2.rotated(angle + FastMath.pi / 2) * size
-      Shapes.line(pivot + horizontal, pivot - horizontal)
+      Draw.line(pivot + horizontal, pivot - horizontal)
     }
     horizon(max, 8f)
     horizon(current, 16f)
   }
 
   private fun Ship.renderMovementTarget() {
-    Shapes.lineDotted(position, movementTarget, 16f)
-    Shapes.line(movementTarget, movementTarget + Vec2.rotated(movementTargetAngle) * 32)
+    Draw.lineDotted(position, movementTarget, 16f)
+    Draw.line(movementTarget, movementTarget + Vec2.rotated(movementTargetAngle) * 32)
   }
 
   private fun Ship.renderRotationState() {
     val angleScale = .25f
     val distanceScale = 128f
     val amount = config.rotationSpeedMax * angleScale
-    Shapes.arc(position, distanceScale, angle - amount, angle + amount)
+    Draw.arc(position, distanceScale, angle - amount, angle + amount)
     fun pivot(a: Float, thickness: Float) {
       val vec = Vec2.rotated(angle + a * angleScale)
-      Shapes.line(position + vec * (distanceScale - thickness), position + vec * (distanceScale + thickness))
+      Draw.line(position + vec * (distanceScale - thickness), position + vec * (distanceScale + thickness))
     }
     pivot(angleAcceleration, 16f)
     pivot(config.rotationSpeedMax, 8f)
@@ -89,7 +89,7 @@ class Main {
     val length = 96f
     val start = angle - config.accelerationAngle
     val end = angle + config.accelerationAngle
-    Shapes.cone(position, length, start, end)
+    Draw.cone(position, length, start, end)
   }
 
 }

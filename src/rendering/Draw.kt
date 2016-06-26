@@ -7,7 +7,7 @@ import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
 
-object Shapes {
+object Draw {
 
   private val defaultColor = Color.WHITE
 
