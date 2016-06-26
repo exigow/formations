@@ -9,6 +9,8 @@ import game.Ship
 import game.World
 import rendering.Color
 import rendering.Draw
+import rendering.shapes.PathRenderer
+import rendering.shapes.ShapeFactory
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -31,9 +33,12 @@ class Main {
     val delta = Gdx.graphics.deltaTime
     camera.update(delta)
     actions.update(delta)
-    world.allShips().forEach { it.update(delta) }
-    render();
-    uiRenderer.render(delta)
+    //world.allShips().forEach { it.update(delta) }
+    //render();
+    //uiRenderer.render(delta)
+
+    PathRenderer.update(camera)
+    PathRenderer.render(ShapeFactory.rectangle(camera.mousePosition()).paths.first())
   }
 
   fun render() {

@@ -2,7 +2,7 @@ package rendering.shapes
 
 import commons.math.Vec2
 
-object ShapesFactory {
+object ShapeFactory {
 
   fun rectangle(size: Vec2) = square().scale(size)
 
@@ -26,6 +26,16 @@ object ShapesFactory {
     return singleton(up, right, down, left, up)
   }
 
-  private fun singleton(vararg elements: Vec2) = Shape.singleton(Path(elements.asList()))
+  fun cross(): Shape {
+    val up = Vec2(0, -1)
+    val down = Vec2(0, 1)
+    val left = Vec2(-1, 0)
+    val right = Vec2(1, 0)
+    val vertical = Path(listOf(up, down))
+    val horizontal = Path(listOf(left, right))
+    return Shape(listOf(vertical, horizontal))
+  }
+
+  private fun singleton(vararg elements: Vec2) = Shape.singleton(elements.asList())
 
 }
