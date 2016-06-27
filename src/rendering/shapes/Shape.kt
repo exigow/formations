@@ -8,6 +8,11 @@ class Shape(val paths: List<Path>) {
 
   fun translate(translation: Vec2): Shape = TODO()
 
+  /*fun populate(): Shape {
+    val r = paths.map { it.populate(32f) }
+    return Shape(paths)
+  }*/
+
   companion object {
 
     fun singleton(elements: List<Vec2>) = singleton(Path(elements))

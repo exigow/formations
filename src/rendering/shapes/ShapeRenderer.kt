@@ -1,13 +1,12 @@
 package rendering.shapes
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
 import rendering.Color
 
-class ShapeRendererasdasd {
+class ShapeRenderer {
 
-  private val shape = ShapeRenderer()
+  private val shape = com.badlogic.gdx.graphics.glutils.ShapeRenderer()
 
   fun render(shape: Shape, color: Color) {
     for (path in shape.paths) {
@@ -22,8 +21,9 @@ class ShapeRendererasdasd {
   }
 
   private fun line(from: Vec2, to: Vec2, color: Color) {
+    val lineMode = com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line
     shape.setColor(color.r, color.g, color.b, 1f)
-    shape.begin(ShapeRenderer.ShapeType.Line)
+    shape.begin(lineMode)
     shape.line(from.x, from.y, to.x, to.y)
     shape.end()
   }
