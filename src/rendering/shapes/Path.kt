@@ -45,7 +45,7 @@ class Path(val elements: List<Vec2>) {
     return Path(result)
   }
 
-  fun slice(): List<Path> {
+  /*fun slice(): List<Path> {
     val paths: MutableList<Path> = ArrayList()
     val i = elements.iterator()
     var preserving = true
@@ -53,12 +53,12 @@ class Path(val elements: List<Vec2>) {
     while (i.hasNext()) {
       val next = i.next()
       if (preserving)
-        paths += Path.asListOf(prev, next)
+        paths += asListOf(prev, next)
       preserving = !preserving
       prev = next
     }
     return paths
-  }
+  }*/
 
   fun length(): Float {
     val i = elements.iterator()
@@ -73,14 +73,9 @@ class Path(val elements: List<Vec2>) {
   }
 
   fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
+
   override fun toString(): String{
     return "Path(elements=$elements)"
-  }
-
-  companion object {
-
-    fun asListOf(vararg elements: Vec2) = listOf(Path(elements.toList()))
-
   }
 
 }

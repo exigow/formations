@@ -1,19 +1,20 @@
 package rendering
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Rectangle
 import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
+import rendering.shapes.ShapeFactory
+import rendering.shapes.ShapeRendererasdasd
 
 object Draw {
 
   private val defaultColor = Color.WHITE
+  private val renderer = ShapeRendererasdasd()
 
-  fun update(camera: Camera) = GdxInternal.update(camera.projectionMatrix())
+  fun update(camera: Camera) = renderer.update(camera.projectionMatrix())
 
-  fun line(from: Vec2, to: Vec2, color: Color = defaultColor) = GdxInternal.line(from, to, color)
+  fun line(from: Vec2, to: Vec2, color: Color = defaultColor) = renderer.render(ShapeFactory.line(from, to), color)
 
   fun lineDotted(from: Vec2, to: Vec2, dotLength: Float, color: Color = defaultColor) {
     var passed = 0f
@@ -92,23 +93,6 @@ object Draw {
       prev = next
     }
     drawWith.invoke(first, prev)
-  }
-
-  private object GdxInternal {
-
-    private val shape = ShapeRenderer()
-
-    fun line(from: Vec2, to: Vec2, color: Color) {
-      shape.setColor(color.r, color.g, color.b, 1f)
-      shape.begin(ShapeRenderer.ShapeType.Line)
-      shape.line(from.x, from.y, to.x, to.y)
-      shape.end()
-    }
-
-    fun update(matrix: Matrix4) {
-      shape.projectionMatrix = matrix
-    }
-
   }
 
 }
