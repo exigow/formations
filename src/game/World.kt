@@ -12,8 +12,7 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0)))
-      world.collectives.add(instantiate(UnitConfiguration.asteroid(), Vec2.zero()))
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0), 3))
       world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(-256, 0)))
       return world
     }
@@ -22,7 +21,7 @@ class World {
       val squad = Squad()
       for (i in 1..count) {
         val ship = Ship(config)
-        ship.position = where
+        ship.position = where + Vec2.random() * 64
         ship.movementTarget = where + Vec2.random() * 128f
         squad.ships += ship
       }

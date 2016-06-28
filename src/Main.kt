@@ -31,6 +31,7 @@ class Main {
     val delta = Gdx.graphics.deltaTime
     camera.update(delta)
     actions.update(delta)
+    world.collectives.forEach { it.update() }
     world.allShips().forEach { it.update(delta) }
     render(delta);
   }

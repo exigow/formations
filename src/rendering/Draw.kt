@@ -45,7 +45,7 @@ object Draw {
   )
 
   fun arc(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = defaultColor) = render(
-    PathFactory.arc(start, end, quality).scale(Vec2.scaled(radius)).translate(center),
+    PathFactory.arc(start, end, quality).scale(Vec2.scaled(radius)).populate(8f).slice().translate(center),
     color
   )
 

@@ -9,6 +9,8 @@ import game.Collective
 import game.PlayerContext
 import game.Squad
 import game.World
+import game.orders.AttackOrder
+import game.orders.MoveOrder
 import rendering.Draw
 import java.util.*
 
@@ -129,16 +131,13 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     val positions = this.squads.flatMap { it.ships }.map { it.position }
     val hull = ConvexHull.calculate(positions)
     Draw.polygonLooped(hull.toTypedArray())
-    /*if (!this.orders.isEmpty()) {
-      val iter = this.orders.iterator()
-      var prev = this.center()
-      while (iter.hasNext()) {
-        val next = (iter.next() as MoveOrder).where
-        rendering.Renderer.renderLineArrow(prev, next)
-        rendering.Renderer.renderCross(next, 8f)
-        prev = next
-      }
-    }*/
+    if (!this.orders.isEmpty()) {
+      val order = this.orders.first()
+      if (order is MoveOrder)
+        Draw.lineDotted(center(), order.where, 8f)
+      if (order is AttackOrder)
+        Draw.line(center(), order.who.center())
+    }
   }
 
   fun renderMouse() = Draw.cross(camera.mousePosition(), camera.scaledClickRadius())

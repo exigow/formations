@@ -1,7 +1,6 @@
 package core.actions.catalog
 
 import commons.Logger
-import commons.math.Vec2
 import core.Camera
 import core.actions.Action
 import core.input.event.EventBundle
@@ -11,6 +10,7 @@ import core.input.mappings.MouseButton
 import game.PlayerContext
 import game.Squad
 import game.World
+import game.orders.AttackOrder
 import game.orders.MoveOrder
 
 class OrderingActionClass(val camera: Camera, val context: PlayerContext, val world: World) : Action {
@@ -49,6 +49,9 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext, val wo
 
   fun orderOn(target: Squad) {
     Logger.ACTION.log("Setting orders on hover: $target.")
+    val new = world.joinToNewCollective(context.selected)
+    val order = AttackOrder(context.hovered!!)
+    new.orders.add(order)
   }
 
   fun orderBackground() {
@@ -57,15 +60,7 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext, val wo
     Logger.ACTION.log("Move order.")
     val new = world.joinToNewCollective(context.selected)
     val order = MoveOrder(camera.mousePosition(), 0f)
-
-    // todo remove this shit soon
-    new.squads.flatMap { it.ships }.forEach {
-      it.movementTarget = camera.mousePosition()
-      it.movementTargetAngle = it.position.directionTo(camera.mousePosition())
-    }
-
     new.orders.add(order)
-    new.orders.add(MoveOrder(camera.mousePosition() + Vec2(128, 0), 0f))
   }
 
   fun doNothing() {
