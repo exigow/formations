@@ -72,7 +72,7 @@ class Path(val elements: List<Vec2>) {
     return result
   }
 
-  fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
+  //fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
 
   override fun toString(): String{
     return "Path(elements=$elements)"

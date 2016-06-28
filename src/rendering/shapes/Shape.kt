@@ -4,14 +4,11 @@ import commons.math.Vec2
 
 class Shape(val paths: List<Path>) {
 
-  fun scale(scalar: Vec2): Shape = TODO()
+  fun scale(scalar: Vec2) = applyToVectors({v: Vec2 -> v * scalar})
 
-  fun translate(translation: Vec2): Shape = TODO()
+  fun translate(translation: Vec2) = applyToVectors({v: Vec2 -> v + translation})
 
-  /*fun populate(): Shape {
-    val r = paths.map { it.populate(32f) }
-    return Shape(paths)
-  }*/
+  private inline fun applyToVectors(operation: (Vec2) -> Vec2) = Shape(paths.map { Path(it.elements.map { operation.invoke(it) }) })
 
   companion object {
 

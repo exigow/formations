@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle
 import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
-import rendering.shapes.Shape
 import rendering.shapes.ShapeFactory
 import rendering.shapes.ShapeRenderer
 
@@ -18,10 +17,7 @@ object Draw {
   fun line(from: Vec2, to: Vec2, color: Color = defaultColor) = renderer.render(ShapeFactory.line(from, to), color)
 
   fun lineDotted(from: Vec2, to: Vec2, dotLength: Float, color: Color = defaultColor) {
-    val r = Shape(ShapeFactory.line(from, to).paths.map { it.populate(dotLength) })
-    // todo w sumie to shape powinien wykonywac te cale operacje, bo chuj mnie juz strzela jak trzeba to mapowac
-    renderer.render(r, color)
-    /*var passed = 0f
+    var passed = 0f
     val rotatedVector = Vec2.rotated(from.directionTo(to))
     val dist = from.distanceTo(to)
     while (passed < dist) {
@@ -29,8 +25,7 @@ object Draw {
       val delta = rotatedVector * Math.min((passed + dotLength), dist)
       line(from + alpha, from + delta, color)
       passed += dotLength * 2
-    }*/
-
+    }
   }
 
   fun cross(center: Vec2, size: Float, color: Color = defaultColor) {

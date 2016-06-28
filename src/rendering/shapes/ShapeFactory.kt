@@ -2,8 +2,23 @@ package rendering.shapes
 
 import commons.math.FastMath
 import commons.math.Vec2
+import java.util.*
 
 object ShapeFactory {
+
+  fun grid(density: Int): Shape {
+    val elements = ArrayList<Path>()
+    val size = Vec2.one()
+    val center = Vec2.zero()
+    for (d in 0..density) {
+      val texel = d / density.toFloat()
+      val x = FastMath.lerp(-size.x, size.x, texel)
+      val y = FastMath.lerp(-size.y, size.y, texel)
+      elements += Path(listOf(center + Vec2(x, -size.y), center + Vec2(x, size.y)))
+      elements += Path(listOf(center + Vec2(-size.x, y), center + Vec2(size.x, y)))
+    }
+    return Shape(elements)
+  }
 
   fun line(from: Vec2, to: Vec2) = Shape.singleton(from, to)
 
