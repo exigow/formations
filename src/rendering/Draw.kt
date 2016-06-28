@@ -25,14 +25,10 @@ object Draw {
     color
   )
 
-  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f) {
-    val vertices = arrayOf(
-      Vec2(-1f, -.5f),
-      Vec2(-.75f, 0f),
-      Vec2(-1f, .5f),
-      Vec2(1f, 0f)
-    )
-  }
+  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f) = render(
+    PathFactory.dart().rotate(angle).scale(Vec2.scaled(scale)).translate(position),
+    Color.WHITE
+  )
 
   fun cross(center: Vec2, size: Float, color: Color = defaultColor) = render(
     PathFactory.cross().scale(Vec2.scaled(size)).translate(center),

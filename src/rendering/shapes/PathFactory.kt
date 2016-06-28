@@ -50,6 +50,14 @@ object PathFactory {
     return Path(sum)
   }
 
+  fun dart() = Path.of(
+    Vec2(-1f, -.5f),
+    Vec2(-.75f, 0f),
+    Vec2(-1f, .5f),
+    Vec2(1f, 0f),
+    Vec2(-1f, -.5f)
+  )
+
   private fun generateArc(start: Float, end: Float, quality: Int) = (0..quality).map {
     val sample = it / quality.toFloat()
     val angle = FastMath.lerp(start, end, sample)
