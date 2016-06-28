@@ -32,29 +32,26 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.allShips().forEach { it.update(delta) }
-    render();
-    uiRenderer.render(delta)
-
-    /*val path = PathsFactory.cone(0f, 1f, 32).first().scale(camera.mousePosition())
-    for (subPath in path.populate(8f).slice())
-      PathRenderer.renderPath(subPath)*/
+    render(delta);
   }
 
-  fun render() {
-    Draw.update(camera)
+  fun render(delta: Float) {
+    Draw.startRendering(camera)
     Draw.grid(size = Vec2.scaled(1024f), density = 32, color = Color.DARK_GRAY)
     world.allShips().forEach { it.render() }
+    uiRenderer.render(delta)
+    Draw.present()
   }
 
   private fun Ship.render() {
-   //renderBody()
+    renderBody()
     renderThrusterState()
     renderRotationState()
     renderMovementTarget()
     renderAccelerationAngle()
   }
 
-  //private fun Ship.renderBody() = OldRenderer.renderDart(position, config.size, angle)
+  private fun Ship.renderBody() = Draw.dart(position, config.size, angle)
 
   private fun Ship.renderThrusterState() {
     val scale = 64f

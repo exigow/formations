@@ -5,6 +5,10 @@ import java.util.*
 
 class Path(val elements: List<Vec2>) {
 
+  fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
+
+  fun translate(translation: Vec2) = Path(elements.map { it + translation })
+
   fun subdivide(): Path {
     val result: MutableList<Vec2> = ArrayList()
     val i = elements.iterator()
@@ -72,10 +76,14 @@ class Path(val elements: List<Vec2>) {
     return result
   }
 
-  //fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
-
   override fun toString(): String{
     return "Path(elements=$elements)"
+  }
+
+  companion object {
+
+    fun of(vararg elements: Vec2) = Path(elements.asList())
+
   }
 
 }

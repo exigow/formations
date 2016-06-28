@@ -4,19 +4,17 @@ import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
 import rendering.Color
 
-class ShapeRenderer {
+class PathRenderer {
 
   private val shape = com.badlogic.gdx.graphics.glutils.ShapeRenderer()
 
-  fun render(shape: Shape, color: Color) {
-    for (path in shape.paths) {
-      val i = path.elements.iterator()
-      var prev = i.next()
-      while (i.hasNext()) {
-        val next = i.next()
-        line(prev, next, color)
-        prev = next
-      }
+  fun render(path: Path, color: Color) {
+    val i = path.elements.iterator()
+    var prev = i.next()
+    while (i.hasNext()) {
+      val next = i.next()
+      line(prev, next, color)
+      prev = next
     }
   }
 
