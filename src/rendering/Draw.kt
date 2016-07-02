@@ -27,14 +27,14 @@ object Draw {
     Color.WHITE
   )
 
-  fun cross(center: Vec2, size: Float, color: Color = Color.WHITE) = render(
+  fun cross(center: Vec2, size: Float, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
     PathFactory.cross().scale(Vec2.scaled(size)).translate(center),
-    color
+    color, alpha
   )
 
-  fun grid(center: Vec2 = Vec2.zero(), size: Vec2, density: Int, color: Color = Color.WHITE) = render(
+  fun grid(center: Vec2 = Vec2.zero(), size: Vec2, density: Int, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
     PathFactory.grid(density).scale(size).translate(center - size / 2),
-    color
+    color, alpha
   )
 
   fun arc(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = Color.WHITE) = render(
