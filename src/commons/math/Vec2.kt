@@ -42,6 +42,14 @@ data class Vec2(val x: Float, val y: Float) {
 
   fun onlyY() = Vec2(0, y)
 
+  fun rotate(angle: Float): Vec2 {
+    val cos = FastMath.cos(angle)
+    val sin = FastMath.sin(angle)
+    val newX = x  * cos - y * sin
+    val newY = x  * sin + y * cos
+    return Vec2(newX, newY)
+  }
+
   fun toVector2(): Vector2 = Vector2(x, y)
 
   companion object {
