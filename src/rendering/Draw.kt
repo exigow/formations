@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.Rectangle
 import commons.math.Vec2
 import core.Camera
 import rendering.Paths.PathFactory
-import rendering.shapes.Path
+import rendering.paths.Path
+import rendering.paths.PathRenderer
 
 object Draw {
 

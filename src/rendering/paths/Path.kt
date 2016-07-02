@@ -1,4 +1,4 @@
-package rendering.shapes
+package rendering.paths
 
 import commons.math.Vec2
 import java.util.*

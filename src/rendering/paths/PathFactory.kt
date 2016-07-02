@@ -2,7 +2,7 @@ package rendering.Paths
 
 import commons.math.FastMath
 import commons.math.Vec2
-import rendering.shapes.Path
+import rendering.paths.Path
 
 object PathFactory {
 

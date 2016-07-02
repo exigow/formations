@@ -12,7 +12,7 @@ import game.World
 import game.orders.AttackOrder
 import game.orders.MoveOrder
 import rendering.Draw
-import rendering.shapes.Path
+import rendering.paths.Path
 import java.util.*
 
 
