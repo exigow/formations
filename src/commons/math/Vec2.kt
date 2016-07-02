@@ -38,16 +38,18 @@ data class Vec2(val x: Float, val y: Float) {
 
   fun isZero() = x == 0f && y == 0f
 
-  fun onlyX() = Vec2(x, 0)
+  fun onlyX() = copy(x, 0f)
 
-  fun onlyY() = Vec2(0, y)
+  fun onlyY() = copy(0f, y)
+
+  fun negate() = copy(-x, -y)
 
   fun rotate(angle: Float): Vec2 {
     val cos = FastMath.cos(angle)
     val sin = FastMath.sin(angle)
     val newX = x  * cos - y * sin
     val newY = x  * sin + y * cos
-    return Vec2(newX, newY)
+    return copy(newX, newY)
   }
 
   fun toVector2(): Vector2 = Vector2(x, y)
