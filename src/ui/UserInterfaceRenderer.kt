@@ -12,6 +12,7 @@ import game.World
 import game.orders.AttackOrder
 import game.orders.MoveOrder
 import rendering.Draw
+import rendering.shapes.Path
 import java.util.*
 
 
@@ -130,7 +131,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   fun Collective.render() {
     val positions = this.squads.flatMap { it.ships }.map { it.position }
     val hull = ConvexHull.calculate(positions)
-    Draw.polygonLooped(hull.toTypedArray())
+    Draw.path(Path(hull))
     if (!this.orders.isEmpty()) {
       val order = this.orders.first()
       if (order is MoveOrder)

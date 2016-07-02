@@ -64,19 +64,7 @@ object Draw {
     color, alpha
   )
 
-  fun polygonLooped(positions: Array<Vec2>, color: Color = Color.WHITE) = fromEachToEachLooped(positions, { from, to -> line(from, to, color)})
-
-  inline private fun fromEachToEachLooped(positions: Array<Vec2>, drawWith: (from: Vec2, to: Vec2) -> Unit) {
-    val i = positions.iterator()
-    var prev = i.next()
-    val first = prev
-    while (i.hasNext()) {
-      val next = i.next()
-      drawWith.invoke(prev, next)
-      prev = next
-    }
-    drawWith.invoke(first, prev)
-  }
+  fun path(path: Path, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(path, color, alpha)
 
   private fun List<Path>.scale(scalar: Vec2) = map { it.scale(scalar) }
 
