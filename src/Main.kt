@@ -37,11 +37,10 @@ class Main {
   }
 
   fun render(delta: Float) {
-    Draw.startRendering(camera)
+    Draw.update(camera)
     Draw.grid(size = Vec2.scaled(1024f), density = 32, color = Color.DARK_GRAY)
     world.allShips().forEach { it.render() }
     uiRenderer.render(delta)
-    Draw.present()
   }
 
   private fun Ship.render() {

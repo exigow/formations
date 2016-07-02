@@ -9,11 +9,9 @@ import rendering.shapes.Path
 object Draw {
 
   private val defaultColor = Color.WHITE
-  private val renderer = LineRenderer()
+  private val pr = PathRenderer()
 
-  fun startRendering(camera: Camera) = renderer.begin(camera.projectionMatrix())
-
-  fun present() = renderer.end()
+  fun update(camera: Camera) = pr.update(camera)
 
   fun line(from: Vec2, to: Vec2, color: Color = defaultColor) = render(
     PathFactory.line(from, to),
@@ -25,7 +23,7 @@ object Draw {
     color
   )
 
-  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f) = render(
+  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f) = pr.renderFilled(
     PathFactory.dart().rotate(angle).scale(Vec2.scaled(scale)).translate(position),
     Color.WHITE
   )
@@ -82,14 +80,6 @@ object Draw {
 
   private fun render(paths: List<Path>, color: Color) = paths.forEach { render(it, color) }
 
-  private fun render(path: Path, color: Color) {
-    val i = path.elements.iterator()
-    var prev = i.next()
-    while (i.hasNext()) {
-      val next = i.next()
-      renderer.emitLine(prev, next, color)
-      prev = next
-    }
-  }
+  private fun render(path: Path, color: Color) = pr.renderLine(path, color)
 
 }

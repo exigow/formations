@@ -51,11 +51,11 @@ object PathFactory {
   }
 
   fun dart() = Path.of(
-    Vec2(-1f, -.5f),
-    Vec2(-.75f, 0f),
-    Vec2(-1f, .5f),
-    Vec2(1f, 0f),
-    Vec2(-1f, -.5f)
+    Vec2(-.5f, 0),
+    Vec2(-1, .5f),
+    Vec2(1, 0),
+    Vec2(-1, -.5f),
+    Vec2(-.5f, 0)
   )
 
   private fun generateArc(start: Float, end: Float, quality: Int) = (0..quality).map {
