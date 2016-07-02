@@ -51,7 +51,10 @@ class Main {
     renderAccelerationAngle()
   }
 
-  private fun Ship.renderBody() = Draw.dart(position, config.size, angle)
+  private fun Ship.renderBody() {
+    Draw.dartFilled(position, config.size, angle, alpha = .125f)
+    Draw.dart(position, config.size, angle, alpha = 1f)
+  }
 
   private fun Ship.renderThrusterState() {
     val scale = 64f

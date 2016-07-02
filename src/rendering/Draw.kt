@@ -22,7 +22,12 @@ object Draw {
     color, alpha
   )
 
-  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderFilled(
+  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(
+    PathFactory.dart().rotate(angle).scale(Vec2.scaled(scale)).translate(position),
+    color, alpha
+  )
+
+  fun dartFilled(position: Vec2, scale: Float = 16f, angle: Float = 0f, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderFilled(
     PathFactory.dart().rotate(angle).scale(Vec2.scaled(scale)).translate(position),
     color, alpha
   )
