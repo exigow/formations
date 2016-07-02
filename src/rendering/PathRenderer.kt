@@ -32,7 +32,6 @@ class PathRenderer {
   fun renderFilled(path: Path, color: Color, alpha: Float) {
     if (hasAlpha(alpha))
       enableBlend()
-    renderLine(path, color, 1f)
     renderer.begin(matrix, GL20.GL_TRIANGLE_FAN);
     for (element in path.elements) {
       renderer.color(color.r, color.g, color.b, alpha)
