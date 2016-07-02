@@ -33,10 +33,17 @@ class PathRenderer {
   fun renderLine(path: Path, color: Color, alpha: Float = 1f) {
     renderer.begin(matrix, GL20.GL_LINE_STRIP);
     for (element in path.elements) {
-      renderer.color(color.r, color.g, color.b, 1f)
+      renderer.color(color.r, color.g, color.b, alpha)
       renderer.vertex(element.x, element.y, 0f)
     }
     renderer.end();
+  }
+
+  fun renderLines(paths: List<Path>, color: Color, alpha: Float) = paths.forEach { renderLine(it, color, alpha) }
+
+  fun renderFilledOutlined(path: Path, fillColor: Color, fillAlpha: Float = 1f, outlineColor: Color, outlineAlpha: Float = 1f) {
+    renderFilled(path, fillColor, fillAlpha)
+    renderLine(path, outlineColor, outlineAlpha)
   }
 
 }
