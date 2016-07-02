@@ -20,8 +20,8 @@ class PathRenderer {
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
   }
 
-  fun renderFilled(path: Path, color: Color, alpha: Float = .25f) {
-    renderLine(path, color)
+  fun renderFilled(path: Path, color: Color, alpha: Float) {
+    renderLine(path, color, 1f)
     renderer.begin(matrix, GL20.GL_TRIANGLE_FAN);
     for (element in path.elements) {
       renderer.color(color.r, color.g, color.b, alpha)
@@ -30,7 +30,7 @@ class PathRenderer {
     renderer.end();
   }
 
-  fun renderLine(path: Path, color: Color, alpha: Float = 1f) {
+  fun renderLine(path: Path, color: Color, alpha: Float) {
     renderer.begin(matrix, GL20.GL_LINE_STRIP);
     for (element in path.elements) {
       renderer.color(color.r, color.g, color.b, alpha)

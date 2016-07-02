@@ -22,9 +22,9 @@ object Draw {
     color, alpha
   )
 
-  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f) = pr.renderFilled(
+  fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderFilled(
     PathFactory.dart().rotate(angle).scale(Vec2.scaled(scale)).translate(position),
-    Color.WHITE
+    color, alpha
   )
 
   fun cross(center: Vec2, size: Float, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
@@ -37,26 +37,26 @@ object Draw {
     color, alpha
   )
 
-  fun arc(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = Color.WHITE) = render(
+  fun arc(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
     PathFactory.arc(start, end, quality).scale(Vec2.scaled(radius)).populate(8f).slice().translate(center),
-    color
+    color, alpha
   )
 
-  fun rectangle(rect: Rectangle, color: Color = Color.WHITE) = render(
+  fun rectangle(rect: Rectangle, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
     PathFactory.square().scale(Vec2(rect.width, rect.height)).populate(16f).slice().translate(Vec2(rect.x, rect.y)),
-    color
+    color, alpha
   )
 
-  fun cone(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = Color.WHITE) = render(
+  fun cone(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(
     PathFactory.cone(start, end, quality).scale(Vec2.scaled(radius)).translate(center),
-    color
+    color, alpha
   )
 
-  fun diamond(center: Vec2, scale: Float, color: Color = Color.WHITE) = diamond(center, Vec2(scale, scale), color)
+  fun diamond(center: Vec2, scale: Float, color: Color = Color.WHITE, alpha: Float = 1f) = diamond(center, Vec2(scale, scale), color, alpha)
 
-  fun diamond(center: Vec2, scale: Vec2, color: Color = Color.WHITE) = render(
+  fun diamond(center: Vec2, scale: Vec2, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(
     PathFactory.diamond().scale(scale).translate(center),
-    color
+    color, alpha
   )
 
   fun polygonLooped(positions: Array<Vec2>, color: Color = Color.WHITE) = fromEachToEachLooped(positions, { from, to -> line(from, to, color)})
