@@ -11,7 +11,7 @@ class AssetsManager {
 
   private val textures: MutableMap<String, Texture>  = HashMap()
 
-  fun get(assetName: String): Texture {
+  operator fun get(assetName: String): Texture {
     if (textures.containsKey(assetName))
       return textures[assetName]!!
     throw RuntimeException("Unknown asset: $assetName")
