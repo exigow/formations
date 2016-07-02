@@ -82,8 +82,4 @@ object Draw {
 
   private fun List<Path>.translate(translation: Vec2) = map { it.translate(translation) }
 
-  //private fun render(paths: List<Path>, color: Color) = paths.forEach { render(it, color) }
-
-  //private fun render(path: Path, color: Color) = pr.renderLine(path, color)
-
 }
