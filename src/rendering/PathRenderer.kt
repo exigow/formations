@@ -16,11 +16,22 @@ class PathRenderer {
 
   fun update(camera: Camera) {
     matrix.set(camera.projectionMatrix())
+  }
+
+  private fun enableBlend() {
     Gdx.gl.glEnable(GL20.GL_BLEND);
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
   }
 
+  private fun disableBlend() {
+    Gdx.gl.glDisable(GL20.GL_BLEND);
+  }
+
+  private fun hasAlpha(alpha: Float) = alpha < .975f
+
   fun renderFilled(path: Path, color: Color, alpha: Float) {
+    if (hasAlpha(alpha))
+      enableBlend()
     renderLine(path, color, 1f)
     renderer.begin(matrix, GL20.GL_TRIANGLE_FAN);
     for (element in path.elements) {
@@ -28,15 +39,21 @@ class PathRenderer {
       renderer.vertex(element.x, element.y, 0f)
     }
     renderer.end();
+    if (hasAlpha(alpha))
+      disableBlend()
   }
 
   fun renderLine(path: Path, color: Color, alpha: Float) {
+    if (hasAlpha(alpha))
+      enableBlend()
     renderer.begin(matrix, GL20.GL_LINE_STRIP);
     for (element in path.elements) {
       renderer.color(color.r, color.g, color.b, alpha)
       renderer.vertex(element.x, element.y, 0f)
     }
     renderer.end();
+    if (hasAlpha(alpha))
+      disableBlend()
   }
 
   fun renderLines(paths: List<Path>, color: Color, alpha: Float) = paths.forEach { renderLine(it, color, alpha) }
