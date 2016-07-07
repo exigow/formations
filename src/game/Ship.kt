@@ -46,7 +46,7 @@ class Ship(val config: UnitConfiguration) {
     if (dist > brake)
       return config.thrusterSpeedMax
     val normDist = 1f - (brake - dist) / brake
-    val curved = FastMath.pow(normDist, 4f)
+    val curved = FastMath.pow(normDist, 8f)
     return config.thrusterSpeedMax * curved
   }
 

@@ -69,7 +69,7 @@ data class UnitConfiguration(
       rotationSpeedMax = .375f,
       rotationSpeedDumping = .375f,
 
-      brakeDistance = 1024f
+      brakeDistance = 512f
     )
 
     fun asteroid() = UnitConfiguration(
