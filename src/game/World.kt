@@ -12,7 +12,7 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0), 7))
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0)))
       world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(-256, 0)))
       return world
     }

@@ -60,14 +60,17 @@ class Main {
     val scale = 64f
     val max = config.thrusterSpeedMax * scale
     val current = velocityAcceleration * scale
+    val expected = velocityTarget * scale
     Draw.lineDotted(position, position + Vec2.rotated(angle) * max, 8f)
     fun horizon(length: Float, size: Float) {
       val pivot = position + Vec2.rotated(angle) * length
       val horizontal = Vec2.rotated(angle + FastMath.pi / 2) * size
       Draw.line(pivot + horizontal, pivot - horizontal)
     }
-    horizon(max, 8f)
+    horizon(max, 12f)
     horizon(current, 16f)
+    horizon(expected - 2f, 8f)
+    horizon(expected + 2f, 8f)
   }
 
   private fun Ship.renderMovementTarget() {

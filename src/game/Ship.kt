@@ -9,8 +9,9 @@ class Ship(val config: UnitConfiguration) {
   var position = Vec2.zero();
   var angle = 0f;
   var angleAcceleration = 0f;
-  var velocityAcceleration = 0f
-  var movementTarget = Vec2.zero();
+  var velocityAcceleration = 0f;
+  var velocityTarget = 0f
+  var movementTarget = Vec2.zero()
   var movementTargetAngle = 0f
 
   fun update(delta: Float) {
@@ -24,28 +25,28 @@ class Ship(val config: UnitConfiguration) {
     }
     angle += angleAcceleration * delta
 
-    val dist = position.distanceTo(movementTarget)
-    if (dist > config.size && canAccelerateForward())
-      velocityAcceleration += config.thrusterSpeedAcceleration * delta
+    velocityTarget = calculateTargetAcceleration()
+    velocityAcceleration += (velocityTarget - velocityAcceleration) * config.thrusterSpeedAcceleration * delta
     if (!canAccelerateForward()) {
       val velocityDamping = FastMath.pow(config.thrusterSpeedDumping, delta)
       velocityAcceleration *= velocityDamping
     }
-    velocityAcceleration = Math.min(velocityAcceleration, config.thrusterSpeedMax)
-    position += Vec2.rotated(angle) * velocityAcceleration
 
-    val c = 64f
-    if (dist < c)
-      applyMovementTargetFix((c - dist) / c)
+    position += Vec2.rotated(angle) * velocityAcceleration
 
     angle = FastMath.loopAngle(angle)
   }
 
-  private fun applyMovementTargetFix(amount: Float) {
-    velocityAcceleration *= .875f
-    angleAcceleration *= .5f
-    position += (movementTarget - position) * amount * .025f
-    angle += FastMath.angleDifference(movementTargetAngle, angle) * amount  * .025f
+  private fun calculateTargetAcceleration(): Float {
+    val dist = position.distanceTo(movementTarget)
+    val brake = config.brakeDistance // todo trzeba to uzaleznic od aktualnej predkosci, bo rozpedzony krążownik za bardzo zapierdala i omija cel
+    if (!canAccelerateForward())
+      return 0f
+    if (dist > brake)
+      return config.thrusterSpeedMax
+    val normDist = 1f - (brake - dist) / brake
+    val curved = FastMath.pow(normDist, 2f)
+    return config.thrusterSpeedMax * curved
   }
 
   private fun lockAngle(a: Float, max: Float) = FastMath.clamp(a, -max, max)

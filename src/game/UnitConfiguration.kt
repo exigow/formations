@@ -24,7 +24,9 @@ data class UnitConfiguration(
 
   val rotationSpeedAcceleration: Float,
   val rotationSpeedMax: Float,
-  val rotationSpeedDumping: Float
+  val rotationSpeedDumping: Float,
+
+  val brakeDistance: Float
 
 ) {
 
@@ -47,7 +49,9 @@ data class UnitConfiguration(
 
       rotationSpeedAcceleration = 1.75f,
       rotationSpeedMax = 2.25f,
-      rotationSpeedDumping = .25f
+      rotationSpeedDumping = .25f,
+
+      brakeDistance = 256f
     )
 
     fun carrier() = UnitConfiguration(
@@ -63,7 +67,9 @@ data class UnitConfiguration(
 
       rotationSpeedAcceleration = 0.125f,
       rotationSpeedMax = .375f,
-      rotationSpeedDumping = .375f
+      rotationSpeedDumping = .375f,
+
+      brakeDistance = 512f
     )
 
     fun asteroid() = UnitConfiguration(
@@ -79,7 +85,9 @@ data class UnitConfiguration(
 
       rotationSpeedAcceleration = 0f,
       rotationSpeedMax = 0f,
-      rotationSpeedDumping = 0f
+      rotationSpeedDumping = 0f,
+
+      brakeDistance = 0f
     )
 
   }
