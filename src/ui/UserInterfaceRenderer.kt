@@ -129,9 +129,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   }
 
   fun Collective.render() {
-    val positions = this.squads.flatMap { it.ships }.map { it.position }
-    val hull = ConvexHull.calculate(positions)
-    Draw.path(Path(hull))
+    renderConvexHull()
     if (!this.orders.isEmpty()) {
       val order = this.orders.first()
       if (order is MoveOrder)
@@ -139,6 +137,12 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
       if (order is AttackOrder)
         Draw.line(center(), order.who.center())
     }
+  }
+
+  private fun Collective.renderConvexHull() {
+    val positions = this.squads.flatMap { it.ships }.map { it.position }
+    val hull = ConvexHull.calculate(positions)
+    Draw.path(Path(hull))
   }
 
   fun renderMouse() = Draw.cross(camera.mousePosition(), camera.scaledClickRadius())

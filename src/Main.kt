@@ -72,7 +72,7 @@ class Main {
 
   private fun Ship.renderMovementTarget() {
     Draw.lineDotted(position, movementTarget, 16f)
-    Draw.line(movementTarget, movementTarget + Vec2.rotated(movementTargetAngle) * 32)
+    Draw.dartDotted(movementTarget, config.size, movementTargetAngle, 8f, alpha = .5f)
   }
 
   private fun Ship.renderRotationState() {

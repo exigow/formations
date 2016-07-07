@@ -23,6 +23,11 @@ object Draw {
     color, alpha
   )
 
+  fun dartDotted(position: Vec2, scale: Float = 16f, angle: Float = 0f, dotLength: Float, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
+    PathFactory.dart().rotate(angle).scale(Vec2.scaled(scale)).translate(position).populate(dotLength).slice(),
+    color, alpha
+  )
+
   fun dart(position: Vec2, scale: Float = 16f, angle: Float = 0f, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(
     PathFactory.dart().rotate(angle).scale(Vec2.scaled(scale)).translate(position),
     color, alpha
