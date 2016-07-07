@@ -33,6 +33,19 @@ class Ship(val config: UnitConfiguration) {
     }
     velocityAcceleration = Math.min(velocityAcceleration, config.thrusterSpeedMax)
     position += Vec2.rotated(angle) * velocityAcceleration
+
+    val c = 64f
+    if (dist < c)
+      applyMovementTargetFix((c - dist) / c)
+
+    angle = FastMath.loopAngle(angle)
+  }
+
+  private fun applyMovementTargetFix(amount: Float) {
+    velocityAcceleration *= .875f
+    angleAcceleration *= .5f
+    position += (movementTarget - position) * amount * .025f
+    angle += FastMath.angleDifference(movementTargetAngle, angle) * amount  * .025f
   }
 
   private fun lockAngle(a: Float, max: Float) = FastMath.clamp(a, -max, max)

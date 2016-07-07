@@ -59,7 +59,7 @@ class OrderingActionClass(val camera: Camera, val context: PlayerContext, val wo
       Logger.ACTION.log("Is alting.")
     Logger.ACTION.log("Move order.")
     val new = world.joinToNewCollective(context.selected)
-    val order = MoveOrder(camera.mousePosition(), 0f)
+    val order = MoveOrder(camera.mousePosition(), new.center().directionTo(camera.mousePosition()))
     new.orders.add(order)
   }
 
