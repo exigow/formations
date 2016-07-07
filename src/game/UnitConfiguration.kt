@@ -57,7 +57,7 @@ data class UnitConfiguration(
     fun carrier() = UnitConfiguration(
       displayedName = "Carrier",
 
-      size = 128f,
+      size = 96f,
 
       accelerationAngle = .375f,
 
