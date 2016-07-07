@@ -40,7 +40,6 @@ class Ship(val config: UnitConfiguration) {
   private fun calculateTargetAcceleration(): Float {
     val dist = position.distanceTo(movementTarget)
     val brake = config.brakeDistance * velocityAcceleration
-    println(brake)
     if (!canAccelerateForward())
       return 0f
     if (dist > brake)

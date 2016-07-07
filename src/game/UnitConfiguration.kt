@@ -41,7 +41,7 @@ data class UnitConfiguration(
 
       size = 16f,
 
-      accelerationAngle = 1.25f,
+      accelerationAngle = 2.25f,
 
       thrusterSpeedAcceleration = .875f,
       thrusterSpeedMax = 4f,

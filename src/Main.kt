@@ -96,7 +96,7 @@ class Main {
     val length = 96f
     val start = angle - config.accelerationAngle
     val end = angle + config.accelerationAngle
-    Draw.cone(position, length, start, end)
+    Draw.cone(position, length, start, end, quality = 32)
   }
 
 }
