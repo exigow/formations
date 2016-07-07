@@ -51,7 +51,7 @@ data class UnitConfiguration(
       rotationSpeedMax = 2.25f,
       rotationSpeedDumping = .25f,
 
-      brakeDistance = 256f
+      brakeDistance = 128f
     )
 
     fun carrier() = UnitConfiguration(
@@ -69,7 +69,7 @@ data class UnitConfiguration(
       rotationSpeedMax = .375f,
       rotationSpeedDumping = .375f,
 
-      brakeDistance = 512f
+      brakeDistance = 1024f
     )
 
     fun asteroid() = UnitConfiguration(

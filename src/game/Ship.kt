@@ -39,13 +39,14 @@ class Ship(val config: UnitConfiguration) {
 
   private fun calculateTargetAcceleration(): Float {
     val dist = position.distanceTo(movementTarget)
-    val brake = config.brakeDistance // todo trzeba to uzaleznic od aktualnej predkosci, bo rozpedzony krążownik za bardzo zapierdala i omija cel
+    val brake = config.brakeDistance * velocityAcceleration // todo trzeba to uzaleznic od aktualnej predkosci, bo rozpedzony krążownik za bardzo zapierdala i omija cel
+    println(brake)
     if (!canAccelerateForward())
       return 0f
     if (dist > brake)
       return config.thrusterSpeedMax
     val normDist = 1f - (brake - dist) / brake
-    val curved = FastMath.pow(normDist, 2f)
+    val curved = FastMath.pow(normDist, 4f)
     return config.thrusterSpeedMax * curved
   }
 
