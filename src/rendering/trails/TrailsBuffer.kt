@@ -2,21 +2,22 @@ package rendering.trails
 
 import commons.math.Vec2
 
-class TrailsBuffer {
+class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
 
-  //private val DISABLED_CONNECTION_VALUE = -1
-  val positionCapacity = 32
-  val connectionCapacity = 256
-  val xBuffer = Array(positionCapacity, {i -> 0f})
-  val yBuffer = Array(positionCapacity, {i -> 0f})
-  val connectionFromBuffer = Array(connectionCapacity, {i -> 0 })
-  val connectionToBuffer = Array(connectionCapacity, {i -> 0 })
-  private var positionPivot = 0
+  val xBuffer = Array(positionCapacity, {0f})
+  val yBuffer = Array(positionCapacity, {0f})
+  val connectionFromBuffer = Array(connectionCapacity, {-1})
+  val connectionToBuffer = Array(connectionCapacity, {-1})
   private var connectionPivot = 0
+  private val usage = Array(positionCapacity, {0})
 
   fun store(position: Vec2, index: Int) {
     xBuffer[index] = position.x
     yBuffer[index] = position.y
+  }
+  private fun increaseUsage() {
+    for (index in 0..(usage.size - 1))
+      usage[index] = usage[index] + 1
   }
 
   fun connect(from: Int, to: Int) {
@@ -26,10 +27,33 @@ class TrailsBuffer {
   }
 
   fun requestPosition(): Int {
-    positionPivot += 1
-    if (positionPivot > positionCapacity - 1)
-      positionPivot = 0
-    return positionPivot
+    increaseUsage()
+    val found = fetchUseless()
+    fixConnections(found)
+    return found
+  }
+
+  private fun fixConnections(index: Int) {
+    for (i in 0..(connectionCapacity - 1)) {
+      if (connectionFromBuffer[i] == index || connectionToBuffer[i] == index) {
+        connectionFromBuffer[i] = -1
+        connectionToBuffer[i] = -1
+      }
+    }
+  }
+
+  private fun fetchUseless(): Int {
+    var retIndex = 0
+    var max = usage[retIndex]
+    for (index in 0..(usage.size - 1)) {
+      val new = usage[index]
+      if (new > max) {
+        max = new
+        retIndex = index
+      }
+    }
+    usage[retIndex] = 0
+    return retIndex
   }
 
   fun requestConnection(): Int {
@@ -52,7 +76,8 @@ class TrailsBuffer {
     for (i in 0..(connectionCapacity - 1)) {
       val fromIndex = connectionFromBuffer[i]
       val toIndex = connectionToBuffer[i]
-      f.invoke(restore(fromIndex), restore(toIndex))
+      if (fromIndex != -1 || toIndex != -1)
+        f.invoke(restore(fromIndex), restore(toIndex))
     }
   }
 
