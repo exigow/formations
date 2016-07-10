@@ -8,6 +8,8 @@ class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
   val yBuffer = Array(positionCapacity, {0f})
   val connectionFromBuffer = Array(connectionCapacity, {0})
   val connectionToBuffer = Array(connectionCapacity, {0})
+  val connectionFromAngle = Array(connectionCapacity, {0f})
+  val connectionToAngle = Array(connectionCapacity, {0f})
   private val connectionEnabled = Array(connectionCapacity, {false})
   private var connectionPivot = 0
   private val usage = Array(positionCapacity, {0})
@@ -73,12 +75,14 @@ class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
     }
   }
 
-  fun forEachConnection(f: (from: Vec2, to: Vec2) -> Unit) {
+  fun forEachConnection(f: (from: Vec2, to: Vec2, fromAngle: Float, toAngle: Float) -> Unit) {
     for (i in 0..(connectionCapacity - 1))
       if (connectionEnabled[i] == true) {
         val fromIndex = connectionFromBuffer[i]
         val toIndex = connectionToBuffer[i]
-        f.invoke(restore(fromIndex), restore(toIndex))
+        val fromAngle = connectionFromAngle[i]
+        val toAngle = connectionToAngle[i]
+        f.invoke(restore(fromIndex), restore(toIndex), fromAngle, toAngle)
       }
   }
 

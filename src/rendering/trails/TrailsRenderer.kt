@@ -36,22 +36,24 @@ class TrailsRenderer {
     var verticesIndex = 0
     var indicesIndex = 0
     var z = 0
+    val scale = 8f
 
-    buffer.forEachConnection { from, to ->
+    buffer.forEachConnection { from, to, fromAngle, toAngle ->
 
-      val rotated = Vec2.rotated(from.directionTo(to) + FastMath.pi / 2f) * 8f
+      val fromRotated = Vec2.rotated(fromAngle) * scale
+      val toRotated = Vec2.rotated(toAngle) * scale
 
-      vertices[verticesIndex + 0] = from.x + rotated.x
-      vertices[verticesIndex + 1] = from.y + rotated.y
+      vertices[verticesIndex + 0] = from.x + fromRotated.x
+      vertices[verticesIndex + 1] = from.y + fromRotated.y
 
-      vertices[verticesIndex + 2] = from.x - rotated.x
-      vertices[verticesIndex + 3] = from.y - rotated.y
+      vertices[verticesIndex + 2] = from.x - fromRotated.x
+      vertices[verticesIndex + 3] = from.y - fromRotated.y
 
-      vertices[verticesIndex + 4] = to.x + rotated.x
-      vertices[verticesIndex + 5] = to.y + rotated.y
+      vertices[verticesIndex + 4] = to.x + toRotated.x
+      vertices[verticesIndex + 5] = to.y + toRotated.y
 
-      vertices[verticesIndex + 6] = to.x - rotated.x
-      vertices[verticesIndex + 7] = to.y - rotated.y
+      vertices[verticesIndex + 6] = to.x - toRotated.x
+      vertices[verticesIndex + 7] = to.y - toRotated.y
 
       verticesIndex += 8
 
@@ -76,7 +78,13 @@ class TrailsRenderer {
     shader.end();
 
     buffer.forEachPosition { Draw.cross(it, 4f) }
-    buffer.forEachConnection { from, to -> Draw.line(from, to) }
+    buffer.forEachConnection { from, to, fromAngle, toAngle ->
+      Draw.line(from, to)
+      val fa = Vec2.rotated(fromAngle + FastMath.pi) * scale * 2
+      val ta = Vec2.rotated(toAngle + FastMath.pi) * scale * 2
+      Draw.line(from + fa, from - fa)
+      Draw.line(to + ta, to - ta)
+    }
   }
 
   private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 512, 512, // 4,6

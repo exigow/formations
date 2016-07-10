@@ -23,9 +23,9 @@ class Main {
   private val context = PlayerContext()
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
-  private val trails = TrailsBuffer(positionCapacity = 16, connectionCapacity = 16)
+  private val trails = TrailsBuffer(positionCapacity = 8, connectionCapacity = 8)
   //private val shipToEmitter = world.allShips().map { it to TrailsEmitter(32f, trails, it.position) }.toMap()
-  private val mouseTrail = TrailsEmitter(128f, trails, camera.mousePosition())
+  private val mouseTrail = TrailsEmitter(32f, trails, camera.mousePosition())
   private val trainsRenderer = TrailsRenderer()
 
   init {
