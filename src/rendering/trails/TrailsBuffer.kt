@@ -4,10 +4,11 @@ import commons.math.Vec2
 
 class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
 
+  private val CONNECTION_DISABLED_VALUE = -1
   val xBuffer = Array(positionCapacity, {0f})
   val yBuffer = Array(positionCapacity, {0f})
-  val connectionFromBuffer = Array(connectionCapacity, {-1})
-  val connectionToBuffer = Array(connectionCapacity, {-1})
+  val connectionFromBuffer = Array(connectionCapacity, {CONNECTION_DISABLED_VALUE})
+  val connectionToBuffer = Array(connectionCapacity, {CONNECTION_DISABLED_VALUE})
   private var connectionPivot = 0
   private val usage = Array(positionCapacity, {0})
 
@@ -34,12 +35,16 @@ class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
   }
 
   private fun fixConnections(index: Int) {
-    for (i in 0..(connectionCapacity - 1)) {
-      if (connectionFromBuffer[i] == index || connectionToBuffer[i] == index) {
-        connectionFromBuffer[i] = -1
-        connectionToBuffer[i] = -1
-      }
-    }
+    for (i in 0..(connectionCapacity - 1))
+      if (connectionContainsPivot(i, index))
+        disableConnection(i)
+  }
+
+  private fun connectionContainsPivot(index: Int, pivot: Int) = connectionFromBuffer[index] == pivot || connectionToBuffer[index] == pivot
+
+  private fun disableConnection(index: Int) {
+    connectionFromBuffer[index] = CONNECTION_DISABLED_VALUE
+    connectionToBuffer[index] = CONNECTION_DISABLED_VALUE
   }
 
   private fun fetchUseless(): Int {
