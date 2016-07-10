@@ -10,6 +10,8 @@ import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
 import rendering.ShipDebugRenderer.render
+import rendering.trails.TrailsBuffer
+import rendering.trails.TrailsEmitter
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -20,6 +22,10 @@ class Main {
   private val context = PlayerContext()
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
+  private val trails = TrailsBuffer()
+  //private val shipEmitter = TrailsEmitter(32f, trails)
+  //private val mouseEmitter = TrailsEmitter(32f, trails)
+  private val shipToEmitter = world.allShips().map { it to TrailsEmitter(32f, trails, it.position) }.toMap()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -36,6 +42,11 @@ class Main {
     world.collectives.forEach { it.update() }
     world.allShips().forEach { it.update(delta) }
     render(delta);
+
+
+    shipToEmitter.forEach { it.value.emit(it.key.position) }
+    //mouseEmitter.emit(camera.mousePosition())
+    //shipEmitter.emit(world.allShips().first().position)
   }
 
   fun render(delta: Float) {
@@ -48,11 +59,16 @@ class Main {
         "Carrier" -> "carrier"
         else -> throw RuntimeException()
       }
-      DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
+      //DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
       it.render()
     }
     uiRenderer.render(delta)
+    renderTrails()
   }
 
+  private fun renderTrails() {
+    trails.forEachPosition { Draw.cross(it, 2f) }
+    trails.forEachConnection { from, to -> Draw.line(from, to) }
+  }
 
 }

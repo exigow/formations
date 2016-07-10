@@ -9,10 +9,10 @@ object ShipDebugRenderer {
 
   fun Ship.render() {
     renderBody()
-    renderThrusterState()
-    renderRotationState()
-    renderMovementTarget()
-    renderAccelerationAngle()
+//    renderThrusterState()
+//    renderRotationState()
+    //renderMovementTarget()
+//    renderAccelerationAngle()
   }
 
   private fun Ship.renderBody() {

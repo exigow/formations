@@ -13,8 +13,10 @@ class World {
     fun randomWorld(): World {
       val world = World();
       world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(0, 0)))
-      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0), 5))
-      world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(-256, 0)))
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(128, 0)))
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(-128, 0)))
+      //world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0), 11))
+      //world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(-256, 0)))
       return world
     }
 
@@ -23,7 +25,7 @@ class World {
       for (i in 1..count) {
         val ship = Ship(config)
         ship.position = where + Vec2.random() * 64
-        ship.movementTarget = where + Vec2.random() * 128f
+        ship.movementTarget = ship.position + Vec2.random() * 8f
         squad.ships += ship
       }
       return Collective.singleton(squad)
