@@ -10,7 +10,9 @@ import game.World
 import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
+import rendering.ShipDebugRenderer.render
 import rendering.trails.TrailsBuffer
+import rendering.trails.TrailsDebugRenderer
 import rendering.trails.TrailsEmitter
 import rendering.trails.TrailsRenderer
 import ui.UserInterfaceRenderer
@@ -25,7 +27,6 @@ class Main {
   private val asset = AssetsManager.load()
   private val trails = TrailsBuffer(capacity = 64)
   private val shipToEmitter = world.allShips().map { it to TrailsEmitter(32f, trails, it.position) }.toMap()
-  //private val mouseTrail = TrailsEmitter(64f, trails, camera.mousePosition())
   private val trainsRenderer = TrailsRenderer()
 
   init {
@@ -43,7 +44,6 @@ class Main {
     trails.update(delta)
     world.collectives.forEach { it.update() }
     world.allShips().forEach { it.update(delta) }
-    //mouseTrail.emit(camera.mousePosition(), 0f)
     shipToEmitter.forEach { it.value.emit(it.key.position - Vec2.rotated(it.key.angle) * 16, it.key.angle + FastMath.pi / 2) }
     render(delta);
   }
@@ -61,8 +61,9 @@ class Main {
         else -> throw RuntimeException()
       }
       DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
-      //it.render()
+      it.render()
     }
+    TrailsDebugRenderer.render(trails)
     uiRenderer.render(delta)
   }
 

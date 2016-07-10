@@ -28,8 +28,12 @@ class TrailsBuffer(val capacity: Int) {
 
   fun update(delta: Float) {
     for (index in 0..(usage.size - 1)) {
-      connectionFromAlpha[index] -= delta
-      connectionToAlpha[index] -= delta
+      val amount = delta * .75f
+      connectionFromAlpha[index] -= amount
+      connectionToAlpha[index] -= amount
+      if (connectionFromAlpha[index] < 0 || connectionToAlpha[index] < 0) {
+        connectionEnabled[index] = false
+      }
     }
   }
 

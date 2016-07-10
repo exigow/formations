@@ -89,9 +89,8 @@ class TrailsRenderer {
     mesh.setVertices(vertices)
     mesh.setIndices(indices)
 
-
     Gdx.gl.glEnable(GL20.GL_BLEND);
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE); // GL11.GL_DST_COLOR, GL11.GL_ONE
+    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
     texture.bind(0)
     shader.begin();
     shader.setUniformMatrix("projection", matrix);
@@ -99,15 +98,6 @@ class TrailsRenderer {
     mesh.render(shader, GL20.GL_TRIANGLES);
     shader.end();
     Gdx.gl.glDisable(GL20.GL_BLEND);
-
-    /*buffer.forEachPosition { Draw.cross(it, 4f) }
-    buffer.forEachConnection { from, to, fromAngle, toAngle ->
-      Draw.line(from, to)
-      val fa = Vec2.rotated(fromAngle + FastMath.pi) * scale * 2
-      val ta = Vec2.rotated(toAngle + FastMath.pi) * scale * 2
-      Draw.line(from + fa, from - fa)
-      Draw.line(to + ta, to - ta)
-    }*/
   }
 
   private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 2048, 2048, // 4,6
