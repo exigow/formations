@@ -43,7 +43,7 @@ class Main {
     world.collectives.forEach { it.update() }
     world.allShips().forEach { it.update(delta) }
     //mouseTrail.emit(camera.mousePosition(), 0f)
-    shipToEmitter.forEach { it.value.emit(it.key.position, it.key.angle + FastMath.pi / 2) }
+    shipToEmitter.forEach { it.value.emit(it.key.position - Vec2.rotated(it.key.angle) * 16, it.key.angle + FastMath.pi / 2) }
     render(delta);
   }
 
