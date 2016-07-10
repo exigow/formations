@@ -81,7 +81,8 @@ class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
     for (i in 0..(connectionCapacity - 1)) {
       val fromIndex = connectionFromBuffer[i]
       val toIndex = connectionToBuffer[i]
-      if (fromIndex != -1 || toIndex != -1)
+      fun isEnabled() = fromIndex != CONNECTION_DISABLED_VALUE || toIndex != CONNECTION_DISABLED_VALUE
+      if (isEnabled())
         f.invoke(restore(fromIndex), restore(toIndex))
     }
   }
