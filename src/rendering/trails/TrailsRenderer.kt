@@ -17,16 +17,19 @@ class TrailsRenderer {
     attribute vec4 positionAttr;
     attribute vec2 texCoordAttr;
     varying vec2 texCoord;
+    varying float alpha;
     void main() {
       texCoord = texCoordAttr;
-      gl_Position = projection * positionAttr;
+      alpha = positionAttr.z;
+      gl_Position = projection * vec4(positionAttr.x, positionAttr.y, 0, 1);
     }
     """,
     """
     uniform sampler2D texture;
     varying vec2 texCoord;
+    varying float alpha;
     void main() {
-        vec4 color = texture2D(texture, texCoord);
+        vec4 color = texture2D(texture, texCoord) * vec4(vec3(alpha), 1);
         gl_FragColor = color;
     }
     """
@@ -35,40 +38,41 @@ class TrailsRenderer {
   fun update(camera: Camera) = matrix.set(camera.projectionMatrix())
 
   fun render(buffer: TrailsBuffer, texture: Texture) {
-    val vertices = FloatArray(1024)
-    val indices = ShortArray(1024)
+    val vertices = FloatArray(2048)
+    val indices = ShortArray(2048)
 
     var verticesIndex = 0
     var indicesIndex = 0
     var z = 0
     val scale = 4f
 
-    buffer.forEachConnection { from, to, fromAngle, toAngle ->
+    buffer.forEachConnection { from, to, fromAngle, toAngle, fromAlpha, toAlpha ->
 
       val fromRotated = Vec2.rotated(fromAngle) * scale
       val toRotated = Vec2.rotated(toAngle) * scale
 
       vertices[verticesIndex + 0] = from.x + fromRotated.x
       vertices[verticesIndex + 1] = from.y + fromRotated.y
-      vertices[verticesIndex + 2] = 0f
+      vertices[verticesIndex + 2] = fromAlpha
       vertices[verticesIndex + 3] = 0f
-
-      vertices[verticesIndex + 4] = from.x - fromRotated.x
-      vertices[verticesIndex + 5] = from.y - fromRotated.y
-      vertices[verticesIndex + 6] = 1f
-      vertices[verticesIndex + 7] = 0f
-
-      vertices[verticesIndex + 8] = to.x + toRotated.x
-      vertices[verticesIndex + 9] = to.y + toRotated.y
-      vertices[verticesIndex + 10] = 0f
-      vertices[verticesIndex + 11] = 1f
-
-      vertices[verticesIndex + 12] = to.x - toRotated.x
-      vertices[verticesIndex + 13] = to.y - toRotated.y
+      vertices[verticesIndex + 4] = 0f
+      vertices[verticesIndex + 5] = from.x - fromRotated.x
+      vertices[verticesIndex + 6] = from.y - fromRotated.y
+      vertices[verticesIndex + 7] = fromAlpha
+      vertices[verticesIndex + 8] = 1f
+      vertices[verticesIndex + 9] = 0f
+      vertices[verticesIndex + 10] = to.x + toRotated.x
+      vertices[verticesIndex + 11] = to.y + toRotated.y
+      vertices[verticesIndex + 12] = toAlpha
+      vertices[verticesIndex + 13] = 0f
       vertices[verticesIndex + 14] = 1f
-      vertices[verticesIndex + 15] = 1f
+      vertices[verticesIndex + 15] = to.x - toRotated.x
+      vertices[verticesIndex + 16] = to.y - toRotated.y
+      vertices[verticesIndex + 17] = toAlpha
+      vertices[verticesIndex + 18] = 1f
+      vertices[verticesIndex + 19] = 1f
 
-      verticesIndex += 16
+      verticesIndex += 20
 
       indices[indicesIndex + 0] = (z + 0).toShort()
       indices[indicesIndex + 1] = (z + 1).toShort()
@@ -106,8 +110,8 @@ class TrailsRenderer {
     }*/
   }
 
-  private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 1024, 1024, // 4,6
-    VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
+  private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 2048, 2048, // 4,6
+    VertexAttribute(VertexAttributes.Usage.Position, 3, "positionAttr"),
     VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
   );
 

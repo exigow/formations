@@ -10,6 +10,8 @@ class TrailsBuffer(val capacity: Int) {
   val connectionToBuffer = Array(capacity, {0})
   val connectionFromAngle = Array(capacity, {0f})
   val connectionToAngle = Array(capacity, {0f})
+  val connectionFromAlpha = Array(capacity, {0f})
+  val connectionToAlpha = Array(capacity, {0f})
   private val connectionEnabled = Array(capacity, {false})
   private var connectionPivot = 0
   private val usage = Array(capacity, {0})
@@ -18,9 +20,17 @@ class TrailsBuffer(val capacity: Int) {
     xBuffer[index] = position.x
     yBuffer[index] = position.y
   }
+
   private fun increaseUsage() {
     for (index in 0..(usage.size - 1))
       usage[index] = usage[index] + 1
+  }
+
+  fun update(delta: Float) {
+    for (index in 0..(usage.size - 1)) {
+      connectionFromAlpha[index] -= delta
+      connectionToAlpha[index] -= delta
+    }
   }
 
   fun connect(from: Int, to: Int) {
@@ -75,14 +85,16 @@ class TrailsBuffer(val capacity: Int) {
     }
   }
 
-  fun forEachConnection(f: (from: Vec2, to: Vec2, fromAngle: Float, toAngle: Float) -> Unit) {
+  fun forEachConnection(f: (from: Vec2, to: Vec2, fromAngle: Float, toAngle: Float, fromAlpha: Float, toAlpha: Float) -> Unit) {
     for (i in 0..(capacity - 1))
       if (connectionEnabled[i] == true) {
         val fromIndex = connectionFromBuffer[i]
         val toIndex = connectionToBuffer[i]
         val fromAngle = connectionFromAngle[fromIndex]
         val toAngle = connectionToAngle[toIndex]
-        f.invoke(restore(fromIndex), restore(toIndex), fromAngle, toAngle)
+        val fromIndexedAlpha = connectionFromAlpha[fromIndex]
+        val toIndexedAlpha = connectionFromAlpha[toIndex]
+        f.invoke(restore(fromIndex), restore(toIndex), fromAngle, toAngle, fromIndexedAlpha, toIndexedAlpha)
       }
   }
 

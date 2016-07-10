@@ -40,6 +40,7 @@ class Main {
     val delta = Gdx.graphics.deltaTime
     camera.update(delta)
     actions.update(delta)
+    trails.update(delta)
     world.collectives.forEach { it.update() }
     world.allShips().forEach { it.update(delta) }
     //mouseTrail.emit(camera.mousePosition(), 0f)

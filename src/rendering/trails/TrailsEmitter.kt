@@ -25,7 +25,11 @@ class TrailsEmitter(private val maxDistance: Float, private val buffer: TrailsBu
       emitNew(position)
   }
 
-  private fun updateNext(position: Vec2) = buffer.store(position, nextPivot)
+  private fun updateNext(position: Vec2) {
+    buffer.store(position, nextPivot)
+    buffer.connectionToAlpha[nextPivot] = 1f
+    buffer.connectionFromAlpha[nextPivot] = 1f
+  }
 
   private fun isTooDistant() = buffer.restore(prevPivot).distanceTo(buffer.restore(nextPivot)) > maxDistance
 
