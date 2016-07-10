@@ -30,16 +30,20 @@ class TrailsEmitter(private val maxDistance: Float, private val buffer: TrailsBu
   private fun isTooDistant() = buffer.restore(prevPivot).distanceTo(buffer.restore(nextPivot)) > maxDistance
 
   private fun emitNew(position: Vec2) {
-    buffer.connectionToAngle[prevPivot] = buffer.connectionToAngle[nextPivot]
     prevPivot = nextPivot
     nextPivot = requestAndStore(position)
     connectCurrent()
   }
 
   private fun updateAngles() {
-    buffer.connectionFromAngle[nextPivot] = calcDirection()
-    buffer.connectionToAngle[nextPivot] = buffer.connectionFromAngle[nextPivot]
-    buffer.connectionToAngle[prevPivot] = buffer.connectionFromAngle[nextPivot]
+    val head = calcDirection()
+    buffer.connectionToAngle[nextPivot] = head
+    setAnglesBetween(head)
+  }
+
+  private fun setAnglesBetween(angle: Float) {
+    buffer.connectionFromAngle[nextPivot] = angle
+    buffer.connectionToAngle[prevPivot] = angle
   }
 
   private fun connectCurrent() = buffer.connect(prevPivot, nextPivot)
