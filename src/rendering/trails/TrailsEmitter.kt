@@ -18,9 +18,9 @@ class TrailsEmitter(private val maxDistance: Float, private val buffer: TrailsBu
     return index
   }
 
-  fun emit(position: Vec2) {
+  fun emit(position: Vec2, angle: Float) {
     updateNext(position)
-    updateAngles()
+    updateAngles(angle)
     if (isTooDistant())
       emitNew(position)
   }
@@ -35,15 +35,12 @@ class TrailsEmitter(private val maxDistance: Float, private val buffer: TrailsBu
     connectCurrent()
   }
 
-  private fun updateAngles() {
+  private fun updateAngles(sourceAngle: Float) {
     val head = calcDirection()
-    buffer.connectionToAngle[nextPivot] = head
-    setAnglesBetween(head)
-  }
-
-  private fun setAnglesBetween(angle: Float) {
-    buffer.connectionFromAngle[nextPivot] = angle
-    buffer.connectionToAngle[prevPivot] = angle
+    buffer.connectionToAngle[nextPivot] = sourceAngle
+    buffer.connectionFromAngle[nextPivot] = sourceAngle
+    buffer.connectionToAngle[prevPivot] = head
+    buffer.connectionFromAngle[prevPivot] = head
   }
 
   private fun connectCurrent() = buffer.connect(prevPivot, nextPivot)

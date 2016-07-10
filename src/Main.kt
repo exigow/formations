@@ -1,5 +1,6 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
+import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
@@ -23,9 +24,9 @@ class Main {
   private val context = PlayerContext()
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
-  private val trails = TrailsBuffer(positionCapacity = 4, connectionCapacity = 4)
-  //private val shipToEmitter = world.allShips().map { it to TrailsEmitter(32f, trails, it.position) }.toMap()
-  private val mouseTrail = TrailsEmitter(129f, trails, camera.mousePosition())
+  private val trails = TrailsBuffer(capacity = 64)
+  private val shipToEmitter = world.allShips().map { it to TrailsEmitter(32f, trails, it.position) }.toMap()
+  //private val mouseTrail = TrailsEmitter(64f, trails, camera.mousePosition())
   private val trainsRenderer = TrailsRenderer()
 
   init {
@@ -42,8 +43,8 @@ class Main {
     actions.update(delta)
     world.collectives.forEach { it.update() }
     world.allShips().forEach { it.update(delta) }
-    mouseTrail.emit(camera.mousePosition())
-    //shipToEmitter.forEach { it.value.emit(it.key.position) }
+    //mouseTrail.emit(camera.mousePosition(), 0f)
+    shipToEmitter.forEach { it.value.emit(it.key.position, it.key.angle + FastMath.pi / 2) }
     render(delta);
   }
 

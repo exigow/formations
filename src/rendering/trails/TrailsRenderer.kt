@@ -3,10 +3,8 @@ package rendering.trails
 import com.badlogic.gdx.graphics.*
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
-import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
-import rendering.Draw
 
 class TrailsRenderer {
 
@@ -30,13 +28,13 @@ class TrailsRenderer {
   fun update(camera: Camera) = matrix.set(camera.projectionMatrix())
 
   fun render(buffer: TrailsBuffer, texture: Texture) {
-    val vertices = FloatArray(256)
-    val indices = ShortArray(256)
+    val vertices = FloatArray(512)
+    val indices = ShortArray(512)
 
     var verticesIndex = 0
     var indicesIndex = 0
     var z = 0
-    val scale = 8f
+    val scale = 4f
 
     buffer.forEachConnection { from, to, fromAngle, toAngle ->
 
@@ -77,14 +75,14 @@ class TrailsRenderer {
     mesh.render(shader, GL20.GL_TRIANGLES);
     shader.end();
 
-    buffer.forEachPosition { Draw.cross(it, 4f) }
+    /*buffer.forEachPosition { Draw.cross(it, 4f) }
     buffer.forEachConnection { from, to, fromAngle, toAngle ->
       Draw.line(from, to)
       val fa = Vec2.rotated(fromAngle + FastMath.pi) * scale * 2
       val ta = Vec2.rotated(toAngle + FastMath.pi) * scale * 2
       Draw.line(from + fa, from - fa)
       Draw.line(to + ta, to - ta)
-    }
+    }*/
   }
 
   private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 512, 512, // 4,6

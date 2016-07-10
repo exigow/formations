@@ -2,17 +2,17 @@ package rendering.trails
 
 import commons.math.Vec2
 
-class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
+class TrailsBuffer(val capacity: Int) {
 
-  val xBuffer = Array(positionCapacity, {0f})
-  val yBuffer = Array(positionCapacity, {0f})
-  val connectionFromBuffer = Array(connectionCapacity, {0})
-  val connectionToBuffer = Array(connectionCapacity, {0})
-  val connectionFromAngle = Array(connectionCapacity, {0f})
-  val connectionToAngle = Array(connectionCapacity, {0f})
-  private val connectionEnabled = Array(connectionCapacity, {false})
+  val xBuffer = Array(capacity, {0f})
+  val yBuffer = Array(capacity, {0f})
+  val connectionFromBuffer = Array(capacity, {0})
+  val connectionToBuffer = Array(capacity, {0})
+  val connectionFromAngle = Array(capacity, {0f})
+  val connectionToAngle = Array(capacity, {0f})
+  private val connectionEnabled = Array(capacity, {false})
   private var connectionPivot = 0
-  private val usage = Array(positionCapacity, {0})
+  private val usage = Array(capacity, {0})
 
   fun store(position: Vec2, index: Int) {
     xBuffer[index] = position.x
@@ -38,7 +38,7 @@ class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
   }
 
   private fun fixConnections(index: Int) {
-    for (i in 0..(connectionCapacity - 1))
+    for (i in 0..(capacity - 1))
       if (connectionContainsPivot(i, index))
         connectionEnabled[i] = false
   }
@@ -61,7 +61,7 @@ class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
 
   fun requestConnection(): Int {
     connectionPivot += 1
-    if (connectionPivot > connectionCapacity - 1)
+    if (connectionPivot > capacity - 1)
       connectionPivot = 0
     return connectionPivot
   }
@@ -69,19 +69,19 @@ class TrailsBuffer(val positionCapacity: Int, val connectionCapacity: Int) {
   fun restore(index: Int) = Vec2(xBuffer[index], yBuffer[index])
 
   fun forEachPosition(f: (position: Vec2) -> Unit) {
-    for (i in 0..(positionCapacity - 1)) {
+    for (i in 0..(capacity - 1)) {
       val vector = restore(i)
       f.invoke(vector)
     }
   }
 
   fun forEachConnection(f: (from: Vec2, to: Vec2, fromAngle: Float, toAngle: Float) -> Unit) {
-    for (i in 0..(connectionCapacity - 1))
+    for (i in 0..(capacity - 1))
       if (connectionEnabled[i] == true) {
         val fromIndex = connectionFromBuffer[i]
         val toIndex = connectionToBuffer[i]
-        val fromAngle = connectionFromAngle[i]
-        val toAngle = connectionToAngle[i]
+        val fromAngle = connectionFromAngle[fromIndex]
+        val toAngle = connectionToAngle[toIndex]
         f.invoke(restore(fromIndex), restore(toIndex), fromAngle, toAngle)
       }
   }
