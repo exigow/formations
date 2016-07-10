@@ -16,7 +16,7 @@ class World {
       //world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(128, 0)))
       //world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(-128, 0)))
       world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0), 5))
-      world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(-256, 0)))
+      //world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(-256, 0)))
       return world
     }
 

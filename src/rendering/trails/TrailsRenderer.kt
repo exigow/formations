@@ -1,5 +1,6 @@
 package rendering.trails
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.*
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
@@ -14,13 +15,19 @@ class TrailsRenderer {
     """
     uniform mat4 projection;
     attribute vec4 positionAttr;
+    attribute vec2 texCoordAttr;
+    varying vec2 texCoord;
     void main() {
-       gl_Position = projection * positionAttr;
+      texCoord = texCoordAttr;
+      gl_Position = projection * positionAttr;
     }
     """,
     """
+    uniform sampler2D texture;
+    varying vec2 texCoord;
     void main() {
-        gl_FragColor = vec4(1, 0, 0, 1);
+        vec4 color = texture2D(texture, texCoord);
+        gl_FragColor = color;
     }
     """
   );
@@ -28,8 +35,8 @@ class TrailsRenderer {
   fun update(camera: Camera) = matrix.set(camera.projectionMatrix())
 
   fun render(buffer: TrailsBuffer, texture: Texture) {
-    val vertices = FloatArray(512)
-    val indices = ShortArray(512)
+    val vertices = FloatArray(1024)
+    val indices = ShortArray(1024)
 
     var verticesIndex = 0
     var indicesIndex = 0
@@ -43,17 +50,25 @@ class TrailsRenderer {
 
       vertices[verticesIndex + 0] = from.x + fromRotated.x
       vertices[verticesIndex + 1] = from.y + fromRotated.y
+      vertices[verticesIndex + 2] = 0f
+      vertices[verticesIndex + 3] = 0f
 
-      vertices[verticesIndex + 2] = from.x - fromRotated.x
-      vertices[verticesIndex + 3] = from.y - fromRotated.y
+      vertices[verticesIndex + 4] = from.x - fromRotated.x
+      vertices[verticesIndex + 5] = from.y - fromRotated.y
+      vertices[verticesIndex + 6] = 1f
+      vertices[verticesIndex + 7] = 0f
 
-      vertices[verticesIndex + 4] = to.x + toRotated.x
-      vertices[verticesIndex + 5] = to.y + toRotated.y
+      vertices[verticesIndex + 8] = to.x + toRotated.x
+      vertices[verticesIndex + 9] = to.y + toRotated.y
+      vertices[verticesIndex + 10] = 0f
+      vertices[verticesIndex + 11] = 1f
 
-      vertices[verticesIndex + 6] = to.x - toRotated.x
-      vertices[verticesIndex + 7] = to.y - toRotated.y
+      vertices[verticesIndex + 12] = to.x - toRotated.x
+      vertices[verticesIndex + 13] = to.y - toRotated.y
+      vertices[verticesIndex + 14] = 1f
+      vertices[verticesIndex + 15] = 1f
 
-      verticesIndex += 8
+      verticesIndex += 16
 
       indices[indicesIndex + 0] = (z + 0).toShort()
       indices[indicesIndex + 1] = (z + 1).toShort()
@@ -70,10 +85,16 @@ class TrailsRenderer {
     mesh.setVertices(vertices)
     mesh.setIndices(indices)
 
+
+    Gdx.gl.glEnable(GL20.GL_BLEND);
+    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE); // GL11.GL_DST_COLOR, GL11.GL_ONE
+    texture.bind(0)
     shader.begin();
     shader.setUniformMatrix("projection", matrix);
+    shader.setUniformi("texture", 0);
     mesh.render(shader, GL20.GL_TRIANGLES);
     shader.end();
+    Gdx.gl.glDisable(GL20.GL_BLEND);
 
     /*buffer.forEachPosition { Draw.cross(it, 4f) }
     buffer.forEachConnection { from, to, fromAngle, toAngle ->
@@ -85,8 +106,9 @@ class TrailsRenderer {
     }*/
   }
 
-  private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 512, 512, // 4,6
-    VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr")
+  private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 1024, 1024, // 4,6
+    VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
+    VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
   );
 
 }

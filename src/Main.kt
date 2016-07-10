@@ -10,7 +10,6 @@ import game.World
 import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
-import rendering.ShipDebugRenderer.render
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsEmitter
 import rendering.trails.TrailsRenderer
@@ -52,6 +51,8 @@ class Main {
     Draw.update(camera)
     DrawAsset.update(camera)
     Draw.grid(size = Vec2.scaled(1024f), density = 32, color = Color.DARK_GRAY)
+    trainsRenderer.update(camera)
+    trainsRenderer.render(trails, asset["trail"])
     world.allShips().forEach {
       fun checkoutAsset(): String = when (it.config.displayedName) {
         "Fighter" -> "interceptor"
@@ -59,11 +60,9 @@ class Main {
         else -> throw RuntimeException()
       }
       DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
-      it.render()
+      //it.render()
     }
     uiRenderer.render(delta)
-    trainsRenderer.update(camera)
-    trainsRenderer.render(trails, asset["trail"])
   }
 
 }
