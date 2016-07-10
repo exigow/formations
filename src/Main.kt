@@ -22,7 +22,7 @@ class Main {
   private val context = PlayerContext()
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
-  private val trails = TrailsBuffer(positionCapacity = 64, connectionCapacity = 96)
+  private val trails = TrailsBuffer(positionCapacity = 128, connectionCapacity = 136)
   private val shipToEmitter = world.allShips().map { it to TrailsEmitter(32f, trails, it.position) }.toMap()
 
   init {
