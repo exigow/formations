@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Matrix4
 import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
+import rendering.Draw
 
 class TrailsRenderer {
 
@@ -74,8 +75,8 @@ class TrailsRenderer {
     mesh.render(shader, GL20.GL_TRIANGLES);
     shader.end();
 
-//    buffer.forEachPosition { Draw.cross(it, 4f) }
-//    buffer.forEachConnection { from, to -> Draw.line(from, to) }
+    buffer.forEachPosition { Draw.cross(it, 4f) }
+    buffer.forEachConnection { from, to -> Draw.line(from, to) }
   }
 
   private fun createMesh() = Mesh(Mesh.VertexDataType.VertexArray, true, 512, 512, // 4,6
