@@ -27,7 +27,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     updateAnimationsKeys()
     updateAnimationsStates(delta)
     time += delta
-    context.selected.flatMap { it.ships }.forEach { Draw.diamond(it.position, (diamondSize - 4f) * camera.renderingScale()) }
+    context.selected.flatMap { it.ships }.forEach { Draw.diamond(it.position, (diamondSize - 4f) * camera.normalizedRenderingScale()) }
     renderMouse()
     world.collectives.forEach { it.render() }
     performRectangleAnimation(delta)
@@ -144,7 +144,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   private fun Collective.renderConvexHull() {
     val positions = this.squads.flatMap { it.ships }.map { it.position }
     val hull = ConvexHull.calculate(positions)
-    Draw.paths(Path(hull).populate(camera.renderingScale() * 16f).slice(), color = Color.GRAY)
+    Draw.paths(Path(hull).populate(camera.normalizedRenderingScale() * 16f).slice(), color = Color.GRAY)
   }
 
   fun renderMouse() = Draw.diamond(camera.mousePosition(), camera.renderingScale() * 8f)

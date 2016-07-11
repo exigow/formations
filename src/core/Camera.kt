@@ -95,6 +95,8 @@ class Camera {
 
   fun renderingScale() = eye.z
 
+  fun normalizedRenderingScale() = Math.max(1f, renderingScale())
+
   fun worldVisibilityRectangle(border: Float = 0f): Rectangle {
     val w = ortho.viewportWidth + border
     val h = ortho.viewportHeight + border
