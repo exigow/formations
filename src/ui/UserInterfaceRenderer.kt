@@ -90,18 +90,19 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     val rightUp = leftUp + Vec2(rect.width, 0)
     val leftDown = leftUp + Vec2(0, rect.height)
     val rightDown = leftUp + Vec2(rect.width, rect.height)
-    val q = FastMath.pi / 4f
-    return createCornerPath(leftUp, 0f)
-      .plus(createCornerPath(rightUp, q * 2))
-      .plus(createCornerPath(leftDown, q * 3))
-      .plus(createCornerPath(rightDown, q * 4))
+    val q = FastMath.pi / 2f
+    val len = 32 * camera.renderingScale()
+    val diagonalLength = leftUp.distanceTo(rightDown)
+    val fixedLen = Math.min(len, diagonalLength / 4)
+    return createCornerPath(leftUp, q * 4, fixedLen)
+      .plus(createCornerPath(rightUp, q, fixedLen))
+      .plus(createCornerPath(leftDown, q * 3, fixedLen))
+      .plus(createCornerPath(rightDown, q * 2, fixedLen))
   }
 
-  fun createCornerPath(where: Vec2, angle: Float): Map<Vec2, Vec2> {
-    val r = Vec2.rotated(angle)
-    val len = 32 * camera.renderingScale()
-    val a = where + Vec2(1, 0) * len
-    val b = where + Vec2(0, 1) * len
+  fun createCornerPath(where: Vec2, angle: Float, len: Float): Map<Vec2, Vec2> {
+    val a = where + Vec2.rotated(angle) * len
+    val b = where + Vec2.rotated(angle + FastMath.pi / 2) * len
     return mapOf(a to where, b to where)
   }
 
