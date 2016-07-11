@@ -48,13 +48,23 @@ object Draw {
     color, alpha
   )
 
-  fun arc(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
-    PathFactory.arc(start, end, quality).scale(Vec2.scaled(radius)).populate(8f).slice().translate(center),
+  fun arcDotted(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, dotLength: Float, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
+    PathFactory.arc(start, end, quality).scale(Vec2.scaled(radius)).populate(dotLength).slice().translate(center),
+    color, alpha
+  )
+
+  fun arc(center: Vec2, radius: Float, start: Float, end: Float, quality: Int = 8, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(
+    PathFactory.arc(start, end, quality).scale(Vec2.scaled(radius)).translate(center),
     color, alpha
   )
 
   fun rectangleDotted(rect: Rectangle, dotLength: Float, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
     PathFactory.square().scale(Vec2(rect.width, rect.height)).populate(dotLength).slice().translate(Vec2(rect.x, rect.y)),
+    color, alpha
+  )
+
+  fun rectangleFilled(rect: Rectangle, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderFilled(
+    PathFactory.square().scale(Vec2(rect.width, rect.height)).translate(Vec2(rect.x, rect.y)),
     color, alpha
   )
 

@@ -7,6 +7,9 @@ import game.Ship
 
 object ShipDebugRenderer {
 
+  val secondAlpha = .5f
+  val dotPopulation = 8f
+
   fun Ship.render() {
     renderBody()
     renderThrusterState()
@@ -16,16 +19,16 @@ object ShipDebugRenderer {
   }
 
   private fun Ship.renderBody() {
-    Draw.dartFilled(position, config.size, angle, alpha = .125f)
+    Draw.dartFilled(position, config.size, angle, alpha = .5f)
     Draw.dart(position, config.size, angle, alpha = 1f)
   }
 
   private fun Ship.renderThrusterState() {
-    val scale = 64f
-    val max = config.thrusterSpeedMax * scale
-    val current = velocityAcceleration * scale
-    val expected = velocityTarget * scale
-    Draw.lineDotted(position, position + Vec2.rotated(angle) * max, 8f)
+    val scale = config.size * 2 + 64
+    val current = velocityAcceleration / config.thrusterSpeedMax * scale
+    val expected = velocityTarget / config.thrusterSpeedMax * scale
+    val max = scale
+    Draw.lineDotted(position, position + Vec2.rotated(angle) * max, dotPopulation, alpha = secondAlpha)
     fun horizon(length: Float, size: Float) {
       val pivot = position + Vec2.rotated(angle) * length
       val horizontal = Vec2.rotated(angle + FastMath.pi / 2) * size
@@ -38,15 +41,15 @@ object ShipDebugRenderer {
   }
 
   private fun Ship.renderMovementTarget() {
-    Draw.lineDotted(position, movementTarget, 16f)
-    Draw.dartDotted(movementTarget, config.size, movementTargetAngle, 8f, alpha = .5f)
+    Draw.lineDotted(position, movementTarget, dotPopulation, alpha = secondAlpha)
+    Draw.dartDotted(movementTarget, config.size, movementTargetAngle, dotPopulation, alpha = secondAlpha)
   }
 
   private fun Ship.renderRotationState() {
     val angleScale = .25f
-    val distanceScale = 128f
+    val distanceScale = config.size * 2 + 32
     val amount = config.rotationSpeedMax * angleScale
-    Draw.arc(position, distanceScale, angle - amount, angle + amount)
+    Draw.arcDotted(position, distanceScale, angle - amount, angle + amount, dotLength = dotPopulation, alpha = secondAlpha)
     fun pivot(a: Float, thickness: Float) {
       val vec = Vec2.rotated(angle + a * angleScale)
       Draw.line(position + vec * (distanceScale - thickness), position + vec * (distanceScale + thickness))
@@ -57,10 +60,10 @@ object ShipDebugRenderer {
   }
 
   private fun Ship.renderAccelerationAngle() {
-    val length = 96f
+    val length = config.size * 2
     val start = angle - config.accelerationAngle
     val end = angle + config.accelerationAngle
-    Draw.cone(position, length, start, end, quality = 32)
+    Draw.cone(position, length, start, end, quality = 32, alpha = secondAlpha)
   }
 
 }

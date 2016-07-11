@@ -9,8 +9,6 @@ import game.Collective
 import game.PlayerContext
 import game.Squad
 import game.World
-import game.orders.AttackOrder
-import game.orders.MoveOrder
 import rendering.Color
 import rendering.Draw
 import rendering.paths.Path
@@ -45,11 +43,13 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     if (context.selectionRect != null) {
       rectangleSequence.show()
       rectangle.set(context.selectionRect)
-      Draw.rectangleDotted(rectangle, dotLength = camera.renderingScale() * 8f)
+      Draw.rectangleDotted(rectangle, dotLength = camera.renderingScale() * 8f, color = Color.LIGHT_GRAY)
+      Draw.rectangleFilled(rectangle, color = Color.WHITE, alpha = .075f)
     } else
       rectangleSequence.hide()
     rectangleSequence.update(delta * 2)
-    PathAnimation.render(createRectanglePath(rectangle.plusBorder(8f * camera.renderingScale())), rectangleSequence.animaionStep(), divided = false)
+    val border = (-1 + rectangleSequence.animaionStep()) * 24 + 8
+    PathAnimation.render(createRectanglePath(rectangle.plusBorder(border * camera.renderingScale())), rectangleSequence.animaionStep(), divided = false)
   }
 
   fun createDiamondPaths(): Map<Vec2, Vec2> {
@@ -134,10 +134,10 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     renderConvexHull()
     if (!this.orders.isEmpty()) {
       val order = this.orders.first()
-      if (order is MoveOrder)
+      /*if (order is MoveOrder)
         Draw.lineDotted(center(), order.where, 8f)
       if (order is AttackOrder)
-        Draw.line(center(), order.who.center())
+        Draw.line(center(), order.who.center())*/
     }
   }
 
