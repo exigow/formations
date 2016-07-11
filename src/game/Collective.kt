@@ -56,7 +56,7 @@ class Collective(
     var prevRightWing = head
     var side = false // false = left, true = right side
     while (iter.hasNext()) {
-      val angle = FastMath.pi / 2f
+      val angle = FastMath.pi / 2f + .5f
       val next = iter.next()
       when (side) {
         true -> {
