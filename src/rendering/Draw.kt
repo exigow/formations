@@ -53,8 +53,8 @@ object Draw {
     color, alpha
   )
 
-  fun rectangle(rect: Rectangle, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
-    PathFactory.square().scale(Vec2(rect.width, rect.height)).populate(16f).slice().translate(Vec2(rect.x, rect.y)),
+  fun rectangleDotted(rect: Rectangle, dotLength: Float, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(
+    PathFactory.square().scale(Vec2(rect.width, rect.height)).populate(dotLength).slice().translate(Vec2(rect.x, rect.y)),
     color, alpha
   )
 

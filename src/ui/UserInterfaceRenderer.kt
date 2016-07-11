@@ -44,7 +44,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     if (context.selectionRect != null) {
       rectangleSequence.show()
       rectangle.set(context.selectionRect)
-      Draw.rectangle(rectangle)
+      Draw.rectangleDotted(rectangle, dotLength = camera.renderingScale() * 8f)
     } else
       rectangleSequence.hide()
     rectangleSequence.update(delta * 2)
@@ -145,7 +145,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     Draw.path(Path(hull))
   }
 
-  fun renderMouse() = Draw.cross(camera.mousePosition(), camera.scaledClickRadius())
+  fun renderMouse() = Draw.diamond(camera.mousePosition(), camera.scaledClickRadius() / 4)
 
   private class AnimationSequenceSquadBundle(
     val highlight: AnimationSequence = AnimationSequence(),
