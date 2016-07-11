@@ -50,7 +50,7 @@ class Main {
         else -> throw RuntimeException()
       }
       DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
-      it.render()
+      it.render(camera.renderingScale())
     }
     uiRenderer.render(delta)
   }
