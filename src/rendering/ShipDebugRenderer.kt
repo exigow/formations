@@ -34,10 +34,11 @@ object ShipDebugRenderer {
       val horizontal = Vec2.rotated(angle + FastMath.pi / 2) * size
       Draw.line(pivot + horizontal, pivot - horizontal)
     }
+    val space = 2f * dotScale
     horizon(max, 12f)
     horizon(current, 16f)
-    horizon(expected - 2f, 8f)
-    horizon(expected + 2f, 8f)
+    horizon(expected - space, 8f)
+    horizon(expected + space, 8f)
   }
 
   private fun Ship.renderMovementTarget(dotScale: Float) {

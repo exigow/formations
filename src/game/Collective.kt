@@ -50,7 +50,7 @@ class Collective(
       who.movementTarget = to.position + Vec2.rotated(to.angle + relativeAngle) * sumedSize
       who.movementTargetAngle = to.angle
     }
-    val iter = ships.iterator()
+    val iter = ships.sortBySize().iterator()
     val head = iter.next()
     head.movementTarget = destination
     head.movementTargetAngle = destinationAngle
@@ -73,5 +73,7 @@ class Collective(
       side = !side
     }
   }
+
+  private fun Set<Ship>.sortBySize(): List<Ship> = this.sortedBy { it.config.size }.reversed()
 
 }

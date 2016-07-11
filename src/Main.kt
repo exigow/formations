@@ -49,7 +49,7 @@ class Main {
         "Carrier" -> "carrier"
         else -> throw RuntimeException()
       }
-      DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
+      //DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
       it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)
