@@ -11,6 +11,7 @@ import game.Squad
 import game.World
 import game.orders.AttackOrder
 import game.orders.MoveOrder
+import rendering.Color
 import rendering.Draw
 import rendering.paths.Path
 import java.util.*
@@ -30,7 +31,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     time += delta
     context.selected.flatMap { it.ships }.forEach { Draw.diamond(it.position, (diamondSize - 4f) * camera.renderingScale()) }
     renderMouse()
-    //world.collectives.forEach { it.render() }
+    world.collectives.forEach { it.render() }
     performRectangleAnimation(delta)
     for (anim in animations) {
       anim.key.ships.forEach {
@@ -142,10 +143,10 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   private fun Collective.renderConvexHull() {
     val positions = this.squads.flatMap { it.ships }.map { it.position }
     val hull = ConvexHull.calculate(positions)
-    Draw.path(Path(hull))
+    Draw.paths(Path(hull).populate(camera.renderingScale() * 16f).slice(), color = Color.GRAY)
   }
 
-  fun renderMouse() = Draw.diamond(camera.mousePosition(), camera.scaledClickRadius() / 4)
+  fun renderMouse() = Draw.diamond(camera.mousePosition(), camera.renderingScale() * 8f)
 
   private class AnimationSequenceSquadBundle(
     val highlight: AnimationSequence = AnimationSequence(),

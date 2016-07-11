@@ -72,6 +72,8 @@ object Draw {
 
   fun path(path: Path, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(path, color, alpha)
 
+  fun paths(paths: List<Path>, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLines(paths, color, alpha)
+
   private fun List<Path>.scale(scalar: Vec2) = map { it.scale(scalar) }
 
   private fun List<Path>.translate(translation: Vec2) = map { it.translate(translation) }
