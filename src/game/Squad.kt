@@ -13,4 +13,6 @@ class Squad(val ships: MutableSet<Ship> = HashSet()) {
 
   }
 
+  override fun toString() = "Squad(ships=$ships)"
+
 }

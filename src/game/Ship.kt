@@ -55,4 +55,6 @@ class Ship(val config: UnitConfiguration) {
 
   private fun calculateAngleDifferenceToTarget() = FastMath.angleDifference(angle, position.directionTo(movementTarget))
 
+  override fun toString() = "Ship(config=$config)"
+
 }

@@ -87,20 +87,21 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
     Logger.ACTION.log("Background click. Clearing selection.")
   }
 
-  fun hoverSingleSquad(squad: Squad) {
-    context.replaceHighlightedWith(listOf(squad))
-    Logger.ACTION.log("Highlighting single squad (single click).")
+  fun hoverSingleSquad(single: Squad) {
+    context.replaceHighlightedWith(listOf(single))
+    Logger.ACTION.log("Highlighting single squad ($single), single click.")
   }
 
   fun hoverVisibleSquads() {
     val visible = world.findSquadsInside(cameraDep.worldVisibilityRectangle(-128f))
     context.replaceHighlightedWith(visible)
-    Logger.ACTION.log("Highlighting camera-visible squads (double click).")
+    Logger.ACTION.log("Highlighting camera-visible squads ($visible), double click.")
   }
 
   fun hoverAllSquads() {
-    context.replaceHighlightedWith(world.collectives.flatMap { it.squads })
-    Logger.ACTION.log("Highlighting all squads (triple click).")
+    val all = world.collectives.flatMap { it.squads }
+    context.replaceHighlightedWith(all)
+    Logger.ACTION.log("Highlighting all squads ($all), triple click.")
   }
 
   private fun updateHover() = context.updateHover(findHoveringSquad())

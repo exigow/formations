@@ -110,5 +110,7 @@ data class UnitConfiguration(
     ensure(rotationSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
   }
 
+  override fun toString() = displayedName
+
 }
 
