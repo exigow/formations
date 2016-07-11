@@ -44,7 +44,7 @@ class Collective(
 
   private fun applyArrowMovementToDestination(ships: Set<Ship>, destination: Vec2, destinationAngle: Float) {
     fun putRelatively(who: Ship, to: Ship, relativeAngle: Float) {
-      val sumedSize = who.config.size + to.config.size
+      val sumedSize = (who.config.size + to.config.size) * 2
       who.movementTarget = to.position + Vec2.rotated(to.angle + relativeAngle) * sumedSize
       who.movementTargetAngle = to.angle
     }
