@@ -42,7 +42,7 @@ class Main {
   fun render(delta: Float) {
     Draw.update(camera)
     DrawAsset.update(camera)
-    Draw.grid(size = Vec2.scaled(1024f), density = 32, color = Color.DARK_GRAY)
+    Draw.grid(size = Vec2.scaled(4096f), density = 64, color = Color.DARK_GRAY)
     world.allShips().forEach {
       fun checkoutAsset(): String = when (it.config.displayedName) {
         "Fighter" -> "interceptor-old"
