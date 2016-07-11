@@ -25,10 +25,12 @@ class Collective(
   }
 
   fun performMoveOrder(order: MoveOrder) {
-    squads.forEach {
-      applyArrowMovementToDestination(it.ships, order.where, order.direction)
-    }
+    val set = squads.flatMap { it.ships }.toSet() // todo group
+    applyArrowMovementToDestination(set, order.where, order.direction)
   }
+
+  // todo private fun groupByDistance(input: List<Squad>, effectiveDistance: Float): List<List<Squad>> { }
+  // its like "join by colliding circles", when center of a circle is squad center
 
   fun performAttackOrder(order: AttackOrder) {
       println("piff paff")
