@@ -2,6 +2,7 @@ package game
 
 import com.badlogic.gdx.math.Rectangle
 import commons.math.Vec2
+import game.orders.MoveOrder
 import java.util.*
 
 class World {
@@ -12,11 +13,10 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(0, 0)))
-      //world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(-256, 0), 3))
-      //world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0), 5))
-      //world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(0, 256)))
-      //world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(0, -256), 3))
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(256, 0), 5))
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(-256, 0), 3))
+      world.collectives.add(instantiate(UnitConfiguration.fighter(), Vec2(0, -256), 7))
+      world.collectives.add(instantiate(UnitConfiguration.carrier(), Vec2(0, 256)))
       return world
     }
 
@@ -24,11 +24,12 @@ class World {
       val squad = Squad()
       for (i in 1..count) {
         val ship = Ship(config)
-        ship.position = where + Vec2.random() * 64
-        ship.movementTarget = ship.position + Vec2.random() * 8f
+        ship.position = where + Vec2.random() * 256
         squad.ships += ship
       }
-      return Collective.singleton(squad)
+      val col = Collective.singleton(squad)
+      col.orders.add(MoveOrder(squad.center(), 0f))
+      return col
     }
 
   }

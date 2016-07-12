@@ -47,17 +47,22 @@ object ShipDebugRenderer {
   }
 
   private fun Ship.renderRotationState(dotScale: Float) {
-    val angleScale = .25f
+    val angleScale = config.accelerationAngle
     val distanceScale = config.size * 2 + 32
-    val amount = config.rotationSpeedMax * angleScale
-    Draw.arcDotted(position, distanceScale, angle - amount, angle + amount, dotLength = dotPopulation * dotScale, alpha = secondAlpha)
+    val amount = angleScale
+    Draw.arcDotted(position, distanceScale, angle - amount, angle + amount, dotLength = dotPopulation * dotScale, alpha = secondAlpha, quality = 32)
     fun pivot(a: Float, thickness: Float) {
       val vec = Vec2.rotated(angle + a * angleScale)
       Draw.line(position + vec * (distanceScale - thickness), position + vec * (distanceScale + thickness))
     }
-    pivot(angleAcceleration, 16f)
-    pivot(config.rotationSpeedMax, 8f)
-    pivot(-config.rotationSpeedMax, 8f)
+    pivot(1f, 8f);
+    pivot(-1f, 8f);
+    val acc = angleAcceleration / config.accelerationAngle
+    pivot(acc, 16f)
+    val target = angleTarget / config.accelerationAngle
+    val space = .0175f
+    pivot(target - space, 12f)
+    pivot(target + space, 12f)
   }
 
   private fun Ship.renderAccelerationAngle() {

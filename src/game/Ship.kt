@@ -9,15 +9,17 @@ class Ship(val config: UnitConfiguration) {
   var position = Vec2.zero();
   var angle = 0f;
   var angleAcceleration = 0f;
+  var angleTarget = 0f;
   var velocityAcceleration = 0f;
   var velocityTarget = 0f
   var movementTarget = Vec2.zero()
   var movementTargetAngle = 0f
 
   fun update(delta: Float) {
-    val angleDiff = calculateAngleDifferenceToTarget();
+    val fixAmount = calcNormalizedDistanceToTarget(16f);
+    val angleDiff = calculateAngleDifferenceToTarget()
 
-    angleAcceleration -= angleDiff * config.rotationSpeedAcceleration * delta
+    angleAcceleration += angleDiff * config.rotationSpeedAcceleration * delta * fixAmount
     angleAcceleration = lockAngle(angleAcceleration, config.rotationSpeedMax)
     if (canAccelerateForward()) {
       val angleDamping = FastMath.pow(config.rotationSpeedDumping, delta)
@@ -32,16 +34,21 @@ class Ship(val config: UnitConfiguration) {
       velocityAcceleration *= velocityDamping
     }
 
-    position += Vec2.rotated(angle) * velocityAcceleration
+    val fixVec = (movementTarget - position) * .025f
+    position += Vec2.Calculations.lerp(Vec2.rotated(angle) * velocityAcceleration, fixVec, 1f - fixAmount);
+
+    val fixAngle = FastMath.angleDifference(angle, movementTargetAngle) * (1f - fixAmount)
+    angle -= fixAngle * .025f
+    angleAcceleration *= fixAmount
 
     angle = FastMath.loopAngle(angle)
   }
 
   private fun calculateTargetAcceleration(): Float {
-    val dist = position.distanceTo(movementTarget)
     val brake = config.brakeDistance * velocityAcceleration
     if (!canAccelerateForward())
       return 0f
+    val dist = calcDistanceToTarget();
     if (dist > brake)
       return config.thrusterSpeedMax
     val normDist = 1f - (brake - dist) / brake
@@ -53,7 +60,11 @@ class Ship(val config: UnitConfiguration) {
 
   private fun canAccelerateForward() = Math.abs(calculateAngleDifferenceToTarget()) < config.accelerationAngle
 
-  private fun calculateAngleDifferenceToTarget() = FastMath.angleDifference(angle, position.directionTo(movementTarget))
+  private fun calculateAngleDifferenceToTarget() = -FastMath.angleDifference(angle, position.directionTo(movementTarget))
+
+  private fun calcDistanceToTarget() = position.distanceTo(movementTarget)
+
+  private fun calcNormalizedDistanceToTarget(clampTo: Float) = Math.min(position.distanceTo(movementTarget) / clampTo, 1f)
 
   override fun toString() = "Ship(config=$config)"
 

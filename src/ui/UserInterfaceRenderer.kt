@@ -29,7 +29,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     time += delta
     context.selected.flatMap { it.ships }.forEach { Draw.diamond(it.position, (diamondSize - 4f) * camera.normalizedRenderingScale()) }
     renderMouse()
-    //world.collectives.forEach { it.render() }
+    world.collectives.forEach { it.render() }
     performRectangleAnimation(delta)
     for (anim in animations) {
       anim.key.ships.forEach {
