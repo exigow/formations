@@ -16,7 +16,7 @@ class Ship(val config: UnitConfiguration) {
   var movementTargetAngle = 0f
 
   fun update(delta: Float) {
-    val fixAmount = calcNormalizedDistanceToTarget(16f);
+    val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f);
     val angleDiff = calculateAngleDifferenceToTarget()
 
     angleAcceleration += angleDiff * config.rotationSpeedAcceleration * delta * fixAmount
