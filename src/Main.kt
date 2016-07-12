@@ -1,15 +1,13 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
-import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
-import rendering.ShipDebugRenderer.render
+import rendering.DynamicGridRenderer
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -42,7 +40,8 @@ class Main {
   fun render(delta: Float) {
     Draw.update(camera)
     DrawAsset.update(camera)
-    Draw.grid(size = Vec2.scaled(4096f), density = 64, color = Color.DARK_GRAY)
+    //Draw.grid(size = Vec2.scaled(128f), density = 4, color = Color.DARK_GRAY)
+    DynamicGridRenderer.draw(camera)
     world.allShips().forEach {
       fun checkoutAsset(): String = when (it.config.displayedName) {
         "Fighter" -> "interceptor-old"
@@ -50,7 +49,7 @@ class Main {
         else -> throw RuntimeException()
       }
       DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
-      it.render(camera.normalizedRenderingScale())
+      //it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)
   }

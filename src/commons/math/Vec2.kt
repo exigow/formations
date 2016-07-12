@@ -21,6 +21,8 @@ data class Vec2(val x: Float, val y: Float) {
   operator fun div(divider: Float) = copy(x / divider, y / divider)
   operator fun div(divider: Int) = div(divider.toFloat())
 
+  operator fun mod(amount: Float) = copy(x % amount, y % amount)
+
   fun length() = FastMath.sqrt(x * x + y * y)
 
   fun normalize(): Vec2 {

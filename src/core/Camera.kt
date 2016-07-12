@@ -87,6 +87,8 @@ class Camera {
 
   fun position() = Vec2(target.x, target.y)
 
+  fun positionEye() = Vec2(eye.x, eye.y)
+
   fun mouseScreenPosition() = Vec2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
 
   fun mousePosition() = unproject(mouseScreenPosition())
