@@ -52,7 +52,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
     }
 
     override fun onHold(delta: Float) {
-      draggingTool.update(cameraDep.mousePosition(), cameraDep.scaledClickRadius())
+      draggingTool.update(cameraDep.mousePosition(), cameraDep.renderingScale() * 4f)
       if (draggingTool.isDragging()) {
         selectionRect.updatePivots(from = draggingTool.startingPosition(), to = cameraDep.mousePosition())
         val insideRect = world.findSquadsInside(selectionRect.selectionRectangle())

@@ -11,7 +11,7 @@ object ShipDebugRenderer {
   val dotPopulation = 8f
 
   fun Ship.render(dotScale: Float) {
-    renderBody()
+    //renderBody()
     renderThrusterState(dotScale)
     renderRotationState(dotScale)
     renderMovementTarget(dotScale)
@@ -42,7 +42,7 @@ object ShipDebugRenderer {
   }
 
   private fun Ship.renderMovementTarget(dotScale: Float) {
-    Draw.lineDotted(position, movementTarget, dotPopulation * dotScale, alpha = secondAlpha)
+    Draw.line(position, movementTarget, alpha = secondAlpha)
     Draw.dartDotted(movementTarget, config.size, movementTargetAngle, dotPopulation * dotScale, alpha = secondAlpha)
   }
 

@@ -7,7 +7,6 @@ import game.PlayerContext
 import game.World
 import rendering.Draw
 import rendering.DrawAsset
-import rendering.DynamicGridRenderer
 import rendering.ShipDebugRenderer.render
 import ui.UserInterfaceRenderer
 
@@ -42,7 +41,7 @@ class Main {
     Draw.update(camera)
     DrawAsset.update(camera)
     //Draw.grid(size = Vec2.scaled(128f), density = 4, color = Color.DARK_GRAY)
-    DynamicGridRenderer.draw(camera)
+    //DynamicGridRenderer.draw(camera)
     world.allShips().forEach {
       fun checkoutAsset(): String = when (it.config.displayedName) {
         "Fighter" -> "interceptor-old"
