@@ -1,5 +1,6 @@
 package rendering
 
+import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
 
@@ -8,29 +9,19 @@ object DynamicGridRenderer {
 
   fun draw(camera: Camera) {
     val rect = camera.worldVisibilityRectangle(border = 128f)
-    //Draw.rectangleDotted(rect, 8f * camera.renderingScale())
-
-
+    Draw.rectangleDotted(rect, 8f * camera.renderingScale())
     val size = Vec2(rect.width, rect.height) / 2
-
-    var e = 8f
-    fun nextScale(): Float {
-      e += e + e
-      return e
+    var epsilon = 64f
+    var pivot = 1f
+    var range = .5f
+    for (i in 1..5) {
+      val alpha = calcAlpha(pivot, range, camera.renderingScale())
+      if (alpha >= .0125f)
+        grid(camera.positionEye(), size, alpha * .25f, epsilon)
+      epsilon *= 2
+      pivot *= 2
+      range *= 2
     }
-
-    val alpha = calcAlpha(0f, 1f, camera.renderingScale())
-    grid(camera.positionEye(), size, alpha * .25f, nextScale())
-
-
-    val alpha2 = calcAlpha(1f, 1f, camera.renderingScale())
-    grid(camera.positionEye(), size, alpha2 * .25f, nextScale())
-
-    val alpha3 = calcAlpha(2f, 1f, camera.renderingScale())
-    grid(camera.positionEye(), size, alpha3 * .25f, nextScale())
-
-     // todo do loop
-
   }
 
   private fun grid(eye: Vec2, size: Vec2, alpha: Float, epsilon: Float) {
@@ -50,7 +41,8 @@ object DynamicGridRenderer {
   private fun calcAlpha(pivot: Float, range: Float, zoom: Float): Float {
     val dist = Math.abs(zoom - pivot)
     val fixed = Math.min(dist, range)
-    return (range - fixed) / range;
+    val linear = (range - fixed) / range;
+    return FastMath.smoothStep(0f, 1f, linear);
   }
 
   private fun asd(epsilon: Float, eye: Vec2, max: Float, iteration: (e: Vec2, i: Float) -> Unit) {

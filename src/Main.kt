@@ -8,6 +8,7 @@ import game.World
 import rendering.Draw
 import rendering.DrawAsset
 import rendering.DynamicGridRenderer
+import rendering.ShipDebugRenderer.render
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -49,7 +50,7 @@ class Main {
         else -> throw RuntimeException()
       }
       DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
-      //it.render(camera.normalizedRenderingScale())
+      it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)
   }

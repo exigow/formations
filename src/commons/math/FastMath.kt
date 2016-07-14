@@ -51,8 +51,10 @@ object FastMath {
     return x
   }
 
-  // todo https://en.wikipedia.org/wiki/Smoothstep -> smoothstep
-  fun smoothstep(from: Float, to: Float, percent: Float): Float = TODO()
+  fun smoothStep(from: Float, to: Float, percent: Float): Float {
+    val x = clamp((percent - from)/(to - from), 0f, 1f);
+    return x * x * (3 - 2 * x)
+  }
 
   // todo https://en.wikipedia.org/wiki/Smoothstep -> smootherstep
   fun smootherstep(from: Float, to: Float, percent: Float): Float = TODO()
