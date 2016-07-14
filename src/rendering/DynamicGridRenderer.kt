@@ -8,20 +8,13 @@ import core.Camera
 object DynamicGridRenderer {
 
   fun draw(camera: Camera) {
-    val rect = camera.worldVisibilityRectangle(border = 128f)
-    Draw.rectangleDotted(rect, 8f * camera.renderingScale())
+    val rect = camera.worldVisibilityRectangle(border = 1024f)
+   Draw.rectangleDotted(rect, 8f * camera.renderingScale())
     val size = Vec2(rect.width, rect.height) / 2
-    var epsilon = 64f
-    var pivot = 1f
-    var range = .5f
-    for (i in 1..5) {
-      val alpha = calcAlpha(pivot, range, camera.renderingScale())
-      if (alpha >= .0125f)
-        grid(camera.positionEye(), size, alpha * .25f, epsilon)
-      epsilon *= 2
-      pivot *= 2
-      range *= 2
-    }
+    val alpha = calcAlpha(0f, 8f, camera.renderingScale())
+    if (alpha > .025f)
+      grid(camera.positionEye(), size, .125f * alpha, 128f)
+    grid(camera.positionEye(), size, .175f, 1024f)
   }
 
   private fun grid(eye: Vec2, size: Vec2, alpha: Float, epsilon: Float) {
