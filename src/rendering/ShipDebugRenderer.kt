@@ -39,6 +39,9 @@ object ShipDebugRenderer {
     horizon(current, 16f)
     horizon(expected - space, 8f)
     horizon(expected + space, 8f)
+
+    horizon(formationVelocityFixMultiplier * scale, 32f)
+
   }
 
   private fun Ship.renderMovementTarget(dotScale: Float) {
