@@ -2,6 +2,7 @@ package game
 
 import commons.math.FastMath
 import commons.math.Vec2
+import core.formations.Former
 import game.orders.AttackOrder
 import game.orders.MoveOrder
 import game.orders.Order
@@ -27,7 +28,12 @@ class Collective(
   fun performMoveOrder(order: MoveOrder) {
     /*val set = squads.flatMap { it.ships }.toSet() // todo group
     */
-    squads.forEach { applyArrowMovementToDestination(it.ships, order.where, order.direction) }
+    squads.forEach {
+
+      Former.form(order.where, it.ships)
+
+    }
+    //squads.forEach { applyArrowMovementToDestination(it.ships, order.where, order.direction) }
   }
 
   // todo private fun groupByDistance(input: List<Squad>, effectiveDistance: Float): List<List<Squad>> { }

@@ -67,6 +67,6 @@ class Ship(val config: UnitConfiguration) {
 
   private fun calcNormalizedDistanceToTarget(clampTo: Float) = Math.min(position.distanceTo(movementTarget) / clampTo, 1f)
 
-  override fun toString() = "Ship(config=$config)"
+  override fun toString() = "Ship[${hashCode()}](config=$config)"
 
 }
