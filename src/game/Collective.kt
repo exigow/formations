@@ -1,6 +1,5 @@
 package game
 
-import commons.math.FastMath
 import commons.math.Vec2
 import core.formations.Former
 import game.orders.AttackOrder
@@ -28,7 +27,6 @@ class Collective(
   fun performMoveOrder(order: MoveOrder) {
     squads.forEach {
       Former.form(it.ships, order.where, order.direction)
-
     }
   }
 
@@ -46,37 +44,5 @@ class Collective(
     fun singleton(squad: Squad) = Collective(mutableListOf(squad))
 
   }
-
-  private fun applyArrowMovementToDestination(ships: List<Ship>, destination: Vec2, destinationAngle: Float) {
-    fun putRelatively(who: Ship, to: Ship, relativeAngle: Float) {
-      val sumedSize = (who.config.size + to.config.size) * 2
-      who.movementTarget = to.position + Vec2.rotated(to.angle + relativeAngle) * sumedSize
-      who.movementTargetAngle = to.angle
-    }
-    val iter = ships.sortBySize().iterator()
-    val head = iter.next()
-    head.movementTarget = destination
-    head.movementTargetAngle = destinationAngle
-    var prevLeftWing = head
-    var prevRightWing = head
-    var side = false // false = left, true = right side
-    while (iter.hasNext()) {
-      val angle = FastMath.pi / 2f + .5f
-      val next = iter.next()
-      when (side) {
-        true -> {
-          putRelatively(next, prevLeftWing, angle)
-          prevLeftWing = next
-        }
-        false -> {
-          putRelatively(next, prevRightWing, -angle)
-          prevRightWing = next
-        }
-      }
-      side = !side
-    }
-  }
-
-  private fun List<Ship>.sortBySize(): List<Ship> = this.sortedBy { it.config.size }.reversed()
 
 }

@@ -9,6 +9,7 @@ import game.Collective
 import game.PlayerContext
 import game.Squad
 import game.World
+import game.orders.MoveOrder
 import rendering.Color
 import rendering.Draw
 import rendering.paths.Path
@@ -29,7 +30,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     time += delta
     context.selected.flatMap { it.ships }.forEach { Draw.diamond(it.position, (diamondSize - 4f) * camera.normalizedRenderingScale()) }
     renderMouse()
-    //world.collectives.forEach { it.render() }
+    world.collectives.forEach { it.render() }
     performRectangleAnimation(delta)
     for (anim in animations) {
       anim.key.ships.forEach {
@@ -134,10 +135,10 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     renderConvexHull()
     if (!this.orders.isEmpty()) {
       val order = this.orders.first()
-      /*if (order is MoveOrder)
+      if (order is MoveOrder)
         Draw.lineDotted(center(), order.where, 8f)
-      if (order is AttackOrder)
-        Draw.line(center(), order.who.center())*/
+      //if (order is AttackOrder)
+        //Draw.line(center(), order.who.center())
     }
   }
 
