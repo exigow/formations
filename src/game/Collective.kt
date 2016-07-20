@@ -26,14 +26,12 @@ class Collective(
   }
 
   fun performMoveOrder(order: MoveOrder) {
-    /*val set = squads.flatMap { it.ships }.toSet() // todo group
-    */
     squads.forEach {
 
-      Former.form(order.where, it.ships)
+      val shouldFormRelative = it.center().distanceTo(order.where) > 256
+      Former.form(shouldFormRelative, it.ships, order.where, order.direction)
 
     }
-    //squads.forEach { applyArrowMovementToDestination(it.ships, order.where, order.direction) }
   }
 
   // todo private fun groupByDistance(input: List<Squad>, effectiveDistance: Float): List<List<Squad>> { }
