@@ -51,7 +51,7 @@ data class UnitConfiguration(
       rotationSpeedMax = 2.25f,
       rotationSpeedDumping = .25f,
 
-      brakeDistance = 128f
+      brakeDistance = 96f
     )
 
     fun carrier() = UnitConfiguration(

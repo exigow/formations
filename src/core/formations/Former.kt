@@ -10,7 +10,7 @@ object Former {
     val head: Ship = ships.closestTo(destination)
     head.moveTo(Place(destination, destinationAngle))
     val others = ships - head
-    val isRelative = head.position.distanceTo(destination) > 256
+    val isRelative = head.position.distanceTo(destination) > 386
     if (isRelative) {
       var left = others
       var prevLeft = head
@@ -59,7 +59,7 @@ object Former {
   private fun Ship.movementPlace() = Place(movementTarget, movementTargetAngle)
 
   private fun calculatePlace(relativeTo: Place, side: Side): Place {
-    val pos = relativeTo.position + Vec2.rotated(relativeTo.angle + 2.25f * side.sign) * 32
+    val pos = relativeTo.position + Vec2.rotated(relativeTo.angle + 2.25f * side.sign) * 96
     val angle = relativeTo.angle
     return Place(pos, angle)
   }
