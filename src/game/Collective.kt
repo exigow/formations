@@ -27,9 +27,7 @@ class Collective(
 
   fun performMoveOrder(order: MoveOrder) {
     squads.forEach {
-
-      val shouldFormRelative = it.center().distanceTo(order.where) > 256
-      Former.form(shouldFormRelative, it.ships, order.where, order.direction)
+      Former.form(it.ships, order.where, order.direction)
 
     }
   }

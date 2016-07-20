@@ -6,30 +6,57 @@ import game.Ship
 
 object Former {
 
-  fun form(relative: Boolean, ships: List<Ship>, destination: Vec2, destinationAngle: Float) {
+  fun form(ships: List<Ship>, destination: Vec2, destinationAngle: Float) {
     val head: Ship = ships.closestTo(destination)
     head.moveTo(Place(destination, destinationAngle))
     val others = ships - head
-    var left = others
-    var prevLeft = head
-    var prevRight = head
-    var side = Side.LEFT
-    while (!left.isEmpty()) {
-      val prev = when (side) {
-        Side.LEFT -> prevLeft
-        Side.RIGHT -> prevRight
+    val isRelative = head.position.distanceTo(destination) > 256
+    if (isRelative) {
+      var left = others
+      var prevLeft = head
+      var prevRight = head
+      var side = Side.LEFT
+      while (!left.isEmpty()) {
+        val prev = when (side) {
+          Side.LEFT -> prevLeft
+          Side.RIGHT -> prevRight
+        }
+        val place = calculatePlace(prev.place(), side)
+        val closest = left.closestTo(place.position)
+        when (side) {
+          Side.LEFT -> prevLeft = closest
+          Side.RIGHT -> prevRight = closest
+        }
+        side = side.swap()
+        left -= closest
+        closest.moveTo(place)
       }
-      val place = calculatePlace(Place(prev.position, prev.angle), side)
-      val closest = left.closestTo(place.position)
-      when (side) {
-        Side.LEFT -> prevLeft = closest
-        Side.RIGHT -> prevRight = closest
+    } else {
+      var left = others
+      var prevPlaceLeft = head.movementPlace()
+      var prevPlaceRight = head.movementPlace()
+      var side = Side.LEFT
+      while (!left.isEmpty()) {
+        val prevPlace = when (side) {
+          Side.LEFT -> prevPlaceLeft
+          Side.RIGHT -> prevPlaceRight
+        }
+        val place = calculatePlace(prevPlace, side)
+        val closest = left.closestTo(place.position)
+        when (side) {
+          Side.LEFT -> prevPlaceLeft = closest.movementPlace()
+          Side.RIGHT -> prevPlaceRight = closest.movementPlace()
+        }
+        side = side.swap()
+        left -= closest
+        closest.moveTo(place)
       }
-      side = side.swap()
-      left -= closest
-      closest.moveTo(place)
     }
   }
+
+  private fun Ship.place() = Place(position, angle)
+
+  private fun Ship.movementPlace() = Place(movementTarget, movementTargetAngle)
 
   private fun calculatePlace(relativeTo: Place, side: Side): Place {
     val pos = relativeTo.position + Vec2.rotated(relativeTo.angle + 2.25f * side.sign) * 32
