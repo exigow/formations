@@ -8,7 +8,7 @@ object TrailsDebugRenderer {
 
   fun render(buffer: TrailsBuffer) {
     buffer.trails.forEach {
-      val dottedPath = Path(it.list.reversed().map { it.position }).populate(16f).slice()
+      val dottedPath = Path(it.list.reversed().map { it.position }).populate(32f).slice()
       Draw.paths(dottedPath)
       var prev = it.list.first
       for (struct in it.list) {

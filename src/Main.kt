@@ -2,8 +2,11 @@ import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import commons.math.Vec2
 import core.Camera
+import core.actions.Action
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
+import core.input.event.bundles.ThreeStateButtonEventBundle
+import core.input.mappings.MouseButton
 import game.PlayerContext
 import game.World
 import rendering.Color
@@ -11,6 +14,7 @@ import rendering.Draw
 import rendering.DrawAsset
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsDebugRenderer
+import rendering.trails.TrailsRenderer
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -22,7 +26,8 @@ class Main {
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
   private val buffer = TrailsBuffer()
-  private val trailsMap = world.allShips().map{ it to buffer.registerTrail(it.position) }.toMap()
+  //private val trailsMap = world.allShips().map{ it to buffer.registerTrail(it.position) }.toMap()
+  private val trailsRenderer = TrailsRenderer();
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -31,7 +36,7 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
-    //actions.addAction(PainterAction(camera, buffer))
+    actions.addAction(PainterAction(camera, buffer))
   }
 
   fun onFrame() {
@@ -41,7 +46,7 @@ class Main {
     world.update(delta)
     buffer.update(delta)
     render(delta);
-    trailsMap.forEach { e -> e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * -16), 64f) }
+    //trailsMap.forEach { e -> e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * -16), 64f) }
   }
 
   fun render(delta: Float) {
@@ -49,20 +54,21 @@ class Main {
     DrawAsset.update(camera)
     Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     //DynamicGridRenderer.draw(camera)
+    trailsRenderer.render(buffer, asset["trail"], camera.projectionMatrix())
     world.allShips().forEach {
       fun checkoutAsset(): String = when (it.config.displayedName) {
         "Fighter" -> "interceptor-old"
         "Carrier" -> "carrier"
         else -> throw RuntimeException()
       }
-      DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
+      //DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
       //it.render(camera.normalizedRenderingScale())
     }
-    uiRenderer.render(delta)
+    //uiRenderer.render(delta)
     TrailsDebugRenderer.render(buffer)
   }
 
-  /*private class PainterAction(private val cameraDep: Camera, private val buffer: TrailsBuffer) : Action {
+  private class PainterAction(private val cameraDep: Camera, private val buffer: TrailsBuffer) : Action {
 
     private var currentTrail: TrailsBuffer.Trail? = null
 
@@ -77,13 +83,13 @@ class Main {
       }
 
       override fun onHold(delta: Float) {
-        currentTrail!!.emit(cameraDep.mousePosition())
+        currentTrail!!.emit(cameraDep.mousePosition(), 64f)
       }
 
     }.toBundle()
 
     override fun events() = events
 
-  }*/
+  }
 
 }
