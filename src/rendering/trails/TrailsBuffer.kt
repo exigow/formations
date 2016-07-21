@@ -1,105 +1,62 @@
 package rendering.trails
 
+import commons.Logger
 import commons.math.Vec2
+import java.util.*
 
-class TrailsBuffer(val capacity: Int) {
 
-  val xBuffer = Array(capacity, {0f})
-  val yBuffer = Array(capacity, {0f})
-  val connectionFromBuffer = Array(capacity, {0})
-  val connectionToBuffer = Array(capacity, {0})
-  val connectionFromAngle = Array(capacity, {0f})
-  val connectionToAngle = Array(capacity, {0f})
-  val connectionFromAlpha = Array(capacity, {0f})
-  val connectionToAlpha = Array(capacity, {0f})
-  private val connectionEnabled = Array(capacity, {false})
-  private var connectionPivot = 0
-  private val usage = Array(capacity, {0})
+class TrailsBuffer {
 
-  fun store(position: Vec2, index: Int) {
-    xBuffer[index] = position.x
-    yBuffer[index] = position.y
-  }
-
-  private fun increaseUsage() {
-    for (index in 0..(usage.size - 1))
-      usage[index] = usage[index] + 1
-  }
+  val trails = ArrayList<Trail>()
 
   fun update(delta: Float) {
-    for (index in 0..(usage.size - 1)) {
-      val amount = delta * .75f
-      connectionFromAlpha[index] -= amount
-      connectionToAlpha[index] -= amount
-      if (connectionFromAlpha[index] < 0 || connectionToAlpha[index] < 0) {
-        connectionEnabled[index] = false
-      }
+    trails.forEach { it.update(delta) }
+    trails.removeAll{ it.isDead() }
+  }
+
+  class Trail(initialPosition: Vec2) {
+
+    val list: LinkedList<Structure> = LinkedList()
+
+    init {
+      emitInstantly(initialPosition)
+      emitInstantly(initialPosition)
     }
-  }
 
-  fun connect(from: Int, to: Int) {
-    val index = requestConnection()
-    connectionFromBuffer[index] = from
-    connectionToBuffer[index] = to
-    connectionEnabled[index] = true
-  }
+    fun isDead() = list.all { it.life <= 0f }
 
-  fun requestPosition(): Int {
-    increaseUsage()
-    val found = fetchUseless()
-    fixConnections(found)
-    return found
-  }
+    private fun emitInstantly(where: Vec2) = list.add(Structure(where))
 
-  private fun fixConnections(index: Int) {
-    for (i in 0..(capacity - 1))
-      if (connectionContainsPivot(i, index))
-        connectionEnabled[i] = false
-  }
-
-  private fun connectionContainsPivot(index: Int, pivot: Int) = connectionFromBuffer[index] == pivot || connectionToBuffer[index] == pivot
-
-  private fun fetchUseless(): Int {
-    var retIndex = 0
-    var max = usage[retIndex]
-    for (index in 0..(usage.size - 1)) {
-      val new = usage[index]
-      if (new > max) {
-        max = new
-        retIndex = index
-      }
+    fun emit(target: Vec2, maxDistance: Float) {
+      val lastButOne = list[list.size - 2]
+      if (lastButOne.position.distanceTo(target) < maxDistance) {
+        list.last.position = target
+        list.last.life = 1f
+      } else
+        list.add(Structure(target))
     }
-    usage[retIndex] = 0
-    return retIndex
-  }
 
-  fun requestConnection(): Int {
-    connectionPivot += 1
-    if (connectionPivot > capacity - 1)
-      connectionPivot = 0
-    return connectionPivot
-  }
-
-  fun restore(index: Int) = Vec2(xBuffer[index], yBuffer[index])
-
-  fun forEachPosition(f: (position: Vec2) -> Unit) {
-    for (i in 0..(capacity - 1)) {
-      val vector = restore(i)
-      f.invoke(vector)
-    }
-  }
-
-  fun forEachConnection(f: (from: Vec2, to: Vec2, fromAngle: Float, toAngle: Float, fromAlpha: Float, toAlpha: Float) -> Unit) {
-    for (i in 0..(capacity - 1))
-      if (connectionEnabled[i] == true) {
-        val fromIndex = connectionFromBuffer[i]
-        val toIndex = connectionToBuffer[i]
-        val fromAngle = connectionFromAngle[fromIndex]
-        val toAngle = connectionToAngle[toIndex]
-        val fromIndexedAlpha = connectionFromAlpha[fromIndex]
-        val toIndexedAlpha = connectionFromAlpha[toIndex]
-        f.invoke(restore(fromIndex), restore(toIndex), fromAngle, toAngle, fromIndexedAlpha, toIndexedAlpha)
+    fun update(delta: Float) {
+      list.forEach {
+        if (it.life > 0f)
+          it.life -= delta * .25f
       }
+      if (list.first.life < 0f && list.size > 2)
+        list.pop()
+    }
+
   }
+
+  fun registerTrail(initialPosition: Vec2): Trail {
+    val trail = Trail(initialPosition)
+    trails.add(trail)
+    Logger.TRAILS.log("Registering new trail on $initialPosition, global size is now ${trails.size}")
+    return trail;
+  }
+
+  data class Structure (
+    var position: Vec2,
+    var life: Float = 1f
+  )
 
 }

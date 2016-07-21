@@ -1,5 +1,6 @@
 package core.formations
 
+import commons.math.FastMath
 import commons.math.Vec2
 import game.Ship
 
@@ -21,7 +22,7 @@ object Former {
           Side.LEFT -> prevLeft
           Side.RIGHT -> prevRight
         }
-        val place = calculatePlace(prev.place(), side)
+        val place = calculatePlace(prev.place(), side, FastMath.pi / 2)
         val closest = left.closestTo(place.position)
         when (side) {
           Side.LEFT -> prevLeft = closest
@@ -41,7 +42,7 @@ object Former {
           Side.LEFT -> prevPlaceLeft
           Side.RIGHT -> prevPlaceRight
         }
-        val place = calculatePlace(prevPlace, side)
+        val place = calculatePlace(prevPlace, side, 2.25f)
         val closest = left.closestTo(place.position)
         when (side) {
           Side.LEFT -> prevPlaceLeft = closest.movementPlace()
@@ -58,8 +59,8 @@ object Former {
 
   private fun Ship.movementPlace() = Place(movementTarget, movementTargetAngle)
 
-  private fun calculatePlace(relativeTo: Place, side: Side): Place {
-    val pos = relativeTo.position + Vec2.rotated(relativeTo.angle + 2.25f * side.sign) * 96
+  private fun calculatePlace(relativeTo: Place, side: Side, additiveAngle: Float): Place {
+    val pos = relativeTo.position + Vec2.rotated(relativeTo.angle + additiveAngle * side.sign) * 96
     val angle = relativeTo.angle
     return Place(pos, angle)
   }

@@ -56,6 +56,10 @@ data class Vec2(val x: Float, val y: Float) {
 
   fun toVector2(): Vector2 = Vector2(x, y)
 
+  fun rotate90Right() = copy(-y, x)
+
+  fun rotate90Left() = copy(y, -x)
+
   companion object {
 
     @JvmStatic fun zero() = Vec2(0f, 0f)

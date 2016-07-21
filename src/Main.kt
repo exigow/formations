@@ -9,6 +9,8 @@ import game.World
 import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
+import rendering.trails.TrailsBuffer
+import rendering.trails.TrailsDebugRenderer
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -19,6 +21,8 @@ class Main {
   private val context = PlayerContext()
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
+  private val buffer = TrailsBuffer()
+  private val trailsMap = world.allShips().map{ it to buffer.registerTrail(it.position) }.toMap()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -27,6 +31,7 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
+    //actions.addAction(PainterAction(camera, buffer))
   }
 
   fun onFrame() {
@@ -34,7 +39,9 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
+    buffer.update(delta)
     render(delta);
+    trailsMap.forEach { e -> e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * -16), 64f) }
   }
 
   fun render(delta: Float) {
@@ -52,6 +59,31 @@ class Main {
       //it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)
+    TrailsDebugRenderer.render(buffer)
   }
+
+  /*private class PainterAction(private val cameraDep: Camera, private val buffer: TrailsBuffer) : Action {
+
+    private var currentTrail: TrailsBuffer.Trail? = null
+
+    private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_LEFT) {
+
+      override fun onPress() {
+        currentTrail = buffer.registerTrail(cameraDep.mousePosition())
+      }
+
+      override fun onRelease() {
+        currentTrail = null
+      }
+
+      override fun onHold(delta: Float) {
+        currentTrail!!.emit(cameraDep.mousePosition())
+      }
+
+    }.toBundle()
+
+    override fun events() = events
+
+  }*/
 
 }

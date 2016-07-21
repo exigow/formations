@@ -1,4 +1,4 @@
-package rendering.trails
+package rendering.oldtrails
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.*
@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
 import core.Camera
 
-class TrailsRenderer {
+class OldTrailsRenderer {
 
   private val matrix = Matrix4()
   private val mesh = createMesh();
@@ -37,7 +37,7 @@ class TrailsRenderer {
 
   fun update(camera: Camera) = matrix.set(camera.projectionMatrix())
 
-  fun render(buffer: TrailsBuffer, texture: Texture) {
+  fun render(buffer: OldTrailsBuffer, texture: Texture) {
     val vertices = FloatArray(2048)
     val indices = ShortArray(2048)
 

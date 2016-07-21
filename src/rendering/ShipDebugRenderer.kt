@@ -11,7 +11,7 @@ object ShipDebugRenderer {
   val dotPopulation = 8f
 
   fun Ship.render(dotScale: Float) {
-    //renderBody()
+    renderBody()
     renderThrusterState(dotScale)
     renderRotationState(dotScale)
     renderMovementTarget(dotScale)

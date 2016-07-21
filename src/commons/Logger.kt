@@ -9,7 +9,8 @@ enum class Logger {
   EVENT_REGISTRY,
   ACTION_REGISTRY,
   APPLICATION,
-  ASSETS;
+  ASSETS,
+  TRAILS;
 
   fun log(message: String) {
     val time = toFixedLength(formattedNow(), 12)

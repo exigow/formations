@@ -1,19 +1,25 @@
 package rendering.trails
 
-import commons.math.FastMath
-import commons.math.Vec2
 import rendering.Draw
+import rendering.paths.Path
+
 
 object TrailsDebugRenderer {
 
   fun render(buffer: TrailsBuffer) {
-    buffer.forEachPosition { Draw.cross(it, 4f) }
-    buffer.forEachConnection { from, to, fromAngle, toAngle, fromAlpha, toAlpha ->
-      Draw.line(from, to)
-      val fa = Vec2.rotated(fromAngle + FastMath.pi) * 16
-      val ta = Vec2.rotated(toAngle + FastMath.pi) * 16
-      Draw.line(from + fa, from - fa)
-      Draw.line(to + ta, to - ta)
+    buffer.trails.forEach {
+      val dottedPath = Path(it.list.reversed().map { it.position }).populate(16f).slice()
+      Draw.paths(dottedPath)
+      var prev = it.list.first
+      for (struct in it.list) {
+        val rel = (struct.position - prev.position).rotate90Left().normalize()
+        val scaled = rel * (.25f + .75f * struct.life) * 16
+        Draw.line(struct.position - scaled, struct.position + scaled)
+        prev = struct
+      }
+      Draw.diamond(it.list.last.position, 4f)
+      Draw.diamond(it.list.first.position, 4f)
     }
   }
+
 }

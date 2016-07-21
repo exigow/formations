@@ -1,9 +1,9 @@
-package rendering.trails
+package rendering.oldtrails
 
 import commons.math.FastMath
 import commons.math.Vec2
 
-class TrailsEmitter(private val maxDistance: Float, private val buffer: TrailsBuffer, private val initialPosition: Vec2) {
+class OldTrailsEmitter(private val maxDistance: Float, private val buffer: OldTrailsBuffer, private val initialPosition: Vec2) {
 
   private var prevPivot = requestAndStore(initialPosition)
   private var nextPivot = requestAndStore(initialPosition)

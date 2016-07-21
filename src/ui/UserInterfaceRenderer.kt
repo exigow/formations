@@ -132,11 +132,13 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   }
 
   fun Collective.render() {
-    renderConvexHull()
+    //renderConvexHull()
     if (!this.orders.isEmpty()) {
       val order = this.orders.first()
-      if (order is MoveOrder)
-        Draw.lineDotted(center(), order.where, 8f)
+      if (order is MoveOrder) {
+        //Draw.lineDotted(center(), order.where, 8f)
+        Draw.diamond(order.where, 4f)
+      }
       //if (order is AttackOrder)
         //Draw.line(center(), order.who.center())
     }
