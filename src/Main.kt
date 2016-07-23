@@ -12,6 +12,7 @@ import game.World
 import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
+import rendering.ShipDebugRenderer.render
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsDebugRenderer
 import rendering.trails.TrailsRenderer
@@ -26,7 +27,7 @@ class Main {
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
   private val buffer = TrailsBuffer()
-  //private val trailsMap = world.allShips().map{ it to buffer.registerTrail(it.position) }.toMap()
+  private val trailsMap = world.allShips().map{ it to buffer.registerTrail(it.position) }.toMap()
   private val trailsRenderer = TrailsRenderer();
 
   init {
@@ -36,7 +37,7 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
-    actions.addAction(PainterAction(camera, buffer))
+    //actions.addAction(PainterAction(camera, buffer))
   }
 
   fun onFrame() {
@@ -46,7 +47,7 @@ class Main {
     world.update(delta)
     buffer.update(delta)
     render(delta);
-    //trailsMap.forEach { e -> e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * -16), 64f) }
+    trailsMap.forEach { e -> e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * -16), 32f, Math.min(e.key.velocityAcceleration + .025f, 1f)) }
   }
 
   fun render(delta: Float) {
@@ -61,10 +62,10 @@ class Main {
         "Carrier" -> "carrier"
         else -> throw RuntimeException()
       }
-      //DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
-      //it.render(camera.normalizedRenderingScale())
+      DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
+      it.render(camera.normalizedRenderingScale())
     }
-    //uiRenderer.render(delta)
+    uiRenderer.render(delta)
     TrailsDebugRenderer.render(buffer)
   }
 
@@ -83,7 +84,7 @@ class Main {
       }
 
       override fun onHold(delta: Float) {
-        currentTrail!!.emit(cameraDep.mousePosition(), 64f)
+        currentTrail!!.emit(cameraDep.mousePosition(), 64f, 1f)
       }
 
     }.toBundle()

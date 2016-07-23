@@ -27,11 +27,11 @@ class TrailsBuffer {
 
     private fun emitInstantly(where: Vec2) = list.add(Structure(where))
 
-    fun emit(target: Vec2, maxDistance: Float) {
+    fun emit(target: Vec2, maxDistance: Float, initialLife: Float) {
       val lastButOne = list[list.size - 2]
       if (lastButOne.position.distanceTo(target) < maxDistance) {
         list.last.position = target
-        list.last.life = 1f
+        list.last.life = initialLife
       } else
         list.add(Structure(target))
     }
@@ -39,7 +39,7 @@ class TrailsBuffer {
     fun update(delta: Float) {
       list.forEach {
         if (it.life > 0f)
-          it.life -= delta// * .25f
+          it.life -= delta * .5f
       }
       if (list[1].life < 0f && list.size > 2)
         list.pop()

@@ -56,21 +56,23 @@ class TrailsRenderer {
     val batch = StripBatch((structures.size * 2) * 5)
     var prev = structures.first()
     val nextToPrev = structures[1]
-    emitSegment(prev.position, 0f, horizontalDifference(nextToPrev.position, prev.position), batch, 0f)
-    var swap = true
+    var swap = false
+    emitSegment(prev.position, 0f, horizontalDifference(nextToPrev.position, prev.position), batch, swap.toFloat())
     for (struct in (structures - prev)) {
-      val v: Float
-      if (swap) v = 1f
-      else v = 0f
-      emitSegment(struct.position, struct.life, horizontalDifference(struct.position, prev.position), batch, v)
+      emitSegment(struct.position, struct.life, horizontalDifference(struct.position, prev.position), batch, swap.toFloat())
       prev = struct
       swap = !swap
     }
     return batch.toVerticesArray()
   }
 
+  private fun Boolean.toFloat() = when(this) {
+    true -> 1f
+    false -> 0f
+  }
+
   private fun emitSegment(position: Vec2, life: Float, diff: Vec2, batch: StripBatch, vCoord: Float) {
-    val scaled = diff * 32
+    val scaled = diff * 16
     batch.emit(position - scaled, Vec2(0f, vCoord), life)
     batch.emit(position + scaled, Vec2(1f, vCoord), life)
   }
