@@ -14,7 +14,6 @@ class Ship(val config: UnitConfiguration) {
   var velocityTarget = 0f
   var movementTarget = Vec2.zero()
   var movementTargetAngle = 0f
-  var formationVelocityFixMultiplier = 1f
 
   fun update(delta: Float) {
     val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f);
