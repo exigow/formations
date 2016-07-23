@@ -19,7 +19,7 @@ object ShipDebugRenderer {
   }
 
   private fun Ship.renderBody() {
-    Draw.dartFilled(position, config.size, angle, alpha = .5f)
+    Draw.dartFilled(position, config.size, angle, alpha = .25f)
     Draw.dart(position, config.size, angle, alpha = 1f)
   }
 

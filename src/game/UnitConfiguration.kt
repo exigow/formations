@@ -14,6 +14,8 @@ data class UnitConfiguration(
 
   val displayedName: String,
 
+  val hullName: String,
+
   val size: Float,
 
   val accelerationAngle: Float,
@@ -26,7 +28,9 @@ data class UnitConfiguration(
   val rotationSpeedMax: Float,
   val rotationSpeedDumping: Float,
 
-  val brakeDistance: Float
+  val brakeDistance: Float,
+
+  val trailDistance: Float // todo multiple vectors
 
 ) {
 
@@ -38,6 +42,8 @@ data class UnitConfiguration(
 
     fun fighter() = UnitConfiguration(
       displayedName = "Fighter",
+
+      hullName = "interceptor",
 
       size = 16f,
 
@@ -51,11 +57,15 @@ data class UnitConfiguration(
       rotationSpeedMax = 2.25f,
       rotationSpeedDumping = .25f,
 
-      brakeDistance = 96f
+      brakeDistance = 96f,
+
+      trailDistance = -18f
     )
 
     fun bomber() = UnitConfiguration(
       displayedName = "Bomber",
+
+      hullName = "bomber",
 
       size = 24f,
 
@@ -69,11 +79,15 @@ data class UnitConfiguration(
       rotationSpeedMax = 1.95f,
       rotationSpeedDumping = .275f,
 
-      brakeDistance = 96f
+      brakeDistance = 96f,
+
+      trailDistance = -17f
     )
 
     fun carrier() = UnitConfiguration(
       displayedName = "Carrier",
+
+      hullName = "carrier",
 
       size = 96f,
 
@@ -87,7 +101,9 @@ data class UnitConfiguration(
       rotationSpeedMax = .375f,
       rotationSpeedDumping = .375f,
 
-      brakeDistance = 512f
+      brakeDistance = 512f,
+
+      trailDistance = -138f
     )
 
   }
