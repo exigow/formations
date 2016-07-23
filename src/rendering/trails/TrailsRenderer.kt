@@ -41,7 +41,7 @@ class TrailsRenderer {
   fun render(buffer: TrailsBuffer, texture: Texture, matrix: Matrix4) {
     enableBlend();
     for (trail in buffer.trails) {
-      mesh.setVertices(calculateTrailArray(trail))
+      mesh.setVertices(calculateTrailArray(trail.list))
       texture.bind(0)
       shader.begin();
       shader.setUniformMatrix("projection", matrix);
@@ -52,22 +52,27 @@ class TrailsRenderer {
     disableBlend()
   }
 
-  private fun calculateTrailArray(trail: TrailsBuffer.Trail): FloatArray {
-    val batch = StripBatch((trail.list.size * 2) * 5)
-    var prev = trail.list.first
-    val nextToPrev = trail.list[1]
-    emitSegment(prev.position, 0f, horizontalDifference(nextToPrev.position, prev.position), batch)
-    for (struct in (trail.list - prev)) {
-      emitSegment(struct.position, struct.life, horizontalDifference(struct.position, prev.position), batch)
+  private fun calculateTrailArray(structures: List<TrailsBuffer.Structure>): FloatArray {
+    val batch = StripBatch((structures.size * 2) * 5)
+    var prev = structures.first()
+    val nextToPrev = structures[1]
+    emitSegment(prev.position, 0f, horizontalDifference(nextToPrev.position, prev.position), batch, 0f)
+    var swap = true
+    for (struct in (structures - prev)) {
+      val v: Float
+      if (swap) v = 1f
+      else v = 0f
+      emitSegment(struct.position, struct.life, horizontalDifference(struct.position, prev.position), batch, v)
       prev = struct
+      swap = !swap
     }
     return batch.toVerticesArray()
   }
 
-  private fun emitSegment(position: Vec2, life: Float, diff: Vec2, batch: StripBatch) {
+  private fun emitSegment(position: Vec2, life: Float, diff: Vec2, batch: StripBatch, vCoord: Float) {
     val scaled = diff * 32
-    batch.emit(position - scaled, Vec2(0f, 0f), life)
-    batch.emit(position + scaled, Vec2(1f, 0f), life)
+    batch.emit(position - scaled, Vec2(0f, vCoord), life)
+    batch.emit(position + scaled, Vec2(1f, vCoord), life)
   }
 
   fun horizontalDifference(from: Vec2, to: Vec2) = (from - to).rotate90Left().normalize()
@@ -81,7 +86,7 @@ class TrailsRenderer {
       array[index++] = position.x
       array[index++] = position.y
       array[index++] = coord.x
-      array[index++] = coord.x
+      array[index++] = coord.y
       array[index++] = life
     }
 
