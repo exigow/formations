@@ -54,6 +54,24 @@ data class UnitConfiguration(
       brakeDistance = 96f
     )
 
+    fun bomber() = UnitConfiguration(
+      displayedName = "Bomber",
+
+      size = 24f,
+
+      accelerationAngle = 2.05f,
+
+      thrusterSpeedAcceleration = .75f,
+      thrusterSpeedMax = 3.5f,
+      thrusterSpeedDumping = .875f,
+
+      rotationSpeedAcceleration = 1.625f,
+      rotationSpeedMax = 1.95f,
+      rotationSpeedDumping = .275f,
+
+      brakeDistance = 96f
+    )
+
     fun carrier() = UnitConfiguration(
       displayedName = "Carrier",
 
@@ -70,24 +88,6 @@ data class UnitConfiguration(
       rotationSpeedDumping = .375f,
 
       brakeDistance = 512f
-    )
-
-    fun asteroid() = UnitConfiguration(
-      displayedName = "Asteroid",
-
-      size = 32f,
-
-      accelerationAngle = 0f,
-
-      thrusterSpeedAcceleration = 0f,
-      thrusterSpeedMax = 0f,
-      thrusterSpeedDumping = 0f,
-
-      rotationSpeedAcceleration = 0f,
-      rotationSpeedMax = 0f,
-      rotationSpeedDumping = 0f,
-
-      brakeDistance = 0f
     )
 
   }
