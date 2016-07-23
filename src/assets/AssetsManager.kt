@@ -47,7 +47,9 @@ class AssetsManager {
     private fun loadTexture(path: String): Texture {
       val tex = Texture(Gdx.files.absolute(path))
       val filter = Texture.TextureFilter.Nearest
+      val wrap = Texture.TextureWrap.Repeat
       tex.setFilter(filter, filter)
+      tex.setWrap(wrap, wrap)
       return tex
     }
 

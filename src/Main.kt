@@ -54,11 +54,10 @@ class Main {
     Draw.update(camera)
     DrawAsset.update(camera)
     Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
-    //DynamicGridRenderer.draw(camera)
     trailsRenderer.render(buffer, asset["trail"], camera.projectionMatrix())
     world.allShips().forEach {
       fun checkoutAsset(): String = when (it.config.displayedName) {
-        "Fighter" -> "interceptor-old"
+        "Fighter" -> "interceptor"
         "Carrier" -> "carrier"
         else -> throw RuntimeException()
       }

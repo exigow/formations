@@ -8,7 +8,7 @@ import commons.math.Vec2
 
 class TrailsRenderer {
 
-  private val mesh = Mesh(true, 256, 0,
+  private val mesh = Mesh(true, 1024, 0,
     VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
     VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
     VertexAttribute(VertexAttributes.Usage.Generic, 1, "lifeAttr")
@@ -56,23 +56,18 @@ class TrailsRenderer {
     val batch = StripBatch((structures.size * 2) * 5)
     var prev = structures.first()
     val nextToPrev = structures[1]
-    var swap = false
-    emitSegment(prev.position, 0f, horizontalDifference(nextToPrev.position, prev.position), batch, swap.toFloat())
+    var v = 0f
+    emitSegment(prev.position, 0f, horizontalDifference(nextToPrev.position, prev.position), batch, v - 1)
     for (struct in (structures - prev)) {
-      emitSegment(struct.position, struct.life, horizontalDifference(struct.position, prev.position), batch, swap.toFloat())
+      emitSegment(struct.position, struct.life, horizontalDifference(struct.position, prev.position), batch, v)
       prev = struct
-      swap = !swap
+      v += 1f
     }
     return batch.toVerticesArray()
   }
 
-  private fun Boolean.toFloat() = when(this) {
-    true -> 1f
-    false -> 0f
-  }
-
   private fun emitSegment(position: Vec2, life: Float, diff: Vec2, batch: StripBatch, vCoord: Float) {
-    val scaled = diff * 16
+    val scaled = diff * 12
     batch.emit(position - scaled, Vec2(0f, vCoord), life)
     batch.emit(position + scaled, Vec2(1f, vCoord), life)
   }

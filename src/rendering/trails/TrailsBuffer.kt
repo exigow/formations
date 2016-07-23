@@ -39,7 +39,7 @@ class TrailsBuffer {
     fun update(delta: Float) {
       list.forEach {
         if (it.life > 0f)
-          it.life -= delta * .5f
+          it.life -= delta * .25f
       }
       if (list[1].life < 0f && list.size > 2)
         list.pop()
