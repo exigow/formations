@@ -9,9 +9,12 @@ import core.input.event.bundles.ThreeStateButtonEventBundle
 import core.input.mappings.MouseButton
 import game.PlayerContext
 import game.World
+import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
+import rendering.ShipDebugRenderer.render
 import rendering.trails.TrailsBuffer
+import rendering.trails.TrailsDebugRenderer
 import rendering.trails.TrailsRenderer
 import ui.UserInterfaceRenderer
 
@@ -50,7 +53,7 @@ class Main {
   fun render(delta: Float) {
     Draw.update(camera)
     DrawAsset.update(camera)
-    //Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
+    Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     trailsRenderer.render(buffer, asset["trail"], camera.projectionMatrix())
     world.allShips().forEach {
       fun checkoutAsset(): String = when (it.config.displayedName) {
@@ -60,10 +63,10 @@ class Main {
         else -> throw RuntimeException()
       }
       DrawAsset.draw(asset[checkoutAsset()], it.position, it.angle)
-      //it.render(camera.normalizedRenderingScale())
+      it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)
-    //TrailsDebugRenderer.render(buffer)
+    TrailsDebugRenderer.render(buffer)
   }
 
   private class PainterAction(private val cameraDep: Camera, private val buffer: TrailsBuffer) : Action {
