@@ -9,7 +9,7 @@ object TrailsDebugRenderer {
   fun render(buffer: TrailsBuffer) = buffer.trails.forEach {
     TrailStructuresIterator.iterate(it.list, {
       struct, vec ->
-      val scaled = vec * 64f// * (.25f + struct.life * .75f)
+      val scaled = vec * 16// * (.25f + struct.life * .75f)
       val where = struct.position
       Draw.line(where + scaled, where - scaled)
     })

@@ -54,15 +54,12 @@ class TrailsRenderer {
 
   private fun calculateTrailArray(structures: List<TrailsBuffer.Structure>): FloatArray {
     val batch = StripBatch((structures.size * 2) * 5)
-    var prev = structures.first()
-    val nextToPrev = structures[1]
     var v = 0f
-    emitSegment(prev.position, 0f, horizontalDifference(nextToPrev.position, prev.position), batch, v - 1)
-    for (struct in (structures - prev)) {
-      emitSegment(struct.position, struct.life, horizontalDifference(struct.position, prev.position), batch, v)
-      prev = struct
+    TrailStructuresIterator.iterate(structures, {
+      struct, vec ->
+      emitSegment(struct.position, struct.life, vec, batch, v)
       v += 1f
-    }
+    })
     return batch.toVerticesArray()
   }
 
@@ -71,8 +68,6 @@ class TrailsRenderer {
     batch.emit(position - scaled, Vec2(0f, vCoord), life)
     batch.emit(position + scaled, Vec2(1f, vCoord), life)
   }
-
-  fun horizontalDifference(from: Vec2, to: Vec2) = (from - to).rotate90Left().normalize()
 
   private class StripBatch(capacity: Int) {
 
