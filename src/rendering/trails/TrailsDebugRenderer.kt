@@ -6,20 +6,18 @@ import rendering.paths.Path
 
 object TrailsDebugRenderer {
 
-  fun render(buffer: TrailsBuffer) {
-    buffer.trails.forEach {
-      val dottedPath = Path(it.list.reversed().map { it.position }).populate(32f).slice()
-      Draw.paths(dottedPath)
-      var prev = it.list.first
-      for (struct in it.list) {
-        val rel = (struct.position - prev.position).rotate90Left().normalize()
-        val scaled = rel * (.25f + .75f * struct.life) * 16
-        Draw.line(struct.position - scaled, struct.position + scaled)
-        prev = struct
-      }
-      Draw.diamond(it.list.last.position, 4f)
-      Draw.diamond(it.list.first.position, 4f)
-    }
+  fun render(buffer: TrailsBuffer) = buffer.trails.forEach {
+    TrailStructuresIterator.iterate(it.list, {
+      struct, vec ->
+      val scaled = vec * 64f// * (.25f + struct.life * .75f)
+      val where = struct.position
+      Draw.line(where + scaled, where - scaled)
+    })
+    drawAsPath(it.list)
+    Draw.diamond(it.list.last.position, 8f)
+    Draw.diamond(it.list.first.position, 8f)
   }
+
+  private fun drawAsPath(list: List<TrailsBuffer.Structure>) = Draw.paths(Path(list.reversed().map { it.position }).populate(32f).slice())
 
 }

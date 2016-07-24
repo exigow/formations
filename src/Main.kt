@@ -12,7 +12,6 @@ import game.World
 import rendering.Color
 import rendering.Draw
 import rendering.DrawAsset
-import rendering.ShipDebugRenderer.render
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsDebugRenderer
 import rendering.trails.TrailsRenderer
@@ -27,7 +26,7 @@ class Main {
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val asset = AssetsManager.load()
   private val buffer = TrailsBuffer()
-  private val trailsMap = world.allShips().map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
+  //private val trailsMap = world.allShips().map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
   private val trailsRenderer = TrailsRenderer();
 
   init {
@@ -37,7 +36,7 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
-    //actions.addAction(PainterAction(camera, buffer))
+    actions.addAction(PainterAction(camera, buffer))
   }
 
   fun onFrame() {
@@ -47,9 +46,9 @@ class Main {
     world.update(delta)
     buffer.update(delta)
     render(delta);
-    trailsMap.forEach { e ->
-      e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 64f, Math.min(e.key.velocityAcceleration * 8 + .025f, 1f))
-    }
+    //trailsMap.forEach { e ->
+      //e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 64f, Math.min(e.key.velocityAcceleration * 8 + .025f, 1f))
+    //}
   }
 
   fun render(delta: Float) {
@@ -58,10 +57,10 @@ class Main {
     Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     trailsRenderer.render(buffer, asset["trail"], camera.projectionMatrix())
     world.allShips().forEach {
-      DrawAsset.draw(asset[it.config.hullName], it.position, it.angle)
-      it.render(camera.normalizedRenderingScale())
+      //DrawAsset.draw(asset[it.config.hullName], it.position, it.angle)
+      //it.render(camera.normalizedRenderingScale())
     }
-    uiRenderer.render(delta)
+    //uiRenderer.render(delta)
     TrailsDebugRenderer.render(buffer)
   }
 
