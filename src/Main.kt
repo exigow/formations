@@ -48,7 +48,7 @@ class Main {
     buffer.update(delta)
     render(delta);
     trailsMap.forEach { e ->
-      e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 32f, Math.min(e.key.velocityAcceleration + .025f, 1f))
+      e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 64f, Math.min(e.key.velocityAcceleration * 8 + .025f, 1f))
     }
   }
 
