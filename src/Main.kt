@@ -58,7 +58,7 @@ class Main {
     Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     trailsRenderer.render(buffer, asset["trail"], camera.projectionMatrix())
     world.allShips().forEach {
-      DrawAsset.draw(asset[it.config.hullName], it.position, it.angle)
+      DrawAsset.draw(asset[it.config.hullName + "-diffuse"], it.position, it.angle)
       it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)
