@@ -2,11 +2,8 @@ import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import commons.math.Vec2
 import core.Camera
-import core.actions.Action
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
-import core.input.event.bundles.ThreeStateButtonEventBundle
-import core.input.mappings.MouseButton
 import game.PlayerContext
 import game.World
 import rendering.Color
@@ -37,7 +34,6 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
-    //actions.addAction(PainterAction(camera, buffer))
   }
 
   fun onFrame() {
@@ -63,30 +59,6 @@ class Main {
     }
     uiRenderer.render(delta)
     TrailsDebugRenderer.render(buffer)
-  }
-
-  private class PainterAction(private val cameraDep: Camera, private val buffer: TrailsBuffer) : Action {
-
-    private var currentTrail: TrailsBuffer.Trail? = null
-
-    private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_LEFT) {
-
-      override fun onPress() {
-        currentTrail = buffer.registerTrail(cameraDep.mousePosition())
-      }
-
-      override fun onRelease() {
-        currentTrail = null
-      }
-
-      override fun onHold(delta: Float) {
-        currentTrail!!.emit(cameraDep.mousePosition(), 64f, 1f)
-      }
-
-    }.toBundle()
-
-    override fun events() = events
-
   }
 
 }
