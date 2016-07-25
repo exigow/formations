@@ -5,7 +5,7 @@ package commons.math
 object FastMath {
 
   val pi = Math.PI.toFloat()
-  val pi2 =  pi * 2
+  val pi2 = pi * 2
 
   fun sqrt(x: Float) = Math.sqrt(x.toDouble()).toFloat()
 
@@ -19,7 +19,7 @@ object FastMath {
   fun atan2(x: Float, y: Float) = Math.atan2(y.toDouble(), x.toDouble()).toFloat()
 
   fun angleDifference(a: Float, b: Float): Float {
-    val d = Math.abs(a - b) % pi2;
+    val d = Math.abs(a - b)
     val r: Float
     if (d > pi)
       r = pi2 - d
