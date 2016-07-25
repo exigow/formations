@@ -38,17 +38,15 @@ class TrailsRenderer {
     """
   );
 
-  fun render(buffer: TrailsBuffer, texture: Texture, matrix: Matrix4) {
+  fun render(trail: TrailsBuffer.Trail, texture: Texture, matrix: Matrix4) {
     enableBlend();
-    for (trail in buffer.trails) {
-      mesh.setVertices(calculateTrailArray(trail.list))
-      texture.bind(0)
-      shader.begin();
-      shader.setUniformMatrix("projection", matrix);
-      shader.setUniformi("texture", 0);
-      mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
-      shader.end();
-    }
+    mesh.setVertices(calculateTrailArray(trail.list))
+    texture.bind(0)
+    shader.begin();
+    shader.setUniformMatrix("projection", matrix);
+    shader.setUniformi("texture", 0);
+    mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
+    shader.end();
     disableBlend()
   }
 
