@@ -20,18 +20,18 @@ object AssetsManager {
 
   fun loadAllAssets(): Map<String, Any> {
     val map = HashMap<String, Any>()
-    map.putAllSafe(MaterialLoader.loadMaterials())
-    map.putAllSafe(ShaderProgramLoader.loadShaderPrograms())
+    map.safePutAll(MaterialLoader.loadMaterials())
+    map.safePutAll(ShaderProgramLoader.loadShaderPrograms())
     for (entry in map)
       Logger.ASSETS.log("Loaded asset: ${entry.key} -> ${entry.value}")
     return map
   }
 
-  private fun MutableMap<String, Any>.putAllSafe(other: Map<String, Any>) {
+  private fun MutableMap<String, Any>.safePutAll(other: Map<String, Any>) {
     for (entry in other) {
       if (containsKey(entry.key))
         throw RuntimeException("asset with name ${entry.key} exists")
-     put(entry.key, entry.value)
+      put(entry.key, entry.value)
     }
   }
 
