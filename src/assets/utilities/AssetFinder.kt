@@ -1,4 +1,4 @@
-package assets
+package assets.utilities
 
 import java.io.File
 import java.io.FilenameFilter

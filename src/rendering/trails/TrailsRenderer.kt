@@ -1,8 +1,8 @@
 package rendering.trails
 
+import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.*
-import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
 
@@ -13,35 +13,12 @@ class TrailsRenderer {
     VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
     VertexAttribute(VertexAttributes.Usage.Generic, 1, "lifeAttr")
   );
-  private val shader = ShaderProgram(
-    """
-    uniform mat4 projection;
-    attribute vec4 positionAttr;
-    attribute vec2 texCoordAttr;
-    attribute float lifeAttr;
-    varying vec2 texCoord;
-    varying float life;
-    void main() {
-      texCoord = texCoordAttr;
-      life = lifeAttr;
-      gl_Position = projection * positionAttr;
-    }
-    """,
-    """
-    uniform sampler2D texture;
-    varying vec2 texCoord;
-    varying float life;
-    void main() {
-        vec4 color = texture2D(texture, texCoord) * vec4(1, 1, 1, life);
-        gl_FragColor = color;
-    }
-    """
-  );
 
   fun render(trail: TrailsBuffer.Trail, texture: Texture, matrix: Matrix4) {
     enableBlend();
     mesh.setVertices(calculateTrailArray(trail.list))
     texture.bind(0)
+    val shader = AssetsManager.peekShader("trailShader")
     shader.begin();
     shader.setUniformMatrix("projection", matrix);
     shader.setUniformi("texture", 0);

@@ -1,5 +1,6 @@
 package assets
 
+import assets.utilities.AssetFinder
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import java.io.File
@@ -9,15 +10,15 @@ object MaterialLoader {
 
   fun loadMaterials(): Map<String, Material> {
     val potentialFiles = AssetFinder.find { it.endsWith(".png") }
-    return potentialFiles.map { it.toIdentifier() }.map {
+    return potentialFiles.map { it.toIdentifier() }.distinct().map {
       it to loadMaterial(it, potentialFiles)
     }.toMap()
   }
 
   private fun loadMaterial(id: String, files: Array<File>) = Material(
-      diffuse = files.findMatching(id, "diffuse")?.loadAsTexture(),
-      emissive = files.findMatching(id, "emissive")?.loadAsTexture()
-    )
+    diffuse = files.findMatching(id, "diffuse")?.loadAsTexture(),
+    emissive = files.findMatching(id, "emissive")?.loadAsTexture()
+  )
 
   private fun Array<File>.findMatching(id: String, type: String) = this
     .filter { it.name.contains(id) }
