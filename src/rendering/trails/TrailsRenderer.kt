@@ -15,16 +15,16 @@ class TrailsRenderer {
   );
 
   fun render(trail: TrailsBuffer.Trail, texture: Texture, matrix: Matrix4) {
-    enableBlend();
-    mesh.setVertices(calculateTrailArray(trail.list))
-    texture.bind(0)
-    val shader = AssetsManager.peekShader("trailShader")
-    shader.begin();
-    shader.setUniformMatrix("projection", matrix);
-    shader.setUniformi("texture", 0);
-    mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
-    shader.end();
-    disableBlend()
+    applyAdditiveBlending {
+      mesh.setVertices(calculateTrailArray(trail.list))
+      texture.bind(0)
+      val shader = AssetsManager.peekShader("trailShader")
+      shader.begin();
+      shader.setUniformMatrix("projection", matrix);
+      shader.setUniformi("texture", 0);
+      mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
+      shader.end();
+    }
   }
 
   private fun calculateTrailArray(structures: List<TrailsBuffer.Structure>): FloatArray {
@@ -61,13 +61,12 @@ class TrailsRenderer {
 
   }
 
-  private fun enableBlend() {
-    Gdx.gl.glEnable(GL20.GL_BLEND);
+  private fun applyAdditiveBlending(f: () -> Unit) {
+    val blending = GL20.GL_BLEND
+    Gdx.gl.glEnable(blending);
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-  }
-
-  private fun disableBlend() {
-    Gdx.gl.glDisable(GL20.GL_BLEND);
+    f.invoke()
+    Gdx.gl.glDisable(blending);
   }
 
 }
