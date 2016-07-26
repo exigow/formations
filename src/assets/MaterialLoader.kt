@@ -3,6 +3,7 @@ package assets
 import assets.utilities.AssetFinder
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
+import rendering.materials.Material
 import java.io.File
 
 

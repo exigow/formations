@@ -1,4 +1,4 @@
-package assets
+package rendering.materials
 
 import com.badlogic.gdx.graphics.Texture
 

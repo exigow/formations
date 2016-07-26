@@ -2,6 +2,7 @@ package assets
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import commons.Logger
+import rendering.materials.Material
 import java.util.*
 
 object AssetsManager {

@@ -8,9 +8,8 @@ import game.PlayerContext
 import game.World
 import rendering.Color
 import rendering.Draw
-import rendering.DrawAsset
-import rendering.FullscreenQuadTextureRenderer
 import rendering.ShipDebugRenderer.render
+import rendering.materials.MaterialRenderer
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsDebugRenderer
 import rendering.trails.TrailsRenderer
@@ -25,8 +24,10 @@ class Main {
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val buffer = TrailsBuffer()
   private val trailsMap = world.allShips().filter { !it.config.displayedName.equals("Carrier") }.map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
-  private val trailsRenderer = TrailsRenderer();
-  private val fullscreenQuadRenderer = FullscreenQuadTextureRenderer()
+
+  private val trailsRenderer = TrailsRenderer()
+  private val materialRenderer = MaterialRenderer()
+  //private val fullscreenQuadRenderer = FullscreenQuadTextureRenderer()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -51,12 +52,11 @@ class Main {
 
   fun render(delta: Float) {
     Draw.update(camera)
-    DrawAsset.update(camera)
     Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     world.allShips().forEach {
       if (trailsMap.containsKey(it))
         trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail").diffuse!!, camera.projectionMatrix())
-      DrawAsset.draw(AssetsManager.peekMaterial(it.config.hullName).diffuse!!, it.position, it.angle)
+      materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
       it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)

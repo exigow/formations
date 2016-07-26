@@ -1,22 +1,20 @@
-package rendering
+package rendering.materials
 
-import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.Matrix4
 import commons.math.FastMath
 import commons.math.Vec2
-import core.Camera
 
 
-object DrawAsset {
+class MaterialRenderer {
 
   private val batch = SpriteBatch()
 
-  fun update(camera: Camera) {
-    batch.projectionMatrix = camera.projectionMatrix()
-  }
-
-  fun draw(texture: Texture, where: Vec2, angle: Float) {
+  fun draw(material: Material, where: Vec2, angle: Float, matrix: Matrix4) {
+    val texture = material.diffuse!!
     val vertices = calcSpriteQuad(where, angle + FastMath.pi / 2, texture.width.toFloat())
+    batch.projectionMatrix = matrix
     batch.begin()
     batch.draw(texture, vertices, 0, vertices.size)
     batch.end()
@@ -35,7 +33,7 @@ object DrawAsset {
   }
 
   private fun calcQuad(a: Vec2, b: Vec2, c: Vec2, d: Vec2): FloatArray {
-    val color = com.badlogic.gdx.graphics.Color.WHITE.toFloatBits();
+    val color = Color.WHITE.toFloatBits();
     return floatArrayOf(
       a.x, a.y, color, 0f, 0f,
       b.x, b.y, color, 1f, 0f,
