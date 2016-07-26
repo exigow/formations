@@ -8,6 +8,8 @@ import game.PlayerContext
 import game.World
 import rendering.Color
 import rendering.Draw
+import rendering.FullscreenQuadTextureRenderer
+import rendering.GBuffer
 import rendering.ShipDebugRenderer.render
 import rendering.materials.MaterialRenderer
 import rendering.trails.TrailsBuffer
@@ -27,7 +29,8 @@ class Main {
 
   private val trailsRenderer = TrailsRenderer()
   private val materialRenderer = MaterialRenderer()
-  //private val fullscreenQuadRenderer = FullscreenQuadTextureRenderer()
+  private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
+  private val fullscreenQuadRenderer = FullscreenQuadTextureRenderer()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -52,18 +55,27 @@ class Main {
 
   fun render(delta: Float) {
     Draw.update(camera)
-    Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
-    world.allShips().forEach {
-      if (trailsMap.containsKey(it))
-        trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail").diffuse!!, camera.projectionMatrix())
-      materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
-      it.render(camera.normalizedRenderingScale())
+    gbuffer.clearDiffuse(Color.VERY_DARK_GRAY, 1f)
+    gbuffer.paintOnDiffuse {
+      Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     }
-    uiRenderer.render(delta)
-    TrailsDebugRenderer.render(buffer)
-
-
-    //fullscreenQuadRenderer.render(AssetsManager.peekMaterial("carrier").diffuse!!)
+    world.allShips().forEach {
+      gbuffer.paintOnDiffuse {
+        if (trailsMap.containsKey(it))
+          trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail").diffuse!!, camera.projectionMatrix())
+      }
+      gbuffer.paintOnDiffuse {
+        materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
+      }
+    }
+    gbuffer.paintOnDiffuse {
+      world.allShips().forEach {
+        it.render(camera.normalizedRenderingScale())
+      }
+      uiRenderer.render(delta)
+      TrailsDebugRenderer.render(buffer)
+    }
+    fullscreenQuadRenderer.render(gbuffer.diffuseTexture())
   }
 
 }
