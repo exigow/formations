@@ -23,7 +23,6 @@ class Main {
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
-  private val asset = AssetsManager.load()
   private val buffer = TrailsBuffer()
   private val trailsMap = world.allShips().filter { !it.config.displayedName.equals("Carrier") }.map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
   private val trailsRenderer = TrailsRenderer();
@@ -56,8 +55,8 @@ class Main {
     Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     world.allShips().forEach {
       if (trailsMap.containsKey(it))
-        trailsRenderer.render(trailsMap[it]!!, asset["trail"], camera.projectionMatrix())
-      DrawAsset.draw(asset[it.config.hullName + "-diffuse"], it.position, it.angle)
+        trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail").diffuse!!, camera.projectionMatrix())
+      DrawAsset.draw(AssetsManager.peekMaterial(it.config.hullName).diffuse!!, it.position, it.angle)
       it.render(camera.normalizedRenderingScale())
     }
     uiRenderer.render(delta)
