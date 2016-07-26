@@ -24,7 +24,7 @@ object DrawAsset {
 
   private fun calcSpriteQuad(where: Vec2, angle: Float, size: Float): FloatArray {
     val fixedAngle = angle + FastMath.pi / 4
-    val fixedSize = size / 2
+    val fixedSize = size / 4
     val cos = FastMath.cos(fixedAngle)
     val sin = FastMath.sin(fixedAngle)
     val a = where + Vec2(-cos, -sin) * fixedSize
