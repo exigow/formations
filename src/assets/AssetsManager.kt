@@ -18,7 +18,7 @@ object AssetsManager {
     throw RuntimeException("Unknown asset: $assetName")
   }
 
-  fun loadAllAssets(): Map<String, Any> {
+  private fun loadAllAssets(): Map<String, Any> {
     val map = HashMap<String, Any>()
     map.safePutAll(MaterialLoader.loadMaterials())
     map.safePutAll(ShaderProgramLoader.loadShaderPrograms())

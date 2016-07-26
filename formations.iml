@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/old" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/data-unused" />
+      <excludeFolder url="file://$MODULE_DIR$/inspirations" />
       <excludeFolder url="file://$MODULE_DIR$/src/old" />
     </content>
     <orderEntry type="inheritedJdk" />

@@ -63,7 +63,7 @@ class Main {
     TrailsDebugRenderer.render(buffer)
 
 
-    //fullscreenQuadRenderer.render(asset["carrier-diffuse"])
+    //fullscreenQuadRenderer.render(AssetsManager.peekMaterial("carrier").diffuse!!)
   }
 
 }
