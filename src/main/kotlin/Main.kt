@@ -1,6 +1,7 @@
 import assets.AssetsManager
 import assets.ShaderProgramLoader
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import commons.math.Vec2
 import core.Camera
@@ -84,102 +85,5 @@ class Main {
     fullscreenQuadRenderer.render(mrt.getBufferTexture(0))
 
   }
-
-  private val shader = ShaderProgram(
-    """
-in vec3 a_position;
-in vec3 a_normal;
-
-#ifdef texturedFlag
-in vec2 a_texCoord0;
-in vec3 a_tangent;
-in vec3 a_binormal;
-#else
-in vec4 a_color;
-#endif
-
-uniform mat4 u_worldTrans;
-uniform mat4 u_projViewTrans;
-uniform mat3 u_normalMatrix;
-
-out vec3 v_normal;
-out vec3 v_position;
-
-#ifdef texturedFlag
-out vec3 v_tangent;
-out vec3 v_binormal;
-out vec2 v_texCoords;
-#else
-out vec4 v_color;
-#endif
-
-void main() {
-
-    v_normal = normalize(u_normalMatrix * a_normal);
-
-    #ifdef texturedFlag
-        v_tangent = normalize(u_normalMatrix * a_tangent);
-        v_binormal = normalize(u_normalMatrix * a_binormal);
-        v_texCoords = a_texCoord0;
-    #else
-        v_color = a_color;
-    #endif
-
-    vec4 position = u_worldTrans * vec4(a_position, 1.0);
-    v_position = position.xyz;
-
-    vec4 pos = u_projViewTrans * position;
-    gl_Position = pos;
-}
-    """,
-    """
-    #ifdef GL_ES
-precision mediump float;
-#endif
-
-#ifdef texturedFlag
-uniform sampler2D u_diffuseTexture;
-uniform sampler2D u_specularTexture;
-uniform sampler2D u_normalTexture;
-#endif
-
-in vec3 v_normal;
-in vec3 v_position;
-
-#ifdef texturedFlag
-in vec3 v_tangent;
-in vec3 v_binormal;
-in vec2 v_texCoords;
-#else
-in vec4 v_color;
-#endif
-
-layout(location = 0) out vec4 diffuseOut;
-layout(location = 1) out vec3 normalOut;
-layout(location = 2) out vec3 positionOut;
-
-void main() {
-    #ifdef texturedFlag
-        vec4 diffuse = texture(u_diffuseTexture, v_texCoords);
-        vec4 specular = texture(u_specularTexture, v_texCoords);
-        vec3 normal = normalize(2.0 * texture(u_normalTexture, v_texCoords).xyz - 1.0);
-    #else
-        vec4 diffuse = v_color;
-        vec4 specular = vec4(1.0);
-    #endif
-
-    diffuseOut.rgb = diffuse.rgb;
-    diffuseOut.a = specular.r;
-
-    #ifdef texturedFlag
-        vec3 finnormal = normalize((v_tangent * normal.x) + (v_binormal * normal.y) + (v_normal * normal.z));
-        normalOut = finnormal;
-    #else
-        normalOut = v_normal;
-    #endif
-
-    positionOut = v_position;
-}
-    """)
 
 }

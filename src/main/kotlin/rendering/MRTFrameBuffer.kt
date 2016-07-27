@@ -21,25 +21,20 @@ class MRTFrameBuffer(val width: Int, val height: Int) {
     handle = Gdx.gl20.glGenFramebuffer()
     Gdx.gl20.glBindFramebuffer(GL20.GL_FRAMEBUFFER, handle)
 
-    val diffuse = createColorTexture(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest, GL30.GL_RGBA8, GL30.GL_RGBA, GL30.GL_UNSIGNED_BYTE)
-    val normal = createColorTexture(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest, GL30.GL_RGB8, GL30.GL_RGB, GL30.GL_UNSIGNED_BYTE)
-    val position = createColorTexture(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest, GL30.GL_RGB8, GL30.GL_RGB, GL30.GL_UNSIGNED_BYTE)
+    val diffuse  = createColorTexture(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest, GL30.GL_RGBA8, GL30.GL_RGBA, GL30.GL_UNSIGNED_BYTE)
+    val emissive = createColorTexture(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest, GL30.GL_RGBA8, GL30.GL_RGBA, GL30.GL_UNSIGNED_BYTE)
 
-    colorTextureHandlers = arrayOf(diffuse, normal, position)
+    colorTextureHandlers = arrayOf(diffuse, emissive)
 
-    Gdx.gl20.glFramebufferTexture2D(GL20.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL30.GL_TEXTURE_2D,
-      diffuse.textureObjectHandle, 0)
-    Gdx.gl20.glFramebufferTexture2D(GL20.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT1, GL30.GL_TEXTURE_2D,
-      normal.textureObjectHandle, 0)
-    Gdx.gl20.glFramebufferTexture2D(GL20.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT2, GL30.GL_TEXTURE_2D,
-      position.textureObjectHandle, 0)
+    Gdx.gl20.glFramebufferTexture2D(GL20.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL30.GL_TEXTURE_2D, diffuse.textureObjectHandle, 0)
+    Gdx.gl20.glFramebufferTexture2D(GL20.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT1, GL30.GL_TEXTURE_2D, emissive.textureObjectHandle, 0)
 
-    val buffer = BufferUtils.newIntBuffer(3)
+    val attachmentsCount = 2
+    val buffer = BufferUtils.newIntBuffer(attachmentsCount)
     buffer.put(GL30.GL_COLOR_ATTACHMENT0)
     buffer.put(GL30.GL_COLOR_ATTACHMENT1)
-    buffer.put(GL30.GL_COLOR_ATTACHMENT2)
     buffer.position(0)
-    Gdx.gl30.glDrawBuffers(3, buffer)
+    Gdx.gl30.glDrawBuffers(attachmentsCount, buffer)
 
     Gdx.gl20.glBindRenderbuffer(GL20.GL_RENDERBUFFER, 0)
     Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, 0)
@@ -50,8 +45,6 @@ class MRTFrameBuffer(val width: Int, val height: Int) {
 
     if (result != GL20.GL_FRAMEBUFFER_COMPLETE)
       throw RuntimeException()
-
-
   }
 
   private fun createColorTexture(min: Texture.TextureFilter, mag: Texture.TextureFilter, internalformat: Int, format: Int, type: Int): Texture {
@@ -63,29 +56,13 @@ class MRTFrameBuffer(val width: Int, val height: Int) {
   }
 
   fun begin () {
-    bind();
-    setFrameBufferViewport();
-  }
-
-  fun setFrameBufferViewport () {
+    Gdx.gl20.glBindFramebuffer(GL20.GL_FRAMEBUFFER, handle);
     Gdx.gl20.glViewport(0, 0, width, height);
   }
 
-  fun bind () {
-    Gdx.gl20.glBindFramebuffer(GL20.GL_FRAMEBUFFER, handle);
-  }
-
-  fun unbind () {
+  fun end() {
     Gdx.gl20.glBindFramebuffer(GL20.GL_FRAMEBUFFER, 0);
-  }
-
-  fun end () {
-    end(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-  }
-
-  fun end (x: Int, y: Int, width: Int, height: Int) {
-    unbind();
-    Gdx.gl20.glViewport(x, y, width, height);
+    Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height);
   }
 
   fun getBufferTexture(place: Int) = colorTextureHandlers[place]

@@ -15,10 +15,15 @@ object ShaderProgramLoader {
     }.toMap()
   }
 
-  private fun loadShader(id: String, files: Array<File>) = ShaderProgram(
-    files.findMatching(id, "vertex")!!.loadAsString(),
-    files.findMatching(id, "fragment")!!.loadAsString()
-  )
+  private fun loadShader(id: String, files: Array<File>): ShaderProgram {
+    val shader = ShaderProgram(
+      files.findMatching(id, "vertex")!!.loadAsString(),
+      files.findMatching(id, "fragment")!!.loadAsString()
+    )
+    if (!shader.isCompiled)
+      throw RuntimeException("shader $id not compiled")
+    return shader
+  }
 
   private fun File.toIdentifier() = name.substringBefore('-', name.removeSuffix(".glsl"))
 
