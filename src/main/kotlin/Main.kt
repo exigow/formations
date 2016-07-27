@@ -1,15 +1,15 @@
 import assets.AssetsManager
-import assets.ShaderProgramLoader
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
-import rendering.*
+import rendering.Color
+import rendering.Draw
+import rendering.FullscreenQuadTextureRenderer
+import rendering.GBuffer
 import rendering.ShipDebugRenderer.render
 import rendering.materials.MaterialRenderer
 import rendering.trails.TrailsBuffer
@@ -23,16 +23,13 @@ class Main {
   private val camera = Camera()
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
-  //private val uiRenderer = UserInterfaceRenderer(context, camera, world)
+  private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val buffer = TrailsBuffer()
   private val trailsMap = world.allShips().filter { !it.config.displayedName.equals("Carrier") }.map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
-
-  /*private val trailsRenderer = TrailsRenderer()
+  private val trailsRenderer = TrailsRenderer()
   private val materialRenderer = MaterialRenderer()
-  private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)*/
+  private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val fullscreenQuadRenderer = FullscreenQuadTextureRenderer()
-
-  private val mrt = MRTFrameBuffer(Gdx.graphics.width, Gdx.graphics.height)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -57,12 +54,7 @@ class Main {
 
   fun render(delta: Float) {
     Draw.update(camera)
-
-    mrt.begin()
-
-    mrt.end()
-
-    /*gbuffer.clearDiffuse(Color.VERY_DARK_GRAY, 1f)
+    gbuffer.clearDiffuse(Color.VERY_DARK_GRAY, 1f)
     gbuffer.paintOnDiffuse {
       Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     }
@@ -81,9 +73,8 @@ class Main {
       }
       uiRenderer.render(delta)
       TrailsDebugRenderer.render(buffer)
-    }*/
-    fullscreenQuadRenderer.render(mrt.getBufferTexture(0))
-
+    }
+    fullscreenQuadRenderer.render(gbuffer.diffuseTexture())
   }
 
 }
