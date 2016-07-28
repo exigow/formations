@@ -12,15 +12,15 @@ class FullscreenQuadTextureRenderer {
     texture.bind(0)
     val shader = AssetsManager.peekShader("fullscreenQuadShader")
     shader.begin()
-    shader.setUniformi("u_texture", 0);
+    shader.setUniformi("texture", 0);
     mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
     shader.end()
   }
 
   private fun initialiseMesh(): Mesh {
     val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,
-      VertexAttribute(VertexAttributes.Usage.Position, 2, "a_position"),
-      VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "a_texCoord0")
+      VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
+      VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
     );
     val vertices = initialiseVertices()
     mesh.setVertices(vertices)

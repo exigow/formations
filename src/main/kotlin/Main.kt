@@ -72,7 +72,7 @@ class Main {
       uiRenderer.render(delta)
       TrailsDebugRenderer.render(buffer)
     }
-    fullscreenQuadRenderer.render(gbuffer.emissiveTexture())
+    fullscreenQuadRenderer.render(gbuffer.diffuseTexture())
   }
 
 }
