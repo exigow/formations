@@ -43,7 +43,7 @@ class MaterialRenderer(val gbuffer: GBuffer) {
       Vec2(1, -1),
       Vec2(1, 1),
       Vec2(-1, 1)
-    ).scale(size / 4)
+    ).scale(size / 8)
     .rotate(angle + FastMath.pi / 2)
     .translate(position)
 
