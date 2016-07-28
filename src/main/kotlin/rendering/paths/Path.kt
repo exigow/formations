@@ -1,17 +1,18 @@
 package rendering.paths
 
 import commons.math.Vec2
+import commons.math.Vec2.Transformations.rotate
+import commons.math.Vec2.Transformations.scale
+import commons.math.Vec2.Transformations.translate
 import java.util.*
 
-class Path(val elements: List<Vec2>) {
+data class Path(val elements: List<Vec2>) {
 
-  // todo use Vec2.Transformations
+  fun scale(scalar: Vec2) = copy(elements.scale(scalar))
 
-  fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
+  fun translate(translation: Vec2) = copy(elements.translate(translation))
 
-  fun translate(translation: Vec2) = Path(elements.map { it + translation })
-
-  fun rotate(angle: Float) = Path(elements.map { it.rotate(angle) })
+  fun rotate(angle: Float) = copy(elements.rotate(angle))
 
   fun subdivide(): Path {
     val result: MutableList<Vec2> = ArrayList()
