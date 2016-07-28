@@ -1,35 +1,16 @@
 package rendering
 
+import assets.AssetsManager
 import com.badlogic.gdx.graphics.*
-import com.badlogic.gdx.graphics.glutils.ShaderProgram
 
 
 class FullscreenQuadTextureRenderer {
 
   private val mesh = initialiseMesh()
-  private val shader = ShaderProgram(
-    """
-    attribute vec4 a_position;
-    attribute vec2 a_texCoord0;
-    varying vec2 v_texCoords;
-
-    void main() {
-      v_texCoords = a_texCoord0;
-      gl_Position = a_position;
-    }
-    """,
-    """
-    varying vec2 v_texCoords;
-    uniform sampler2D u_texture;
-
-    void main() {
-        gl_FragColor = texture2D(u_texture, v_texCoords);
-    }
-    """
-  )
 
   fun render(texture: Texture) {
     texture.bind(0)
+    val shader = AssetsManager.peekShader("fullscreenQuadShader")
     shader.begin()
     shader.setUniformi("u_texture", 0);
     mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
