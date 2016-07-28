@@ -113,6 +113,16 @@ data class Vec2(val x: Float, val y: Float) {
 
   }
 
+  object Transformations {
+
+    fun List<Vec2>.rotate(angle: Float): List<Vec2> = map { it.rotate(angle) }
+
+    fun List<Vec2>.translate(translation: Vec2): List<Vec2> = map { it.plus(translation) }
+
+    fun List<Vec2>.scale(translation: Vec2): List<Vec2> = map { it.times(translation) }
+
+  }
+
   override fun toString() = "($x, $y)"
 
 }

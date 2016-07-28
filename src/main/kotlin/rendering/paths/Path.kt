@@ -5,6 +5,8 @@ import java.util.*
 
 class Path(val elements: List<Vec2>) {
 
+  // todo use Vec2.Transformations
+
   fun scale(scalar: Vec2) = Path(elements.map { it * scalar })
 
   fun translate(translation: Vec2) = Path(elements.map { it + translation })
