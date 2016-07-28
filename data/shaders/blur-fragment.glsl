@@ -1,9 +1,9 @@
 uniform sampler2D texture;
+uniform vec2 scale;
 
 varying vec2 texCoord;
 
 void main() {
-    vec2 scale = vec2(1.0 / 1600.0, 0); // 1600, 900
     vec4 color = vec4(0);
     vec2 stage1 = vec2(1.411764705882353) * scale;
     vec2 stage2 = vec2(3.2941176470588234) * scale;

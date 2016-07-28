@@ -6,10 +6,14 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
+import commons.math.Vec2
 import rendering.utils.FullscreenQuad
 
 
 class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffer) {
+
+  private val temporaryBuffer = setUpSubBuffer(emissive.width, emissive.height)
+  private val temporaryBuffer2 = setUpSubBuffer(emissive.width, emissive.height)
 
   companion object  {
 
@@ -27,14 +31,14 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
 
   }
 
-  fun paintOnDiffuse(f: () -> Unit) = paintOn(diffuse, f)
+  fun paintOnDiffuse(f: () -> Unit) = diffuse.paintOn(f)
 
-  fun paintOnEmissive(f: () -> Unit) = paintOn(emissive, f)
+  fun paintOnEmissive(f: () -> Unit) = emissive.paintOn(f)
 
-  private fun paintOn(buffer: FrameBuffer, f: () -> Unit) {
-    buffer.begin()
+  private fun FrameBuffer.paintOn(f: () -> Unit) {
+    begin()
     f.invoke()
-    buffer.end()
+    end()
   }
 
   fun clear() {
@@ -50,14 +54,31 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
   }
 
   fun showCombined() {
+    val scale = 1f // in pixels
+    val size = Vec2(scale / emissive.width, scale / emissive.height)
+    blurBuffer(emissive.colorBufferTexture, temporaryBuffer, size.onlyX())
+    blurBuffer(temporaryBuffer.colorBufferTexture, temporaryBuffer2, size.onlyY())
+
     diffuse.colorBufferTexture.bind(0)
-    emissive.colorBufferTexture.bind(1)
+    temporaryBuffer2.colorBufferTexture.bind(1)
     val shader = AssetsManager.peekShader("combineGbuffer")
     shader.begin()
     shader.setUniformi("textureDiffuse", 0);
     shader.setUniformi("textureEmissive", 1);
     FullscreenQuad.renderWith(shader)
     shader.end()
+  }
+
+  private fun blurBuffer(source: Texture, destination: FrameBuffer, vector: Vec2) {
+    destination.paintOn {
+      source.bind(0)
+      val shader = AssetsManager.peekShader("blur")
+      shader.begin()
+      shader.setUniformi("texture", 0);
+      shader.setUniform2fv("scale", floatArrayOf(vector.x, vector.y), 0, 2)
+      FullscreenQuad.renderWith(shader)
+      shader.end()
+    }
   }
 
 }
