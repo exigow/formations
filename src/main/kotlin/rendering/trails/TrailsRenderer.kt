@@ -2,10 +2,7 @@ package rendering.trails
 
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Mesh
-import com.badlogic.gdx.graphics.VertexAttribute
-import com.badlogic.gdx.graphics.VertexAttributes
+import com.badlogic.gdx.graphics.*
 import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
 import rendering.GBuffer
@@ -22,16 +19,21 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
   fun render(trail: TrailsBuffer.Trail, material: Material, matrix: Matrix4) {
     applyAdditiveBlending {
       mesh.setVertices(calculateTrailArray(trail.list))
-      gbuffer.paintOnDiffuse {
-        material.diffuse!!.bind(0)
-        val shader = AssetsManager.peekShader("trailShader")
+      fun paint(withTexture: Texture, shaderName: String) {
+        val shader = AssetsManager.peekShader(shaderName)
+        withTexture.bind(0)
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
         shader.setUniformi("texture", 0);
         mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
         shader.end();
       }
-      // todo paint something on emissive
+      gbuffer.paintOnDiffuse {
+        paint(material.diffuse!!, "trailShader")
+      }
+      gbuffer.paintOnEmissive {
+        paint(material.emissive!!, "trailShaderEmissive")
+      }
     }
   }
 
