@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
 import rendering.GBuffer
 import rendering.materials.Material
+import rendering.utils.Blender
 
 class TrailsRenderer(private val gbuffer: GBuffer) {
 
@@ -17,7 +18,7 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
   );
 
   fun render(trail: TrailsBuffer.Trail, material: Material, matrix: Matrix4) {
-    applyAdditiveBlending {
+    Blender.enableAdditive {
       mesh.setVertices(calculateTrailArray(trail.list))
       fun paint(withTexture: Texture, shaderName: String) {
         val shader = AssetsManager.peekShader(shaderName)
@@ -69,14 +70,6 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
 
     fun toVerticesArray() = array
 
-  }
-
-  private fun applyAdditiveBlending(f: () -> Unit) {
-    val blending = GL20.GL_BLEND
-    Gdx.gl.glEnable(blending);
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-    f.invoke()
-    Gdx.gl.glDisable(blending);
   }
 
 }

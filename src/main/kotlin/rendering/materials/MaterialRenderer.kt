@@ -1,8 +1,10 @@
 package rendering.materials
 
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Texture
+import assets.AssetsManager
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.*
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
 import commons.math.FastMath
 import commons.math.Vec2
@@ -10,27 +12,34 @@ import commons.math.Vec2.Transformations.rotate
 import commons.math.Vec2.Transformations.scale
 import commons.math.Vec2.Transformations.translate
 import rendering.GBuffer
+import rendering.utils.Blender
 
 class MaterialRenderer(val gbuffer: GBuffer) {
 
-  private val batch = SpriteBatch()
+  private val mesh = initialiseMesh()
 
   fun draw(material: Material, where: Vec2, angle: Float, matrix: Matrix4) {
     val transformed = transformedQuad(material.size(), where, angle)
     val vertices = decomposeToVbo(transformed)
-    gbuffer.paintOnDiffuse {
-      paintWithBatch(material.diffuse!!, vertices, matrix)
-    }
-    gbuffer.paintOnEmissive {
-      paintWithBatch(material.emissive!!, vertices, matrix)
+    mesh.setVertices(vertices)
+    Blender.enableTransparency {
+      gbuffer.paintOnDiffuse {
+        paintWithBatch(material.diffuse!!, matrix)
+      }
+      gbuffer.paintOnEmissive {
+        paintWithBatch(material.emissive!!, matrix)
+      }
     }
   }
 
-  private fun paintWithBatch(texture: Texture, vertices: FloatArray, matrix: Matrix4) {
-    batch.projectionMatrix = matrix
-    batch.begin()
-    batch.draw(texture, vertices, 0, vertices.size)
-    batch.end()
+  private fun paintWithBatch(texture: Texture, matrix: Matrix4) {
+    val shader = AssetsManager.peekShader("materialDiffuse")
+    texture.bind(0)
+    shader.begin();
+    shader.setUniformMatrix("projection", matrix);
+    shader.setUniformi("texture", 0);
+    mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
+    shader.end();
   }
 
   private fun decomposeToVbo(vectors: List<Vec2>): FloatArray {
@@ -47,14 +56,19 @@ class MaterialRenderer(val gbuffer: GBuffer) {
     .rotate(angle + FastMath.pi / 2)
     .translate(position)
 
-  private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2): FloatArray {
-    val color = Color.WHITE.toFloatBits();
-    return floatArrayOf(
-      a.x, a.y, color, 0f, 0f,
-      b.x, b.y, color, 1f, 0f,
-      c.x, c.y, color, 1f, 1f,
-      d.x, d.y, color, 0f, 1f
-    )
+  private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2) = floatArrayOf(
+    a.x, a.y, 0f, 0f,
+    b.x, b.y, 1f, 0f,
+    c.x, c.y, 1f, 1f,
+    d.x, d.y, 0f, 1f
+  )
+
+  private fun initialiseMesh(): Mesh {
+    val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,
+      VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
+      VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
+    );
+    return mesh
   }
 
 }
