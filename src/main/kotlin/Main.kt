@@ -27,9 +27,9 @@ class Main {
   private val buffer = TrailsBuffer()
   private val trailsMap = world.allShips().filter { !it.config.displayedName.equals("Carrier") }.map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
   private val trailsRenderer = TrailsRenderer()
-  private val materialRenderer = MaterialRenderer()
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val fullscreenQuadRenderer = FullscreenQuadTextureRenderer()
+  private val materialRenderer = MaterialRenderer(gbuffer)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -54,7 +54,7 @@ class Main {
 
   fun render(delta: Float) {
     Draw.update(camera)
-    gbuffer.clearDiffuse(Color.VERY_DARK_GRAY, 1f)
+    gbuffer.clear()
     gbuffer.paintOnDiffuse {
       Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     }
@@ -63,9 +63,7 @@ class Main {
         if (trailsMap.containsKey(it))
           trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail").diffuse!!, camera.projectionMatrix())
       }
-      gbuffer.paintOnDiffuse {
-        materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
-      }
+      materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
     }
     gbuffer.paintOnDiffuse {
       world.allShips().forEach {
@@ -74,7 +72,7 @@ class Main {
       uiRenderer.render(delta)
       TrailsDebugRenderer.render(buffer)
     }
-    fullscreenQuadRenderer.render(gbuffer.diffuseTexture())
+    fullscreenQuadRenderer.render(gbuffer.emissiveTexture())
   }
 
 }

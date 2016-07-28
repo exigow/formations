@@ -27,6 +27,8 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
 
   fun paintOnDiffuse(f: () -> Unit) = paintOn(diffuse, f)
 
+  fun paintOnEmissive(f: () -> Unit) = paintOn(emissive, f)
+
   private fun paintOn(buffer: FrameBuffer, f: () -> Unit) {
     buffer.begin()
     f.invoke()
@@ -35,7 +37,14 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
 
   fun diffuseTexture() = diffuse.colorBufferTexture
 
-  fun clearDiffuse(color: Color, alpha: Float) = paintOnDiffuse { clearBuffer(color, alpha) }
+  fun emissiveTexture() = emissive.colorBufferTexture
+
+  fun clear() {
+    val color = Color.BLACK
+    val alpha = 1f
+    paintOnDiffuse { clearBuffer(color, alpha) }
+    paintOnEmissive { clearBuffer(color, alpha) }
+  }
 
   private fun clearBuffer(color: Color, alpha: Float) {
     Gdx.gl.glClearColor(color.r, color.g, color.b, alpha)

@@ -9,15 +9,21 @@ import commons.math.Vec2
 import commons.math.Vec2.Transformations.rotate
 import commons.math.Vec2.Transformations.scale
 import commons.math.Vec2.Transformations.translate
+import rendering.GBuffer
 
-class MaterialRenderer {
+class MaterialRenderer(val gbuffer: GBuffer) {
 
   private val batch = SpriteBatch()
 
   fun draw(material: Material, where: Vec2, angle: Float, matrix: Matrix4) {
     val transformed = transformedQuad(material.size(), where, angle)
     val vertices = decomposeToVbo(transformed)
-    paintWithBatch(material.diffuse!!, vertices, matrix)
+    gbuffer.paintOnDiffuse {
+      paintWithBatch(material.diffuse!!, vertices, matrix)
+    }
+    gbuffer.paintOnEmissive {
+      paintWithBatch(material.emissive!!, vertices, matrix)
+    }
   }
 
   private fun paintWithBatch(texture: Texture, vertices: FloatArray, matrix: Matrix4) {
