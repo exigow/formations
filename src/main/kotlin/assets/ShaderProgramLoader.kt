@@ -15,7 +15,7 @@ object ShaderProgramLoader {
     }.toMap()
   }
 
-  private fun loadShader(id: String, files: Array<File>): ShaderProgram {
+  private fun loadShader(id: String, files: List<File>): ShaderProgram {
     val shader = ShaderProgram(
       files.findMatching(id, "vertex")!!.loadAsString(),
       files.findMatching(id, "fragment")!!.loadAsString()
@@ -27,7 +27,7 @@ object ShaderProgramLoader {
 
   private fun File.toIdentifier() = name.substringBefore('-', name.removeSuffix(".glsl"))
 
-  private fun Array<File>.findMatching(id: String, type: String) = this
+  private fun List<File>.findMatching(id: String, type: String) = this
     .filter { it.name.contains(id) }
     .filter { it.name.contains(type) }
     .firstOrNull()

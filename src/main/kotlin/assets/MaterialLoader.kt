@@ -16,12 +16,12 @@ object MaterialLoader {
     }.toMap()
   }
 
-  private fun loadMaterial(id: String, files: Array<File>) = Material(
+  private fun loadMaterial(id: String, files: List<File>) = Material(
     diffuse = files.findMatching(id, "diffuse")?.loadAsTexture(),
     emissive = files.findMatching(id, "emissive")?.loadAsTexture()
   )
 
-  private fun Array<File>.findMatching(id: String, type: String) = this
+  private fun List<File>.findMatching(id: String, type: String) = this
     .filter { it.name.contains(id) }
     .filter { it.name.contains(type) }
     .firstOrNull()
