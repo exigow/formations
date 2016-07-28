@@ -24,23 +24,29 @@ class MaterialRenderer(val gbuffer: GBuffer) {
     mesh.setVertices(vertices)
     Blender.enableTransparency {
       gbuffer.paintOnDiffuse {
-        paintWithBatch(material.diffuse!!, matrix)
+        val shader = AssetsManager.peekShader("materialDiffuse")
+        material.diffuse!!.bind(0)
+        shader.begin();
+        shader.setUniformMatrix("projection", matrix);
+        shader.setUniformi("texture", 0);
+        renderMesh(shader)
+        shader.end();
       }
       gbuffer.paintOnEmissive {
-        paintWithBatch(material.emissive!!, matrix)
+        val shader = AssetsManager.peekShader("materialEmissive")
+        material.diffuse!!.bind(0)
+        material.emissive!!.bind(1)
+        shader.begin();
+        shader.setUniformMatrix("projection", matrix);
+        shader.setUniformi("colorTexture", 0);
+        shader.setUniformi("texture", 1);
+        renderMesh(shader)
+        shader.end();
       }
     }
   }
 
-  private fun paintWithBatch(texture: Texture, matrix: Matrix4) {
-    val shader = AssetsManager.peekShader("materialDiffuse")
-    texture.bind(0)
-    shader.begin();
-    shader.setUniformMatrix("projection", matrix);
-    shader.setUniformi("texture", 0);
-    mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
-    shader.end();
-  }
+  private fun renderMesh(shader: ShaderProgram) = mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
 
   private fun decomposeToVbo(vectors: List<Vec2>): FloatArray {
     val i = vectors.iterator()
