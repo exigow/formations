@@ -29,6 +29,7 @@ class MaterialRenderer(val gbuffer: GBuffer) {
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
         shader.setUniformi("texture", 0);
+        shader.setUniform3fv("ambientColor", floatArrayOf(.67f, .79f, .975f), 0, 3)
         renderMesh(shader)
         shader.end();
       }
