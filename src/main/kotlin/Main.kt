@@ -8,7 +8,6 @@ import game.PlayerContext
 import game.World
 import rendering.Color
 import rendering.Draw
-import rendering.FullscreenQuadTextureRenderer
 import rendering.GBuffer
 import rendering.ShipDebugRenderer.render
 import rendering.materials.MaterialRenderer
@@ -26,9 +25,8 @@ class Main {
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val buffer = TrailsBuffer()
   private val trailsMap = world.allShips().filter { !it.config.displayedName.equals("Carrier") }.map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
-  private val trailsRenderer = TrailsRenderer()
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
-  private val fullscreenQuadRenderer = FullscreenQuadTextureRenderer()
+  private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
 
   init {
@@ -59,10 +57,8 @@ class Main {
       Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
     }
     world.allShips().forEach {
-      gbuffer.paintOnDiffuse {
-        if (trailsMap.containsKey(it))
-          trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail").diffuse!!, camera.projectionMatrix())
-      }
+      if (trailsMap.containsKey(it))
+        trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail"), camera.projectionMatrix())
       materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
     }
     gbuffer.paintOnDiffuse {
@@ -72,7 +68,7 @@ class Main {
       uiRenderer.render(delta)
       TrailsDebugRenderer.render(buffer)
     }
-    fullscreenQuadRenderer.render(gbuffer.diffuseTexture())
+    gbuffer.showCombined()
   }
 
 }

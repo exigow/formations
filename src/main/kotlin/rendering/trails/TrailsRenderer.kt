@@ -2,11 +2,16 @@ package rendering.trails
 
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.*
+import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Mesh
+import com.badlogic.gdx.graphics.VertexAttribute
+import com.badlogic.gdx.graphics.VertexAttributes
 import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
+import rendering.GBuffer
+import rendering.materials.Material
 
-class TrailsRenderer {
+class TrailsRenderer(private val gbuffer: GBuffer) {
 
   private val mesh = Mesh(true, 1024, 0,
     VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
@@ -14,16 +19,19 @@ class TrailsRenderer {
     VertexAttribute(VertexAttributes.Usage.Generic, 1, "lifeAttr")
   );
 
-  fun render(trail: TrailsBuffer.Trail, texture: Texture, matrix: Matrix4) {
+  fun render(trail: TrailsBuffer.Trail, material: Material, matrix: Matrix4) {
     applyAdditiveBlending {
       mesh.setVertices(calculateTrailArray(trail.list))
-      texture.bind(0)
-      val shader = AssetsManager.peekShader("trailShader")
-      shader.begin();
-      shader.setUniformMatrix("projection", matrix);
-      shader.setUniformi("texture", 0);
-      mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
-      shader.end();
+      gbuffer.paintOnDiffuse {
+        material.diffuse!!.bind(0)
+        val shader = AssetsManager.peekShader("trailShader")
+        shader.begin();
+        shader.setUniformMatrix("projection", matrix);
+        shader.setUniformi("texture", 0);
+        mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
+        shader.end();
+      }
+      // todo paint something on emissive
     }
   }
 

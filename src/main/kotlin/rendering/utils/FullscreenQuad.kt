@@ -1,21 +1,17 @@
-package rendering
+package rendering.utils
 
-import assets.AssetsManager
-import com.badlogic.gdx.graphics.*
+import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Mesh
+import com.badlogic.gdx.graphics.VertexAttribute
+import com.badlogic.gdx.graphics.VertexAttributes
+import com.badlogic.gdx.graphics.glutils.ShaderProgram
 
 
-class FullscreenQuadTextureRenderer {
+object FullscreenQuad {
 
   private val mesh = initialiseMesh()
 
-  fun render(texture: Texture) {
-    texture.bind(0)
-    val shader = AssetsManager.peekShader("fullscreenQuadShader")
-    shader.begin()
-    shader.setUniformi("texture", 0);
-    mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
-    shader.end()
-  }
+  fun renderWith(shader: ShaderProgram) = mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
 
   private fun initialiseMesh(): Mesh {
     val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,

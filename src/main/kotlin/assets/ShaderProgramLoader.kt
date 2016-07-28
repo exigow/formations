@@ -21,7 +21,7 @@ object ShaderProgramLoader {
       files.findMatching(id, "fragment")!!.loadAsString()
     )
     if (!shader.isCompiled)
-      throw RuntimeException("shader $id not compiled")
+      throw RuntimeException("Shader $id not compiled. Detailed log:\n${shader.log}")
     return shader
   }
 
