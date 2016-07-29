@@ -14,6 +14,7 @@ import rendering.materials.MaterialRenderer
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsDebugRenderer
 import rendering.trails.TrailsRenderer
+import rendering.utils.FullscreenQuad
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -46,29 +47,41 @@ class Main {
     buffer.update(delta)
     render(delta);
     trailsMap.forEach { e ->
-      e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 32f, Math.min(e.key.velocityAcceleration * 8 + .025f, 1f))
+      e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 16f, Math.min(e.key.velocityAcceleration * 8 + .025f, 1f))
     }
   }
 
   fun render(delta: Float) {
     Draw.update(camera)
     gbuffer.clear()
-    gbuffer.paintOnDiffuse {
+    renderBackgroundImage();
+    /*gbuffer.paintOnDiffuse {
       Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
-    }
+    }*/
     world.allShips().forEach {
       if (trailsMap.containsKey(it))
         trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail"), camera.projectionMatrix())
       materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
     }
     gbuffer.paintOnDiffuse {
-      world.allShips().forEach {
+      /*world.allShips().forEach {
         it.render(camera.normalizedRenderingScale())
-      }
+      }*/
       uiRenderer.render(delta)
-      TrailsDebugRenderer.render(buffer)
+      //TrailsDebugRenderer.render(buffer)
     }
     gbuffer.showCombined()
+  }
+
+  private fun renderBackgroundImage() {
+    gbuffer.paintOnDiffuse {
+      AssetsManager.peekMaterial("background").diffuse!!.bind(0)
+      val shader = AssetsManager.peekShader("fullscreenQuadShader")
+      shader.begin()
+      shader.setUniformi("texture", 0);
+      FullscreenQuad.renderWith(shader)
+      shader.end()
+    }
   }
 
 }
