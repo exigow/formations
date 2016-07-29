@@ -59,7 +59,7 @@ data class UnitConfiguration(
 
       brakeDistance = 96f,
 
-      trailDistance = -18f
+      trailDistance = -14f
     )
 
     fun bomber() = UnitConfiguration(
@@ -81,7 +81,7 @@ data class UnitConfiguration(
 
       brakeDistance = 96f,
 
-      trailDistance = -17f
+      trailDistance = -15f
     )
 
     fun carrier() = UnitConfiguration(
