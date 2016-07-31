@@ -18,15 +18,15 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
   /*private val temporaryBuffer = setUpSubBuffer(emissive.width, emissive.height)
   private val temporaryBuffer2 = setUpSubBuffer(emissive.width, emissive.height)*/
   private val combined = FrameBufferUtils.create(diffuse.width, diffuse.height)
-  private val cutoff = FrameBufferUtils.create(512)
+  //private val cutoff = FrameBufferUtils.create(512)
   /*private val tempA256 = setUpSubBuffer(256, 256)
   private val tempB256 = setUpSubBuffer(256, 256)
   private val tempA64 = setUpSubBuffer(64, 64)
   private val tempB64 = setUpSubBuffer(64, 64)*/
   private val emissiveBlurTool = BlurringTool(512)
 
-  private val bloomBlurTool = BlurringTool(256)
-  private val bloomBlurHaloTool = BlurringTool(128)
+  //private val bloomBlurTool = BlurringTool(256)
+  //private val bloomBlurHaloTool = BlurringTool(128)
   //private val bloomBlurTwoTool = BlurringTool(64)
 
   companion object  {
@@ -59,11 +59,13 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
 
     combined.paintOn {
       diffuse.colorBufferTexture.bind(0)
-      emissiveBlurred.colorBufferTexture.bind(1)
+      emissive.colorBufferTexture.bind(1)
+      emissiveBlurred.colorBufferTexture.bind(2)
       val shader = AssetsManager.peekShader("mixDiffuseWithEmissive")
       shader.begin()
       shader.setUniformi("textureDiffuse", 0);
       shader.setUniformi("textureEmissive", 1);
+      shader.setUniformi("textureEmissiveBlurred", 2);
       FullscreenQuad.renderWith(shader)
       shader.end()
     }
