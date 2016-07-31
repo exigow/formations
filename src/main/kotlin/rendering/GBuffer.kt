@@ -7,44 +7,40 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import commons.math.Vec2
+import rendering.utils.BlurringTool
+import rendering.utils.FrameBufferUtils
+import rendering.utils.FrameBufferUtils.paintOn
 import rendering.utils.FullscreenQuad
 
 
 class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffer) {
 
-  private val temporaryBuffer = setUpSubBuffer(emissive.width, emissive.height)
-  private val temporaryBuffer2 = setUpSubBuffer(emissive.width, emissive.height)
-  private val combined = setUpSubBuffer(diffuse.width, diffuse.height)
-  private val cutoff = setUpSubBuffer(256, 256)
-  private val lensflare = setUpSubBuffer(256, 256)
-  private val temp0 = setUpSubBuffer(256, 256)
-  private val temp1 = setUpSubBuffer(256, 256)
+  /*private val temporaryBuffer = setUpSubBuffer(emissive.width, emissive.height)
+  private val temporaryBuffer2 = setUpSubBuffer(emissive.width, emissive.height)*/
+  private val combined = FrameBufferUtils.create(diffuse.width, diffuse.height)
+  private val cutoff = FrameBufferUtils.create(512)
+  /*private val tempA256 = setUpSubBuffer(256, 256)
+  private val tempB256 = setUpSubBuffer(256, 256)
+  private val tempA64 = setUpSubBuffer(64, 64)
+  private val tempB64 = setUpSubBuffer(64, 64)*/
+  private val emissiveBlurTool = BlurringTool(512)
+
+  private val bloomBlurTool = BlurringTool(256)
+  private val bloomBlurHaloTool = BlurringTool(128)
+  //private val bloomBlurTwoTool = BlurringTool(64)
 
   companion object  {
 
     fun setUp(width: Int, height: Int) = GBuffer(
-      diffuse = setUpSubBuffer(width, height),
-      emissive = setUpSubBuffer(width / 2, height / 2)
+      diffuse = FrameBufferUtils.create(width, height),
+      emissive = FrameBufferUtils.create(512, 512)
     )
-
-    private fun setUpSubBuffer(width: Int, height: Int): FrameBuffer {
-      val buffer = FrameBuffer(Pixmap.Format.RGB888, width, height, false);
-      val wrap = Texture.TextureWrap.ClampToEdge
-      buffer.colorBufferTexture.setWrap(wrap, wrap);
-      return buffer;
-    }
 
   }
 
   fun paintOnDiffuse(f: () -> Unit) = diffuse.paintOn(f)
 
   fun paintOnEmissive(f: () -> Unit) = emissive.paintOn(f)
-
-  private fun FrameBuffer.paintOn(f: () -> Unit) {
-    begin()
-    f.invoke()
-    end()
-  }
 
   fun clear() {
     val color = Color.BLACK
@@ -59,11 +55,11 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
   }
 
   fun showCombined() {
-    blur(emissive, temporaryBuffer, temporaryBuffer2)
+    val emissiveBlurred = emissiveBlurTool.blur(emissive)
 
     combined.paintOn {
       diffuse.colorBufferTexture.bind(0)
-      temporaryBuffer2.colorBufferTexture.bind(1)
+      emissiveBlurred.colorBufferTexture.bind(1)
       val shader = AssetsManager.peekShader("mixDiffuseWithEmissive")
       shader.begin()
       shader.setUniformi("textureDiffuse", 0);
@@ -72,64 +68,40 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
       shader.end()
     }
 
-    thresholdBuffer(combined.colorBufferTexture, cutoff)
 
-    lensflareBuffer(cutoff.colorBufferTexture, lensflare)
-    blur(lensflare, temp0, temp1)
 
-    //show(temp1)
+    //computeThreshold(combined, cutoff)
 
-    combined.colorBufferTexture.bind(0)
-    temp1.colorBufferTexture.bind(1)
-    AssetsManager.peekMaterial("dirt").diffuse!!.bind(2)
-    val shader = AssetsManager.peekShader("lensPlusMix")
+    //lensflareBuffer(cutoff.colorBufferTexture, lensflare)
+    //blur(cutoff, tempA256, tempB256, 1f)
+    //blur(tempB256, tempA64, tempB64, 1f)
+
+    //val bloom = bloomBlurTool.blur(cutoff, Vec2(.75f, .75f))
+
+    //val bloomHalo = bloomBlurHaloTool.blur(bloom, Vec2(1.75f, .25f))
+
+    show(combined)
+
+    /*combined.colorBufferTexture.bind(0)
+    bloom.colorBufferTexture.bind(1)
+    bloomHalo.colorBufferTexture.bind(2)
+    val shader = AssetsManager.peekShader("addbloom")
     shader.begin()
     shader.setUniformi("textureClean", 0);
-    shader.setUniformi("textureLens", 1);
-    shader.setUniformi("textureDirt", 2);
+    shader.setUniformi("textureBloom", 1);
+    shader.setUniformi("textureBloomHalo", 2);
     FullscreenQuad.renderWith(shader)
-    shader.end()
+    shader.end()*/
   }
 
-  private fun blur(source: FrameBuffer, firstStage: FrameBuffer, secondStage: FrameBuffer) {
-    val size = Vec2(1f / firstStage.width, 1f / firstStage.height)
-    blurBuffer(source.colorBufferTexture, firstStage, size.onlyX())
-    blurBuffer(firstStage.colorBufferTexture, secondStage, size.onlyY())
-  }
-
-  private fun blurBuffer(source: Texture, destination: FrameBuffer, vector: Vec2) {
+  private fun computeThreshold(source: FrameBuffer, destination: FrameBuffer) {
     destination.paintOn {
-      source.bind(0)
-      val shader = AssetsManager.peekShader("blur")
-      shader.begin()
-      shader.setUniformi("texture", 0);
-      shader.setUniform2fv("scale", vector.toFloatArray(), 0, 2)
-      FullscreenQuad.renderWith(shader)
-      shader.end()
-    }
-  }
-
-  private fun thresholdBuffer(source: Texture, destination: FrameBuffer) {
-    destination.paintOn {
-      source.bind(0)
+      source.colorBufferTexture.bind(0)
       val shader = AssetsManager.peekShader("threshold")
       shader.begin()
       shader.setUniformi("texture", 0);
       shader.setUniformf("scale", 4f)
-      shader.setUniformf("bias", -.875f)
-      FullscreenQuad.renderWith(shader)
-      shader.end()
-    }
-  }
-
-  private fun lensflareBuffer(source: Texture, destination: FrameBuffer) {
-    destination.paintOn {
-      source.bind(0)
-      AssetsManager.peekMaterial("flareGradient").diffuse!!.bind(1)
-      val shader = AssetsManager.peekShader("lensflare")
-      shader.begin()
-      shader.setUniformi("texture", 0);
-      shader.setUniformi("gradient", 1)
+      shader.setUniformf("bias", -.675f)
       FullscreenQuad.renderWith(shader)
       shader.end()
     }
