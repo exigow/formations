@@ -60,6 +60,8 @@ data class Vec2(val x: Float, val y: Float) {
 
   fun rotate90Left() = copy(y, -x)
 
+  fun toFloatArray() = floatArrayOf(x, y)
+
   companion object {
 
     @JvmStatic fun zero() = Vec2(0f, 0f)

@@ -14,6 +14,11 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
 
   private val temporaryBuffer = setUpSubBuffer(emissive.width, emissive.height)
   private val temporaryBuffer2 = setUpSubBuffer(emissive.width, emissive.height)
+  private val combined = setUpSubBuffer(diffuse.width, diffuse.height)
+  private val cutoff = setUpSubBuffer(256, 256)
+  private val lensflare = setUpSubBuffer(256, 256)
+  private val temp0 = setUpSubBuffer(256, 256)
+  private val temp1 = setUpSubBuffer(256, 256)
 
   companion object  {
 
@@ -54,19 +59,42 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
   }
 
   fun showCombined() {
-    val scale = 1f // in pixels
-    val size = Vec2(scale / emissive.width, scale / emissive.height)
-    blurBuffer(emissive.colorBufferTexture, temporaryBuffer, size.onlyX())
-    blurBuffer(temporaryBuffer.colorBufferTexture, temporaryBuffer2, size.onlyY())
+    blur(emissive, temporaryBuffer, temporaryBuffer2)
 
-    diffuse.colorBufferTexture.bind(0)
-    temporaryBuffer2.colorBufferTexture.bind(1)
-    val shader = AssetsManager.peekShader("combineGbuffer")
+    combined.paintOn {
+      diffuse.colorBufferTexture.bind(0)
+      temporaryBuffer2.colorBufferTexture.bind(1)
+      val shader = AssetsManager.peekShader("mixDiffuseWithEmissive")
+      shader.begin()
+      shader.setUniformi("textureDiffuse", 0);
+      shader.setUniformi("textureEmissive", 1);
+      FullscreenQuad.renderWith(shader)
+      shader.end()
+    }
+
+    thresholdBuffer(combined.colorBufferTexture, cutoff)
+
+    lensflareBuffer(cutoff.colorBufferTexture, lensflare)
+    blur(lensflare, temp0, temp1)
+
+    //show(temp1)
+
+    combined.colorBufferTexture.bind(0)
+    temp1.colorBufferTexture.bind(1)
+    AssetsManager.peekMaterial("dirt").diffuse!!.bind(2)
+    val shader = AssetsManager.peekShader("lensPlusMix")
     shader.begin()
-    shader.setUniformi("textureDiffuse", 0);
-    shader.setUniformi("textureEmissive", 1);
+    shader.setUniformi("textureClean", 0);
+    shader.setUniformi("textureLens", 1);
+    shader.setUniformi("textureDirt", 2);
     FullscreenQuad.renderWith(shader)
     shader.end()
+  }
+
+  private fun blur(source: FrameBuffer, firstStage: FrameBuffer, secondStage: FrameBuffer) {
+    val size = Vec2(1f / firstStage.width, 1f / firstStage.height)
+    blurBuffer(source.colorBufferTexture, firstStage, size.onlyX())
+    blurBuffer(firstStage.colorBufferTexture, secondStage, size.onlyY())
   }
 
   private fun blurBuffer(source: Texture, destination: FrameBuffer, vector: Vec2) {
@@ -75,10 +103,45 @@ class GBuffer(private val diffuse: FrameBuffer, private val emissive: FrameBuffe
       val shader = AssetsManager.peekShader("blur")
       shader.begin()
       shader.setUniformi("texture", 0);
-      shader.setUniform2fv("scale", floatArrayOf(vector.x, vector.y), 0, 2)
+      shader.setUniform2fv("scale", vector.toFloatArray(), 0, 2)
       FullscreenQuad.renderWith(shader)
       shader.end()
     }
+  }
+
+  private fun thresholdBuffer(source: Texture, destination: FrameBuffer) {
+    destination.paintOn {
+      source.bind(0)
+      val shader = AssetsManager.peekShader("threshold")
+      shader.begin()
+      shader.setUniformi("texture", 0);
+      shader.setUniformf("scale", 4f)
+      shader.setUniformf("bias", -.875f)
+      FullscreenQuad.renderWith(shader)
+      shader.end()
+    }
+  }
+
+  private fun lensflareBuffer(source: Texture, destination: FrameBuffer) {
+    destination.paintOn {
+      source.bind(0)
+      AssetsManager.peekMaterial("flareGradient").diffuse!!.bind(1)
+      val shader = AssetsManager.peekShader("lensflare")
+      shader.begin()
+      shader.setUniformi("texture", 0);
+      shader.setUniformi("gradient", 1)
+      FullscreenQuad.renderWith(shader)
+      shader.end()
+    }
+  }
+
+  private fun show(buffer: FrameBuffer) {
+    buffer.colorBufferTexture.bind(0)
+    val shader = AssetsManager.peekShader("fullscreenQuadShader")
+    shader.begin()
+    shader.setUniformi("texture", 0);
+    FullscreenQuad.renderWith(shader)
+    shader.end()
   }
 
 }
