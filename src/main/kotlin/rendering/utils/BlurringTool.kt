@@ -5,13 +5,13 @@ import commons.math.Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
 
-class BlurringTool(private val size: Int) {
+class BlurringTool(private val canvasFunc: () -> Canvas) {
 
-  val tempBufferA = Canvas.setUpSquare(size)
-  val tempBufferB = Canvas.setUpSquare(size)
+  val tempBufferA = canvasFunc.invoke()
+  val tempBufferB = canvasFunc.invoke()
 
   fun blur(source: Texture, multiplier: Vec2 = Vec2.one()): Canvas {
-    val fixed = multiplier / size
+    val fixed = multiplier / Vec2(tempBufferA.width, tempBufferA.height)
     blurBuffer(source, tempBufferA, fixed.onlyX())
     blurBuffer(tempBufferA.texture, tempBufferB, fixed.onlyY())
     return tempBufferB

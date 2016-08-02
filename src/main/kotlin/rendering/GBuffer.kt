@@ -8,13 +8,13 @@ import rendering.utils.BlurringTool
 class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
 
   private val combined = Canvas.setUp(diffuse.width, diffuse.height)
-  private val emissiveBlurTool = BlurringTool(512)
+  private val emissiveBlurTool = BlurringTool({ Canvas.setUp(diffuse.width / 2, diffuse.height / 2) })
 
   companion object  {
 
     fun setUp(width: Int, height: Int) = GBuffer(
       diffuse = Canvas.setUp(width, height),
-      emissive = Canvas.setUp(512, 512)
+      emissive = Canvas.setUp(width / 2, height / 2)
     )
 
   }
