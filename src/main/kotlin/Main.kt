@@ -6,15 +6,12 @@ import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
-import rendering.Color
 import rendering.Draw
 import rendering.GBuffer
-import rendering.ShipDebugRenderer.render
+import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
 import rendering.trails.TrailsBuffer
-import rendering.trails.TrailsDebugRenderer
 import rendering.trails.TrailsRenderer
-import rendering.utils.FullscreenQuad
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -45,10 +42,10 @@ class Main {
     actions.update(delta)
     world.update(delta)
     buffer.update(delta)
-    render(delta);
     trailsMap.forEach { e ->
       e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 16f, Math.min(e.key.velocityAcceleration * 8 + .025f, 1f))
     }
+    render(delta);
   }
 
   fun render(delta: Float) {

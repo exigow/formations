@@ -1,25 +1,26 @@
 package rendering.utils
 
 import assets.AssetsManager
-import com.badlogic.gdx.graphics.glutils.FrameBuffer
+import com.badlogic.gdx.graphics.Texture
 import commons.math.Vec2
-import rendering.utils.FrameBufferUtils.paintOn
+import rendering.canvas.Canvas
+import rendering.canvas.FullscreenQuad
 
 class BlurringTool(private val size: Int) {
 
-  val tempBufferA = FrameBufferUtils.create(size)
-  val tempBufferB = FrameBufferUtils.create(size)
+  val tempBufferA = Canvas.setUpSquare(size)
+  val tempBufferB = Canvas.setUpSquare(size)
 
-  fun blur(source: FrameBuffer, multiplier: Vec2 = Vec2.one()): FrameBuffer {
+  fun blur(source: Texture, multiplier: Vec2 = Vec2.one()): Canvas {
     val fixed = multiplier / size
     blurBuffer(source, tempBufferA, fixed.onlyX())
-    blurBuffer(tempBufferA, tempBufferB, fixed.onlyY())
+    blurBuffer(tempBufferA.texture, tempBufferB, fixed.onlyY())
     return tempBufferB
   }
 
-  private fun blurBuffer(source: FrameBuffer, destination: FrameBuffer, vector: Vec2) {
-    destination.paintOn {
-      source.colorBufferTexture.bind(0)
+  private fun blurBuffer(source: Texture, destination: Canvas, vector: Vec2) {
+    destination.paint {
+      source.bind(0)
       val shader = AssetsManager.peekShader("blur")
       shader.begin()
       shader.setUniformi("texture", 0);

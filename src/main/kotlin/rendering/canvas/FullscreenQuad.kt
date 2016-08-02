@@ -1,4 +1,4 @@
-package rendering.utils
+package rendering.canvas
 
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Mesh
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.VertexAttributes
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 
 
-object FullscreenQuad {
+internal object FullscreenQuad {
 
   private val mesh = initialiseMesh()
 
