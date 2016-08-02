@@ -1,8 +1,7 @@
 package rendering
 
-import assets.AssetsManager
 import rendering.canvas.Canvas
-import rendering.canvas.FullscreenQuad
+import rendering.canvas.ShaderEffect
 import rendering.utils.BlurringTool
 
 
@@ -31,18 +30,12 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
 
   fun showCombined() {
     val emissiveBlurred = emissiveBlurTool.blur(emissive.texture)
-
     combined.paint {
-      diffuse.texture.bind(0)
-      emissive.texture.bind(1)
-      emissiveBlurred.texture.bind(2)
-      val shader = AssetsManager.peekShader("mixDiffuseWithEmissive")
-      shader.begin()
-      shader.setUniformi("textureDiffuse", 0);
-      shader.setUniformi("textureEmissive", 1);
-      shader.setUniformi("textureEmissiveBlurred", 2);
-      FullscreenQuad.renderWith(shader)
-      shader.end()
+      ShaderEffect.fromShader("mixDiffuseWithEmissive")
+        .bind("textureDiffuse", diffuse)
+        .bind("textureEmissive", emissive)
+        .bind("textureEmissiveBlurred", emissiveBlurred)
+        .showAsQuad()
     }
 
 
@@ -57,7 +50,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
 
     //val bloomHalo = bloomBlurHaloTool.blur(bloom, Vec2(1.75f, .25f))
 
-    combined.show()
+    combined.showAsQuad()
 
     /*combined.colorBufferTexture.bind(0)
     bloom.colorBufferTexture.bind(1)

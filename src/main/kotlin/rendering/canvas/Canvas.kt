@@ -1,6 +1,5 @@
 package rendering.canvas
 
-import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Pixmap
@@ -26,14 +25,9 @@ class Canvas(private val buffer: FrameBuffer) {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
   }
 
-  fun show() {
-    texture.bind(0)
-    val shader = AssetsManager.peekShader("fullscreenQuadShader")
-    shader.begin()
-    shader.setUniformi("texture", 0);
-    FullscreenQuad.renderWith(shader)
-    shader.end()
-  }
+  fun showAsQuad() = ShaderEffect.fromShader("fullscreenQuadShader")
+    .bind("texture", this)
+    .showAsQuad()
 
   companion object {
 

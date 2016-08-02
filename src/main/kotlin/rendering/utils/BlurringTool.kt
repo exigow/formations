@@ -1,10 +1,9 @@
 package rendering.utils
 
-import assets.AssetsManager
 import com.badlogic.gdx.graphics.Texture
 import commons.math.Vec2
 import rendering.canvas.Canvas
-import rendering.canvas.FullscreenQuad
+import rendering.canvas.ShaderEffect
 
 class BlurringTool(private val size: Int) {
 
@@ -18,16 +17,11 @@ class BlurringTool(private val size: Int) {
     return tempBufferB
   }
 
-  private fun blurBuffer(source: Texture, destination: Canvas, vector: Vec2) {
-    destination.paint {
-      source.bind(0)
-      val shader = AssetsManager.peekShader("blur")
-      shader.begin()
-      shader.setUniformi("texture", 0);
-      shader.setUniform2fv("scale", vector.toFloatArray(), 0, 2)
-      FullscreenQuad.renderWith(shader)
-      shader.end()
-    }
+  private fun blurBuffer(source: Texture, destination: Canvas, vector: Vec2) = destination.paint {
+    ShaderEffect.fromShader("blur")
+      .bind("texture", source)
+      .parametrize("scale", vector)
+      .showAsQuad()
   }
 
 }
