@@ -1,6 +1,7 @@
 package rendering
 
 import assets.AssetsManager
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import commons.math.Vec2
 import rendering.canvas.Canvas
@@ -15,7 +16,6 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
   private val threshold = Canvas.setUp(512, 512)
   private val lensFlares = Canvas.setUp(512, 512)
   private val lensBlurTool = DoublePassBlurringTool({ Canvas.setUp(512, 512) })
-  private val bloomBlurTool = DoublePassBlurringTool({ Canvas.setUp(512, 512) })
 
   companion object  {
 
@@ -42,6 +42,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
         .bind("textureDiffuse", diffuse)
         .bind("textureEmissive", emissive)
         .bind("textureEmissiveBlurred", emissiveBlurred)
+        .parametrize("noiseOffset", (System.currentTimeMillis() % 16).toFloat())
         .showAsQuad()
     }
 
