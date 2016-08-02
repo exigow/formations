@@ -16,6 +16,8 @@ float calculateVignette(vec2 coord) {
     return clamp(pow(vig, 0.25), 0, 1);
 }
 
+// todo CHROMATIC ABBERATION
+
 void main() {
     vec3 diffuse = texture2D(textureDiffuse, texCoord).rgb;
     vec3 emissive = texture2D(textureEmissive, texCoord).rgb * .5;
