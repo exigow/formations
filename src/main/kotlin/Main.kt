@@ -26,6 +26,7 @@ class Main {
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
+  //private val shape = ShapeRenderer() // todo remove
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -66,6 +67,11 @@ class Main {
       }*/
       uiRenderer.render(delta)
       //TrailsDebugRenderer.render(buffer)
+
+      /*shape.projectionMatrix = camera.projectionMatrix()
+      shape.begin(ShapeRenderer.ShapeType.Filled)
+      shape.circle(camera.mousePosition().x, camera.mousePosition().y, 16f)
+      shape.end()*/
     }
     gbuffer.showCombined()
   }

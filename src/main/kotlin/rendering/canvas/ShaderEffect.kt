@@ -24,6 +24,11 @@ class ShaderEffect(private val shader: ShaderProgram) {
     return this
   }
 
+  fun parametrize(uniformName: String, value: Float): ShaderEffect {
+    vecBindings.put(uniformName, floatArrayOf(value))
+    return this
+  }
+
   fun showAsQuad() {
     shader.begin()
     var bindPivot = 0
@@ -34,6 +39,7 @@ class ShaderEffect(private val shader: ShaderProgram) {
     }
     for (entry in vecBindings) {
       when (entry.value.size) {
+        1 -> shader.setUniformf(entry.key, entry.value.first())
         2 -> shader.setUniform2fv(entry.key, entry.value, 0, 2)
         else -> RuntimeException("Unsupported float array parameter")
       }

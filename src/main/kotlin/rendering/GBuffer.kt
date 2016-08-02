@@ -1,14 +1,21 @@
 package rendering
 
+import assets.AssetsManager
+import com.badlogic.gdx.graphics.Texture
+import commons.math.Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
-import rendering.utils.BlurringTool
+import rendering.utils.DoublePassBlurringTool
 
 
 class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
 
   private val combined = Canvas.setUp(diffuse.width, diffuse.height)
-  private val emissiveBlurTool = BlurringTool({ Canvas.setUp(diffuse.width / 2, diffuse.height / 2) })
+  private val emissiveBlurTool = DoublePassBlurringTool({ Canvas.setUp(diffuse.width / 2, diffuse.height / 2) })
+  private val threshold = Canvas.setUp(512, 512)
+  private val lensFlares = Canvas.setUp(512, 512)
+  private val lensBlurTool = DoublePassBlurringTool({ Canvas.setUp(512, 512) })
+  private val bloomBlurTool = DoublePassBlurringTool({ Canvas.setUp(512, 512) })
 
   companion object  {
 
@@ -38,43 +45,33 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
         .showAsQuad()
     }
 
+    val thresholdBlur = prepareBlurredThreshold()
 
+    lensFlares.paint {
+      ShaderEffect.fromShader("lensflare")
+        .bind("texture", thresholdBlur)
+        .bind("gradient", AssetsManager.peekMaterial("flareGradient").diffuse!!)
+        .showAsQuad()
+    }
 
-    //computeThreshold(combined, cutoff)
-
-    //lensflareBuffer(cutoff.colorBufferTexture, lensflare)
-    //blur(cutoff, tempA256, tempB256, 1f)
-    //blur(tempB256, tempA64, tempB64, 1f)
-
-    //val bloom = bloomBlurTool.blur(cutoff, Vec2(.75f, .75f))
-
-    //val bloomHalo = bloomBlurHaloTool.blur(bloom, Vec2(1.75f, .25f))
-
-    combined.showAsQuad()
-
-    /*combined.colorBufferTexture.bind(0)
-    bloom.colorBufferTexture.bind(1)
-    bloomHalo.colorBufferTexture.bind(2)
-    val shader = AssetsManager.peekShader("addbloom")
-    shader.begin()
-    shader.setUniformi("textureClean", 0);
-    shader.setUniformi("textureBloom", 1);
-    shader.setUniformi("textureBloomHalo", 2);
-    FullscreenQuad.renderWith(shader)
-    shader.end()*/
+    ShaderEffect.fromShader("lensPlusMix")
+      .bind("textureClean", combined)
+      .bind("textureLens", lensFlares)
+      .bind("textureBloom", thresholdBlur)
+      .bind("textureDirt", AssetsManager.peekMaterial("dirt").diffuse!!)
+      .showAsQuad()
   }
 
-  /*private fun computeThreshold(source: FrameBuffer, destination: FrameBuffer) {
-    destination.paintOn {
-      source.colorBufferTexture.bind(0)
-      val shader = AssetsManager.peekShader("threshold")
-      shader.begin()
-      shader.setUniformi("texture", 0);
-      shader.setUniformf("scale", 4f)
-      shader.setUniformf("bias", -.675f)
-      FullscreenQuad.renderWith(shader)
-      shader.end()
+  private fun prepareBlurredThreshold(): Texture {
+    threshold.paint {
+      ShaderEffect.fromShader("threshold")
+        .bind("texture", combined)
+        .parametrize("scale", 16f)
+        .parametrize("bias", -.965f)
+        .showAsQuad()
     }
-  }*/
+    threshold.showAsQuad()
+    return lensBlurTool.blur(threshold.texture, Vec2(1.76f, 0f), Vec2(1.33f, 0f)).texture
+  }
 
 }
