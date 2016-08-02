@@ -10,6 +10,6 @@ float luminance(vec3 rgb) {
 
 void main() {
     vec3 color = texture2D(texture, texCoord);
-    float alpha = life * luminance(color);
+    float alpha = life * luminance(color) * .75;
     gl_FragColor = vec4(color, alpha);
 }
