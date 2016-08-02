@@ -71,7 +71,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
         .showAsQuad()
     }
     threshold.showAsQuad()
-    return lensBlurTool.blur(threshold.texture, Vec2(1.76f, 0f), Vec2(1.33f, 0f)).texture
+    return lensBlurTool.blur(threshold.texture, Vec2(1.76f, 0f), Vec2(2.33f, 0f)).texture
   }
 
 }
