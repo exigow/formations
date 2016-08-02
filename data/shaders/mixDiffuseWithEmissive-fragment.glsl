@@ -18,7 +18,7 @@ float calculateVignette(vec2 coord) {
 
 void main() {
     vec3 diffuse = texture2D(textureDiffuse, texCoord).rgb;
-    vec3 emissive = texture2D(textureEmissive, texCoord).rgb * .25;
+    vec3 emissive = texture2D(textureEmissive, texCoord).rgb * .5;
     vec3 emissiveBlurred = texture2D(textureEmissiveBlurred, texCoord).rgb;
     vec3 vignette = calculateVignette(texCoord);
     vec3 color = (diffuse + emissive + emissiveBlurred) * vignette;
