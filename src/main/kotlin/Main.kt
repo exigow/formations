@@ -1,7 +1,5 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import commons.math.Vec2
 import core.Camera
@@ -10,6 +8,7 @@ import core.actions.catalog.*
 import game.PlayerContext
 import game.World
 import rendering.Draw
+import rendering.FontRenderer
 import rendering.GBuffer
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
@@ -29,8 +28,6 @@ class Main {
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
-  private val font = BitmapFont(Gdx.files.internal("data/fonts/microgramma.fnt"))
-  private val batch = SpriteBatch()
   private val shape = ShapeRenderer() // todo remove
 
   init {
@@ -80,10 +77,7 @@ class Main {
     }
 
     gbuffer.paintOnDiffuse {
-      batch.projectionMatrix = camera.projectionMatrix()
-      batch.begin()
-      font.draw(batch, "siemanko test fonta asd d sdasdasd 12345135351", 0f, 0f)
-      batch.end()
+      FontRenderer.draw("asdasdasdas", Vec2.zero(), camera.projectionMatrix())
     }
 
     gbuffer.showCombined()
