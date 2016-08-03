@@ -7,7 +7,7 @@ import rendering.canvas.ShaderEffect
 import rendering.utils.DoublePassBlurringTool
 
 
-class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
+class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private val ui: Canvas) {
 
   private val combined = Canvas.setUp(diffuse.width, diffuse.height)
   private val emissiveBlurTool = DoublePassBlurringTool({ Canvas.setUp(diffuse.width / 2, diffuse.height / 2) })
@@ -19,7 +19,8 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
 
     fun setUp(width: Int, height: Int) = GBuffer(
       diffuse = Canvas.setUp(width, height),
-      emissive = Canvas.setUp(width / 2, height / 2)
+      emissive = Canvas.setUp(width / 2, height / 2),
+      ui = Canvas.setUp(width, height)
     )
 
   }
@@ -28,9 +29,12 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
 
   fun paintOnEmissive(f: () -> Unit) = emissive.paint(f)
 
+  fun paintOnUserInterface(f: () -> Unit) = ui.paint(f)
+
   fun clear() {
     diffuse.clear()
     emissive.clear()
+    ui.clear()
   }
 
   fun showCombined() {
@@ -59,6 +63,11 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
       .bind("textureBloom", thresholdBlur)
       .bind("textureDirt", AssetsManager.peekMaterial("dirt").diffuse!!)
       .showAsQuad()
+
+
+
+    //ui.showAsQuad()
+
   }
 
   private fun prepareBlurredThreshold(): Canvas {
@@ -69,7 +78,6 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
         .parametrize("bias", -.925f)
         .showAsQuad()
     }
-    threshold.showAsQuad()
     return lensBlurTool.blur(threshold.texture, Vec2(1.76f, 0f), Vec2(2.33f, 0f))
   }
 

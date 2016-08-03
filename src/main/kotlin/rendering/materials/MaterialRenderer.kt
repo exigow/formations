@@ -1,9 +1,10 @@
 package rendering.materials
 
 import assets.AssetsManager
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.*
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Mesh
+import com.badlogic.gdx.graphics.VertexAttribute
+import com.badlogic.gdx.graphics.VertexAttributes
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
 import commons.math.FastMath
@@ -35,12 +36,12 @@ class MaterialRenderer(val gbuffer: GBuffer) {
       }
       gbuffer.paintOnEmissive {
         val shader = AssetsManager.peekShader("materialEmissive")
-        material.diffuse!!.bind(0)
         material.emissive!!.bind(1)
+        material.diffuse!!.bind(0)
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
-        shader.setUniformi("colorTexture", 0);
         shader.setUniformi("texture", 1);
+        shader.setUniformi("colorTexture", 0);
         renderMesh(shader)
         shader.end();
       }
