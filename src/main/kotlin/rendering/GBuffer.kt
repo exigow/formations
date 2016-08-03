@@ -1,8 +1,6 @@
 package rendering
 
 import assets.AssetsManager
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
 import commons.math.Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
@@ -63,16 +61,16 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas) {
       .showAsQuad()
   }
 
-  private fun prepareBlurredThreshold(): Texture {
+  private fun prepareBlurredThreshold(): Canvas {
     threshold.paint {
       ShaderEffect.fromShader("threshold")
         .bind("texture", combined)
-        .parametrize("scale", 16f)
-        .parametrize("bias", -.965f)
+        .parametrize("scale", 8f)
+        .parametrize("bias", -.925f)
         .showAsQuad()
     }
     threshold.showAsQuad()
-    return lensBlurTool.blur(threshold.texture, Vec2(1.76f, 0f), Vec2(2.33f, 0f)).texture
+    return lensBlurTool.blur(threshold.texture, Vec2(1.76f, 0f), Vec2(2.33f, 0f))
   }
 
 }

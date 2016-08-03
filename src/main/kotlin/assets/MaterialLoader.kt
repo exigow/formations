@@ -29,10 +29,9 @@ object MaterialLoader {
   private fun File.toIdentifier() = name.substringBefore('-', name.removeSuffix(".png"))
 
   private fun File.loadAsTexture(): Texture {
-    val tex = Texture(Gdx.files.absolute(absolutePath))
-    val filter = Texture.TextureFilter.Linear
+    val tex = Texture(Gdx.files.absolute(absolutePath), true)
     val wrap = Texture.TextureWrap.Repeat
-    tex.setFilter(filter, filter)
+    tex.setFilter(Texture.TextureFilter.MipMap, Texture.TextureFilter.Linear)
     tex.setWrap(wrap, wrap)
     return tex
   }
