@@ -12,7 +12,7 @@ float rand(vec2 co){
 float calculateVignette(vec2 coord) {
 	vec2 uv = coord.xy;
     uv *=  1.0 - uv.yx;
-    float vig = uv.x*uv.y * 45.0 * (.5 + .5 * rand(coord));
+    float vig = uv.x*uv.y * 45.0 * (.65 + .35 * rand(coord));
     return clamp(pow(vig, 0.25), 0, 1);
 }
 
