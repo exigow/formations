@@ -17,12 +17,18 @@ class Camera {
   private var lockedOn: Squad? = null
 
   init {
-    ortho.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+    ortho.setToOrtho(true, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
     //ortho.up.set(0f, 1f, 0f);
     //ortho.direction.set(0f, 0f, -1f);
   }
 
   fun projectionMatrix(): Matrix4 = ortho.combined.cpy()
+
+  fun screenMatrix(): Matrix4 {
+    val m = OrthographicCamera()
+    m.setToOrtho(true, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+    return m.combined
+  }
 
   fun lockOn(squad: Squad) {
     lockedOn = squad

@@ -1,5 +1,7 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import commons.math.Vec2
 import core.Camera
@@ -8,6 +10,7 @@ import core.actions.catalog.*
 import game.PlayerContext
 import game.World
 import rendering.Draw
+import rendering.FontRenderer
 import rendering.GBuffer
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
@@ -27,7 +30,7 @@ class Main {
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
-  private val shape = ShapeRenderer() // todo remove
+  private val batch = SpriteBatch()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -66,18 +69,30 @@ class Main {
       /*world.allShips().forEach {
         it.render(camera.normalizedRenderingScale())
       }*/
-      uiRenderer.render(delta)
+      //
       //TrailsDebugRenderer.render(buffer)
-
-      shape.projectionMatrix = camera.projectionMatrix()
-      shape.begin(ShapeRenderer.ShapeType.Filled)
-      shape.circle(camera.mousePosition().x, camera.mousePosition().y, 16f)
-      shape.end()
     }
 
-    /*gbuffer.paintOnDiffuse {
-      FontRenderer.draw("asdasdasdas", Vec2.zero(), camera.projectionMatrix())
-    }*/
+    gbuffer.paintOnUserInterface {
+      /*shape.projectionMatrix = camera.screenMatrix()
+      shape.begin(ShapeRenderer.ShapeType.Filled)
+      shape.circle(camera.mouseScreenPosition().x, camera.mouseScreenPosition().y, 4f)
+      shape.end()*/
+      //uiRenderer.render(delta)
+      //FontRenderer.draw("asdasdasdas", Vec2.zero(), camera.projectionMatrix())
+      FontRenderer.draw("asdasdasdas", Vec2(256, 256), camera.screenMatrix())
+
+      fun flippedDiffuse(name: String): TextureRegion {
+        val tex = AssetsManager.peekMaterial(name).diffuse!!
+        val reg = TextureRegion(tex)
+        reg.flip(false, true)
+        return reg
+      }
+      batch.projectionMatrix = camera.screenMatrix()
+      batch.begin()
+      batch.draw(flippedDiffuse("cursor"), camera.mouseScreenPosition().x, camera.mouseScreenPosition().y)
+      batch.end()
+    }
 
     gbuffer.showCombined()
   }

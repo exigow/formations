@@ -4,6 +4,7 @@ import assets.AssetsManager
 import commons.math.Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
+import rendering.utils.Blender
 import rendering.utils.DoublePassBlurringTool
 
 
@@ -64,10 +65,10 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
       .bind("textureDirt", AssetsManager.peekMaterial("dirt").diffuse!!)
       .showAsQuad()
 
-
-
-    //ui.showAsQuad()
-
+    // todo blend it somehow inside final composition
+    Blender.enableAdditive {
+      ui.showAsQuad()
+    }
   }
 
   private fun prepareBlurredThreshold(): Canvas {

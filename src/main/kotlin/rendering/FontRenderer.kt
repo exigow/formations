@@ -9,7 +9,7 @@ import commons.math.Vec2
 
 object FontRenderer {
 
-  private val font = BitmapFont(Gdx.files.internal("data/fonts/microgramma.fnt"))
+  private val font = BitmapFont(Gdx.files.internal("data/fonts/microgramma.fnt"), true)
   private val batch = SpriteBatch()
 
   fun draw(text: String, position: Vec2, matrix: Matrix4) {

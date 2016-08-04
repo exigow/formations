@@ -26,6 +26,7 @@ object ApplicationEntry {
 
     override fun create() {
       Logger.APPLICATION.log("Initialising game.")
+      //hideCursor()
       frame = Main()
     }
 
@@ -38,6 +39,10 @@ object ApplicationEntry {
       val intensity = .075f
       Gdx.gl.glClearColor(intensity, intensity, intensity, 1f)
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+    }
+
+    private fun hideCursor() {
+      Gdx.input.isCursorCatched = true
     }
 
   }
