@@ -37,5 +37,6 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx:+"
     compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:+"
     compile "com.badlogicgames.gdx:gdx-platform:+:natives-desktop"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5"
 
 }

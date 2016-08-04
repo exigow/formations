@@ -1,0 +1,47 @@
+[
+  {
+    "id": "fighter",
+    "displayedName": "Strike Fighter",
+    "hullName": "interceptor",
+    "size": 16,
+    "accelerationAngle": 2.25,
+    "thrusterSpeedAcceleration": 0.875,
+    "thrusterSpeedMax": 4,
+    "thrusterSpeedDumping": 0.875,
+    "rotationSpeedAcceleration": 1.75,
+    "rotationSpeedMax": 2.25,
+    "rotationSpeedDumping": 0.25,
+    "brakeDistance": 96,
+    "trailDistance": -14
+  },
+  {
+    "id": "bomber",
+    "displayedName": "Armored Assault Bomber",
+    "hullName": "bomber",
+    "size": 24,
+    "accelerationAngle": 2.05,
+    "thrusterSpeedAcceleration": 0.75,
+    "thrusterSpeedMax": 3.5,
+    "thrusterSpeedDumping": 0.875,
+    "rotationSpeedAcceleration": 1.625,
+    "rotationSpeedMax": 1.95,
+    "rotationSpeedDumping": 0.275,
+    "brakeDistance": 96,
+    "trailDistance": -15
+  },
+  {
+    "id": "cruiser",
+    "displayedName": "Support Cruiser",
+    "hullName": "carrier",
+    "size": 96,
+    "accelerationAngle": 0.375,
+    "thrusterSpeedAcceleration": 0.125,
+    "thrusterSpeedMax": 2,
+    "thrusterSpeedDumping": 0.925,
+    "rotationSpeedAcceleration": 0.125,
+    "rotationSpeedMax": 0.375,
+    "rotationSpeedDumping": 0.375,
+    "brakeDistance": 512,
+    "trailDistance": -138
+  }
+]
