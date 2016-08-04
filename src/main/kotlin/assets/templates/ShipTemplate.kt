@@ -37,6 +37,7 @@ data class ShipTemplate(
   }
 
   fun validate() {
+    ensureNotEmpty(id)
     ensureNotEmpty(displayedName)
     ensureThat(accelerationAngle <= FastMath.pi)
     ensurePositive(thrusterSpeedAcceleration)
