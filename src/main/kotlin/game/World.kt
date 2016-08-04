@@ -13,13 +13,13 @@ class World {
 
     fun randomWorld(): World {
       val world = World();
-      world.collectives.add(instantiate(UnitConfiguration.select("fighter"), Vec2(-256, 0), 5))
-      world.collectives.add(instantiate(UnitConfiguration.select("bomber"), Vec2(256, 0), 3))
-      world.collectives.add(instantiate(UnitConfiguration.select("cruiser"), Vec2(0, 0)))
+      world.collectives.add(instantiate(ShipConfiguration.select("fighter"), Vec2(-256, 0), 5))
+      world.collectives.add(instantiate(ShipConfiguration.select("bomber"), Vec2(256, 0), 3))
+      world.collectives.add(instantiate(ShipConfiguration.select("cruiser"), Vec2(0, 0)))
       return world
     }
 
-    private fun instantiate(config: UnitConfiguration, where: Vec2, count: Int = 1): Collective {
+    private fun instantiate(config: ShipConfiguration, where: Vec2, count: Int = 1): Collective {
       val squad = Squad()
       for (i in 1..count) {
         val ship = Ship(config)

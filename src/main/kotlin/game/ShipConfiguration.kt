@@ -12,7 +12,7 @@ import java.io.File
  * immediately, while for a battlecruiser this is usually a low number, because the turning speed of the BC is so slow
  * that you want to be pointing more at the target before it accelerates.
  */
-data class UnitConfiguration(
+data class ShipConfiguration(
   val id: String,
   val displayedName: String,
   val hullName: String,
@@ -49,7 +49,7 @@ data class UnitConfiguration(
 
   companion object {
 
-    val configurations = jacksonObjectMapper().readValue(File("data/ships.json"), Array<UnitConfiguration>::class.java)
+    val configurations = jacksonObjectMapper().readValue(File("data/ships.json"), Array<ShipConfiguration>::class.java)
 
     fun select(id: String) = configurations.filter { it.id == id }.first()
 

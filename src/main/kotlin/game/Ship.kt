@@ -4,7 +4,7 @@ import commons.math.FastMath
 import commons.math.Vec2
 
 
-class Ship(val config: UnitConfiguration) {
+class Ship(val config: ShipConfiguration) {
 
   var position = Vec2.zero();
   var angle = 0f;
