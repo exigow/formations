@@ -13,29 +13,19 @@ import java.io.File
  * that you want to be pointing more at the target before it accelerates.
  */
 data class UnitConfiguration(
-
   val id: String,
-
   val displayedName: String,
-
   val hullName: String,
-
   val size: Float,
-
   val accelerationAngle: Float,
-
   val thrusterSpeedAcceleration: Float,
   val thrusterSpeedMax: Float,
   val thrusterSpeedDumping: Float,
-
   val rotationSpeedAcceleration: Float,
   val rotationSpeedMax: Float,
   val rotationSpeedDumping: Float,
-
   val brakeDistance: Float,
-
   val trailDistance: Float // todo multiple vectors
-
 ) {
 
   init {
@@ -43,21 +33,18 @@ data class UnitConfiguration(
   }
 
   fun validate() {
-    fun ensure(condition: Boolean) {
+    fun ensureThat(condition: Boolean) {
       if (!condition)
         throw RuntimeException("Validation error: ")
     }
-    ensure(!displayedName.isEmpty())
-
-    ensure(accelerationAngle <= FastMath.pi)
-
-    ensure(thrusterSpeedAcceleration >= 0f)
-    ensure(thrusterSpeedMax >= 0f)
-    ensure(thrusterSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
-
-    ensure(rotationSpeedAcceleration >= 0f)
-    ensure(rotationSpeedMax >= 0f)
-    ensure(rotationSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
+    ensureThat(displayedName.isNotEmpty())
+    ensureThat(accelerationAngle <= FastMath.pi)
+    ensureThat(thrusterSpeedAcceleration >= 0f)
+    ensureThat(thrusterSpeedMax >= 0f)
+    ensureThat(thrusterSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
+    ensureThat(rotationSpeedAcceleration >= 0f)
+    ensureThat(rotationSpeedMax >= 0f)
+    ensureThat(rotationSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
   }
 
   companion object {
@@ -69,4 +56,3 @@ data class UnitConfiguration(
   }
 
 }
-
