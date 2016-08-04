@@ -8,7 +8,6 @@ import core.actions.catalog.*
 import game.PlayerContext
 import game.World
 import rendering.Draw
-import rendering.FontRenderer
 import rendering.GBuffer
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
@@ -76,9 +75,9 @@ class Main {
       shape.end()
     }
 
-    gbuffer.paintOnDiffuse {
+    /*gbuffer.paintOnDiffuse {
       FontRenderer.draw("asdasdasdas", Vec2.zero(), camera.projectionMatrix())
-    }
+    }*/
 
     gbuffer.showCombined()
   }

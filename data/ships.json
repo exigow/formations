@@ -2,7 +2,7 @@
   {
     "id": "fighter",
     "displayedName": "Strike Fighter",
-    "hullName": "interceptor",
+    "hullName": "interceptor-hull",
     "size": 16,
     "accelerationAngle": 2.25,
     "thrusterSpeedAcceleration": 0.875,
@@ -17,7 +17,7 @@
   {
     "id": "bomber",
     "displayedName": "Armored Assault Bomber",
-    "hullName": "bomber",
+    "hullName": "bomber-hull",
     "size": 24,
     "accelerationAngle": 2.05,
     "thrusterSpeedAcceleration": 0.75,
@@ -32,7 +32,7 @@
   {
     "id": "cruiser",
     "displayedName": "Support Cruiser",
-    "hullName": "carrier",
+    "hullName": "cruiser-hull",
     "size": 96,
     "accelerationAngle": 0.375,
     "thrusterSpeedAcceleration": 0.125,

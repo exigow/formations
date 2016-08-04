@@ -1,10 +1,11 @@
 package game
 
+import assets.templates.ShipTemplate
 import commons.math.FastMath
 import commons.math.Vec2
 
 
-class Ship(val config: ShipConfiguration) {
+class Ship(val config: ShipTemplate) {
 
   var position = Vec2.zero();
   var angle = 0f;

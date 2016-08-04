@@ -1,0 +1,54 @@
+[
+  {
+    "id": "background",
+    "textureDiffuseFilename": "data/textures/background.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
+  },
+  {
+    "id": "trail",
+    "textureDiffuseFilename": "data/textures/trail-diffuse.png",
+    "textureEmissiveFilename": "data/textures/trail-emissive.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
+  },
+  {
+    "id": "flare-gradient",
+    "textureDiffuseFilename": "data/textures/flare-gradient.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
+  },
+  {
+    "id": "dirt",
+    "textureDiffuseFilename": "data/textures/dirt.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
+  },
+  {
+    "id": "interceptor-hull",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/interceptor-diffuse.png",
+    "textureEmissiveFilename": "data/textures/interceptor-emissive.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "bomber-hull",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/bomber-diffuse.png",
+    "textureEmissiveFilename": "data/textures/bomber-emissive.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "cruiser-hull",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/carrier-diffuse.png",
+    "textureEmissiveFilename": "data/textures/carrier-emissive.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  }
+]

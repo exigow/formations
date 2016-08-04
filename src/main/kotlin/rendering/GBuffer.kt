@@ -53,7 +53,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
     lensFlares.paint {
       ShaderEffect.fromShader("lensflare")
         .bind("texture", thresholdBlur)
-        .bind("gradient", AssetsManager.peekMaterial("flareGradient").diffuse!!)
+        .bind("gradient", AssetsManager.peekMaterial("flare-gradient").diffuse!!)
         .showAsQuad()
     }
 

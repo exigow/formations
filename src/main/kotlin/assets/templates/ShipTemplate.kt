@@ -1,5 +1,9 @@
-package game
+package assets.templates
 
+import assets.templates.TemplateValidator.ensureNotEmpty
+import assets.templates.TemplateValidator.ensurePositive
+import assets.templates.TemplateValidator.ensureRange
+import assets.templates.TemplateValidator.ensureThat
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import commons.math.FastMath
 import java.io.File
@@ -12,7 +16,7 @@ import java.io.File
  * immediately, while for a battlecruiser this is usually a low number, because the turning speed of the BC is so slow
  * that you want to be pointing more at the target before it accelerates.
  */
-data class ShipConfiguration(
+data class ShipTemplate(
   val id: String,
   val displayedName: String,
   val hullName: String,
@@ -33,25 +37,21 @@ data class ShipConfiguration(
   }
 
   fun validate() {
-    fun ensureThat(condition: Boolean) {
-      if (!condition)
-        throw RuntimeException("Validation error: ")
-    }
-    ensureThat(displayedName.isNotEmpty())
+    ensureNotEmpty(displayedName)
     ensureThat(accelerationAngle <= FastMath.pi)
-    ensureThat(thrusterSpeedAcceleration >= 0f)
-    ensureThat(thrusterSpeedMax >= 0f)
-    ensureThat(thrusterSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
-    ensureThat(rotationSpeedAcceleration >= 0f)
-    ensureThat(rotationSpeedMax >= 0f)
-    ensureThat(rotationSpeedDumping >= 0f && thrusterSpeedDumping <= 1f)
+    ensurePositive(thrusterSpeedAcceleration)
+    ensurePositive(thrusterSpeedMax)
+    ensureRange(thrusterSpeedDumping, 0f..1f)
+    ensurePositive(rotationSpeedAcceleration)
+    ensurePositive(rotationSpeedMax)
+    ensureRange(rotationSpeedDumping, 0f..1f)
   }
 
   companion object {
 
-    val configurations = jacksonObjectMapper().readValue(File("data/ships.json"), Array<ShipConfiguration>::class.java)
+    val values = jacksonObjectMapper().readValue(File("data/ships.json"), Array<ShipTemplate>::class.java)
 
-    fun select(id: String) = configurations.filter { it.id == id }.first()
+    fun select(id: String) = values.filter { it.id == id }.first()
 
   }
 

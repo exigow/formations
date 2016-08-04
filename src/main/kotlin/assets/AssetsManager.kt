@@ -21,7 +21,7 @@ object AssetsManager {
 
   private fun loadAllAssets(): Map<String, Any> {
     val map = HashMap<String, Any>()
-    map.safePutAll(MaterialLoader.loadMaterials())
+    map.safePutAll(MaterialFactory.loadAllIndexed())
     map.safePutAll(ShaderProgramLoader.loadShaderPrograms())
     for (entry in map)
       Logger.ASSETS.log("Loaded asset: ${entry.key} -> ${entry.value}")
