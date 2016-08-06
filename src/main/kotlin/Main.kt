@@ -30,7 +30,6 @@ class Main {
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
-  private val batch = SpriteBatch()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -74,24 +73,12 @@ class Main {
     }
 
     gbuffer.paintOnUserInterface {
-      /*shape.projectionMatrix = camera.screenMatrix()
-      shape.begin(ShapeRenderer.ShapeType.Filled)
-      shape.circle(camera.mouseScreenPosition().x, camera.mouseScreenPosition().y, 4f)
-      shape.end()*/
-      //uiRenderer.render(delta)
-      //FontRenderer.draw("asdasdasdas", Vec2.zero(), camera.projectionMatrix())
-      FontRenderer.draw("asdasdasdas", Vec2(256, 256), camera.screenMatrix())
-
-      fun flippedDiffuse(name: String): TextureRegion {
-        val tex = AssetsManager.peekMaterial(name).diffuse!!
-        val reg = TextureRegion(tex)
-        reg.flip(false, true)
-        return reg
+      uiRenderer.render(delta)
+      if (context.isHovering()) {
+        val h = context.hovered!!
+        val type = h.ships.first().config.displayedName
+        FontRenderer.draw(type, camera.mouseScreenPosition() + Vec2(32, 32), camera.screenMatrix())
       }
-      batch.projectionMatrix = camera.screenMatrix()
-      batch.begin()
-      batch.draw(flippedDiffuse("cursor"), camera.mouseScreenPosition().x, camera.mouseScreenPosition().y)
-      batch.end()
     }
 
     gbuffer.showCombined()

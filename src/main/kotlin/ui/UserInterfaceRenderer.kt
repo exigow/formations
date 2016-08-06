@@ -29,7 +29,6 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     updateAnimationsStates(delta)
     time += delta
     context.selected.flatMap { it.ships }.forEach { Draw.diamond(it.position, (diamondSize - 4f) * camera.normalizedRenderingScale()) }
-    renderMouse()
     world.collectives.forEach { it.render() }
     performRectangleAnimation(delta)
     for (anim in animations) {
@@ -137,7 +136,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
       val order = this.orders.first()
       if (order is MoveOrder) {
         //Draw.lineDotted(center(), order.where, 8f)
-        Draw.diamond(order.where, 4f)
+        //Draw.diamond(order.where, 4f)
       }
       //if (order is AttackOrder)
         //Draw.line(center(), order.who.center())
@@ -149,8 +148,6 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     val hull = ConvexHull.calculate(positions)
     Draw.paths(Path(hull).populate(camera.normalizedRenderingScale() * 16f).slice(), color = Color.GRAY)
   }
-
-  fun renderMouse() = Draw.diamond(camera.mousePosition(), camera.renderingScale() * 8f)
 
   private class AnimationSequenceSquadBundle(
     val highlight: AnimationSequence = AnimationSequence(),

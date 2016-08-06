@@ -3,6 +3,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Pixmap
 import commons.Logger
 
 object ApplicationEntry {
@@ -26,7 +27,7 @@ object ApplicationEntry {
 
     override fun create() {
       Logger.APPLICATION.log("Initialising game.")
-      //hideCursor()
+      useCustomCursor()
       frame = Main()
     }
 
@@ -41,8 +42,9 @@ object ApplicationEntry {
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
 
-    private fun hideCursor() {
-      Gdx.input.isCursorCatched = true
+    private fun useCustomCursor() {
+      val customCursor = Gdx.graphics.newCursor(Pixmap(Gdx.files.internal("data/textures/cursor.png")), 4, 0);
+      Gdx.graphics.setCursor(customCursor);
     }
 
   }
