@@ -20,8 +20,8 @@ class Canvas(private val buffer: FrameBuffer) {
     buffer.end()
   }
 
-  fun clear(color: Color = Color.BLACK) = paint {
-    Gdx.gl.glClearColor(color.r, color.g, color.b, 1f)
+  fun clear(color: Color = Color.BLACK, alpha: Float = 1f) = paint {
+    Gdx.gl.glClearColor(color.r, color.g, color.b, alpha)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
   }
 
@@ -30,6 +30,13 @@ class Canvas(private val buffer: FrameBuffer) {
     .showAsQuad()
 
   companion object {
+
+    fun setUpWithTransparency(width: Int, height: Int): Canvas {
+      val buffer = FrameBuffer(Pixmap.Format.RGBA8888, width, height, false)
+      val wrap = Texture.TextureWrap.ClampToEdge
+      buffer.colorBufferTexture.setWrap(wrap, wrap)
+      return Canvas(buffer)
+    }
 
     fun setUp(width: Int, height: Int): Canvas {
       val buffer = FrameBuffer(Pixmap.Format.RGB888, width, height, false)

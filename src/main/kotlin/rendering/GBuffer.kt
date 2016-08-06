@@ -21,7 +21,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
     fun setUp(width: Int, height: Int) = GBuffer(
       diffuse = Canvas.setUp(width, height),
       emissive = Canvas.setUp(width / 2, height / 2),
-      ui = Canvas.setUp(width, height)
+      ui = Canvas.setUpWithTransparency(width, height)
     )
 
   }
@@ -35,7 +35,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
   fun clear() {
     diffuse.clear()
     emissive.clear()
-    ui.clear()
+    ui.clear(alpha = 0f)
   }
 
   fun showCombined() {
@@ -66,7 +66,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
       .showAsQuad()
 
     // todo blend it somehow inside final composition
-    Blender.enableAdditive {
+    Blender.enableTransparency {
       ui.showAsQuad()
     }
   }

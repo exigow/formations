@@ -36,18 +36,9 @@ object SlicedRectangleRenderer {
     val g = Segment(Vec2(widthSlice[0], heightSlice[2]), Vec2(widthSlice[1], heightSlice[3]), Vec2(0f, part * 2), Vec2(part, 1f))
     val h = Segment(Vec2(widthSlice[1], heightSlice[2]), Vec2(widthSlice[2], heightSlice[3]), Vec2(part, part * 2), Vec2(part * 2, 1f))
     val i = Segment(Vec2(widthSlice[2], heightSlice[2]), Vec2(widthSlice[3], heightSlice[3]), Vec2(part * 2, part * 2), Vec2(1f, 1f))
-
-    renderSegment(a)
-    renderSegment(b)
-    renderSegment(c)
-
-    renderSegment(d)
-    renderSegment(e)
-    renderSegment(f)
-
-    renderSegment(g)
-    renderSegment(h)
-    renderSegment(i)
+    
+    for (z in arrayOf(a, b, c, d, e, f, g, h, i))
+      renderSegment(z)
 
     batch.end()
   }

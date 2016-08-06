@@ -74,7 +74,7 @@ class Main {
     }
 
     gbuffer.paintOnUserInterface {
-      uiRenderer.render(delta)
+      //uiRenderer.render(delta)
       if (context.isHovering()) {
         val h = context.hovered!!
         val type = h.ships.first().config.displayedName

@@ -53,7 +53,7 @@
   },
   {
     "id": "rect",
-    "textureDiffuseFilename": "data/textures/test-rect.png",
+    "textureDiffuseFilename": "data/textures/rounded-2.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
   }
