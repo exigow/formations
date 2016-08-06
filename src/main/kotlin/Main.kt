@@ -80,7 +80,14 @@ class Main {
         val type = h.ships.first().config.displayedName
         FontRenderer.draw(type, camera.mouseScreenPosition() + Vec2(32, 32), camera.screenMatrix())
       }
-      SlicedRectangleRenderer.render(Vec2(128, 128), camera.mousePosition(), AssetsManager.peekMaterial("rect").diffuse!!, camera.projectionMatrix())
+
+      if (context.selectionRect != null) {
+        val rect = context.selectionRect!!
+        val from = Vec2(rect.x, rect.y)
+        val to = Vec2(rect.x + rect.width, rect.y + rect.height)
+
+        SlicedRectangleRenderer.render(from, to, AssetsManager.peekMaterial("rect").diffuse!!, camera.projectionMatrix())
+      }
     }
 
     gbuffer.showCombined()
