@@ -50,5 +50,11 @@
     "textureEmissiveFilename": "data/textures/carrier-emissive.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
+  },
+  {
+    "id": "rect",
+    "textureDiffuseFilename": "data/textures/test-rect.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
   }
 ]

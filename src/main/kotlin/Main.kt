@@ -14,6 +14,7 @@ import rendering.FontRenderer
 import rendering.GBuffer
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
+import rendering.rect.SlicedRectangleRenderer
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsRenderer
 import ui.UserInterfaceRenderer
@@ -79,6 +80,7 @@ class Main {
         val type = h.ships.first().config.displayedName
         FontRenderer.draw(type, camera.mouseScreenPosition() + Vec2(32, 32), camera.screenMatrix())
       }
+      SlicedRectangleRenderer.render(Vec2(128, 128), camera.mousePosition(), AssetsManager.peekMaterial("rect").diffuse!!, camera.projectionMatrix())
     }
 
     gbuffer.showCombined()
