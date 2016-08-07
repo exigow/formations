@@ -3,10 +3,12 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
+import game.Asteroid
 import game.PlayerContext
 import game.World
 import rendering.Color
@@ -26,13 +28,18 @@ class Main {
   private val camera = Camera()
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
-  private val uiRenderer = UserInterfaceRenderer(context, camera, world)
+  //private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val buffer = TrailsBuffer()
   private val trailsMap = world.allShips().filter { !it.config.id.equals("cruiser") }.map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
   private val batch = SpriteBatch()
+  private val asteroids = (0..32).map {
+    val asset = FastMath.chooseRandomly("rocky-big0", "rocky-big1", "rocky-big2", "rocky-big3")
+    val scale = .5f + Vec2.random().x * 2f
+    Asteroid(Vec2.random() * 512, Vec2.random().angleInRadians(), Vec2.random().angleInRadians() * .025f, asset, scale)
+  }.toList()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -59,22 +66,15 @@ class Main {
     Draw.update(camera)
     gbuffer.clear()
     renderBackgroundImage();
-    /*gbuffer.paintOnDiffuse {
-      Draw.grid(size = Vec2.scaled(1024f), density = 16, color = Color.DARK_GRAY)
-    }*/
+    asteroids.forEach {
+      materialRenderer.draw(AssetsManager.peekMaterial(it.assetName), it.position, it.angle, it.scale, camera.projectionMatrix())
+      it.angle += it.angleRotationSpeed * delta
+    }
     world.allShips().forEach {
       if (trailsMap.containsKey(it))
         trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail"), camera.projectionMatrix())
-      materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, camera.projectionMatrix())
+      materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, 1f, camera.projectionMatrix())
     }
-    gbuffer.paintOnDiffuse {
-      /*world.allShips().forEach {
-        it.render(camera.normalizedRenderingScale())
-      }*/
-      //
-      //TrailsDebugRenderer.render(buffer)
-    }
-
     gbuffer.paintOnUserInterface {
       //uiRenderer.render(delta)
       if (context.isHovering()) {

@@ -52,19 +52,34 @@
     "magFilter": "linear"
   },
   {
-    "id": "asteroids-rocky-hull",
+    "id": "rocky-big0",
     "originX": 0,
     "originY": 0,
-    "textureDiffuseFilename": "data/textures/asteroids-rocky-diffuse.png",
+    "textureDiffuseFilename": "data/textures/asteroids/rocky-big0-diffuse.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
   },
   {
-    "id": "asteroids-hot-hull",
+    "id": "rocky-big1",
     "originX": 0,
     "originY": 0,
-    "textureDiffuseFilename": "data/textures/asteroids-hot-diffuse.png",
-    "textureEmissiveFilename": "data/textures/asteroids-hot-emissive.png",
+    "textureDiffuseFilename": "data/textures/asteroids/rocky-big1-diffuse.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "rocky-big2",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/asteroids/rocky-big2-diffuse.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "rocky-big3",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/asteroids/rocky-big3-diffuse.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
   },

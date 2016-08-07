@@ -1,5 +1,7 @@
 package commons.math
 
+import java.util.*
+
 
 @Suppress("NOTHING_TO_INLINE")
 object FastMath {
@@ -54,6 +56,11 @@ object FastMath {
   fun smoothStep(from: Float, to: Float, percent: Float): Float {
     val x = clamp((percent - from)/(to - from), 0f, 1f);
     return x * x * (3 - 2 * x)
+  }
+
+  fun <T> chooseRandomly(vararg options: T): T {
+    val random = Random().nextInt(options.size)
+    return options[random]
   }
 
   // todo https://en.wikipedia.org/wiki/Smoothstep -> smootherstep

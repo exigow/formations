@@ -19,8 +19,8 @@ class MaterialRenderer(val gbuffer: GBuffer) {
 
   private val mesh = initialiseMesh()
 
-  fun draw(material: Material, where: Vec2, angle: Float, matrix: Matrix4) {
-    val transformed = transformedQuad(material.size(), where, angle)
+  fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4) {
+    val transformed = transformedQuad(material.size() * scale, where, angle)
     val vertices = decomposeToVbo(transformed)
     mesh.setVertices(vertices)
     Blender.enableTransparency {
