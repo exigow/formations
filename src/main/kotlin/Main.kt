@@ -11,16 +11,15 @@ import core.actions.catalog.*
 import game.Asteroid
 import game.PlayerContext
 import game.World
-import rendering.Color
-import rendering.Draw
-import rendering.FontRenderer
-import rendering.GBuffer
+import rendering.*
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
 import rendering.rect.SlicedRectangleRenderer
 import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsRenderer
+import rendering.utils.PixelIterator
 import ui.UserInterfaceRenderer
+import java.util.*
 
 class Main {
 
@@ -35,11 +34,8 @@ class Main {
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
   private val batch = SpriteBatch()
-  private val asteroids = (0..32).map {
-    val asset = FastMath.chooseRandomly("rocky-big0", "rocky-big1", "rocky-big2", "rocky-big3")
-    val scale = .5f + Vec2.random().x * 2f
-    Asteroid(Vec2.random() * 512, Vec2.random().angleInRadians(), Vec2.random().angleInRadians() * .025f, asset, scale)
-  }.toList()
+  private val asteroids = maskToAsteroids()
+
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -48,6 +44,21 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
+  }
+
+  private fun maskToAsteroids(): List<Asteroid> {
+    val lookup = PixelIterator(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!)
+    val result = ArrayList<Asteroid>()
+    lookup.iterate { x, y, color ->
+      val red = color.r
+      if (red > .075f) {
+        val asset = FastMath.chooseRandomly("rocky-big0", "rocky-big1", "rocky-big2", "rocky-big3")
+        val rotSpeed = Vec2.random().angleInRadians() * .025f
+        val angle = Vec2.random().angleInRadians()
+        result += Asteroid((Vec2(x, y) + Vec2.random() - Vec2(32, 32)) * 128, angle, rotSpeed, asset, red * FastMath.randomRange(.5f, 2f))
+      }
+    }
+    return result
   }
 
   fun onFrame() {
@@ -67,8 +78,10 @@ class Main {
     gbuffer.clear()
     renderBackgroundImage();
     asteroids.forEach {
-      materialRenderer.draw(AssetsManager.peekMaterial(it.assetName), it.position, it.angle, it.scale, camera.projectionMatrix())
-      it.angle += it.angleRotationSpeed * delta
+      if (camera.worldVisibilityRectangle(128f).contains(it.position.toVector2())) {
+        materialRenderer.draw(AssetsManager.peekMaterial(it.assetName), it.position, it.angle, it.scale, camera.projectionMatrix())
+        it.angle += it.angleRotationSpeed * delta
+      }
     }
     world.allShips().forEach {
       if (trailsMap.containsKey(it))

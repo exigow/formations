@@ -94,5 +94,11 @@
     "textureDiffuseFilename": "data/textures/arrow.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
+  },
+  {
+    "id": "asteroid-mask-test",
+    "textureDiffuseFilename": "data/textures/maps/asteroid-test.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
   }
 ]

@@ -1,5 +1,6 @@
 package commons.math
 
+import com.badlogic.gdx.math.MathUtils
 import java.util.*
 
 
@@ -62,6 +63,8 @@ object FastMath {
     val random = Random().nextInt(options.size)
     return options[random]
   }
+
+  fun randomRange(from: Float, to: Float) = MathUtils.random(from, to)
 
   // todo https://en.wikipedia.org/wiki/Smoothstep -> smootherstep
   fun smootherstep(from: Float, to: Float, percent: Float): Float = TODO()
