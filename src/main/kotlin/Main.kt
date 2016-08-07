@@ -31,6 +31,7 @@ class Main {
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
+  private val batch = SpriteBatch()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -79,15 +80,23 @@ class Main {
         val h = context.hovered!!
         val type = h.ships.first().config.displayedName
         FontRenderer.draw(type, camera.mouseScreenPosition() + Vec2(32, 32), camera.screenMatrix())
+        batch.projectionMatrix = camera.projectionMatrix()
+        batch.begin()
+        h.ships.forEach {
+          val tex = AssetsManager.peekMaterial("arrow").diffuse!!
+          val scale = camera.renderingScale()
+          batch.draw(tex, it.position.x - tex.width / 2f * scale, it.position.y - tex.height / 2f * scale, tex.width * scale, tex.height * scale)
+        }
+        batch.end()
       }
 
-      if (context.selectionRect != null) {
+      /*if (context.selectionRect != null) {
         val rect = context.selectionRect!!
         val from = Vec2(rect.x, rect.y)
         val to = Vec2(rect.x + rect.width, rect.y + rect.height)
 
         SlicedRectangleRenderer.render(from, to, AssetsManager.peekMaterial("rect").diffuse!!, camera.projectionMatrix())
-      }
+      }*/
     }
 
     gbuffer.showCombined()

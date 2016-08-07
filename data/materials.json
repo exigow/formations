@@ -56,5 +56,11 @@
     "textureDiffuseFilename": "data/textures/rounded-2.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
+  },
+  {
+    "id": "arrow",
+    "textureDiffuseFilename": "data/textures/arrow.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
   }
 ]
