@@ -35,7 +35,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
   fun clear() {
     diffuse.clear()
     emissive.clear()
-    ui.clear(alpha = 0f)
+    ui.clear(color = Color.WHITE, alpha = 0f)
   }
 
   fun showCombined() {

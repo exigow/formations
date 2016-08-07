@@ -52,6 +52,23 @@
     "magFilter": "linear"
   },
   {
+    "id": "asteroids-rocky-hull",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/asteroids-rocky-diffuse.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "asteroids-hot-hull",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/asteroids-hot-diffuse.png",
+    "textureEmissiveFilename": "data/textures/asteroids-hot-emissive.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
     "id": "rect",
     "textureDiffuseFilename": "data/textures/rounded-2.png",
     "minFilter": "nearest",

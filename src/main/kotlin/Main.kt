@@ -9,6 +9,7 @@ import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
+import rendering.Color
 import rendering.Draw
 import rendering.FontRenderer
 import rendering.GBuffer
@@ -88,6 +89,9 @@ class Main {
           batch.draw(tex, it.position.x - tex.width / 2f * scale, it.position.y - tex.height / 2f * scale, tex.width * scale, tex.height * scale)
         }
         batch.end()
+      }
+      if (context.selectionRect != null) {
+        Draw.rectangle(context.selectionRect!!)
       }
 
       /*if (context.selectionRect != null) {

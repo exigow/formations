@@ -43,5 +43,35 @@
     "rotationSpeedDumping": 0.375,
     "brakeDistance": 512,
     "trailDistance": -138
+  },
+  {
+    "id": "asteroids-rocky",
+    "displayedName": "Asteroids (rocky)",
+    "hullName": "asteroids-rocky-hull",
+    "size": 256,
+    "accelerationAngle": 0,
+    "thrusterSpeedAcceleration": 0,
+    "thrusterSpeedMax": 0,
+    "thrusterSpeedDumping": 0,
+    "rotationSpeedAcceleration": 0,
+    "rotationSpeedMax": 0,
+    "rotationSpeedDumping": 0,
+    "brakeDistance": 0,
+    "trailDistance": 0
+  },
+  {
+    "id": "asteroids-hot",
+    "displayedName": "Asteroids (hot)",
+    "hullName": "asteroids-hot-hull",
+    "size": 256,
+    "accelerationAngle": 0,
+    "thrusterSpeedAcceleration": 0,
+    "thrusterSpeedMax": 0,
+    "thrusterSpeedDumping": 0,
+    "rotationSpeedAcceleration": 0,
+    "rotationSpeedMax": 0,
+    "rotationSpeedDumping": 0,
+    "brakeDistance": 0,
+    "trailDistance": 0
   }
 ]

@@ -63,6 +63,11 @@ object Draw {
     color, alpha
   )
 
+  fun rectangle(rect: Rectangle, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderLine(
+    PathFactory.square().scale(Vec2(rect.width, rect.height)).translate(Vec2(rect.x, rect.y)),
+    color, alpha
+  )
+
   fun rectangleFilled(rect: Rectangle, color: Color = Color.WHITE, alpha: Float = 1f) = pr.renderFilled(
     PathFactory.square().scale(Vec2(rect.width, rect.height)).translate(Vec2(rect.x, rect.y)),
     color, alpha
