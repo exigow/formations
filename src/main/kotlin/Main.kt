@@ -52,10 +52,10 @@ class Main {
     lookup.iterate { x, y, color ->
       val red = color.r
       if (red > .075f) {
-        val asset = FastMath.chooseRandomly("rocky-big0", "rocky-big1", "rocky-big2", "rocky-big3")
+        val asset = FastMath.chooseRandomly("asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
         val rotSpeed = Vec2.random().angleInRadians() * .025f
         val angle = Vec2.random().angleInRadians()
-        result += Asteroid((Vec2(x, y) + Vec2.random() - Vec2(32, 32)) * 128, angle, rotSpeed, asset, red * FastMath.randomRange(.5f, 2f))
+        result += Asteroid((Vec2(x, y) + Vec2.random() - Vec2(16, 16)) * 128, angle, rotSpeed, asset, red * FastMath.randomRange(.5f, 4f))
       }
     }
     return result

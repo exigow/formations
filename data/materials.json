@@ -52,34 +52,54 @@
     "magFilter": "linear"
   },
   {
-    "id": "rocky-big0",
-    "originX": 0,
-    "originY": 0,
-    "textureDiffuseFilename": "data/textures/asteroids/rocky-big0-diffuse.png",
+    "id": "asteroid-rock-a",
+    "textureDiffuseFilename": "data/textures/asteroids/rock/a-diffuse.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
   },
   {
-    "id": "rocky-big1",
-    "originX": 0,
-    "originY": 0,
-    "textureDiffuseFilename": "data/textures/asteroids/rocky-big1-diffuse.png",
+    "id": "asteroid-rock-b",
+    "textureDiffuseFilename": "data/textures/asteroids/rock/b-diffuse.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
   },
   {
-    "id": "rocky-big2",
-    "originX": 0,
-    "originY": 0,
-    "textureDiffuseFilename": "data/textures/asteroids/rocky-big2-diffuse.png",
+    "id": "asteroid-rock-c",
+    "textureDiffuseFilename": "data/textures/asteroids/rock/c-diffuse.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
   },
   {
-    "id": "rocky-big3",
-    "originX": 0,
-    "originY": 0,
-    "textureDiffuseFilename": "data/textures/asteroids/rocky-big3-diffuse.png",
+    "id": "asteroid-rock-d",
+    "textureDiffuseFilename": "data/textures/asteroids/rock/d-diffuse.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "asteroid-red-a",
+    "textureDiffuseFilename": "data/textures/asteroids/lava/a-diffuse.png",
+    "textureEmissiveFilename": "data/textures/asteroids/lava/a-emissive.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "asteroid-red-b",
+    "textureDiffuseFilename": "data/textures/asteroids/lava/b-diffuse.png",
+    "textureEmissiveFilename": "data/textures/asteroids/lava/b-emissive.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "asteroid-red-c",
+    "textureDiffuseFilename": "data/textures/asteroids/lava/c-diffuse.png",
+    "textureEmissiveFilename": "data/textures/asteroids/lava/c-emissive.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
+    "id": "asteroid-red-d",
+    "textureDiffuseFilename": "data/textures/asteroids/lava/d-diffuse.png",
+    "textureEmissiveFilename": "data/textures/asteroids/lava/d-emissive.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
   },
