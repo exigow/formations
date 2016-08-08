@@ -12,7 +12,16 @@
     "rotationSpeedMax": 2.25,
     "rotationSpeedDumping": 0.25,
     "brakeDistance": 96,
-    "trailDistance": -14
+    "trailDistance": -14,
+    "engines": [
+      {
+        "relativePosition": {
+          "x": -14,
+          "y": 0
+        },
+        "trailWidth": 8
+      }
+    ]
   },
   {
     "id": "bomber",
@@ -27,7 +36,16 @@
     "rotationSpeedMax": 1.95,
     "rotationSpeedDumping": 0.275,
     "brakeDistance": 96,
-    "trailDistance": -15
+    "trailDistance": -15,
+    "engines": [
+      {
+        "relativePosition": {
+          "x": -15,
+          "y": 0
+        },
+        "trailWidth": 10
+      }
+    ]
   },
   {
     "id": "cruiser",
@@ -42,6 +60,29 @@
     "rotationSpeedMax": 0.375,
     "rotationSpeedDumping": 0.375,
     "brakeDistance": 512,
-    "trailDistance": -138
+    "trailDistance": -138,
+    "engines": [
+      {
+        "relativePosition": {
+          "x": -102,
+          "y": 14
+        },
+        "trailWidth": 6
+      },
+      {
+        "relativePosition": {
+          "x": -104,
+          "y": 0
+        },
+        "trailWidth": 18
+      },
+      {
+        "relativePosition": {
+          "x": -102,
+          "y": -14
+        },
+        "trailWidth": 6
+      }
+    ]
   }
 ]

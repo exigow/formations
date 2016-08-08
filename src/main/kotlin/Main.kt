@@ -1,8 +1,6 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
@@ -11,14 +9,13 @@ import core.actions.catalog.*
 import game.Asteroid
 import game.PlayerContext
 import game.World
-import rendering.*
+import rendering.Draw
+import rendering.FontRenderer
+import rendering.GBuffer
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
-import rendering.rect.SlicedRectangleRenderer
-import rendering.trails.TrailsBuffer
 import rendering.trails.TrailsRenderer
 import rendering.utils.PixelIterator
-import ui.UserInterfaceRenderer
 import java.util.*
 
 class Main {
@@ -28,8 +25,6 @@ class Main {
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
   //private val uiRenderer = UserInterfaceRenderer(context, camera, world)
-  private val buffer = TrailsBuffer()
-  private val trailsMap = world.allShips().filter { !it.config.id.equals("cruiser") }.map{ it to buffer.registerTrail(it.position + Vec2.rotated(it.angle) * it.config.trailDistance) }.toMap()
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
@@ -66,10 +61,6 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
-    buffer.update(delta)
-    trailsMap.forEach { e ->
-      e.value.emit(e.key.position + (Vec2.rotated(e.key.angle) * e.key.config.trailDistance), 16f, Math.min(e.key.velocityAcceleration * 8 + .025f, 1f))
-    }
     render(delta);
   }
 
@@ -84,9 +75,7 @@ class Main {
       }
     }
     world.allShips().forEach {
-      if (trailsMap.containsKey(it))
-        trailsRenderer.render(trailsMap[it]!!, AssetsManager.peekMaterial("trail"), camera.projectionMatrix())
-      materialRenderer.draw(AssetsManager.peekMaterial(it.config.hullName), it.position, it.angle, 1f, camera.projectionMatrix())
+      it.render(materialRenderer, trailsRenderer, camera.projectionMatrix())
     }
     gbuffer.paintOnUserInterface {
       //uiRenderer.render(delta)
@@ -106,7 +95,6 @@ class Main {
       if (context.selectionRect != null) {
         Draw.rectangle(context.selectionRect!!)
       }
-
       /*if (context.selectionRect != null) {
         val rect = context.selectionRect!!
         val from = Vec2(rect.x, rect.y)

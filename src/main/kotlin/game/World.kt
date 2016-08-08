@@ -23,8 +23,7 @@ class World {
     private fun instantiate(config: ShipTemplate, where: Vec2, count: Int = 1): Collective {
       val squad = Squad()
       for (i in 1..count) {
-        val ship = Ship(config)
-        ship.position = where + Vec2.random() * 256
+        val ship = Ship(config, where + Vec2.random() * 256)
         ship.movementTarget = ship.position + Vec2.random().normalize() * 128
         ship.movementTargetAngle = ship.position.directionTo(ship.movementTarget)
         squad.ships += ship

@@ -1,13 +1,18 @@
 package game
 
+import assets.AssetsManager
 import assets.templates.ShipTemplate
+import com.badlogic.gdx.math.Matrix4
 import commons.math.FastMath
 import commons.math.Vec2
+import rendering.materials.MaterialRenderer
+import rendering.trails.Trail
+import rendering.trails.TrailsRenderer
 
 
-class Ship(val config: ShipTemplate) {
+class Ship(val config: ShipTemplate, initialPosition: Vec2) {
 
-  var position = Vec2.zero();
+  var position = initialPosition;
   var angle = 0f;
   var angleAcceleration = 0f;
   var angleTarget = 0f;
@@ -15,6 +20,7 @@ class Ship(val config: ShipTemplate) {
   var velocityTarget = 0f
   var movementTarget = Vec2.zero()
   var movementTargetAngle = 0f
+  val engines = config.engines.map { Engine(it, this) }.toList()
 
   fun update(delta: Float) {
     val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f);
@@ -43,6 +49,19 @@ class Ship(val config: ShipTemplate) {
     angleAcceleration *= fixAmount
 
     angle = FastMath.loopAngle(angle)
+
+    engines.forEach {
+      val life = Math.min(velocityAcceleration * 8 + .025f, 1f)
+      it.trail.emit(it.absolutePosition(), 16f, life)
+      it.trail.update(delta)
+    }
+  }
+
+  fun render(materialRenderer: MaterialRenderer, trailsRenderer: TrailsRenderer, matrix4: Matrix4) {
+    engines.forEach {
+      trailsRenderer.render(it.trail, AssetsManager.peekMaterial("trail"), matrix4)
+    }
+    materialRenderer.draw(AssetsManager.peekMaterial(config.hullName), position, angle, 1f, matrix4)
   }
 
   private fun calculateTargetAcceleration(): Float {
@@ -68,5 +87,13 @@ class Ship(val config: ShipTemplate) {
   private fun calcNormalizedDistanceToTarget(clampTo: Float) = Math.min(position.distanceTo(movementTarget) / clampTo, 1f)
 
   override fun toString() = "Ship[${hashCode()}](config=$config)"
+
+  class Engine(private val template: ShipTemplate.EngineTemplate, private val ship: Ship) {
+
+    val trail = Trail(absolutePosition(), template.trailWidth)
+
+    fun absolutePosition() = ship.position + template.relativePosition.rotate(ship.angle)
+
+  }
 
 }

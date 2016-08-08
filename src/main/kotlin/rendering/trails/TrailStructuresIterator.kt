@@ -4,7 +4,7 @@ import commons.math.Vec2
 
 object TrailStructuresIterator {
 
-  fun iterate(list: List<TrailsBuffer.Structure>, onStructure: (struct: TrailsBuffer.Structure, hVec: Vec2) -> Unit) = when(list.size) {
+  fun iterate(list: List<Trail.Structure>, onStructure: (struct: Trail.Structure, hVec: Vec2) -> Unit) = when(list.size) {
     1 -> onStructure.invoke(list.first(), Vec2.one())
     2 -> {
       val start = list.first()

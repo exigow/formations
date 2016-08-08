@@ -6,6 +6,7 @@ import assets.templates.TemplateValidator.ensureRange
 import assets.templates.TemplateValidator.ensureThat
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import commons.math.FastMath
+import commons.math.Vec2
 import java.io.File
 
 /**
@@ -29,7 +30,8 @@ data class ShipTemplate(
   val rotationSpeedMax: Float,
   val rotationSpeedDumping: Float,
   val brakeDistance: Float,
-  val trailDistance: Float // todo multiple vectors
+  val trailDistance: Float, // todo multiple vectors
+  val engines: List<EngineTemplate>
 ) {
 
   init {
@@ -55,5 +57,7 @@ data class ShipTemplate(
     fun select(id: String) = values.filter { it.id == id }.first()
 
   }
+
+  data class EngineTemplate(val relativePosition: Vec2, val trailWidth: Float)
 
 }
