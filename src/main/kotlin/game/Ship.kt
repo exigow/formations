@@ -26,18 +26,18 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f);
     val angleDiff = calculateAngleDifferenceToTarget()
 
-    angleAcceleration += angleDiff * config.rotationSpeedAcceleration * delta * fixAmount
-    angleAcceleration = lockAngle(angleAcceleration, config.rotationSpeedMax)
+    angleAcceleration += angleDiff * config.rotation.acceleration * delta * fixAmount
+    angleAcceleration = lockAngle(angleAcceleration, config.rotation.max)
     if (canAccelerateForward()) {
-      val angleDamping = FastMath.pow(config.rotationSpeedDumping, delta)
+      val angleDamping = FastMath.pow(config.rotation.dumping, delta)
       angleAcceleration *= angleDamping
     }
     angle += angleAcceleration * delta
 
     velocityTarget = calculateTargetAcceleration()
-    velocityAcceleration += (velocityTarget - velocityAcceleration) * config.thrusterSpeedAcceleration * delta
+    velocityAcceleration += (velocityTarget - velocityAcceleration) * config.thruster.acceleration * delta
     if (!canAccelerateForward()) {
-      val velocityDamping = FastMath.pow(config.thrusterSpeedDumping, delta)
+      val velocityDamping = FastMath.pow(config.thruster.dumping, delta)
       velocityAcceleration *= velocityDamping
     }
 
@@ -70,10 +70,10 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
       return 0f
     val dist = calcDistanceToTarget();
     if (dist > brake)
-      return config.thrusterSpeedMax
+      return config.thruster.max
     val normDist = 1f - (brake - dist) / brake
     val curved = FastMath.pow(normDist, 8f)
-    return config.thrusterSpeedMax * curved
+    return config.thruster.max * curved
   }
 
   private fun lockAngle(a: Float, max: Float) = FastMath.clamp(a, -max, max)

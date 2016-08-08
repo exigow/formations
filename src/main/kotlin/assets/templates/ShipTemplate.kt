@@ -23,15 +23,10 @@ data class ShipTemplate(
   val hullName: String,
   val size: Float,
   val accelerationAngle: Float,
-  val thrusterSpeedAcceleration: Float,
-  val thrusterSpeedMax: Float,
-  val thrusterSpeedDumping: Float,
-  val rotationSpeedAcceleration: Float,
-  val rotationSpeedMax: Float,
-  val rotationSpeedDumping: Float,
   val brakeDistance: Float,
-  val trailDistance: Float, // todo multiple vectors
-  val engines: List<EngineTemplate>
+  val engines: List<EngineTemplate>,
+  val thruster: DimensionAcceleratorTemplate,
+  val rotation: DimensionAcceleratorTemplate
 ) {
 
   init {
@@ -42,12 +37,12 @@ data class ShipTemplate(
     ensureNotEmpty(id)
     ensureNotEmpty(displayedName)
     ensureThat(accelerationAngle <= FastMath.pi)
-    ensurePositive(thrusterSpeedAcceleration)
-    ensurePositive(thrusterSpeedMax)
-    ensureRange(thrusterSpeedDumping, 0f..1f)
-    ensurePositive(rotationSpeedAcceleration)
-    ensurePositive(rotationSpeedMax)
-    ensureRange(rotationSpeedDumping, 0f..1f)
+    ensurePositive(thruster.acceleration)
+    ensurePositive(thruster.max)
+    ensureRange(thruster.dumping, 0f..1f)
+    ensurePositive(rotation.acceleration)
+    ensurePositive(rotation.max)
+    ensureRange(rotation.dumping, 0f..1f)
   }
 
   companion object {
@@ -59,5 +54,7 @@ data class ShipTemplate(
   }
 
   data class EngineTemplate(val relativePosition: Vec2, val trailWidth: Float)
+
+  data class DimensionAcceleratorTemplate(val acceleration: Float, val max: Float, val dumping: Float)
 
 }

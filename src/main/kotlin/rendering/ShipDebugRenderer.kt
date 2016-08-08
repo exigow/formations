@@ -25,8 +25,8 @@ object ShipDebugRenderer {
 
   private fun Ship.renderThrusterState(dotScale: Float) {
     val scale = config.size * 2 + 64
-    val current = velocityAcceleration / config.thrusterSpeedMax * scale
-    val expected = velocityTarget / config.thrusterSpeedMax * scale
+    val current = velocityAcceleration / config.thruster.max * scale
+    val expected = velocityTarget / config.thruster.max * scale
     val max = scale
     Draw.lineDotted(position, position + Vec2.rotated(angle) * max, dotPopulation * dotScale, alpha = secondAlpha)
     fun horizon(length: Float, size: Float) {
