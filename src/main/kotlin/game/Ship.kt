@@ -52,7 +52,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
 
     engines.forEach {
       val life = Math.min(velocityAcceleration * 8 + .025f, 1f)
-      it.trail.emit(it.absolutePosition(), 16f, life)
+      it.trail.emit(it.absolutePosition(), life)
       it.trail.update(delta)
     }
   }
@@ -90,7 +90,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
 
   class Engine(private val template: ShipTemplate.EngineTemplate, private val ship: Ship) {
 
-    val trail = Trail(absolutePosition(), template.trailWidth)
+    val trail = Trail(absolutePosition(), template.trailWidth, 16f)
 
     fun absolutePosition() = ship.position + template.relativePosition.rotate(ship.angle)
 

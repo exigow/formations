@@ -4,7 +4,7 @@ import commons.math.Vec2
 import java.util.*
 
 
-class Trail(initialPosition: Vec2, val width: Float) {
+class Trail(initialPosition: Vec2, val width: Float, val emissionRange: Float) {
 
   val list: LinkedList<Structure> = LinkedList()
 
@@ -17,9 +17,9 @@ class Trail(initialPosition: Vec2, val width: Float) {
 
   private fun emitInstantly(where: Vec2) = list.add(Structure(where, width))
 
-  fun emit(target: Vec2, maxDistance: Float, initialLife: Float) {
+  fun emit(target: Vec2, initialLife: Float) {
     val lastButOne = list[list.size - 2]
-    if (lastButOne.position.distanceTo(target) < maxDistance) {
+    if (lastButOne.position.distanceTo(target) < emissionRange) {
       list.last.position = target
       list.last.life = initialLife
     } else
