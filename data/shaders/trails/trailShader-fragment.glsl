@@ -1,3 +1,5 @@
+#version 120
+
 uniform sampler2D texture;
 
 varying vec2 texCoord;
@@ -9,7 +11,7 @@ float luminance(vec3 rgb) {
 }
 
 void main() {
-    vec3 color = texture2D(texture, texCoord);
+    vec3 color = texture2D(texture, texCoord).rgb;
     float alpha = life * luminance(color) * .75;
     gl_FragColor = vec4(color, alpha);
 }

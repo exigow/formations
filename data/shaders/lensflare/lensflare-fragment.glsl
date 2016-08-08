@@ -1,3 +1,5 @@
+#version 120
+
 uniform sampler2D texture;
 uniform sampler2D gradient;
 
@@ -5,7 +7,7 @@ varying vec2 texCoord;
 
 const int samplesCount = 8;
 
-float distances[samplesCount] = {
+float distances[samplesCount] = float[samplesCount](
     0.5f,
     0.7f,
     1.03f,
@@ -14,9 +16,9 @@ float distances[samplesCount] = {
     1.62f,
     2.2f,
     3.9f
-};
+);
 
-vec3 colorMultiplers[samplesCount] = {
+vec3 colorMultiplers[samplesCount] = vec3[samplesCount](
     vec3(.75, .83, .56),
     vec3(.76, .56, .87),
     vec3(.227, .272, .286),
@@ -25,7 +27,7 @@ vec3 colorMultiplers[samplesCount] = {
     vec3(.87, .56, .15),
     vec3(.38, .97, .45),
     vec3(.78, .43, .73)
-};
+);
 
 vec3 distorted(vec2 uv, vec2 dir) {
     vec3 result = vec3(0.0);
@@ -58,7 +60,7 @@ vec3 bounce(int i, vec2 dir) {
 }
 
 vec3 colorizeWithRadialGradient(vec3 color) {
-    vec2 gradientSample = length(vec2(0.5) - texCoord) / length(vec2(0.5));
+    vec2 gradientSample = length(vec2(0.5) - texCoord) / vec2(length(vec2(0.5)));
     vec3 gradientColor = texture2D(gradient, gradientSample).rgb;
     return color * gradientColor;
 }

@@ -1,3 +1,5 @@
+#version 120
+
 uniform sampler2D textureClean;
 uniform sampler2D textureBloom;
 uniform sampler2D textureBloomHalo;

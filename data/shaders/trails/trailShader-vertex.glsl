@@ -1,3 +1,5 @@
+#version 120
+
 uniform mat4 projection;
 
 attribute vec4 positionAttr;
