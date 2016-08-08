@@ -16,6 +16,7 @@ import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
 import rendering.trails.TrailsRenderer
 import rendering.utils.PixelIterator
+import ui.UserInterfaceRenderer
 import java.util.*
 
 class Main {
@@ -24,7 +25,7 @@ class Main {
   private val camera = Camera()
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
-  //private val uiRenderer = UserInterfaceRenderer(context, camera, world)
+  private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
@@ -92,9 +93,7 @@ class Main {
         }
         batch.end()
       }
-      if (context.selectionRect != null) {
-        Draw.rectangle(context.selectionRect!!)
-      }
+
       /*if (context.selectionRect != null) {
         val rect = context.selectionRect!!
         val from = Vec2(rect.x, rect.y)
@@ -102,8 +101,8 @@ class Main {
 
         SlicedRectangleRenderer.render(from, to, AssetsManager.peekMaterial("rect").diffuse!!, camera.projectionMatrix())
       }*/
+      uiRenderer.render(delta)
     }
-
     gbuffer.showCombined()
   }
 
