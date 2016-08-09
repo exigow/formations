@@ -72,6 +72,11 @@ data class Vec2(val x: Float, val y: Float) {
 
     @JvmStatic fun scaled(scale: Float) = Vec2.one() * scale
 
+    @JvmStatic fun random(seed: Int): Vec2 {
+      fun rand() = Random.random(seed)
+      return Vec2(rand(), rand()).normalize()
+    }
+
     @JvmStatic fun random(): Vec2 {
       fun rand() = MathUtils.random(-1f, 1f)
       return Vec2(rand(), rand())

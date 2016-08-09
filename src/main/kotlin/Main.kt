@@ -2,11 +2,11 @@ import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import commons.math.FastMath
+import commons.math.Random
 import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
-import game.Asteroid
 import game.PlayerContext
 import game.World
 import rendering.Draw
@@ -15,9 +15,8 @@ import rendering.GBuffer
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
 import rendering.trails.TrailsRenderer
-import rendering.utils.PixelIterator
+import rendering.utils.TextureToValueConverter
 import ui.UserInterfaceRenderer
-import java.util.*
 
 class Main {
 
@@ -30,8 +29,8 @@ class Main {
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
   private val batch = SpriteBatch()
-  private val asteroids = maskToAsteroids()
-
+  private val asteroidsSource = TextureToValueConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, {color -> color.r})
+  private var timePassed = 0f
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -42,23 +41,9 @@ class Main {
     actions.addAction(CameraShipLockAction(camera, context))
   }
 
-  private fun maskToAsteroids(): List<Asteroid> {
-    val lookup = PixelIterator(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!)
-    val result = ArrayList<Asteroid>()
-    lookup.iterate { x, y, color ->
-      val red = color.r
-      if (red > .075f) {
-        val asset = FastMath.chooseRandomly("asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
-        val rotSpeed = Vec2.random().angleInRadians() * .025f
-        val angle = Vec2.random().angleInRadians()
-        result += Asteroid((Vec2(x, y) + Vec2.random() - Vec2(16, 16)) * 128, angle, rotSpeed, asset, red * FastMath.randomRange(.5f, 4f))
-      }
-    }
-    return result
-  }
-
   fun onFrame() {
     val delta = Gdx.graphics.deltaTime
+    timePassed += delta
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
@@ -69,11 +54,13 @@ class Main {
     Draw.update(camera)
     gbuffer.clear()
     renderBackgroundImage();
-    asteroids.forEach {
-      if (camera.worldVisibilityRectangle(128f).contains(it.position.toVector2())) {
-        materialRenderer.draw(AssetsManager.peekMaterial(it.assetName), it.position, it.angle, it.scale, camera.projectionMatrix())
-        it.angle += it.angleRotationSpeed * delta
-      }
+    generateAsteroidInstances().forEach {
+      val chosenAsset = Random.chooseRandomly(it.toSeed(), "asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
+      val positionVariation = Vec2.random(it.toSeed()) * 16
+      val angleSeed = Random.randomFloatNormalized(it.toSeed())
+      val angle = (angleSeed * FastMath.pi) + (angleSeed * timePassed * .075f)
+      val sizeMultiplier = Random.randomFloatRange(it.toSeed(), .5f, 2f)
+      materialRenderer.draw(AssetsManager.peekMaterial(chosenAsset), it.toVec2() + positionVariation, angle, it.value * sizeMultiplier, camera.projectionMatrix())
     }
     world.allShips().forEach {
       it.render(materialRenderer, trailsRenderer, camera.projectionMatrix())
@@ -105,6 +92,12 @@ class Main {
     }
     gbuffer.showCombined()
   }
+
+  private fun generateAsteroidInstances() = asteroidsSource.toSetOfValuePoints()
+    .filter { it.value > .125f }
+    .map { it.translatePosition(-16, -16).scalePosition(64) }
+    .filter { camera.worldVisibilityRectangle(-128f).contains(it.toVec2().toVector2()) }
+    .filter { it.value > camera.renderingScale() * .05 }
 
   private fun renderBackgroundImage() {
     gbuffer.paintOnDiffuse {

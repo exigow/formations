@@ -1,8 +1,5 @@
 package commons.math
 
-import com.badlogic.gdx.math.MathUtils
-import java.util.*
-
 
 @Suppress("NOTHING_TO_INLINE")
 object FastMath {
@@ -58,13 +55,6 @@ object FastMath {
     val x = clamp((percent - from)/(to - from), 0f, 1f);
     return x * x * (3 - 2 * x)
   }
-
-  fun <T> chooseRandomly(vararg options: T): T {
-    val random = Random().nextInt(options.size)
-    return options[random]
-  }
-
-  fun randomRange(from: Float, to: Float) = MathUtils.random(from, to)
 
   // todo https://en.wikipedia.org/wiki/Smoothstep -> smootherstep
   fun smootherstep(from: Float, to: Float, percent: Float): Float = TODO()
