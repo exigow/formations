@@ -56,10 +56,10 @@ class Main {
     renderBackgroundImage();
     generateAsteroidInstances().forEach {
       val chosenAsset = Random.chooseRandomly(it.toSeed(), "asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
-      val positionVariation = Vec2.random(it.toSeed()) * 16
+      val positionVariation = Vec2.random(it.toSeed()) * 32
       val angleSeed = Random.randomFloatNormalized(it.toSeed())
       val angle = (angleSeed * FastMath.pi) + (angleSeed * timePassed * .075f)
-      val sizeMultiplier = Random.randomFloatRange(it.toSeed(), .5f, 2f)
+      val sizeMultiplier = Random.randomFloatRange(it.toSeed(), .5f, 4f)
       materialRenderer.draw(AssetsManager.peekMaterial(chosenAsset), it.toVec2() + positionVariation, angle, it.value * sizeMultiplier, camera.projectionMatrix())
     }
     world.allShips().forEach {
@@ -94,10 +94,10 @@ class Main {
   }
 
   private fun generateAsteroidInstances() = asteroidsSource.toSetOfValuePoints()
-    .filter { it.value > .125f }
-    .map { it.translatePosition(-16, -16).scalePosition(64) }
+    .filter { it.value > .075f }
+    .map { it.translatePosition(-16, -16).scalePosition(128) }
     .filter { camera.worldVisibilityRectangle(-128f).contains(it.toVec2().toVector2()) }
-    .filter { it.value > camera.renderingScale() * .05 }
+    .filter { it.value > camera.renderingScale() * .0375 }
 
   private fun renderBackgroundImage() {
     gbuffer.paintOnDiffuse {
