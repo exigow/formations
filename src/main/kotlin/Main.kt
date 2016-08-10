@@ -1,7 +1,6 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import commons.math.FastMath
 import commons.math.Random
 import commons.math.Vec2
 import core.Camera
@@ -14,8 +13,9 @@ import rendering.FontRenderer
 import rendering.GBuffer
 import rendering.canvas.FullscreenQuad
 import rendering.materials.MaterialRenderer
+import rendering.procedural.Chunk
+import rendering.procedural.TextureToChunkConverter
 import rendering.trails.TrailsRenderer
-import rendering.utils.TextureToValueConverter
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -29,7 +29,7 @@ class Main {
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
   private val batch = SpriteBatch()
-  private val asteroidsSource = TextureToValueConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, {color -> color.r})
+  private val source = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, {c -> c.r})
   private var timePassed = 0f
 
   init {
@@ -54,19 +54,10 @@ class Main {
     Draw.update(camera)
     gbuffer.clear()
     renderBackgroundImage();
-    generateAsteroidInstances().forEach {
-      val chosenAsset = Random.chooseRandomly(it.toSeed(), "asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
-      val positionVariation = Vec2.random(it.toSeed()) * 32
-      val angleSeed = Random.randomFloatNormalized(it.toSeed())
-      val angle = (angleSeed * FastMath.pi) + (angleSeed * timePassed * .075f)
-      val sizeMultiplier = Random.randomFloatRange(it.toSeed(), .5f, 4f)
-      materialRenderer.draw(AssetsManager.peekMaterial(chosenAsset), it.toVec2() + positionVariation, angle, it.value * sizeMultiplier, camera.projectionMatrix())
-    }
     world.allShips().forEach {
       it.render(materialRenderer, trailsRenderer, camera.projectionMatrix())
     }
     gbuffer.paintOnUserInterface {
-      //uiRenderer.render(delta)
       if (context.isHovering()) {
         val h = context.hovered!!
         val type = h.ships.first().config.displayedName
@@ -80,24 +71,42 @@ class Main {
         }
         batch.end()
       }
-
-      /*if (context.selectionRect != null) {
-        val rect = context.selectionRect!!
-        val from = Vec2(rect.x, rect.y)
-        val to = Vec2(rect.x + rect.width, rect.y + rect.height)
-
-        SlicedRectangleRenderer.render(from, to, AssetsManager.peekMaterial("rect").diffuse!!, camera.projectionMatrix())
-      }*/
       uiRenderer.render(delta)
     }
+
+    val processed = source
+      .filter { it.value > .075f } // apply threshold
+      .filter { it.value > camera.renderingScale() * .0375 } // show only noticeable by camera
+      .map { it.translate(Vec2.one() * -16).scale(128f) } // centered + scaled to world
+      .filter { camera.worldVisibilityRectangle(-64f).contains(it.position.toVector2()) } // show visible
+    processed.forEach { it.toRenderedAsteroid() }
+
     gbuffer.showCombined()
+
+    processed.forEach {
+      Draw.diamond(it.position, it.value * 64)
+      Draw.cross(it.position, 4f * camera.renderingScale())
+    }
   }
 
-  private fun generateAsteroidInstances() = asteroidsSource.toSetOfValuePoints()
-    .filter { it.value > .075f }
-    .map { it.translatePosition(-16, -16).scalePosition(128) }
-    .filter { camera.worldVisibilityRectangle(-128f).contains(it.toVec2().toVector2()) }
-    .filter { it.value > camera.renderingScale() * .0375 }
+  private fun Chunk.toRenderedAsteroid() {
+    val seed = toSeed()
+
+    val materialName = Random.chooseRandomly(seed, "asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
+    val material = AssetsManager.peekMaterial(materialName)
+
+    val sizeVariation = Random.randomFloatRange(seed, .75f, 1.25f)
+    val s = value * sizeVariation
+
+    val positionVariation = Vec2.random(seed) * 32
+    val p = position + positionVariation
+
+    val angleVariation = Random.randomPiToMinusPi(seed)
+    val startingAngleVariation = Random.randomPiToMinusPi(seed + 1)
+    val a = startingAngleVariation + (angleVariation * timePassed) * .075f
+
+    materialRenderer.draw(material, p, a, s * 2f, camera.projectionMatrix())
+  }
 
   private fun renderBackgroundImage() {
     gbuffer.paintOnDiffuse {

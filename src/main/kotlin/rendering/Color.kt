@@ -1,5 +1,6 @@
 package rendering
 
+// todo remove enum, do trivial class with companion object (with default colors as functions)
 enum class Color(val r: Float, val g: Float, val b: Float) {
 
   WHITE(1f, 1f, 1f),

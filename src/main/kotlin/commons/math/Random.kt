@@ -16,6 +16,8 @@ object Random {
 
   fun randomFloatNormalized(seed: Int) = (-.5f + MersenneTwister(seed).nextFloat()) * 2f
 
+  fun randomPiToMinusPi(seed: Int) = randomFloatRange(seed, -FastMath.pi, FastMath.pi)
+
   fun randomFloatRange(seed: Int, from: Float, to: Float): Float {
     val diff = to - from
     return from + randomFloat(seed) * diff
