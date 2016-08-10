@@ -76,6 +76,12 @@
     "magFilter": "linear"
   },
   {
+    "id": "asteroid-rock-dust",
+    "textureDiffuseFilename": "data/textures/asteroids/rock/dust.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
     "id": "asteroid-red-a",
     "textureDiffuseFilename": "data/textures/asteroids/lava/a-diffuse.png",
     "textureEmissiveFilename": "data/textures/asteroids/lava/a-emissive.png",

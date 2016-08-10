@@ -29,7 +29,7 @@ class Main {
   private val trailsRenderer = TrailsRenderer(gbuffer)
   private val materialRenderer = MaterialRenderer(gbuffer)
   private val batch = SpriteBatch()
-  private val source = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, {c -> c.r})
+  private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.r})
   private var timePassed = 0f
 
   init {
@@ -54,6 +54,14 @@ class Main {
     Draw.update(camera)
     gbuffer.clear()
     renderBackgroundImage();
+
+    val processed = chunks
+      .filter { it.value > .075f } // apply threshold
+      .filter { it.value > camera.renderingScale() * .0125 } // show only noticeable by camera
+      .map { it.translate(Vec2.one() * -16).scale(128f) } // centered + scaled to world
+      .filter { camera.worldVisibilityRectangle(256f / camera.renderingScale()).contains(it.position.toVector2()) } // show visible
+    processed.forEach { it.toRenderedAsteroid() }
+
     world.allShips().forEach {
       it.render(materialRenderer, trailsRenderer, camera.projectionMatrix())
     }
@@ -73,20 +81,7 @@ class Main {
       }
       uiRenderer.render(delta)
     }
-
-    val processed = source
-      .filter { it.value > .075f } // apply threshold
-      .filter { it.value > camera.renderingScale() * .0375 } // show only noticeable by camera
-      .map { it.translate(Vec2.one() * -16).scale(128f) } // centered + scaled to world
-      .filter { camera.worldVisibilityRectangle(-64f).contains(it.position.toVector2()) } // show visible
-    processed.forEach { it.toRenderedAsteroid() }
-
     gbuffer.showCombined()
-
-    processed.forEach {
-      Draw.diamond(it.position, it.value * 64)
-      Draw.cross(it.position, 4f * camera.renderingScale())
-    }
   }
 
   private fun Chunk.toRenderedAsteroid() {
@@ -98,14 +93,16 @@ class Main {
     val sizeVariation = Random.randomFloatRange(seed, .75f, 1.25f)
     val s = value * sizeVariation
 
-    val positionVariation = Vec2.random(seed) * 32
+    val positionVariation = Vec2.random(seed) * 64
     val p = position + positionVariation
 
     val angleVariation = Random.randomPiToMinusPi(seed)
     val startingAngleVariation = Random.randomPiToMinusPi(seed + 1)
-    val a = startingAngleVariation + (angleVariation * timePassed) * .075f
+    val a = startingAngleVariation + (angleVariation * timePassed) * .025f
 
-    materialRenderer.draw(material, p, a, s * 2f, camera.projectionMatrix())
+    if (value > .125f)
+      materialRenderer.draw(AssetsManager.peekMaterial("asteroid-rock-dust"), p, startingAngleVariation, s * 8f, camera.projectionMatrix())
+    materialRenderer.draw(material, p, a, s * 4f, camera.projectionMatrix())
   }
 
   private fun renderBackgroundImage() {
