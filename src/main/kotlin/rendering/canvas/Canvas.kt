@@ -20,7 +20,7 @@ class Canvas(private val buffer: FrameBuffer) {
     buffer.end()
   }
 
-  fun clear(color: Color = Color.BLACK, alpha: Float = 1f) = paint {
+  fun clear(color: Color = Color.black, alpha: Float = 1f) = paint {
     Gdx.gl.glClearColor(color.r, color.g, color.b, alpha)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
   }

@@ -43,8 +43,8 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
     if (context.selectionRect != null) {
       rectangleSequence.show()
       rectangle.set(context.selectionRect)
-      Draw.rectangleDotted(rectangle, dotLength = camera.renderingScale() * 8f, color = Color.LIGHT_GRAY)
-      Draw.rectangleFilled(rectangle, color = Color.WHITE, alpha = .075f)
+      Draw.rectangleDotted(rectangle, dotLength = camera.renderingScale() * 8f, color = Color.lightGray)
+      Draw.rectangleFilled(rectangle, color = Color.white, alpha = .075f)
     } else
       rectangleSequence.hide()
     rectangleSequence.update(delta * 2)
@@ -146,7 +146,7 @@ class UserInterfaceRenderer(val context: PlayerContext, val camera: Camera, val 
   private fun Collective.renderConvexHull() {
     val positions = this.squads.flatMap { it.ships }.map { it.position }
     val hull = ConvexHull.calculate(positions)
-    Draw.paths(Path(hull).populate(camera.normalizedRenderingScale() * 16f).slice(), color = Color.GRAY)
+    Draw.paths(Path(hull).populate(camera.normalizedRenderingScale() * 16f).slice(), color = Color.gray)
   }
 
   private class AnimationSequenceSquadBundle(

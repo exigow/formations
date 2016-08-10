@@ -18,7 +18,7 @@ object DynamicGridRenderer {
   }
 
   private fun grid(eye: Vec2, size: Vec2, alpha: Float, epsilon: Float) {
-    fun line(from: Vec2, to: Vec2) = Draw.line(from, to, Color.WHITE, alpha)
+    fun line(from: Vec2, to: Vec2) = Draw.line(from, to, Color.white, alpha)
     asd(epsilon, eye, size.x, { e, i ->
       line(Vec2(e.x - i, e.y - size.y), Vec2(e.x - i, e.y + size.y))
       if (i != 0f)

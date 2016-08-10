@@ -1,9 +1,9 @@
 package rendering.procedural
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import commons.math.Vec2
+import rendering.Color
 import java.util.*
 
 
@@ -26,6 +26,6 @@ object TextureToChunkConverter {
     return textureData.consumePixmap()
   }
 
-  private fun Pixmap.readColor(x: Int, y: Int) = Color(getPixel(x, y))
+  private fun Pixmap.readColor(x: Int, y: Int) = Color.fromInt(getPixel(x, y))
 
 }
