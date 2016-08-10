@@ -9,7 +9,7 @@
     "id": "trail",
     "textureDiffuseFilename": "data/textures/trail-diffuse.png",
     "textureEmissiveFilename": "data/textures/trail-emissive.png",
-    "minFilter": "linear",
+    "minFilter": "mipmap",
     "magFilter": "linear"
   },
   {
