@@ -126,5 +126,11 @@
     "textureDiffuseFilename": "data/textures/maps/asteroid-test.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
+  },
+  {
+    "id": "black",
+    "textureDiffuseFilename": "data/textures/black.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
   }
 ]

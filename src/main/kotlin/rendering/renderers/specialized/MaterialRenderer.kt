@@ -36,18 +36,19 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
         renderMesh(shader)
         shader.end();
       }
-      if (material.emissive != null) {
-        gbuffer.paintOnEmissive {
-          val shader = AssetsManager.peekShader("materialEmissive")
+      gbuffer.paintOnEmissive {
+        val shader = AssetsManager.peekShader("materialEmissive")
+        if (material.emissive != null)
           material.emissive.bind(1)
-          material.diffuse!!.bind(0)
-          shader.begin();
-          shader.setUniformMatrix("projection", matrix);
-          shader.setUniformi("texture", 1);
-          shader.setUniformi("colorTexture", 0);
-          renderMesh(shader)
-          shader.end();
-        }
+        else
+          AssetsManager.peekMaterial("black").diffuse!!.bind(1)
+        material.diffuse!!.bind(0)
+        shader.begin();
+        shader.setUniformMatrix("projection", matrix);
+        shader.setUniformi("texture", 1);
+        shader.setUniformi("colorTexture", 0);
+        renderMesh(shader)
+        shader.end();
       }
     }
   }
