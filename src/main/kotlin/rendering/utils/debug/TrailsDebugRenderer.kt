@@ -1,8 +1,9 @@
-package rendering.utils
+package rendering.utils.debug
 
 import rendering.paths.Path
 import rendering.trails.Trail
 import rendering.trails.TrailIterator
+import rendering.utils.Draw
 
 
 object TrailsDebugRenderer {

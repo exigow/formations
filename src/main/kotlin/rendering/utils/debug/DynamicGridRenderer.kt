@@ -1,9 +1,10 @@
-package rendering.utils
+package rendering.utils.debug
 
 import commons.math.FastMath
 import commons.math.Vec2
 import core.Camera
 import rendering.Color
+import rendering.utils.Draw
 
 
 object DynamicGridRenderer {
