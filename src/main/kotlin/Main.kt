@@ -1,7 +1,6 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import commons.math.Random
 import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
@@ -9,9 +8,8 @@ import core.actions.catalog.*
 import game.PlayerContext
 import game.World
 import rendering.GBuffer
-import rendering.Sprite
 import rendering.canvas.FullscreenQuad
-import rendering.procedural.Chunk
+import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
 import rendering.renderers.GbufferRenderer
 import rendering.utils.Draw
@@ -54,7 +52,7 @@ class Main {
     gbuffer.clear()
     renderFullscreenBackgroundImage();
 
-    val asteroidSprites = chunks.transformToWorldUnits().map { it.toAsteroidSprite() }.flatten()
+    val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
     val allSprites = asteroidSprites + shipSprites
     spriteRenderer.render(allSprites, camera)
@@ -76,36 +74,6 @@ class Main {
       //uiRenderer.render(delta)
     }
     gbuffer.showCombined()
-  }
-
-  private fun Collection<Chunk>.transformToWorldUnits(): Collection<Chunk> = chunks
-    .filter { it.value > .075f } // apply threshold
-    .filter { it.value > camera.renderingScale() * .0125 } // show only noticeable by camera
-    .map { it.translate(Vec2.one() * -16).scale(128f) } // centered + scaled to world
-
-  private fun Chunk.toAsteroidSprite(): Collection<Sprite> {
-    val seed = toSeed()
-
-    val materialName = Random.chooseRandomly(seed, "asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
-    val material = AssetsManager.peekMaterial(materialName)
-
-    val sizeVariation = Random.randomFloatRange(seed, .75f, 1.25f)
-    val s = value * sizeVariation
-
-    val positionVariation = Vec2.random(seed) * 64
-    val p = position + positionVariation
-
-    val angleVariation = Random.randomPiToMinusPi(seed)
-    val startingAngleVariation = Random.randomPiToMinusPi(seed + 1)
-    val a = startingAngleVariation + (angleVariation * timePassed) * .025f
-
-    val depth = Random.randomFloatRange(seed, -1f, 1f) * .125f
-    val asteroid = Sprite(material, p, s * 4f, a, depth)
-    if (value > .125f) {
-      val cloud = Sprite(AssetsManager.peekMaterial("asteroid-rock-dust"), p, s * 8f, startingAngleVariation, depth + .075f)
-      return listOf(cloud, asteroid)
-    }
-    return listOf(asteroid)
   }
 
   private fun renderFullscreenBackgroundImage() {
