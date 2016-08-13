@@ -17,7 +17,7 @@ import rendering.GBuffer
 import rendering.materials.Material
 import rendering.utils.Blender
 
-internal class ImmediateMaterialRenderer(val gbuffer: GBuffer) {
+internal class MaterialRenderer(val gbuffer: GBuffer) {
 
   private val mesh = initialiseMesh()
 

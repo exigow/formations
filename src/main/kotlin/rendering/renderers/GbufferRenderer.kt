@@ -4,13 +4,13 @@ import assets.AssetsManager
 import core.Camera
 import rendering.GBuffer
 import rendering.Sprite
-import rendering.renderers.specialized.ImmediateMaterialRenderer
+import rendering.renderers.specialized.MaterialRenderer
 import rendering.renderers.specialized.TrailsRenderer
 import rendering.trails.Trail
 
 class GbufferRenderer(private val gbuffer: GBuffer) {
 
-  private val immediateRenderer = ImmediateMaterialRenderer(gbuffer)
+  private val immediateRenderer = MaterialRenderer(gbuffer)
   private val trailsRenderer = TrailsRenderer(gbuffer)
 
   fun render(renderables: Collection<Renderable>, camera: Camera) {
