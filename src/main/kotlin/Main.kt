@@ -8,14 +8,14 @@ import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
-import rendering.Draw
-import rendering.FontRenderer
 import rendering.GBuffer
+import rendering.Sprite
 import rendering.canvas.FullscreenQuad
-import rendering.materials.MaterialRenderer
 import rendering.procedural.Chunk
 import rendering.procedural.TextureToChunkConverter
-import rendering.trails.TrailsRenderer
+import rendering.renderers.GbufferRenderer
+import rendering.utils.Draw
+import rendering.utils.FontRenderer
 import ui.UserInterfaceRenderer
 
 class Main {
@@ -25,12 +25,11 @@ class Main {
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
   private val uiRenderer = UserInterfaceRenderer(context, camera, world)
-  private val gbuffer = GBuffer.setUp(Gdx.graphics.width, Gdx.graphics.height)
-  private val trailsRenderer = TrailsRenderer(gbuffer)
-  private val materialRenderer = MaterialRenderer(gbuffer)
+  private val gbuffer = GBuffer.setUpWindowSize()
   private val batch = SpriteBatch()
   private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.r})
   private var timePassed = 0f
+  private val spriteRenderer = GbufferRenderer(gbuffer)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -53,18 +52,13 @@ class Main {
   fun render(delta: Float) {
     Draw.update(camera)
     gbuffer.clear()
-    renderBackgroundImage();
+    renderFullscreenBackgroundImage();
 
-    val processed = chunks
-      .filter { it.value > .075f } // apply threshold
-      .filter { it.value > camera.renderingScale() * .0125 } // show only noticeable by camera
-      .map { it.translate(Vec2.one() * -16).scale(128f) } // centered + scaled to world
-      .filter { camera.worldVisibilityRectangle(256f / camera.renderingScale()).contains(it.position.toVector2()) } // show visible
-    processed.forEach { it.toRenderedAsteroid() }
+    val asteroidSprites = chunks.transformToWorldUnits().map { it.toAsteroidSprite() }.flatten()
+    val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
+    val allSprites = asteroidSprites + shipSprites
+    spriteRenderer.render(allSprites, camera)
 
-    world.allShips().forEach {
-      it.render(materialRenderer, trailsRenderer, camera.projectionMatrix())
-    }
     gbuffer.paintOnUserInterface {
       if (context.isHovering()) {
         val h = context.hovered!!
@@ -79,12 +73,17 @@ class Main {
         }
         batch.end()
       }
-      uiRenderer.render(delta)
+      //uiRenderer.render(delta)
     }
     gbuffer.showCombined()
   }
 
-  private fun Chunk.toRenderedAsteroid() {
+  private fun Collection<Chunk>.transformToWorldUnits(): Collection<Chunk> = chunks
+    .filter { it.value > .075f } // apply threshold
+    .filter { it.value > camera.renderingScale() * .0125 } // show only noticeable by camera
+    .map { it.translate(Vec2.one() * -16).scale(128f) } // centered + scaled to world
+
+  private fun Chunk.toAsteroidSprite(): Collection<Sprite> {
     val seed = toSeed()
 
     val materialName = Random.chooseRandomly(seed, "asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
@@ -100,12 +99,16 @@ class Main {
     val startingAngleVariation = Random.randomPiToMinusPi(seed + 1)
     val a = startingAngleVariation + (angleVariation * timePassed) * .025f
 
-    if (value > .125f)
-      materialRenderer.draw(AssetsManager.peekMaterial("asteroid-rock-dust"), p, startingAngleVariation, s * 8f, camera.projectionMatrix())
-    materialRenderer.draw(material, p, a, s * 4f, camera.projectionMatrix())
+    val depth = Random.randomFloatRange(seed, -1f, 1f) * .125f
+    val asteroid = Sprite(material, p, s * 4f, a, depth)
+    if (value > .125f) {
+      val cloud = Sprite(AssetsManager.peekMaterial("asteroid-rock-dust"), p, s * 8f, startingAngleVariation, depth + .025f)
+      return listOf(cloud, asteroid)
+    }
+    return listOf(asteroid)
   }
 
-  private fun renderBackgroundImage() {
+  private fun renderFullscreenBackgroundImage() {
     gbuffer.paintOnDiffuse {
       AssetsManager.peekMaterial("background").diffuse!!.bind(0)
       val shader = AssetsManager.peekShader("fullscreenQuadShader")

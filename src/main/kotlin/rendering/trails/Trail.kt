@@ -1,10 +1,13 @@
 package rendering.trails
 
 import commons.math.Vec2
+import rendering.renderers.Renderable
 import java.util.*
 
 
-class Trail(initialPosition: Vec2, val width: Float, val emissionRange: Float) {
+class Trail(initialPosition: Vec2, val width: Float, val emissionRange: Float) : Renderable {
+
+  override fun depth() = 0f
 
   val list: LinkedList<Structure> = LinkedList()
 

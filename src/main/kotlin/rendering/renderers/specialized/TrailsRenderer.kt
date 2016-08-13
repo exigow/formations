@@ -1,4 +1,4 @@
-package rendering.trails
+package rendering.renderers.specialized
 
 import assets.AssetsManager
 import com.badlogic.gdx.graphics.*
@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
 import rendering.GBuffer
 import rendering.materials.Material
+import rendering.trails.Trail
+import rendering.trails.TrailIterator
 import rendering.utils.Blender
 
 class TrailsRenderer(private val gbuffer: GBuffer) {
@@ -40,7 +42,7 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
   private fun calculateTrailArray(structures: List<Trail.Structure>): FloatArray {
     val batch = StripBatch((structures.size * 2) * 5)
     var v = 0f
-    TrailStructuresIterator.iterate(structures, {
+    TrailIterator.iterate(structures, {
       struct, vec ->
       emitSegment(struct.position, struct.life, struct.width, vec, batch, v)
       v += 1f

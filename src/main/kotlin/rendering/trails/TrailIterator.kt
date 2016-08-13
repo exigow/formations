@@ -1,9 +1,8 @@
 package rendering.trails
 
 import commons.math.Vec2
-import java.util.*
 
-object TrailStructuresIterator {
+internal object TrailIterator {
 
   fun iterate(list: List<Trail.Structure>, onStructure: (struct: Trail.Structure, hVec: Vec2) -> Unit) = when(list.size) {
     1 -> onStructure.invoke(list.first(), Vec2.one())
@@ -32,9 +31,5 @@ object TrailStructuresIterator {
   }
 
   private fun calcHorizon(from: Vec2, to: Vec2) = (from - to).normalize().rotate90Left()
-
-  init {
-    Random().nextInt()
-  }
 
 }

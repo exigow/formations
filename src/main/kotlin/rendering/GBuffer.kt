@@ -1,6 +1,7 @@
 package rendering
 
 import assets.AssetsManager
+import com.badlogic.gdx.Gdx
 import commons.math.Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
@@ -23,6 +24,8 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
       emissive = Canvas.setUp(width / 2, height / 2),
       ui = Canvas.setUpWithTransparency(width, height)
     )
+
+    fun setUpWindowSize() = setUp(Gdx.graphics.width, Gdx.graphics.height)
 
   }
 

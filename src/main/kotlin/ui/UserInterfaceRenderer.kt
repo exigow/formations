@@ -11,8 +11,8 @@ import game.Squad
 import game.World
 import game.orders.MoveOrder
 import rendering.Color
-import rendering.Draw
 import rendering.paths.Path
+import rendering.utils.Draw
 import java.util.*
 
 

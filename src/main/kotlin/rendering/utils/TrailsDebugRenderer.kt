@@ -1,13 +1,14 @@
-package rendering.trails
+package rendering.utils
 
-import rendering.Draw
 import rendering.paths.Path
+import rendering.trails.Trail
+import rendering.trails.TrailIterator
 
 
 object TrailsDebugRenderer {
 
   fun render(trail: Trail) {
-    TrailStructuresIterator.iterate(trail.list, {
+    TrailIterator.iterate(trail.list, {
       struct, vec ->
       val scaled = vec * 16// * (.25f + struct.life * .75f)
       val where = struct.position

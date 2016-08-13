@@ -113,4 +113,6 @@ class Camera {
     return Rectangle(x, y, w * eye.z, h * eye.z);
   }
 
+  fun projectPerspective(position: Vec2, depth: Float) = position + (positionEye() - position) * depth / normalizedRenderingScale()
+
 }

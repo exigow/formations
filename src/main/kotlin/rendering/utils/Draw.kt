@@ -1,8 +1,9 @@
-package rendering
+package rendering.utils
 
 import com.badlogic.gdx.math.Rectangle
 import commons.math.Vec2
 import core.Camera
+import rendering.Color
 import rendering.Paths.PathFactory
 import rendering.paths.Path
 import rendering.paths.PathRenderer

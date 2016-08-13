@@ -1,4 +1,4 @@
-package rendering.materials
+package rendering.renderers.specialized
 
 import assets.AssetsManager
 import com.badlogic.gdx.graphics.GL20
@@ -12,10 +12,12 @@ import commons.math.Vec2
 import commons.math.Vec2.Transformations.rotate
 import commons.math.Vec2.Transformations.scale
 import commons.math.Vec2.Transformations.translate
+import rendering.Color
 import rendering.GBuffer
+import rendering.materials.Material
 import rendering.utils.Blender
 
-class MaterialRenderer(val gbuffer: GBuffer) {
+internal class ImmediateMaterialRenderer(val gbuffer: GBuffer) {
 
   private val mesh = initialiseMesh()
 
@@ -30,7 +32,7 @@ class MaterialRenderer(val gbuffer: GBuffer) {
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
         shader.setUniformi("texture", 0);
-        shader.setUniform3fv("ambientColor", floatArrayOf(.784f, .764f, .662f), 0, 3)
+        shader.setUniform3fv("ambientColor", Color(.784f, .764f, .662f).toFloatArray(), 0, 3)
         renderMesh(shader)
         shader.end();
       }
@@ -58,10 +60,10 @@ class MaterialRenderer(val gbuffer: GBuffer) {
   }
 
   private fun transformedQuad(size: Vec2, position: Vec2, angle: Float) = listOf(
-      Vec2(-1, -1),
-      Vec2(1, -1),
-      Vec2(1, 1),
-      Vec2(-1, 1)
+    Vec2(-1, -1),
+    Vec2(1, -1),
+    Vec2(1, 1),
+    Vec2(-1, 1)
     ).scale(size / 8)
     .rotate(angle + FastMath.pi / 2)
     .translate(position)

@@ -2,12 +2,11 @@ package game
 
 import assets.AssetsManager
 import assets.templates.ShipTemplate
-import com.badlogic.gdx.math.Matrix4
 import commons.math.FastMath
 import commons.math.Vec2
-import rendering.materials.MaterialRenderer
+import rendering.Sprite
+import rendering.renderers.Renderable
 import rendering.trails.Trail
-import rendering.trails.TrailsRenderer
 
 
 class Ship(val config: ShipTemplate, initialPosition: Vec2) {
@@ -57,11 +56,11 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     }
   }
 
-  fun render(materialRenderer: MaterialRenderer, trailsRenderer: TrailsRenderer, matrix4: Matrix4) {
-    engines.forEach {
-      trailsRenderer.render(it.trail, AssetsManager.peekMaterial("trail"), matrix4)
-    }
-    materialRenderer.draw(AssetsManager.peekMaterial(config.hullName), position, angle, 1f, matrix4)
+  fun toRenderable(): Collection<Renderable> {
+    val hull = AssetsManager.peekMaterial(config.hullName)
+    val sprite = Sprite(hull, position, 1f, angle)
+    val trails = engines.map { it.trail }
+    return trails + sprite
   }
 
   private fun calculateTargetAcceleration(): Float {
