@@ -17,6 +17,9 @@ buildscript {
 apply plugin: "kotlin"
 apply plugin: "idea"
 apply plugin: "java"
+apply plugin: "application"
+
+mainClassName = "ApplicationEntry"
 
 sourceSets {
 
