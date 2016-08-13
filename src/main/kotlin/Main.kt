@@ -102,7 +102,7 @@ class Main {
     val depth = Random.randomFloatRange(seed, -1f, 1f) * .125f
     val asteroid = Sprite(material, p, s * 4f, a, depth)
     if (value > .125f) {
-      val cloud = Sprite(AssetsManager.peekMaterial("asteroid-rock-dust"), p, s * 8f, startingAngleVariation, depth + .025f)
+      val cloud = Sprite(AssetsManager.peekMaterial("asteroid-rock-dust"), p, s * 8f, startingAngleVariation, depth + .075f)
       return listOf(cloud, asteroid)
     }
     return listOf(asteroid)
