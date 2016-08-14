@@ -24,7 +24,7 @@ object AssetsManager {
     map.safePutAll(MaterialFactory.loadAllIndexed())
     map.safePutAll(ShaderProgramLoader.loadShaderPrograms())
     for (entry in map)
-      Logger.ASSETS.log("Loaded asset: ${entry.key} -> ${entry.value}")
+      Logger.ASSETS.log("Loaded asset: ${entry.key} (${entry.value.javaClass.simpleName})")
     return map
   }
 
