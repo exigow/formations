@@ -10,7 +10,8 @@ data class Sprite (
   val position: Vec2,
   val scale: Float = 1f,
   val angle: Float = 0f,
-  val depth: Float = 0f
+  val depth: Float = 0f,
+  val blending: Blending = Blending.NORMAL
 ) : Renderable {
 
   override fun depth() = depth

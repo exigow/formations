@@ -28,7 +28,7 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
       return
     val distorted = camera.projectPerspective(sprite.position, sprite.depth)
     val distortedScale = sprite.scale * (1f + sprite.depth)
-    immediateRenderer.draw(sprite.material, distorted, sprite.angle, distortedScale, camera.projectionMatrix())
+    immediateRenderer.draw(sprite.material, distorted, sprite.angle, distortedScale, camera.projectionMatrix(), sprite.blending)
   }
 
   private fun renderTrail(trail: Trail, camera: Camera) {

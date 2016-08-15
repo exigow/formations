@@ -4,6 +4,7 @@ import assets.AssetsManager
 import assets.templates.ShipTemplate
 import commons.math.FastMath
 import commons.math.Vec2
+import rendering.Blending
 import rendering.Sprite
 import rendering.renderers.Renderable
 import rendering.trails.Trail
@@ -60,7 +61,11 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     val hull = AssetsManager.peekMaterial(config.hullName)
     val sprite = Sprite(hull, position, 1f, angle)
     val trails = engines.map { it.trail }
-    return trails + sprite
+    val glows = engines.map {
+      val size = it.trail.width * .25f * normalizedThrusterStrength()
+      Sprite(AssetsManager.peekMaterial("glow"), it.absolutePosition(), size, 0f, 0f, Blending.ADDITIVE)
+    }
+    return glows + trails + sprite
   }
 
   private fun calculateTargetAcceleration(): Float {
@@ -84,6 +89,8 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
   private fun calcDistanceToTarget() = position.distanceTo(movementTarget)
 
   private fun calcNormalizedDistanceToTarget(clampTo: Float) = Math.min(position.distanceTo(movementTarget) / clampTo, 1f)
+
+  private fun normalizedThrusterStrength() = velocityAcceleration / config.thruster.max
 
   override fun toString() = "Ship[${hashCode()}](config=$config)"
 

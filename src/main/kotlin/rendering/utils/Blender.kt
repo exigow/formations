@@ -2,6 +2,7 @@ package rendering.utils
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
+import rendering.Blending
 
 object Blender {
 
@@ -17,6 +18,13 @@ object Blender {
     transparencyFunc()
     f.invoke()
     disable()
+  }
+
+  fun enable(blending: Blending, f: () -> Unit) {
+    when (blending) {
+      Blending.NORMAL -> enableTransparency { f.invoke() }
+      Blending.ADDITIVE -> enableAdditive { f.invoke() }
+    }
   }
 
   private fun additiveFunc() = Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE)

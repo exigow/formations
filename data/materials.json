@@ -132,5 +132,11 @@
     "textureDiffuseFilename": "data/textures/black.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
+  },
+  {
+    "id": "glow",
+    "textureDiffuseFilename": "data/textures/glow.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
   }
 ]

@@ -12,6 +12,7 @@ import commons.math.Vec2
 import commons.math.Vec2.Transformations.rotate
 import commons.math.Vec2.Transformations.scale
 import commons.math.Vec2.Transformations.translate
+import rendering.Blending
 import rendering.Color
 import rendering.GBuffer
 import rendering.materials.Material
@@ -21,11 +22,11 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
 
   private val mesh = initialiseMesh()
 
-  fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4) {
+  fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4, blending: Blending) {
     val transformed = transformedQuad(material.size() * scale, where, angle)
     val vertices = decomposeToVbo(transformed)
     mesh.setVertices(vertices)
-    Blender.enableTransparency {
+    Blender.enable(blending, {
       gbuffer.paintOnDiffuse {
         val shader = AssetsManager.peekShader("materialDiffuse")
         material.diffuse!!.bind(0)
@@ -50,7 +51,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
         renderMesh(shader)
         shader.end();
       }
-    }
+    })
   }
 
   private fun renderMesh(shader: ShaderProgram) = mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
