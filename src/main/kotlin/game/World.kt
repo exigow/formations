@@ -15,8 +15,9 @@ class World {
     fun randomWorld(): World {
       val world = World();
       world.collectives.add(instantiate(ShipTemplate.select("fighter"), Vec2(-256, 0), 5))
-      world.collectives.add(instantiate(ShipTemplate.select("bomber"), Vec2(256, 0), 3))
+      world.collectives.add(instantiate(ShipTemplate.select("bomber"), Vec2(256, 0), 5))
       world.collectives.add(instantiate(ShipTemplate.select("cruiser"), Vec2(0, 0)))
+      world.collectives.add(instantiate(ShipTemplate.select("asd"), Vec2(0, 256), 3))
       return world
     }
 

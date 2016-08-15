@@ -39,7 +39,7 @@
           "x": -15,
           "y": 0
         },
-        "trailWidth": 10
+        "trailWidth": 8
       }
     ],
     "thruster": {
@@ -92,6 +92,40 @@
       "acceleration": 0.125,
       "max": 0.375,
       "dumping": 0.375
+    }
+  },
+  {
+    "id": "asd",
+    "displayedName": "A. S. D.",
+    "hullName": "asd-hull",
+    "size": 38,
+    "accelerationAngle": 1.25,
+    "brakeDistance": 128,
+    "engines": [
+      {
+        "relativePosition": {
+          "x": -26,
+          "y": 6
+        },
+        "trailWidth": 6
+      },
+      {
+        "relativePosition": {
+          "x": -26,
+          "y": -6
+        },
+        "trailWidth": 6
+      }
+    ],
+    "thruster": {
+      "acceleration": 0.525,
+      "max": 3.125,
+      "dumping": 0.85
+    },
+    "rotation": {
+      "acceleration": 1.125,
+      "max": 1.375,
+      "dumping": 0.285
     }
   }
 ]

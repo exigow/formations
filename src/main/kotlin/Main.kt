@@ -52,7 +52,7 @@ class Main {
 
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
-    val allSprites = asteroidSprites + shipSprites + Sprite(AssetsManager.peekMaterial("explosion"), Vec2.zero(), 4f)
+    val allSprites = asteroidSprites + shipSprites
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.paintOnUserInterface {

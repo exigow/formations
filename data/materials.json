@@ -35,6 +35,14 @@
     "magFilter": "linear"
   },
   {
+    "id": "asd-hull",
+    "originX": 0,
+    "originY": 0,
+    "textureDiffuseFilename": "data/textures/asd-diffuse.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear"
+  },
+  {
     "id": "bomber-hull",
     "originX": 0,
     "originY": 0,
