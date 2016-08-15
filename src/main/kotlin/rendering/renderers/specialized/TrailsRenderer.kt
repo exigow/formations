@@ -4,11 +4,11 @@ import assets.AssetsManager
 import com.badlogic.gdx.graphics.*
 import com.badlogic.gdx.math.Matrix4
 import commons.math.Vec2
+import rendering.Blending
 import rendering.GBuffer
 import rendering.materials.Material
 import rendering.trails.Trail
 import rendering.trails.TrailIterator
-import rendering.utils.Blender
 
 class TrailsRenderer(private val gbuffer: GBuffer) {
 
@@ -19,7 +19,7 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
   );
 
   fun render(trail: Trail, material: Material, matrix: Matrix4) {
-    Blender.enableAdditive {
+    Blending.ADDITIVE.enable {
       mesh.setVertices(calculateTrailArray(trail.list))
       fun paint(withTexture: Texture, shaderName: String) {
         val shader = AssetsManager.peekShader(shaderName)

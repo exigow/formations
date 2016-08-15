@@ -16,7 +16,6 @@ import rendering.Blending
 import rendering.Color
 import rendering.GBuffer
 import rendering.materials.Material
-import rendering.utils.Blender
 
 internal class MaterialRenderer(val gbuffer: GBuffer) {
 
@@ -26,7 +25,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     val transformed = transformedQuad(material.size() * scale, where, angle)
     val vertices = decomposeToVbo(transformed)
     mesh.setVertices(vertices)
-    Blender.enable(blending, {
+    blending.enable {
       gbuffer.paintOnDiffuse {
         val shader = AssetsManager.peekShader("materialDiffuse")
         material.diffuse!!.bind(0)
@@ -51,7 +50,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
         renderMesh(shader)
         shader.end();
       }
-    })
+    }
   }
 
   private fun renderMesh(shader: ShaderProgram) = mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)

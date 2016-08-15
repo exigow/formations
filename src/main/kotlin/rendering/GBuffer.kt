@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx
 import commons.math.Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
-import rendering.utils.Blender
 import rendering.utils.DoublePassBlurringTool
 
 
@@ -69,7 +68,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
       .showAsQuad()
 
     // todo blend it somehow inside final composition
-    Blender.enableTransparency {
+    Blending.TRANSPARENCY.enable {
       ui.showAsQuad()
     }
   }
