@@ -63,7 +63,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     val trails = engines.map { it.trail }
     val glows = engines.filter { normalizedThrusterStrength() > .125 }.map {
       val size = it.trail.width * .25f * normalizedThrusterStrength()
-      Sprite(AssetsManager.peekMaterial("glow"), it.absolutePosition(), size, 0f, 0f, Blending.ADDITIVE)
+      Sprite(AssetsManager.peekMaterial("trail-glow"), it.absolutePosition(), size, 0f, 0f, Blending.ADDITIVE)
     }
     return glows + trails + sprite
   }

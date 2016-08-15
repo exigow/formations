@@ -134,9 +134,9 @@
     "magFilter": "nearest"
   },
   {
-    "id": "glow",
-    "textureDiffuseFilename": "data/textures/glow.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest"
+    "id": "trail-glow",
+    "textureDiffuseFilename": "data/textures/trail-glow-diffuse.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
   }
 ]
