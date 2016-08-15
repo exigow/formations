@@ -122,6 +122,12 @@
     "magFilter": "nearest"
   },
   {
+    "id": "highlight",
+    "textureDiffuseFilename": "data/textures/highlight.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
+  },
+  {
     "id": "asteroid-mask-test",
     "textureDiffuseFilename": "data/textures/maps/asteroid-test.png",
     "minFilter": "nearest",

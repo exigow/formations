@@ -1,20 +1,17 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
 import rendering.GBuffer
+import rendering.NewUIRenderer
 import rendering.canvas.FullscreenQuad
 import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
 import rendering.renderers.GbufferRenderer
 import rendering.utils.Draw
-import rendering.utils.FontRenderer
-import ui.UserInterfaceRenderer
 
 class Main {
 
@@ -22,12 +19,11 @@ class Main {
   private val camera = Camera()
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
-  private val uiRenderer = UserInterfaceRenderer(context, camera, world)
   private val gbuffer = GBuffer.setUpWindowSize()
-  private val batch = SpriteBatch()
   private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.r})
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
+  private val newUIRenderer = NewUIRenderer(camera, context)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -44,10 +40,10 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
-    render(delta);
+    render();
   }
 
-  fun render(delta: Float) {
+  fun render() {
     Draw.update(camera)
     gbuffer.clear()
     renderFullscreenBackgroundImage();
@@ -58,20 +54,7 @@ class Main {
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.paintOnUserInterface {
-      if (context.isHovering()) {
-        val h = context.hovered!!
-        val type = h.ships.first().config.displayedName
-        FontRenderer.draw(type, camera.mouseScreenPosition() + Vec2(32, 32), camera.screenMatrix())
-        batch.projectionMatrix = camera.projectionMatrix()
-        batch.begin()
-        h.ships.forEach {
-          val tex = AssetsManager.peekMaterial("arrow").diffuse!!
-          val scale = camera.renderingScale()
-          batch.draw(tex, it.position.x - tex.width / 2f * scale, it.position.y - tex.height / 2f * scale, tex.width * scale, tex.height * scale)
-        }
-        batch.end()
-      }
-      //uiRenderer.render(delta)
+      newUIRenderer.render()
     }
     gbuffer.showCombined()
   }
