@@ -112,13 +112,13 @@
   },
   {
     "id": "arrow",
-    "textureDiffuseFilename": "data/textures/arrow.png",
+    "textureDiffuseFilename": "data/textures/ui/arrow.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
   },
   {
     "id": "highlight",
-    "textureDiffuseFilename": "data/textures/highlight.png",
+    "textureDiffuseFilename": "data/textures/ui/highlight.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
   },

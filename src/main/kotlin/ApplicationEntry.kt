@@ -43,7 +43,7 @@ object ApplicationEntry {
     }
 
     private fun useCustomCursor() {
-      val customCursor = Gdx.graphics.newCursor(Pixmap(Gdx.files.internal("data/textures/cursor.png")), 4, 0);
+      val customCursor = Gdx.graphics.newCursor(Pixmap(Gdx.files.internal("data/textures/ui/cursor.png")), 4, 0);
       Gdx.graphics.setCursor(customCursor);
     }
 
