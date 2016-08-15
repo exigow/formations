@@ -21,11 +21,11 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
 
   private val mesh = initialiseMesh()
 
-  fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4, blending: Blending) {
+  fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4) {
     val transformed = transformedQuad(material.size() * scale, where, angle)
     val vertices = decomposeToVbo(transformed)
     mesh.setVertices(vertices)
-    blending.enable {
+    material.blending.enable {
       gbuffer.paintOnDiffuse {
         val shader = AssetsManager.peekShader("materialDiffuse")
         material.diffuse!!.bind(0)

@@ -3,6 +3,7 @@ package assets
 import assets.templates.MaterialTemplate
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
+import rendering.Blending
 import rendering.materials.Material
 import java.io.File
 
@@ -19,9 +20,10 @@ object MaterialFactory {
   private fun MaterialTemplate.toMaterial(): Material {
     val magTypedFilter = typedFilterOf(magFilter)
     val minTypedFilter = typedFilterOf(minFilter)
+    val typedBlending = typedBlendingOf(blending)
     val diffuse = loadTexture(textureDiffuseFilename, magTypedFilter, minTypedFilter)
     val emissive = loadTexture(textureEmissiveFilename, magTypedFilter, minTypedFilter)
-    return Material(diffuse, emissive)
+    return Material(diffuse, emissive, typedBlending)
   }
 
   private fun typedFilterOf(stringlyValue: String): Texture.TextureFilter = when(stringlyValue) {
@@ -29,6 +31,16 @@ object MaterialFactory {
     "linear" -> Texture.TextureFilter.Linear
     "mipmap" -> Texture.TextureFilter.MipMap
     else -> throw RuntimeException("unknown filter [$stringlyValue]")
+  }
+
+  private fun typedBlendingOf(stringlyValue: String?): Blending {
+    if (stringlyValue == null)
+      return Blending.TRANSPARENCY
+    return when (stringlyValue) {
+      "transparency" -> Blending.TRANSPARENCY
+      "additive" -> Blending.ADDITIVE
+      else -> throw RuntimeException("unknown blending [$stringlyValue]")
+    }
   }
 
   private fun loadTexture(filename: String?, magFilter: Texture.TextureFilter, minFilter: Texture.TextureFilter): Texture? {

@@ -10,7 +10,8 @@
     "textureDiffuseFilename": "data/textures/trail-diffuse.png",
     "textureEmissiveFilename": "data/textures/trail-emissive.png",
     "minFilter": "mipmap",
-    "magFilter": "linear"
+    "magFilter": "linear",
+    "blending": "additive"
   },
   {
     "id": "flare-gradient",
@@ -143,6 +144,7 @@
     "id": "trail-glow",
     "textureDiffuseFilename": "data/textures/trail-glow-diffuse.png",
     "minFilter": "linear",
-    "magFilter": "linear"
+    "magFilter": "linear",
+    "blending": "additive"
   }
 ]
