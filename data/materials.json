@@ -146,5 +146,12 @@
     "minFilter": "linear",
     "magFilter": "linear",
     "blending": "additive"
+  },
+  {
+    "id": "explosion",
+    "textureDiffuseFilename": "data/textures/explosion-diffuse.png",
+    "textureEmissiveFilename": "data/textures/explosion-emissive.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
   }
 ]

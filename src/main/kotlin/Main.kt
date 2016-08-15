@@ -1,5 +1,6 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
+import commons.math.Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
@@ -7,6 +8,7 @@ import game.PlayerContext
 import game.World
 import rendering.GBuffer
 import rendering.NewUIRenderer
+import rendering.Sprite
 import rendering.canvas.FullscreenQuad
 import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
@@ -50,7 +52,7 @@ class Main {
 
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
-    val allSprites = asteroidSprites + shipSprites
+    val allSprites = asteroidSprites + shipSprites + Sprite(AssetsManager.peekMaterial("explosion"), Vec2.zero(), 4f)
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.paintOnUserInterface {
