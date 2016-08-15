@@ -62,10 +62,10 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     val sprite = Sprite(hull, position, 1f, angle)
     val trails = engines.map { it.trail }
     val glows = engines.filter { normalizedThrusterStrength() > .125 }.map {
-      val size = it.trail.width * .25f * normalizedThrusterStrength()
+      val size = it.trail.width * .5f * normalizedThrusterStrength()
       Sprite(AssetsManager.peekMaterial("trail-glow"), it.absolutePosition(), size, 0f, 0f, Blending.ADDITIVE)
     }
-    return glows + trails + sprite
+    return trails + sprite + glows
   }
 
   private fun calculateTargetAcceleration(): Float {
