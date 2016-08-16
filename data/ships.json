@@ -88,18 +88,6 @@
       }
     ],
     "weapons": [
-      {
-        "relativePosition": {
-          "x": 32,
-          "y": 0
-        }
-      },
-      {
-        "relativePosition": {
-          "x": -64,
-          "y": 0
-        }
-      }
     ],
     "thruster": {
       "acceleration": 0.125,
@@ -113,29 +101,28 @@
     }
   },
   {
-    "id": "asd",
+    "id": "corvette",
     "displayedName": "A. S. D.",
-    "hullName": "asd-hull",
+    "hullName": "corvette-hull",
     "size": 38,
     "accelerationAngle": 1.25,
     "brakeDistance": 128,
     "engines": [
       {
         "relativePosition": {
-          "x": -26,
-          "y": 6
+          "x": -22,
+          "y": 0
         },
-        "trailWidth": 6
-      },
-      {
-        "relativePosition": {
-          "x": -26,
-          "y": -6
-        },
-        "trailWidth": 6
+        "trailWidth": 10
       }
     ],
     "weapons": [
+      {
+        "relativePosition": {
+          "x": -8,
+          "y": 0
+        }
+      }
     ],
     "thruster": {
       "acceleration": 0.525,

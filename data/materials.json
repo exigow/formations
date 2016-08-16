@@ -35,10 +35,11 @@
     "magFilter": "linear"
   },
   {
-    "id": "asd-hull",
+    "id": "corvette-hull",
     "originX": 0,
     "originY": 0,
-    "textureDiffuseFilename": "data/textures/asd-diffuse.png",
+    "textureDiffuseFilename": "data/textures/corvette-diffuse.png",
+    "textureEmissiveFilename": "data/textures/corvette-emissive.png",
     "minFilter": "mipmap",
     "magFilter": "linear"
   },
