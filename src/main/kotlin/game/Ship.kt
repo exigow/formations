@@ -4,7 +4,6 @@ import assets.AssetsManager
 import assets.templates.ShipTemplate
 import commons.math.FastMath
 import commons.math.Vec2
-import rendering.Blending
 import rendering.Sprite
 import rendering.renderers.Renderable
 import rendering.trails.Trail
@@ -66,7 +65,9 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
       val size = it.trail.width * .5f * exposedStrength
       Sprite(AssetsManager.peekMaterial("trail-glow"), it.absolutePosition(), size, 0f, 0f)
     }
-    return trails + sprite + glows
+    val weapons = config.weapons.map { it.relativePosition.absolute() }
+      .map { Sprite(AssetsManager.peekMaterial("black"), it, 4f) }
+    return trails + sprite + glows + weapons
   }
 
   private fun calculateTargetAcceleration(): Float {
@@ -102,5 +103,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     fun absolutePosition() = ship.position + template.relativePosition.rotate(ship.angle)
 
   }
+
+  private fun Vec2.absolute() = position + this.rotate(angle)
 
 }

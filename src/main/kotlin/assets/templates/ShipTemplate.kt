@@ -25,6 +25,7 @@ data class ShipTemplate(
   val accelerationAngle: Float,
   val brakeDistance: Float,
   val engines: List<EngineTemplate>,
+  val weapons: List<WeaponTemplate>,
   val thruster: DimensionAcceleratorTemplate,
   val rotation: DimensionAcceleratorTemplate
 ) {
@@ -56,5 +57,7 @@ data class ShipTemplate(
   data class EngineTemplate(val relativePosition: Vec2, val trailWidth: Float)
 
   data class DimensionAcceleratorTemplate(val acceleration: Float, val max: Float, val dumping: Float)
+
+  data class WeaponTemplate(val relativePosition: Vec2)
 
 }

@@ -15,6 +15,8 @@
         "trailWidth": 8
       }
     ],
+    "weapons": [
+    ],
     "thruster": {
       "acceleration": 0.875,
       "max": 4,
@@ -41,6 +43,8 @@
         },
         "trailWidth": 8
       }
+    ],
+    "weapons": [
     ],
     "thruster": {
       "acceleration": 0.75,
@@ -83,6 +87,20 @@
         "trailWidth": 6
       }
     ],
+    "weapons": [
+      {
+        "relativePosition": {
+          "x": 32,
+          "y": 0
+        }
+      },
+      {
+        "relativePosition": {
+          "x": -64,
+          "y": 0
+        }
+      }
+    ],
     "thruster": {
       "acceleration": 0.125,
       "max": 2,
@@ -116,6 +134,8 @@
         },
         "trailWidth": 6
       }
+    ],
+    "weapons": [
     ],
     "thruster": {
       "acceleration": 0.525,
