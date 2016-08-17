@@ -27,8 +27,6 @@
   },
   {
     "id": "interceptor-hull",
-    "originX": 0,
-    "originY": 0,
     "textureDiffuseFilename": "data/textures/interceptor-diffuse.png",
     "textureEmissiveFilename": "data/textures/interceptor-emissive.png",
     "minFilter": "mipmap",
@@ -36,8 +34,10 @@
   },
   {
     "id": "corvette-hull",
-    "originX": 0,
-    "originY": 0,
+    "origin": {
+      "x": 0,
+      "y": 0
+    },
     "textureDiffuseFilename": "data/textures/corvette-diffuse.png",
     "textureEmissiveFilename": "data/textures/corvette-emissive.png",
     "minFilter": "mipmap",
@@ -45,8 +45,6 @@
   },
   {
     "id": "bomber-hull",
-    "originX": 0,
-    "originY": 0,
     "textureDiffuseFilename": "data/textures/bomber-diffuse.png",
     "textureEmissiveFilename": "data/textures/bomber-emissive.png",
     "minFilter": "mipmap",
@@ -54,8 +52,6 @@
   },
   {
     "id": "cruiser-hull",
-    "originX": 0,
-    "originY": 0,
     "textureDiffuseFilename": "data/textures/carrier-diffuse.png",
     "textureEmissiveFilename": "data/textures/carrier-emissive.png",
     "minFilter": "mipmap",

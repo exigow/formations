@@ -2,13 +2,12 @@ package assets.templates
 
 import assets.templates.TemplateValidator.ensureNotEmpty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import commons.math.Vec2
 import java.io.File
 
-// todo implement sprite origin
 data class MaterialTemplate(
   val id: String,
-  val originX: Float = 0f,
-  val originY: Float = 0f,
+  val origin: Vec2?,
   val textureDiffuseFilename: String?,
   val textureEmissiveFilename: String?,
   val magFilter: String,

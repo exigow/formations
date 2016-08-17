@@ -3,6 +3,7 @@ package assets
 import assets.templates.MaterialTemplate
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
+import commons.math.Vec2
 import rendering.Blending
 import rendering.materials.Material
 import java.io.File
@@ -23,8 +24,14 @@ object MaterialFactory {
     val typedBlending = typedBlendingOf(blending)
     val diffuse = loadTexture(textureDiffuseFilename, magTypedFilter, minTypedFilter)
     val emissive = loadTexture(textureEmissiveFilename, magTypedFilter, minTypedFilter)
-    return Material(diffuse, emissive, typedBlending)
+    //val fixedOrigin = origin!!
+    return Material(diffuse, emissive, typedBlending, Vec2.zero()) // todo
   }
+
+  // todo
+  /*private fun MaterialTemplate.resolveOrigin(textureSize: Vec2) = when (origin) {
+    null -> Vec2("")
+  }*/
 
   private fun typedFilterOf(stringlyValue: String): Texture.TextureFilter = when(stringlyValue) {
     "nearest" -> Texture.TextureFilter.Nearest
