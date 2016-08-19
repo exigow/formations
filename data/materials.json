@@ -40,6 +40,16 @@
     "magFilter": "linear"
   },
   {
+    "id": "corvette-turret",
+    "textureDiffuseFilename": "data/textures/corvette-turret-diffuse.png",
+    "minFilter": "mipmap",
+    "magFilter": "linear",
+    "origin": {
+      "x": 22,
+      "y": 67
+    }
+  },
+  {
     "id": "bomber-hull",
     "textureDiffuseFilename": "data/textures/bomber-diffuse.png",
     "textureEmissiveFilename": "data/textures/bomber-emissive.png",
