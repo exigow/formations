@@ -1,7 +1,7 @@
 package rendering.utils.debug
 
-import commons.math.FastMath
-import commons.math.Vec2
+import FastMath
+import Vec2
 import game.Ship
 import rendering.utils.Draw
 

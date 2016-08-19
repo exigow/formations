@@ -1,7 +1,7 @@
 package rendering.utils
 
 import com.badlogic.gdx.math.Rectangle
-import commons.math.Vec2
+import Vec2
 import core.Camera
 import rendering.Color
 import rendering.Paths.PathFactory

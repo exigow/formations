@@ -1,7 +1,7 @@
 package core.actions.catalog.utils
 
 import com.badlogic.gdx.math.Rectangle
-import commons.math.Vec2
+import Vec2
 
 class SelectionRectangle {
 

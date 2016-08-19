@@ -1,5 +1,3 @@
-package commons.math
-
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 
@@ -70,7 +68,7 @@ data class Vec2(val x: Float, val y: Float) {
 
     @JvmStatic fun rotated(angle: Float) = Vec2(FastMath.cos(angle), FastMath.sin(angle))
 
-    @JvmStatic fun scaled(scale: Float) = Vec2.one() * scale
+    @JvmStatic fun scaled(scale: Float) = one() * scale
 
     @JvmStatic fun random(seed: Int): Vec2 {
       fun rand() = Random.random(seed)

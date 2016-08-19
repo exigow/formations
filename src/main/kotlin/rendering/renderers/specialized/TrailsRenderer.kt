@@ -3,7 +3,7 @@ package rendering.renderers.specialized
 import assets.AssetsManager
 import com.badlogic.gdx.graphics.*
 import com.badlogic.gdx.math.Matrix4
-import commons.math.Vec2
+import Vec2
 import rendering.Blending
 import rendering.GBuffer
 import rendering.materials.Material

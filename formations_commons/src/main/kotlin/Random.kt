@@ -1,5 +1,3 @@
-package commons.math
-
 import org.apache.commons.math3.random.MersenneTwister
 
 

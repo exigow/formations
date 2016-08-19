@@ -1,6 +1,3 @@
-package commons.math
-
-
 @Suppress("NOTHING_TO_INLINE")
 object FastMath {
 
@@ -52,7 +49,7 @@ object FastMath {
   }
 
   fun smoothStep(from: Float, to: Float, percent: Float): Float {
-    val x = clamp((percent - from)/(to - from), 0f, 1f);
+    val x = clamp((percent - from) / (to - from), 0f, 1f);
     return x * x * (3 - 2 * x)
   }
 

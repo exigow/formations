@@ -1,6 +1,6 @@
 package rendering.trails
 
-import commons.math.Vec2
+import Vec2
 import rendering.renderers.Renderable
 import java.util.*
 

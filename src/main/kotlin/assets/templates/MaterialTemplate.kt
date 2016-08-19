@@ -2,7 +2,7 @@ package assets.templates
 
 import assets.templates.TemplateValidator.ensureNotEmpty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import commons.math.Vec2
+import Vec2
 import java.io.File
 
 data class MaterialTemplate(

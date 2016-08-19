@@ -1,5 +1,3 @@
-package commons.math
-
 import java.util.*
 
 object ConvexHull {

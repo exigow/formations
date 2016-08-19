@@ -1,6 +1,6 @@
 package rendering.procedural
 
-import commons.math.Vec2
+import Vec2
 
 
 data class Chunk(val position: Vec2, val value: Float) {

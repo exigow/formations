@@ -1,6 +1,6 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import commons.math.Vec2
+import Vec2
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*

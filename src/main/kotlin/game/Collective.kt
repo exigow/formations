@@ -1,6 +1,6 @@
 package game
 
-import commons.math.Vec2
+import Vec2
 import core.formations.Former
 import game.orders.AttackOrder
 import game.orders.MoveOrder

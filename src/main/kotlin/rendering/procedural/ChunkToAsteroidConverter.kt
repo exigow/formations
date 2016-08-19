@@ -1,8 +1,8 @@
 package rendering.procedural
 
 import assets.AssetsManager
-import commons.math.Random
-import commons.math.Vec2
+import Random
+import Vec2
 import core.Camera
 import rendering.Sprite
 

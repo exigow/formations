@@ -1,9 +1,9 @@
 package ui
 
 import com.badlogic.gdx.math.Rectangle
-import commons.math.ConvexHull
-import commons.math.FastMath
-import commons.math.Vec2
+import ConvexHull
+import FastMath
+import Vec2
 import core.Camera
 import game.Collective
 import game.PlayerContext

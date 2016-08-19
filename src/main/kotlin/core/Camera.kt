@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
-import commons.math.FastMath
-import commons.math.Vec2
+import FastMath
+import Vec2
 import game.Squad
 
 class Camera {

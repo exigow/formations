@@ -3,7 +3,7 @@ package rendering.canvas
 import assets.AssetsManager
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
-import commons.math.Vec2
+import Vec2
 import java.util.*
 
 

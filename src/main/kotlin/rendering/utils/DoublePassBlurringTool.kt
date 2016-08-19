@@ -1,7 +1,7 @@
 package rendering.utils
 
 import com.badlogic.gdx.graphics.Texture
-import commons.math.Vec2
+import Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
 

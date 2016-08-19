@@ -1,7 +1,7 @@
 package core.actions.catalog.utils
 
 import commons.Logger
-import commons.math.Vec2
+import Vec2
 
 class DraggingTool {
 

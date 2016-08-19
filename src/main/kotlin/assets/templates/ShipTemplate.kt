@@ -5,8 +5,8 @@ import assets.templates.TemplateValidator.ensurePositive
 import assets.templates.TemplateValidator.ensureRange
 import assets.templates.TemplateValidator.ensureThat
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import commons.math.FastMath
-import commons.math.Vec2
+import FastMath
+import Vec2
 import java.io.File
 
 /**

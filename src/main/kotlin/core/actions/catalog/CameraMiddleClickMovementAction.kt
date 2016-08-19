@@ -1,6 +1,6 @@
 package core.actions.catalog
 
-import commons.math.Vec2
+import Vec2
 import core.Camera
 import core.actions.Action
 import core.actions.catalog.utils.DraggingTool

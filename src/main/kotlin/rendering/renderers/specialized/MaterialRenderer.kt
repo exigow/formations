@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.VertexAttribute
 import com.badlogic.gdx.graphics.VertexAttributes
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
-import commons.math.FastMath
-import commons.math.Vec2
-import commons.math.Vec2.Transformations.rotate
-import commons.math.Vec2.Transformations.scale
-import commons.math.Vec2.Transformations.translate
+import FastMath
+import Vec2
+import Vec2.Transformations.rotate
+import Vec2.Transformations.scale
+import Vec2.Transformations.translate
 import rendering.Color
 import rendering.GBuffer
 import rendering.materials.Material

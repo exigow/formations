@@ -2,7 +2,7 @@ package game
 
 import assets.templates.ShipTemplate
 import com.badlogic.gdx.math.Rectangle
-import commons.math.Vec2
+import Vec2
 import game.orders.MoveOrder
 import java.util.*
 

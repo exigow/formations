@@ -2,8 +2,8 @@ package game
 
 import assets.AssetsManager
 import assets.templates.ShipTemplate
-import commons.math.FastMath
-import commons.math.Vec2
+import FastMath
+import Vec2
 import rendering.Sprite
 import rendering.renderers.Renderable
 import rendering.trails.Trail

@@ -1,9 +1,9 @@
 package rendering.paths
 
-import commons.math.Vec2
-import commons.math.Vec2.Transformations.rotate
-import commons.math.Vec2.Transformations.scale
-import commons.math.Vec2.Transformations.translate
+import Vec2
+import Vec2.Transformations.rotate
+import Vec2.Transformations.scale
+import Vec2.Transformations.translate
 import java.util.*
 
 data class Path(val elements: List<Vec2>) {

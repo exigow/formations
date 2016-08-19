@@ -1,6 +1,6 @@
 package game
 
-import commons.math.Vec2
+import Vec2
 import java.util.*
 
 class Squad(val ships: MutableList<Ship> = ArrayList()) {

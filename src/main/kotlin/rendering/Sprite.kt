@@ -1,6 +1,6 @@
 package rendering
 
-import commons.math.Vec2
+import Vec2
 import rendering.materials.Material
 import rendering.renderers.Renderable
 

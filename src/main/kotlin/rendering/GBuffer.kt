@@ -2,7 +2,7 @@ package rendering
 
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import commons.math.Vec2
+import Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
 import rendering.utils.DoublePassBlurringTool
