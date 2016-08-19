@@ -24,14 +24,14 @@ object MaterialFactory {
     val typedBlending = typedBlendingOf(blending)
     val diffuse = loadTexture(textureDiffuseFilename, magTypedFilter, minTypedFilter)
     val emissive = loadTexture(textureEmissiveFilename, magTypedFilter, minTypedFilter)
-    //val fixedOrigin = origin!!
-    return Material(diffuse, emissive, typedBlending, Vec2.zero()) // todo
+    val fixedOrigin = resolveOrigin(Vec2(diffuse!!.width, diffuse!!.height))
+    return Material(diffuse, emissive, typedBlending, fixedOrigin)
   }
 
-  // todo
-  /*private fun MaterialTemplate.resolveOrigin(textureSize: Vec2) = when (origin) {
-    null -> Vec2("")
-  }*/
+  private fun MaterialTemplate.resolveOrigin(size: Vec2) = when (origin) {
+    null -> size / 2
+    else -> origin
+  }
 
   private fun typedFilterOf(stringlyValue: String): Texture.TextureFilter = when(stringlyValue) {
     "nearest" -> Texture.TextureFilter.Nearest

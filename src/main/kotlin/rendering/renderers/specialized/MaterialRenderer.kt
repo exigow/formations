@@ -12,7 +12,6 @@ import commons.math.Vec2
 import commons.math.Vec2.Transformations.rotate
 import commons.math.Vec2.Transformations.scale
 import commons.math.Vec2.Transformations.translate
-import rendering.Blending
 import rendering.Color
 import rendering.GBuffer
 import rendering.materials.Material
@@ -22,10 +21,10 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
   private val mesh = initialiseMesh()
 
   fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4) {
-    val transformed = transformedQuad(material.size() * scale, where, angle)
+    val transformed = transformedQuad(material.size(), scale, where, angle, material.origin)
     val vertices = decomposeToVbo(transformed)
     mesh.setVertices(vertices)
-    material.blending.enable {
+    material.blending.decorate {
       gbuffer.paintOnDiffuse {
         val shader = AssetsManager.peekShader("materialDiffuse")
         material.diffuse!!.bind(0)
@@ -60,12 +59,15 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     return toVbo(i.next(), i.next(), i.next(), i.next())
   }
 
-  private fun transformedQuad(size: Vec2, position: Vec2, angle: Float) = listOf(
-    Vec2(-1, -1),
-    Vec2(1, -1),
+  private fun transformedQuad(size: Vec2, scale: Float, position: Vec2, angle: Float, origin: Vec2) = listOf(
+    Vec2(0, 0),
+    Vec2(1, 0),
     Vec2(1, 1),
-    Vec2(-1, 1)
-    ).scale(size / 8)
+    Vec2(0, 1)
+    )
+    .scale(size)
+    .translate(origin * -1f)
+    .scale(Vec2.one() * scale * .25f)
     .rotate(angle + FastMath.pi / 2)
     .translate(position)
 

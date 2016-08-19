@@ -19,7 +19,7 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
   );
 
   fun render(trail: Trail, material: Material, matrix: Matrix4) {
-    Blending.ADDITIVE.enable {
+    Blending.ADDITIVE.decorate {
       mesh.setVertices(calculateTrailArray(trail.list))
       fun paint(withTexture: Texture, shaderName: String) {
         val shader = AssetsManager.peekShader(shaderName)

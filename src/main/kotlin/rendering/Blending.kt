@@ -8,7 +8,7 @@ enum class Blending(private val gdxSFactor: Int, private val gdxDFactor: Int) {
   TRANSPARENCY(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA),
   ADDITIVE(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 
-  fun enable(f: () -> Unit) {
+  fun decorate(f: () -> Unit) {
     Gdx.gl.glEnable(GL20.GL_BLEND)
     Gdx.gl.glBlendFunc(gdxSFactor, gdxDFactor)
     f.invoke()

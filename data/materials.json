@@ -34,10 +34,6 @@
   },
   {
     "id": "corvette-hull",
-    "origin": {
-      "x": 0,
-      "y": 0
-    },
     "textureDiffuseFilename": "data/textures/corvette-diffuse.png",
     "textureEmissiveFilename": "data/textures/corvette-emissive.png",
     "minFilter": "mipmap",

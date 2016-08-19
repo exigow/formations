@@ -68,7 +68,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
       .showAsQuad()
 
     // todo blend it somehow inside final composition
-    Blending.TRANSPARENCY.enable {
+    Blending.TRANSPARENCY.decorate {
       ui.showAsQuad()
     }
   }
