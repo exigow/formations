@@ -1,1 +1,1 @@
-include "commons-module"
+include "commons-module", "application-module"

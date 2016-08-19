@@ -1,0 +1,11 @@
+sourceSets {
+  main {
+    kotlin {
+      srcDir "src/main/kotlin"
+    }
+  }
+}
+
+dependencies {
+  compile project(':commons-module')
+}

@@ -12,14 +12,6 @@ allprojects {
   apply plugin: "kotlin"
   apply plugin: "idea"
 
-  sourceSets {
-    main {
-      kotlin {
-        srcDir "src/main/kotlin"
-      }
-    }
-  }
-
   repositories {
     mavenCentral()
   }
@@ -39,8 +31,4 @@ allprojects {
   test {
     useTestNG()
   }
-}
-
-dependencies {
-  compile project(':commons-module')
 }
