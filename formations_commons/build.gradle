@@ -1,3 +1,7 @@
 sourceSets {
-  main.kotlin.srcDirs += 'src/main/kotlin'
+  main {
+    kotlin {
+      srcDir "src/main/kotlin"
+    }
+  }
 }
