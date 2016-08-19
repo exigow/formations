@@ -42,5 +42,5 @@ allprojects {
 }
 
 dependencies {
-  compile project(':formations_commons')
+  compile project(':commons-module')
 }
