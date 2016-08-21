@@ -31,21 +31,18 @@ class Canvas(private val buffer: FrameBuffer) {
 
   companion object {
 
-    fun setUpWithTransparency(width: Int, height: Int): Canvas {
-      val buffer = FrameBuffer(Pixmap.Format.RGBA8888, width, height, false)
+    fun setUpRGBA(width: Int, height: Int) = setUp(width, height, Pixmap.Format.RGBA8888)
+
+    fun setUpRGB(width: Int, height: Int) = setUp(width, height, Pixmap.Format.RGB888)
+
+    fun setUpRGBSquare(size: Int) = setUpRGB(size, size)
+
+    private fun setUp(width: Int, height: Int, format: Pixmap.Format): Canvas {
+      val buffer = FrameBuffer(format, width, height, false)
       val wrap = Texture.TextureWrap.ClampToEdge
       buffer.colorBufferTexture.setWrap(wrap, wrap)
       return Canvas(buffer)
     }
-
-    fun setUp(width: Int, height: Int): Canvas {
-      val buffer = FrameBuffer(Pixmap.Format.RGB888, width, height, false)
-      val wrap = Texture.TextureWrap.ClampToEdge
-      buffer.colorBufferTexture.setWrap(wrap, wrap)
-      return Canvas(buffer)
-    }
-
-    fun setUpSquare(size: Int) = setUp(size, size)
 
   }
 

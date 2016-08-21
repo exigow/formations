@@ -8,15 +8,15 @@ import rendering.utils.FastBloomTool
 
 class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private val ui: Canvas) {
 
-  private val combined = Canvas.setUp(diffuse.width, diffuse.height)
+  private val combined = Canvas.setUpRGB(diffuse.width, diffuse.height)
   private val bloom = FastBloomTool(256, 256)
 
   companion object  {
 
     fun setUp(width: Int, height: Int) = GBuffer(
-      diffuse = Canvas.setUp(width, height),
-      emissive = Canvas.setUp(width / 2, height / 2),
-      ui = Canvas.setUpWithTransparency(width, height)
+      diffuse = Canvas.setUpRGB(width, height),
+      emissive = Canvas.setUpRGB(width, height),
+      ui = Canvas.setUpRGBA(width, height)
     )
 
     fun setUpWindowSize() = setUp(Gdx.graphics.width, Gdx.graphics.height)

@@ -8,18 +8,18 @@ import rendering.canvas.ShaderEffect
 
 class FastBloomTool(private val width: Int, private val height: Int) {
 
-  private val threshold = Canvas.setUp(width, height)
-  private val verticalThreshold = Canvas.setUp(width, height)
+  private val threshold = Canvas.setUpRGB(width, height)
+  private val verticalThreshold = Canvas.setUpRGB(width, height)
 
 
-  private val vertical = DoublePassBlurringTool({ Canvas.setUpSquare(256) })
-  private val a = DoublePassBlurringTool({ Canvas.setUpSquare(256) })
-  private val b = DoublePassBlurringTool({ Canvas.setUpSquare(64) })
-  private val c = DoublePassBlurringTool({ Canvas.setUpSquare(16) })
-  private val d = DoublePassBlurringTool({ Canvas.setUpSquare(8) })
+  private val vertical = DoublePassBlurringTool({ Canvas.setUpRGBSquare(256) })
+  private val a = DoublePassBlurringTool({ Canvas.setUpRGBSquare(256) })
+  private val b = DoublePassBlurringTool({ Canvas.setUpRGBSquare(64) })
+  private val c = DoublePassBlurringTool({ Canvas.setUpRGBSquare(16) })
+  private val d = DoublePassBlurringTool({ Canvas.setUpRGBSquare(8) })
 
 
-  private val out = Canvas.setUp(width, height)
+  private val out = Canvas.setUpRGB(width, height)
 
   fun process(input: Canvas): Canvas {
     computeThreshold(input, threshold, 2.25f, -.625f)
