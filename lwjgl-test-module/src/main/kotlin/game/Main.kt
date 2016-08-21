@@ -1,16 +1,11 @@
 package game
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL11.*
-import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL15.*
-import org.lwjgl.opengl.GL20
-import org.lwjgl.opengl.GL20.glVertexAttribPointer
-import org.lwjgl.opengl.GL30
-import org.lwjgl.opengl.GL30.*
+import org.lwjgl.opengl.GL20.*
+import org.lwjgl.opengl.GL30.glBindVertexArray
+import org.lwjgl.opengl.GL30.glGenVertexArrays
 import java.nio.FloatBuffer
 
 class Main {
@@ -41,15 +36,15 @@ class Main {
   fun onFrame(delta: Float) {
     clear()
 
-    GL30.glBindVertexArray(vaoId);
-    GL20.glEnableVertexAttribArray(0);
+    glBindVertexArray(vaoId);
+    glEnableVertexAttribArray(0);
 
     // Draw the vertices
-    GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     // Put everything back to default (deselect)
-    GL20.glDisableVertexAttribArray(0);
-    GL30.glBindVertexArray(0);
+    glDisableVertexAttribArray(0);
+    glBindVertexArray(0);
   }
 
   private fun clear() {
