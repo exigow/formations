@@ -9,9 +9,13 @@ object Test {
       resizeable = true
     )
     ApplicationInitializer(config, onFrame = {
-      glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
-      glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+      onLoop()
     }).run()
+  }
+
+  private fun onLoop() {
+    glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
+    glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
   }
 
 }
