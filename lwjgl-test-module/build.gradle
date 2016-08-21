@@ -1,0 +1,13 @@
+sourceSets {
+  main {
+    kotlin {
+      srcDir "src/main/kotlin"
+    }
+  }
+}
+
+dependencies {
+  compile "org.lwjgl:lwjgl:+"
+  compile "org.lwjgl:lwjgl-platform:+:natives-windows"
+  compile "org.lwjgl:lwjgl-platform:+:natives-linux"
+}

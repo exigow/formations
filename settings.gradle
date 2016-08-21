@@ -1,1 +1,1 @@
-include "commons-module", "application-module"
+include "commons-module", "application-module", "lwjgl-test-module"
