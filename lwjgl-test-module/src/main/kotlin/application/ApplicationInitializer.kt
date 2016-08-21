@@ -1,10 +1,12 @@
+package application
+
 import org.lwjgl.glfw.Callbacks
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.opengl.GL
 import org.lwjgl.system.MemoryUtil
 
-class ApplicationInitializer(private val config: Configuration, private val onFrame: (delta: Float) -> Unit) {
+class ApplicationInitializer(private val config: Configuration, private val onCreate: () -> Unit, private val onFrame: (delta: Float) -> Unit) {
 
   private val timer = ApplicationTimer()
 
@@ -40,6 +42,7 @@ class ApplicationInitializer(private val config: Configuration, private val onFr
 
   private fun loop(window: Long) {
     GL.createCapabilities()
+    onCreate.invoke()
     while (!glfwWindowShouldClose(window)) {
       timer.tick()
       onFrame.invoke(timer.deltaTime())

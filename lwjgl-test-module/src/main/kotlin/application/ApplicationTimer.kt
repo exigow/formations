@@ -1,4 +1,4 @@
-
+package application
 class ApplicationTimer {
 
   private var lastFrameTime: Long = -1
