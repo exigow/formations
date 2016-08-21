@@ -37,7 +37,7 @@ vec3 sampleAbberation(sampler2D tex) {
 vec3 color = vec3(0);
     for (int i = 0; i < 3; i++) {
         float n = i / 3.0;
-        vec2 coord = uvDistortion(-.0325 * n, n * .0275);
+        vec2 coord = uvDistortion(-.0375 * n, n * .0325);
         color += texture2D(tex, coord).rgb * spectrumSample[i];
     }
     return color;
