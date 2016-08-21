@@ -2,7 +2,6 @@
 
 uniform sampler2D textureDiffuse;
 uniform sampler2D textureEmissive;
-uniform sampler2D textureEmissiveBlurred;
 uniform float noiseOffset;
 
 varying vec2 texCoord;
@@ -46,10 +45,9 @@ vec3 color = vec3(0);
 
 void main() {
     vec3 diffuse = sampleAbberation(textureDiffuse);
-    vec3 emissive = sampleAbberation(textureEmissive) * .5;
-    vec3 emissiveBlurred = sampleAbberation(textureEmissiveBlurred);
+    vec3 emissive = sampleAbberation(textureEmissive);
     float vignetteFactor = calculateVignette(texCoord);
     vec3 vignette = vec3(vignetteFactor);
-    vec3 color = (diffuse + emissive + emissiveBlurred) * vignette;
+    vec3 color = (diffuse + emissive) * vignette;
     gl_FragColor = vec4(color, 1);
 }

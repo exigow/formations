@@ -67,7 +67,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     }
     val weapons = config.weapons.map { it.relativePosition.absolute() }
       .map { Sprite(AssetsManager.peekMaterial("corvette-turret"), it) }
-    return trails + sprite + weapons + glows
+    return trails + glows + sprite + weapons
   }
 
   private fun calculateTargetAcceleration(): Float {

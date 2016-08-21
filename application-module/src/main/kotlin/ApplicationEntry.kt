@@ -37,7 +37,7 @@ object ApplicationEntry {
     }
 
     private fun clearBackground() {
-      val intensity = .075f
+      val intensity = .0f
       Gdx.gl.glClearColor(intensity, intensity, intensity, 1f)
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }

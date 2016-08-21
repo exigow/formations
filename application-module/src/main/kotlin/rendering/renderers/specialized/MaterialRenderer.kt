@@ -18,6 +18,7 @@ import rendering.materials.Material
 
 internal class MaterialRenderer(val gbuffer: GBuffer) {
 
+  private val ambientColor = Color(.784f, .764f, .662f)
   private val mesh = initialiseMesh()
 
   fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4) {
@@ -31,7 +32,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
         shader.setUniformi("texture", 0);
-        shader.setUniform3fv("ambientColor", Color(.784f, .764f, .662f).toFloatArray(), 0, 3)
+        shader.setUniform3fv("ambientColor", ambientColor.toFloatArray(), 0, 3)
         renderMesh(shader)
         shader.end();
       }

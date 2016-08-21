@@ -1,20 +1,15 @@
 package rendering
 
-import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import Vec2
 import rendering.canvas.Canvas
 import rendering.canvas.ShaderEffect
-import rendering.utils.DoublePassBlurringTool
+import rendering.utils.FastBloomTool
 
 
 class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private val ui: Canvas) {
 
   private val combined = Canvas.setUp(diffuse.width, diffuse.height)
-  private val emissiveBlurTool = DoublePassBlurringTool({ Canvas.setUp(diffuse.width / 2, diffuse.height / 2) })
-  private val threshold = Canvas.setUp(512, 512)
-  private val lensFlares = Canvas.setUp(512, 512)
-  private val lensBlurTool = DoublePassBlurringTool({ Canvas.setUp(512, 512) })
+  private val bloom = FastBloomTool(256, 256)
 
   companion object  {
 
@@ -41,47 +36,25 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
   }
 
   fun showCombined() {
-    val emissiveBlurred = emissiveBlurTool.blur(emissive.texture)
     combined.paint {
       ShaderEffect.fromShader("mixDiffuseWithEmissive")
         .bind("textureDiffuse", diffuse)
         .bind("textureEmissive", emissive)
-        .bind("textureEmissiveBlurred", emissiveBlurred)
         .parametrize("noiseOffset", (System.currentTimeMillis() % 16).toFloat())
         .showAsQuad()
     }
 
-    val thresholdBlur = prepareBlurredThreshold()
+    combined.showAsQuad()
 
-    lensFlares.paint {
-      ShaderEffect.fromShader("lensflare")
-        .bind("texture", thresholdBlur)
-        .bind("gradient", AssetsManager.peekMaterial("flare-gradient").diffuse!!)
-        .showAsQuad()
+    val bloomed = bloom.process(combined)
+    Blending.ADDITIVE.decorate {
+      bloomed.showAsQuad()
     }
-
-    ShaderEffect.fromShader("lensPlusMix")
-      .bind("textureClean", combined)
-      .bind("textureLens", lensFlares)
-      .bind("textureBloom", thresholdBlur)
-      .bind("textureDirt", AssetsManager.peekMaterial("dirt").diffuse!!)
-      .showAsQuad()
 
     // todo blend it somehow inside final composition
     Blending.TRANSPARENCY.decorate {
       ui.showAsQuad()
     }
-  }
-
-  private fun prepareBlurredThreshold(): Canvas {
-    threshold.paint {
-      ShaderEffect.fromShader("threshold")
-        .bind("texture", combined)
-        .parametrize("scale", 8f)
-        .parametrize("bias", -.925f)
-        .showAsQuad()
-    }
-    return lensBlurTool.blur(threshold.texture, Vec2(1.76f, 0f), Vec2(2.33f, 0f))
   }
 
 }

@@ -7,8 +7,10 @@ import rendering.canvas.ShaderEffect
 
 class DoublePassBlurringTool(private val canvasFunc: () -> Canvas) {
 
-  val tempBufferA = canvasFunc.invoke()
-  val tempBufferB = canvasFunc.invoke()
+  private val tempBufferA = canvasFunc.invoke()
+  private val tempBufferB = canvasFunc.invoke()
+
+  fun blur(source: Texture, scale: Float) = blur(source, Vec2(scale, 0f), Vec2(0f, scale))
 
   fun blur(source: Texture, firstPass: Vec2 = Vec2.one().onlyX(), secondPass: Vec2 = Vec2.one().onlyY()): Canvas {
     val fixedFirst = firstPass / Vec2(tempBufferA.width, tempBufferA.height)
@@ -24,5 +26,7 @@ class DoublePassBlurringTool(private val canvasFunc: () -> Canvas) {
       .parametrize("scale", vector)
       .showAsQuad()
   }
+
+  fun result() = tempBufferB
 
 }

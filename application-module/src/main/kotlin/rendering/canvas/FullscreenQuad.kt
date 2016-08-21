@@ -1,9 +1,6 @@
 package rendering.canvas
 
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Mesh
-import com.badlogic.gdx.graphics.VertexAttribute
-import com.badlogic.gdx.graphics.VertexAttributes
+import com.badlogic.gdx.graphics.*
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 
 
@@ -12,6 +9,10 @@ internal object FullscreenQuad {
   private val mesh = initialiseMesh()
 
   fun renderWith(shader: ShaderProgram) = mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
+
+  fun justBlit(texture: Texture) = ShaderEffect.fromShader("fullscreenQuadShader")
+    .bind("texture", texture)
+    .showAsQuad()
 
   private fun initialiseMesh(): Mesh {
     val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,

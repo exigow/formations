@@ -50,6 +50,10 @@ class Main {
     gbuffer.clear()
     renderFullscreenBackgroundImage();
 
+    gbuffer.paintOnDiffuse {
+      Draw.dartFilled(Vec2.zero(), 32f)
+    }
+
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
     val allSprites = asteroidSprites + shipSprites
