@@ -8,12 +8,13 @@ object Test {
       height = 480,
       resizeable = true
     )
-    ApplicationInitializer(config, onFrame = {
-      onLoop()
+    ApplicationInitializer(config, onFrame = { delta ->
+      onLoop(delta)
     }).run()
   }
 
-  private fun onLoop() {
+  private fun onLoop(delta: Float) {
+    println(delta)
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
     glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
   }

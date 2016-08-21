@@ -4,7 +4,9 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.opengl.GL
 import org.lwjgl.system.MemoryUtil
 
-class ApplicationInitializer(private val config: Configuration, private val onFrame: () -> Unit) {
+class ApplicationInitializer(private val config: Configuration, private val onFrame: (delta: Float) -> Unit) {
+
+  private val timer = ApplicationTimer()
 
   fun run() {
     try {
@@ -39,7 +41,8 @@ class ApplicationInitializer(private val config: Configuration, private val onFr
   private fun loop(window: Long) {
     GL.createCapabilities()
     while (!glfwWindowShouldClose(window)) {
-      onFrame.invoke()
+      timer.tick()
+      onFrame.invoke(timer.deltaTime())
       glfwSwapBuffers(window)
       glfwPollEvents()
     }
