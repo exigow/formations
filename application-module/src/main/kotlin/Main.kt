@@ -1,6 +1,7 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import Vec2
+import com.badlogic.gdx.math.Rectangle
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
@@ -51,7 +52,7 @@ class Main {
     renderFullscreenBackgroundImage();
 
     gbuffer.paintOnDiffuse {
-      Draw.dartFilled(Vec2.zero(), 32f)
+      Draw.rectangleFilled(Rectangle(-2f, -2f, 4f, 4f))
     }
 
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
