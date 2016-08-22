@@ -35,6 +35,8 @@ class Canvas(private val buffer: FrameBuffer) {
 
     fun setUpRGB(width: Int, height: Int) = setUp(width, height, Pixmap.Format.RGB888)
 
+    fun setUpAlpha(width: Int, height: Int) = setUp(width, height, Pixmap.Format.Alpha)
+
     fun setUpRGBSquare(size: Int) = setUpRGB(size, size)
 
     private fun setUp(width: Int, height: Int, format: Pixmap.Format): Canvas {

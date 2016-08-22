@@ -32,7 +32,7 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
   fun clear() {
     diffuse.clear()
     emissive.clear()
-    ui.clear(color = Color.white, alpha = 0f)
+    ui.clear(color = Color.black, alpha = 0f)
   }
 
   fun showCombined() {
@@ -43,15 +43,13 @@ class GBuffer(private val diffuse: Canvas, private val emissive: Canvas, private
         .parametrize("noiseOffset", (System.currentTimeMillis() % 16).toFloat())
         .showAsQuad()
     }
-
-    combined.showAsQuad()
-
     val bloomed = bloom.process(combined)
-    Blending.ADDITIVE.decorate {
-      bloomed.showAsQuad()
+    combined.paint {
+      Blending.ADDITIVE.decorate {
+        bloomed.showAsQuad()
+      }
     }
-
-    // todo blend it somehow inside final composition
+    combined.showAsQuad()
     Blending.TRANSPARENCY.decorate {
       ui.showAsQuad()
     }
