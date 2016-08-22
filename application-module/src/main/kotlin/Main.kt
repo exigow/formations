@@ -23,7 +23,7 @@ class Main {
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
   private val gbuffer = GBuffer.setUpWindowSize()
-  private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.r})
+  private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.red })
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
   private val newUIRenderer = NewUIRenderer(camera, context)

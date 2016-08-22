@@ -1,6 +1,6 @@
 package rendering
 
-data class Color(val r: Float, val g: Float, val b: Float) {
+data class Color(val red: Float, val green: Float, val blue: Float) {
 
   companion object {
 
@@ -21,6 +21,6 @@ data class Color(val r: Float, val g: Float, val b: Float) {
 
   }
 
-  fun toFloatArray() = floatArrayOf(r, g, b)
+  fun toFloatArray() = floatArrayOf(red, green, blue)
 
 }

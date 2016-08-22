@@ -34,7 +34,7 @@ class PathRenderer {
       enableBlend()
     renderer.begin(matrix, GL20.GL_TRIANGLE_FAN);
     for (element in path.elements) {
-      renderer.color(color.r, color.g, color.b, alpha)
+      renderer.color(color.red, color.green, color.blue, alpha)
       renderer.vertex(element.x, element.y, 0f)
     }
     renderer.end();
@@ -47,7 +47,7 @@ class PathRenderer {
       enableBlend()
     renderer.begin(matrix, GL20.GL_LINE_STRIP);
     for (element in path.elements) {
-      renderer.color(color.r, color.g, color.b, alpha)
+      renderer.color(color.red, color.green, color.blue, alpha)
       renderer.vertex(element.x, element.y, 0f)
     }
     renderer.end();
