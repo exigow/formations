@@ -20,6 +20,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
   var movementTarget = Vec2.zero()
   var movementTargetAngle = 0f
   val engines = config.engines.map { Engine(it, this) }.toList()
+  val weapons = config.weapons.map { Weapon(it, this) }.toList()
 
   fun update(delta: Float) {
     val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f);
@@ -65,7 +66,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
       val size = it.trail.width * .5f * exposedStrength
       Sprite(AssetsManager.peekMaterial("trail-glow"), it.absolutePosition(), size, 0f, 0f)
     }
-    val weapons = config.weapons.map { it.relativePosition.absolute() }
+    val weapons = weapons.map { it.absolutePosition() }
       .map { Sprite(AssetsManager.peekMaterial("corvette-turret"), it) }
     return trails + glows + sprite + weapons
   }
@@ -99,6 +100,12 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
   class Engine(private val template: ShipTemplate.EngineTemplate, private val ship: Ship) {
 
     val trail = Trail(absolutePosition(), template.trailWidth, 16f)
+
+    fun absolutePosition() = ship.position + template.relativePosition.rotate(ship.angle)
+
+  }
+
+  class Weapon(private val template: ShipTemplate.WeaponTemplate, private val ship: Ship) {
 
     fun absolutePosition() = ship.position + template.relativePosition.rotate(ship.angle)
 

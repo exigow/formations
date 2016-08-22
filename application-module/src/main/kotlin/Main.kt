@@ -60,6 +60,12 @@ class Main {
     val allSprites = asteroidSprites + shipSprites
     spriteRenderer.render(allSprites, camera)
 
+    gbuffer.paintOnDiffuse {
+      world.allShips().flatMap { it.weapons }.forEach {
+        Draw.line(it.absolutePosition(), it.absolutePosition() + Vec2(256, 0))
+      }
+    }
+
     gbuffer.paintOnUserInterface {
       newUIRenderer.render()
     }
