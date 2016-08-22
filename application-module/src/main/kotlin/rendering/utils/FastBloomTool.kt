@@ -11,9 +11,7 @@ class FastBloomTool(private val width: Int, private val height: Int) {
 
   private val threshold = Canvas.setUpRGB(width, height)
   private val verticalThreshold = Canvas.setUpRGB(width, height)
-
-
-  private val vertical = DoublePassBlurringTool({ Canvas.setUpRGBSquare(256) })
+  private val vertical = DoublePassBlurringTool({ Canvas.setUpRGBSquare(128) })
   private val a = DoublePassBlurringTool({ Canvas.setUpRGBSquare(256) })
   private val b = DoublePassBlurringTool({ Canvas.setUpRGBSquare(64) })
   private val c = DoublePassBlurringTool({ Canvas.setUpRGBSquare(16) })
