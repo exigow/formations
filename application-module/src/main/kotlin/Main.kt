@@ -7,6 +7,7 @@ import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
+import rendering.Color
 import rendering.GBuffer
 import rendering.NewUIRenderer
 import rendering.Sprite
@@ -51,20 +52,10 @@ class Main {
     gbuffer.clear()
     renderFullscreenBackgroundImage();
 
-    gbuffer.paintOnDiffuse {
-      Draw.rectangleFilled(Rectangle(-2f, -2f, 4f, 4f))
-    }
-
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
     val allSprites = asteroidSprites + shipSprites
     spriteRenderer.render(allSprites, camera)
-
-    gbuffer.paintOnDiffuse {
-      world.allShips().flatMap { it.weapons }.forEach {
-        Draw.line(it.absolutePosition(), it.absolutePosition() + Vec2(256, 0))
-      }
-    }
 
     gbuffer.paintOnUserInterface {
       newUIRenderer.render()
