@@ -1,5 +1,6 @@
 package rendering.utils
 
+import assets.AssetsManager
 import rendering.Blending
 import rendering.canvas.Canvas
 import rendering.canvas.FullscreenQuad
@@ -29,7 +30,7 @@ class FastBloomTool(private val width: Int, private val height: Int) {
     c.blur(b.result().texture)
     d.blur(c.result().texture)
 
-    computeThreshold(a.result(), verticalThreshold, 4f, -.175f)
+    computeThreshold(a.result(), verticalThreshold, 1.75f, -.275f)
     vertical.blur(verticalThreshold.texture, Vec2.one().onlyX() * 3.66f, Vec2.one().onlyX() * 1.66f)
 
     out.clear()
@@ -40,9 +41,9 @@ class FastBloomTool(private val width: Int, private val height: Int) {
         FullscreenQuad.justBlit(c.result().texture)
         FullscreenQuad.justBlit(d.result().texture)
         FullscreenQuad.justBlit(vertical.result().texture)
+        paintFlares(verticalThreshold)
       }
     }
-
     return out
   }
 
@@ -54,6 +55,13 @@ class FastBloomTool(private val width: Int, private val height: Int) {
         .parametrize("bias", bias)
         .showAsQuad()
     }
+  }
+
+  private fun paintFlares(input: Canvas) {
+    ShaderEffect.fromShader("lensflare")
+      .bind("texture", input)
+      .bind("gradient", AssetsManager.peekMaterial("flare-gradient").diffuse!!)
+      .showAsQuad()
   }
 
 }
