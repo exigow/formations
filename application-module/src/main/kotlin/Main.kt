@@ -1,11 +1,17 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
 import Vec2
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Rectangle
+import commons.Logger
 import core.Camera
+import core.actions.Action
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
+import core.input.event.bundles.ThreeStateButtonEventBundle
+import core.input.mappings.MouseButton
 import game.PlayerContext
+import game.Squad
 import game.World
 import rendering.Color
 import rendering.GBuffer
@@ -29,7 +35,7 @@ class Main {
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
   private val newUIRenderer = NewUIRenderer(camera, context)
-  private val widgets = (1..8)
+  private val widgets = (1..10)
     .map { p -> Vec2(p * 32, 0) }
     .map { v -> Widget(v + Vec2(-14, -16), v + Vec2(14, 16)) }
     .toList()
@@ -41,6 +47,7 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
+    actions.addAction(WidgetClickAction(camera, widgets))
   }
 
   fun onFrame() {
@@ -51,8 +58,9 @@ class Main {
     world.update(delta)
     /**/
     widgets.forEach {
-      if (it.isHovered(camera.mousePosition()))
+      if (it.isHovered(camera.mousePosition())) {
         it.hover()
+      }
       it.update(delta)
     }
     render();
@@ -85,5 +93,27 @@ class Main {
       shader.end()
     }
   }
+
+  private class WidgetClickAction(private val camera: Camera, private val widgets: List<Widget>) : Action {
+
+    private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_LEFT) {
+
+      override fun onPress() {
+        widgets.find { it.isHovered(camera.mousePosition()) }?.click()
+      }
+
+      override fun onRelease() {
+      }
+
+      override fun onHold(delta: Float) {
+      }
+
+    }.toBundle()
+
+    override fun events() = events
+
+
+  }
+
 
 }
