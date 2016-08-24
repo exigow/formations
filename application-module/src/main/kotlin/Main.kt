@@ -29,7 +29,10 @@ class Main {
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
   private val newUIRenderer = NewUIRenderer(camera, context)
-  private val widget = Widget(Vec2(-128, -128), Vec2(64, 256))
+  private val widgets = (1..8)
+    .map { p -> Vec2(p * 32, 0) }
+    .map { v -> Widget(v + Vec2(-14, -16), v + Vec2(14, 16)) }
+    .toList()
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -46,6 +49,12 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
+    /**/
+    widgets.forEach {
+      if (it.isHovered(camera.mousePosition()))
+        it.hover()
+      it.update(delta)
+    }
     render();
   }
 
@@ -61,7 +70,7 @@ class Main {
 
     gbuffer.paintOnUserInterface {
       newUIRenderer.render()
-      widget.draw()
+      widgets.forEach { it.draw() }
     }
     gbuffer.showCombined()
   }

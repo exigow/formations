@@ -88,6 +88,8 @@ object Draw {
 
   fun path(path: Path, color: Color = Color.white, alpha: Float = 1f) = pr.renderLine(path, color, alpha)
 
+  fun pathFilled(path: Path, color: Color = Color.white, alpha: Float = 1f) = pr.renderFilled(path, color, alpha)
+
   fun paths(paths: List<Path>, color: Color = Color.white, alpha: Float = 1f) = pr.renderLines(paths, color, alpha)
 
   private fun List<Path>.scale(scalar: Vec2) = map { it.scale(scalar) }
