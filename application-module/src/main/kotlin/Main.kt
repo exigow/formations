@@ -16,6 +16,7 @@ import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
 import rendering.renderers.GbufferRenderer
 import rendering.utils.Draw
+import ui.Widget
 
 class Main {
 
@@ -28,6 +29,7 @@ class Main {
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
   private val newUIRenderer = NewUIRenderer(camera, context)
+  private val widget = Widget(Vec2(-128, -128), Vec2(64, 256))
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -59,6 +61,7 @@ class Main {
 
     gbuffer.paintOnUserInterface {
       newUIRenderer.render()
+      widget.draw()
     }
     gbuffer.showCombined()
   }

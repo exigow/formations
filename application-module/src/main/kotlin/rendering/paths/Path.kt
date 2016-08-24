@@ -81,6 +81,8 @@ data class Path(val elements: List<Vec2>) {
     return result
   }
 
+  fun loop() = Path(this.elements + this.elements.first())
+
   override fun toString(): String{
     return "Path(elements=$elements)"
   }
