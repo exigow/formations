@@ -30,7 +30,7 @@ data class Rectangle(val leftUpCorner: Vec2, val rightDownCorner: Vec2) {
 
   companion object {
 
-    fun fromPositionedSize(position: Vec2, size: Vec2): Rectangle {
+    fun centeredWithSize(position: Vec2, size: Vec2): Rectangle {
       val halfSize = size / 2
       return Rectangle(position - halfSize, position + halfSize)
     }

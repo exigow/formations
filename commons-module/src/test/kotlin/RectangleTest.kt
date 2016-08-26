@@ -41,8 +41,8 @@ class RectangleTest {
   }
 
   @Test
-  fun checkPositionedFactoryResult() {
-    val rect = Rectangle.fromPositionedSize(Vec2(2, 3), Vec2(4, 4))
+  fun testCenteredWithSizeResult() {
+    val rect = Rectangle.centeredWithSize(Vec2(2, 3), Vec2(4, 4))
     assertEquals(rect.leftUpCorner, Vec2(0, 1))
     assertEquals(rect.rightDownCorner, Vec2(4, 5))
   }
