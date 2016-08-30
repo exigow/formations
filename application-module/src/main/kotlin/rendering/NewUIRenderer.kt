@@ -15,7 +15,7 @@ import rendering.utils.Draw
 
 class NewUIRenderer(private val camera: Camera, private val context: PlayerContext) {
 
-  private val font = BitmapFont(Gdx.files.internal("data/fonts/microgramma.fnt"), true)
+  private val font = BitmapFont(Gdx.files.internal("data/fonts/esn.fnt"), true)
   private val batch = SpriteBatch()
 
   fun render() {
@@ -28,6 +28,15 @@ class NewUIRenderer(private val camera: Camera, private val context: PlayerConte
 
     if (context.selectionRect != null)
       Draw.rectangle(context.selectionRect!!)
+
+    val t = """
+    OBJECTIVES:
+	  > Locate Second Artifact
+    SECONDARY OBJECTIVES:
+    > Upgrade Tactical Bomber Fabrication
+    > Deploy Support Cruiser to repair damaged units
+    """
+    drawText(t, camera.mouseScreenPosition() + Vec2(128, 128))
   }
 
   private fun drawDescription(squad: Squad) {
