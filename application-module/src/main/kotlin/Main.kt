@@ -56,7 +56,6 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
-    /**/
     widgets.forEach {
       if (it.isHovered(camera.mousePosition())) {
         it.hover()
@@ -75,6 +74,8 @@ class Main {
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
     val allSprites = asteroidSprites + shipSprites
     spriteRenderer.render(allSprites, camera)
+
+
 
     gbuffer.paintOnUserInterface {
       newUIRenderer.render()
