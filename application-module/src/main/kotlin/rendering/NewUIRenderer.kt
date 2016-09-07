@@ -11,11 +11,12 @@ import game.PlayerContext
 import game.Ship
 import game.Squad
 import rendering.utils.Draw
+import rendering.utils.SlicedRectangleRenderer
 
 
 class NewUIRenderer(private val camera: Camera, private val context: PlayerContext) {
 
-  private val font = BitmapFont(Gdx.files.internal("data/fonts/microgramma.fnt"), true)
+  private val font = BitmapFont(Gdx.files.internal("data/fonts/esn.fnt"), true)
   private val batch = SpriteBatch()
 
   fun render() {
@@ -26,8 +27,23 @@ class NewUIRenderer(private val camera: Camera, private val context: PlayerConte
     }
     drawForEach(context.highlighted.flatMap { it.ships }, "highlight")
 
-    if (context.selectionRect != null)
-      Draw.rectangle(context.selectionRect!!)
+    if (context.selectionRect != null) {
+      val r = context.selectionRect!!
+      Draw.rectangleFilled(r, color = Color.gray, alpha = .375f)
+      val from = Vec2(r.x, r.y)
+      val to = from + Vec2(r.width, r.height)
+      SlicedRectangleRenderer.render(from, to, AssetsManager.peekMaterial("border").diffuse!!, camera.projectionMatrix())
+      drawText("This is selection.", camera.mouseScreenPosition() - Vec2(128, 32))
+    }
+
+    val t = """
+    OBJECTIVES:
+	  > Locate Second Artifact
+    SECONDARY OBJECTIVES:
+    > Upgrade Tactical Bomber Fabrication
+    > Deploy Support Cruiser to repair damaged units
+    """
+    drawText(t, camera.mouseScreenPosition() + Vec2(128, 128))
   }
 
   private fun drawDescription(squad: Squad) {
