@@ -20,12 +20,7 @@ class NewUIRenderer(private val camera: Camera, private val context: PlayerConte
   private val batch = SpriteBatch()
 
   fun render() {
-    batch.projectionMatrix = camera.projectionMatrix()
-    if (context.isHovering()) {
-      drawForEach(context.hovered!!.ships, "arrow")
-      drawDescription(context.hovered!!)
-    }
-    drawForEach(context.highlighted.flatMap { it.ships }, "highlight")
+
 
     if (context.selectionRect != null) {
       val r = context.selectionRect!!
@@ -44,6 +39,13 @@ class NewUIRenderer(private val camera: Camera, private val context: PlayerConte
     > Deploy Support Cruiser to repair damaged units
     """
     drawText(t, camera.mouseScreenPosition() + Vec2(128, 128))
+
+    batch.projectionMatrix = camera.projectionMatrix()
+    if (context.isHovering()) {
+      drawForEach(context.hovered!!.ships, "arrow")
+      drawDescription(context.hovered!!)
+    }
+    drawForEach(context.highlighted.flatMap { it.ships }, "highlight")
   }
 
   private fun drawDescription(squad: Squad) {
