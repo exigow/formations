@@ -1,0 +1,15 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "default-font": {
+      "file": "esn.fnt"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "font": "default-font",
+      "up": "button",
+      "down": "button-down",
+      "over": "button-over"
+    }
+  }
+}

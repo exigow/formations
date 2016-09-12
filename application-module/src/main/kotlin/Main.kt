@@ -1,28 +1,28 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import Vec2
-import com.badlogic.gdx.Input
-import com.badlogic.gdx.math.Rectangle
-import commons.Logger
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.EventListener
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import core.Camera
-import core.actions.Action
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
-import core.input.event.bundles.ThreeStateButtonEventBundle
-import core.input.mappings.MouseButton
 import game.PlayerContext
-import game.Squad
 import game.World
-import rendering.Color
 import rendering.GBuffer
-import rendering.NewUIRenderer
-import rendering.Sprite
 import rendering.canvas.FullscreenQuad
 import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
 import rendering.renderers.GbufferRenderer
 import rendering.utils.Draw
-import ui.Widget
 
 class Main {
 
@@ -34,11 +34,8 @@ class Main {
   private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.red })
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
-  private val newUIRenderer = NewUIRenderer(camera, context)
-  private val widgets = (1..10)
-    .map { p -> Vec2(p * 32, 0) }
-    .map { v -> Widget(v + Vec2(-14, -16), v + Vec2(14, 16)) }
-    .toList()
+  private val stage = Stage()
+  private val skin = Skin(Gdx.files.internal("skin/skin.json"))
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -47,7 +44,21 @@ class Main {
     actions.addAction(SelectionAction(camera, world, context))
     actions.addAction(OrderingActionClass(camera, context, world))
     actions.addAction(CameraShipLockAction(camera, context))
-    actions.addAction(WidgetClickAction(camera, widgets))
+
+
+    Gdx.input.inputProcessor = stage;
+
+    val table = Table();
+    table.setFillParent(true);
+    stage.addActor(table);
+
+    val button = TextButton("Click me!", skin);
+    button.addListener( object : ChangeListener() {
+      override fun changed(event: ChangeEvent?, actor: Actor?) = println("Hello.")
+    });
+
+    table.add(button);
+
   }
 
   fun onFrame() {
@@ -56,12 +67,7 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
-    widgets.forEach {
-      if (it.isHovered(camera.mousePosition())) {
-        it.hover()
-      }
-      it.update(delta)
-    }
+    stage.act(delta);
     render();
   }
 
@@ -75,11 +81,11 @@ class Main {
     val allSprites = asteroidSprites + shipSprites
     spriteRenderer.render(allSprites, camera)
 
-
-
     gbuffer.paintOnUserInterface {
-      newUIRenderer.render()
-      widgets.forEach { it.draw() }
+      //newUIRenderer.render()
+      //widgets.forEach { it.draw() }
+
+      stage.draw();
     }
     gbuffer.showCombined()
   }
@@ -94,27 +100,5 @@ class Main {
       shader.end()
     }
   }
-
-  private class WidgetClickAction(private val camera: Camera, private val widgets: List<Widget>) : Action {
-
-    private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_LEFT) {
-
-      override fun onPress() {
-        widgets.find { it.isHovered(camera.mousePosition()) }?.click()
-      }
-
-      override fun onRelease() {
-      }
-
-      override fun onHold(delta: Float) {
-      }
-
-    }.toBundle()
-
-    override fun events() = events
-
-
-  }
-
 
 }
