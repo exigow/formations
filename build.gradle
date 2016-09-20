@@ -25,7 +25,6 @@ allprojects {
     compile "com.badlogicgames.gdx:gdx-platform:+:natives-desktop"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5"
     compile 'com.github.exigow:matematik:master-SNAPSHOT'
-    compile "com.kotcrab.vis:vis-ui:1.2.2"
 
     testCompile 'org.testng:testng:+'
   }

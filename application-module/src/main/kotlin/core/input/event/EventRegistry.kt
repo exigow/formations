@@ -9,14 +9,14 @@ import core.input.mappings.ScrollDirection
 import java.util.*
 
 
-class EventRegistry() {
+class EventRegistry {
 
   init {
     overrideGdxInputProcessor()
   }
 
   private fun overrideGdxInputProcessor() {
-    //Gdx.input.inputProcessor = GdxInputWrapper;
+    Gdx.input.inputProcessor = GdxInputWrapper;
   }
 
   fun registerBundle(bundle: EventBundle) {
