@@ -6,6 +6,7 @@ import core.actions.catalog.*
 import game.PlayerContext
 import game.World
 import rendering.GBuffer
+import rendering.Sprite
 import rendering.canvas.FullscreenQuad
 import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
@@ -48,7 +49,8 @@ class Main {
 
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
-    val allSprites = asteroidSprites + shipSprites
+    val blackDotSprite = Sprite(AssetsManager.peekMaterial("black"), Vec2.zero(), 0f)
+    val allSprites = asteroidSprites + shipSprites + blackDotSprite
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.showCombined()
