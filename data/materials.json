@@ -167,9 +167,22 @@
   },
   {
     "id": "planet",
-    "textureDiffuseFilename": "data/textures/planet/planet-diffuse.png",
-    "textureEmissiveFilename": "data/textures/planet/planet-emissive.png",
-    "minFilter": "linear",
-    "magFilter": "linear"
+    "textureDiffuseFilename": "data/textures/planet/lavaplanet-diffuse.png",
+    "textureEmissiveFilename": "data/textures/planet/lavaplanet-emissive.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
+  },
+  {
+    "id": "moon",
+    "textureDiffuseFilename": "data/textures/planet/moon-diffuse.png",
+    "textureEmissiveFilename": "data/textures/planet/moon-emissive.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
+  },
+  {
+    "id": "belt",
+    "textureDiffuseFilename": "data/textures/planet/belt.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest"
   }
 ]

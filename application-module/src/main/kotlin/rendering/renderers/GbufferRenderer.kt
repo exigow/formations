@@ -24,7 +24,7 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
   }
 
   private fun renderSprite(sprite: Sprite, camera: Camera) {
-    if (!sprite.isVisible(camera))
+    if (!sprite.isVisible(camera) && sprite.canBeCulled)
       return
     immediateRenderer.draw(sprite.material, sprite.position, sprite.depth, sprite.angle, sprite.scale, camera.projectionMatrix())
   }

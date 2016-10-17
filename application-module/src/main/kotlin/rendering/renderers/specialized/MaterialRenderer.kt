@@ -18,7 +18,7 @@ import rendering.materials.Material
 
 internal class MaterialRenderer(val gbuffer: GBuffer) {
 
-  private val ambientColor = Color(.784f, .764f, .662f)
+  private val ambientColor = Color(.852f, .467f, .242f) // Color(.784f, .764f, .662f)
   private val mesh = initialiseMesh()
 
   fun draw(material: Material, where: Vec2, depth: Float, angle: Float, scale: Float, matrix: Matrix4) {

@@ -17,12 +17,10 @@ class Camera {
 
   init {
     cam = PerspectiveCamera(60f, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-    //cam.rotate(Vector3(0f, 0f, 1f), 180f)
-    //cam.rotate(Vector3(0f, 1f, 0f), 180f)
     cam.position.set(0f, 0f, 512f)
     cam.lookAt(0f, 0f, 0f)
     cam.near = 1f
-    cam.far = 4096f
+    cam.far = 32768f
     cam.update()
   }
 
@@ -41,7 +39,7 @@ class Camera {
   fun update(delta: Float) {
     if (isLocked())
       applyLocking()
-    target.z = FastMath.clamp(target.z, 1f, 16f)
+    target.z = FastMath.clamp(target.z, .5f, 16f)
     val planeFactor = 16f;
     val zoomFactor = 12f;
     fun limit(f: Float) = Math.min(f * delta, 1f)

@@ -49,8 +49,11 @@ class Main {
 
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
-    val blackDotSprite = Sprite(AssetsManager.peekMaterial("black"), Vec2.zero(), 0f)
-    val allSprites = asteroidSprites + shipSprites + blackDotSprite
+    val invisibleBlackDotSprite = Sprite(AssetsManager.peekMaterial("black"), camera.positionEye(), 0f)
+    val planet = Sprite(AssetsManager.peekMaterial("planet"), Vec2(-16384, 0), 160f, FastMath.pi / 2, -26576f, canBeCulled = false)
+    val moon = Sprite(AssetsManager.peekMaterial("moon"), Vec2(-8192, -2048), 48f, FastMath.pi / 2, -14384f, canBeCulled = false)
+    val belt = Sprite(AssetsManager.peekMaterial("belt"), Vec2(-8192, -8192), 128f, FastMath.pi / 2, -20000f, canBeCulled = false)
+    val allSprites = asteroidSprites + shipSprites + planet + belt + moon + invisibleBlackDotSprite
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.showCombined()

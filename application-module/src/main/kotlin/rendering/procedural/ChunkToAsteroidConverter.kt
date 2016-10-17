@@ -19,7 +19,7 @@ object ChunkToAsteroidConverter {
   private fun Chunk.toAsteroidSprite(time: Float): Collection<Sprite> {
     val seed = toSeed()
 
-    val materialName = Random.chooseRandomly(seed, "asteroid-rock-a", "asteroid-rock-b", "asteroid-rock-c" ,"asteroid-rock-d")
+    val materialName = Random.chooseRandomly(seed, "asteroid-red-a", "asteroid-red-b", "asteroid-red-c" ,"asteroid-red-d")
     val material = AssetsManager.peekMaterial(materialName)
 
     val sizeVariation = Random.randomFloatRange(seed, .75f, 1.25f)
