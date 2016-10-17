@@ -164,5 +164,12 @@
     "textureEmissiveFilename": "data/textures/explosion-emissive.png",
     "minFilter": "linear",
     "magFilter": "linear"
+  },
+  {
+    "id": "planet",
+    "textureDiffuseFilename": "data/textures/planet/planet-diffuse.png",
+    "textureEmissiveFilename": "data/textures/planet/planet-emissive.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
   }
 ]
