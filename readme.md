@@ -1,2 +1,1 @@
-Setup project:
-> gradle idea
+Album with screenshots: http://imgur.com/a/IQG1D
