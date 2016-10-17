@@ -42,7 +42,7 @@ class CameraArrowsMovementAction(private val cameraDep: Camera) : Action {
 
   private fun toEvent(vec: Vec2): () -> Unit {
     return {
-      val result = vec * 16f * cameraDep.renderingScale()
+      val result = vec * 8f * cameraDep.renderingScale()
       cameraDep.moveRelative(result)
     }
   }

@@ -14,7 +14,7 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
   private val trailsRenderer = TrailsRenderer(gbuffer)
 
   fun render(renderables: Collection<Renderable>, camera: Camera) {
-    val sorted = renderables.sortedByDescending { it.depth() }
+    val sorted = renderables.sortedBy { it.depth() }
     for (instance in sorted) {
       when (instance) {
         is Sprite -> renderSprite(instance, camera)
@@ -26,9 +26,7 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
   private fun renderSprite(sprite: Sprite, camera: Camera) {
     if (!sprite.isVisible(camera))
       return
-    val distorted = camera.projectPerspective(sprite.position, sprite.depth)
-    val distortedScale = sprite.scale * (1f + sprite.depth)
-    immediateRenderer.draw(sprite.material, distorted, sprite.angle, distortedScale, camera.projectionMatrix())
+    immediateRenderer.draw(sprite.material, sprite.position, sprite.depth, sprite.angle, sprite.scale, camera.projectionMatrix())
   }
 
   private fun renderTrail(trail: Trail, camera: Camera) {

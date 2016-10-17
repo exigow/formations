@@ -21,9 +21,9 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
   private val ambientColor = Color(.784f, .764f, .662f)
   private val mesh = initialiseMesh()
 
-  fun draw(material: Material, where: Vec2, angle: Float, scale: Float, matrix: Matrix4) {
+  fun draw(material: Material, where: Vec2, depth: Float, angle: Float, scale: Float, matrix: Matrix4) {
     val transformed = transformedQuad(material.size(), scale, where, angle, material.origin)
-    val vertices = decomposeToVbo(transformed)
+    val vertices = decomposeToVbo(transformed, depth)
     mesh.setVertices(vertices)
     material.blending.decorate {
       gbuffer.paintOnDiffuse {
@@ -55,9 +55,9 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
 
   private fun renderMesh(shader: ShaderProgram) = mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
 
-  private fun decomposeToVbo(vectors: List<Vec2>): FloatArray {
+  private fun decomposeToVbo(vectors: List<Vec2>, depth: Float): FloatArray {
     val i = vectors.iterator()
-    return toVbo(i.next(), i.next(), i.next(), i.next())
+    return toVbo(i.next(), i.next(), i.next(), i.next(), depth)
   }
 
   private fun transformedQuad(size: Vec2, scale: Float, position: Vec2, angle: Float, origin: Vec2) = listOf(
@@ -72,16 +72,16 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     .rotate(angle + FastMath.pi / 2)
     .translate(position)
 
-  private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2) = floatArrayOf(
-    a.x, a.y, 0f, 0f,
-    b.x, b.y, 1f, 0f,
-    c.x, c.y, 1f, 1f,
-    d.x, d.y, 0f, 1f
+  private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2, depth: Float) = floatArrayOf(
+    a.x, a.y, depth, 0f, 0f,
+    b.x, b.y, depth, 1f, 0f,
+    c.x, c.y, depth, 1f, 1f,
+    d.x, d.y, depth, 0f, 1f
   )
 
   private fun initialiseMesh(): Mesh {
     val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,
-      VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
+      VertexAttribute(VertexAttributes.Usage.Position, 3, "positionAttr"),
       VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
     );
     return mesh

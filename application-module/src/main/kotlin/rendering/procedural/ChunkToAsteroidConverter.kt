@@ -32,10 +32,10 @@ object ChunkToAsteroidConverter {
     val startingAngleVariation = Random.randomPiToMinusPi(seed + 1)
     val a = startingAngleVariation + (angleVariation * time) * .025f
 
-    val depth = Random.randomFloatRange(seed, -1f, 1f) * .125f
+    val depth = Random.randomFloatRange(seed, -64f, 64f)
     val asteroid = Sprite(material, p, s * 4f, a, depth)
     if (value > .125f) {
-      val cloud = Sprite(AssetsManager.peekMaterial("asteroid-rock-dust"), p, s * 8f, startingAngleVariation, depth + .075f)
+      val cloud = Sprite(AssetsManager.peekMaterial("asteroid-rock-dust"), p, s * 8f, startingAngleVariation, depth - .075f)
       return listOf(cloud, asteroid)
     }
     return listOf(asteroid)

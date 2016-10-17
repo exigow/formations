@@ -1,28 +1,32 @@
 package core
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.math.Matrix4
-import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector3
 import FastMath
 import Vec2
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.PerspectiveCamera
+import com.badlogic.gdx.math.*
 import game.Squad
 
 class Camera {
 
-  val ortho: OrthographicCamera = OrthographicCamera();
+  val cam: PerspectiveCamera
   private val eye = Vector3(0f, 0f, 1f)
   private val target = Vector3(eye)
   private var lockedOn: Squad? = null
 
   init {
-    ortho.setToOrtho(true, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-    //ortho.up.set(0f, 1f, 0f);
-    //ortho.direction.set(0f, 0f, -1f);
+    cam = PerspectiveCamera(60f, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+    //cam.rotate(Vector3(0f, 0f, 1f), 180f)
+    //cam.rotate(Vector3(0f, 1f, 0f), 180f)
+    cam.position.set(0f, 0f, 512f)
+    cam.lookAt(0f, 0f, 0f)
+    cam.near = 1f
+    cam.far = 4096f
+    cam.update()
   }
 
-  fun projectionMatrix(): Matrix4 = ortho.combined.cpy()
+  fun projectionMatrix(): Matrix4 = cam.combined.cpy()
 
   fun screenMatrix(): Matrix4 {
     val m = OrthographicCamera()
@@ -37,7 +41,7 @@ class Camera {
   fun update(delta: Float) {
     if (isLocked())
       applyLocking()
-    target.z = FastMath.clamp(target.z, .125f, 16f)
+    target.z = FastMath.clamp(target.z, 1f, 16f)
     val planeFactor = 16f;
     val zoomFactor = 12f;
     fun limit(f: Float) = Math.min(f * delta, 1f)
@@ -45,7 +49,6 @@ class Camera {
     eye.y += (target.y - eye.y) * limit(planeFactor);
     eye.z += (target.z - eye.z) * limit(zoomFactor);
     updateCameraPosition()
-    ortho.update()
   }
 
   private fun applyLocking() {
@@ -81,14 +84,19 @@ class Camera {
   }
 
   fun unproject(position: Vec2): Vec2 {
-    val threeDimensionalPosition = Vector3(position.x, position.y, 0f)
-    val result = ortho.unproject(threeDimensionalPosition)
-    return Vec2(result.x, result.y)
+    val ray = cam.getPickRay(position.x, position.y)
+    val plane = Plane()
+    plane.set(0f, 0f, 1f, 0f);// the xy plane with direction z facing screen
+    plane.d=-10f//***** the depth in 3d for the coordinates
+    val yourVector3Position = Vector3()
+    Intersector.intersectRayPlane(ray, plane, yourVector3Position)
+    return Vec2(yourVector3Position.x, yourVector3Position.y)
   }
 
   private fun updateCameraPosition() {
-    ortho.position.set(eye.x, eye.y, 0f)
-    ortho.zoom = eye.z
+    cam.position.set(eye.x, eye.y, eye.z * 256f)
+    cam.lookAt(eye.x, eye.y, 0f)
+    cam.update()
   }
 
   fun position() = Vec2(target.x, target.y)
@@ -99,20 +107,19 @@ class Camera {
 
   fun mousePosition() = unproject(mouseScreenPosition())
 
-  fun scaledClickRadius() = 16f * renderingScale()
+  fun scaledClickRadius() = 16f * renderingScale() // todo: remove this / inline
 
   fun renderingScale() = eye.z
 
   fun normalizedRenderingScale() = Math.max(1f, renderingScale())
 
   fun worldVisibilityRectangle(border: Float = 0f): Rectangle {
-    val w = ortho.viewportWidth + border
-    val h = ortho.viewportHeight + border
-    val x = eye.x - (w / 2f * eye.z)
-    val y = eye.y - (h / 2f * eye.z)
-    return Rectangle(x, y, w * eye.z, h * eye.z);
+    val z = .32f * eye.z
+    val w = cam.viewportWidth + border
+    val h = cam.viewportHeight + border
+    val x = eye.x - (w / 2f * z)
+    val y = eye.y - (h / 2f * z)
+    return Rectangle(x, y, w * z, h * z)
   }
-
-  fun projectPerspective(position: Vec2, depth: Float) = position + (positionEye() - position) * depth / normalizedRenderingScale()
 
 }
