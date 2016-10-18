@@ -51,9 +51,8 @@ class Camera {
 
   private fun applyLocking() {
     val center = lockedOn!!.center()
-    target.x = center.x - 32 // todo remove this offset
-    target.y = center.y + 16
-    // todo add vectors
+    target.x = center.x
+    target.y = center.y
   }
 
   private fun isLocked() = lockedOn != null
