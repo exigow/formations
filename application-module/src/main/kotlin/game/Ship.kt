@@ -59,7 +59,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
 
   fun toRenderable(): Collection<Renderable> {
     val hull = AssetsManager.peekMaterial(config.hullName)
-    val sprite = Sprite(hull, position, 1f, angle)
+    val sprite = Sprite(hull, position, 1f, angle - FastMath.pi / 2)
     val trails = engines.map { it.trail }
     val glows = engines.filter { normalizedThrusterStrength() > .025 }.map {
       val exposedStrength = 1f - FastMath.pow(1f - normalizedThrusterStrength(), 4f)

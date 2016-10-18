@@ -64,12 +64,12 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     Vec2(0, 0),
     Vec2(1, 0),
     Vec2(1, 1),
-    Vec2(0, 1)
+    Vec2(0, 1) // todo remove scale and flip here
     )
     .scale(size)
     .translate(origin * -1f)
-    .scale(Vec2.one() * scale * .25f)
-    .rotate(angle + FastMath.pi / 2)
+    .scale(Vec2.one() * scale * .25f * Vec2(1f, -1f))
+    .rotate(angle)
     .translate(position)
 
   private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2, depth: Float) = floatArrayOf(
