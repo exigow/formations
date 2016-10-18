@@ -1,6 +1,7 @@
 package rendering
 
 import Vec2
+import core.Camera
 import rendering.materials.Material
 import rendering.renderers.Renderable
 
@@ -15,5 +16,9 @@ data class Sprite (
 ) : Renderable {
 
   override fun depth() = depth
+
+  override fun isVisible(camera: Camera) = !(!isInsideCamera(camera) && isCulled) // todo o kurwa
+
+  private fun isInsideCamera(camera: Camera) = camera.worldVisibilityRectangle(512f / camera.renderingScale()).contains(position.toVector2())
 
 }

@@ -1,6 +1,7 @@
 package rendering.trails
 
 import Vec2
+import core.Camera
 import rendering.renderers.Renderable
 import java.util.*
 
@@ -8,6 +9,8 @@ import java.util.*
 class Trail(initialPosition: Vec2, val width: Float, val emissionRange: Float) : Renderable {
 
   override fun depth() = 0f
+
+  override fun isVisible(camera: Camera) = true // todo (convex hull or rectangle -> is overlapping with camera visibility rect?)
 
   val list: LinkedList<Structure> = LinkedList()
 
