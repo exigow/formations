@@ -11,7 +11,7 @@ data class Sprite (
   val scale: Float = 1f,
   val angle: Float = 0f,
   val depth: Float = 0f,
-  val canBeCulled: Boolean = true
+  val isCulled: Boolean = true
 ) : Renderable {
 
   override fun depth() = depth
