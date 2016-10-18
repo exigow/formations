@@ -173,11 +173,18 @@
     "magFilter": "nearest"
   },
   {
-    "id": "moon",
-    "textureDiffuseFilename": "data/textures/planet/moon-diffuse.png",
-    "textureEmissiveFilename": "data/textures/planet/moon-emissive.png",
+    "id": "moon-a",
+    "textureDiffuseFilename": "data/textures/planet/moon-a-diffuse.png",
+    "textureEmissiveFilename": "data/textures/planet/moon-a-emissive.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
+  },
+  {
+    "id": "moon-b",
+    "textureDiffuseFilename": "data/textures/planet/moon-b-diffuse.png",
+    "textureEmissiveFilename": "data/textures/planet/moon-b-emissive.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
   },
   {
     "id": "belt",

@@ -20,7 +20,7 @@ class Camera {
     cam.position.set(0f, 0f, 512f)
     cam.lookAt(0f, 0f, 0f)
     cam.near = 1f
-    cam.far = 32768f
+    cam.far = 65536f
     cam.update()
   }
 
@@ -51,8 +51,9 @@ class Camera {
 
   private fun applyLocking() {
     val center = lockedOn!!.center()
-    target.x = center.x
-    target.y = center.y
+    target.x = center.x - 32 // todo remove this offset
+    target.y = center.y + 16
+    // todo add vectors
   }
 
   private fun isLocked() = lockedOn != null

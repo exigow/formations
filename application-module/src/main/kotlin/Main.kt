@@ -51,10 +51,11 @@ class Main {
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
     val invisibleBlackDotSprite = Sprite(AssetsManager.peekMaterial("black"), camera.positionEye(), 0f)
     val planet = Sprite(AssetsManager.peekMaterial("planet"), Vec2(-16384, 0), 160f, FastMath.pi / 2, -26576f, canBeCulled = false)
-    val moon = Sprite(AssetsManager.peekMaterial("moon"), Vec2(-8192, -2048), 48f, FastMath.pi / 2, -14384f, canBeCulled = false)
+    val moonNear = Sprite(AssetsManager.peekMaterial("moon-a"), Vec2(-8192, -2048), 48f, FastMath.pi / 2, -14384f, canBeCulled = false)
+    val moonFar = Sprite(AssetsManager.peekMaterial("moon-b"), Vec2(16384, 2048), 32f, FastMath.pi / 2, -46000f, canBeCulled = false)
     val belt = Sprite(AssetsManager.peekMaterial("belt"), Vec2(-8192, -8192), 128f, FastMath.pi / 2, -20000f, canBeCulled = false)
-    val pilot = Sprite(AssetsManager.peekMaterial("pilot-a"), Vec2.zero(), 1f, timePassed * .125f, 0f, false)
-    val allSprites = asteroidSprites + shipSprites + planet + belt + moon + pilot+ invisibleBlackDotSprite
+    val pilot = Sprite(AssetsManager.peekMaterial("pilot-a"), Vec2.zero(), 1f, timePassed * .125f, 32f, false)
+    val allSprites = asteroidSprites + shipSprites + planet + belt + moonNear + moonFar + pilot + invisibleBlackDotSprite
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.showCombined()
