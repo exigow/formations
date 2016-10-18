@@ -184,5 +184,17 @@
     "textureDiffuseFilename": "data/textures/planet/belt.png",
     "minFilter": "nearest",
     "magFilter": "nearest"
+  },
+  {
+    "id": "pilot-a",
+    "textureDiffuseFilename": "data/textures/dead-pilot-a.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
+  },
+  {
+    "id": "pilot-b",
+    "textureDiffuseFilename": "data/textures/dead-pilot-b.png",
+    "minFilter": "linear",
+    "magFilter": "linear"
   }
 ]
