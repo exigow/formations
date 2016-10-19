@@ -217,5 +217,17 @@
       "x": 8,
       "y": 16
     }
+  },
+  {
+    "id": "jet4",
+    "textureDiffuseFilename": "data/textures/jet4.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest",
+    "blending": "additive",
+    "isIlluminated": false,
+    "origin": {
+      "x": 16,
+      "y": 16
+    }
   }
 ]

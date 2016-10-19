@@ -1,10 +1,12 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
+import game.orders.MoveOrder
 import rendering.GBuffer
 import rendering.Sprite
 import rendering.canvas.FullscreenQuad
@@ -59,6 +61,12 @@ class Main {
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.showCombined()
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+      val s = world.allSquads().first()
+      val c = world.joinToNewCollective(listOf(s))
+      c.orders.add(MoveOrder(s.center() + Vec2(700, 0), 0f))
+    }
   }
 
   private fun renderFullscreenBackgroundImage() {

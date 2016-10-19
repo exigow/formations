@@ -17,12 +17,14 @@ object JetExhaustRenderer {
     val rings = (1..4)
       .map {
         it ->
-        val s = 1f - FastMath.pow(1f - 1f / it, 1.5f)
-        val t = where + Vec2.rotated(a) * size * 64f
-        val pos = Vec2.Calculations.lerp(where, t, 1f / 4f * it * .75f * strength)
-        Sprite(AssetsManager.peekMaterial("jet"), pos, Vec2.one() * s * Vec2(s * 2, 1.5f) * variation() * 1.5f * size * staticStrength, a, 0f)
+        val s = 1f - FastMath.pow(1f - 1f / it, 1f)
+        val t = where + Vec2.rotated(a) * size * 96f
+        val pos = Vec2.Calculations.lerp(where, t, 1f / 4f * it * 0.875f * strength)
+        Sprite(AssetsManager.peekMaterial("jet"), pos + Vec2.rotated(angle) * size * variation() * 4f, Vec2.one() * s * Vec2(s * 2f, 1.5f) * variation() * 1.5f * size * staticStrength, a, 0f)
       }
-    return listOf(jet) + jet2 + rings
+    val m = 1f - FastMath.pow(1f - strength, 8f)
+    val mainJet = Sprite(AssetsManager.peekMaterial("jet4"), where, Vec2(.5f, 4f) * size * m * variation(), a, 0f)
+    return listOf(mainJet) + listOf(jet) + jet2 + rings
   }
 
   private fun variation(): Vec2 = Vec2.one() + Vec2.random() * .125f
