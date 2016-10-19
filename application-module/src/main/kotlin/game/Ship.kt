@@ -7,6 +7,7 @@ import Vec2
 import rendering.Sprite
 import rendering.renderers.Renderable
 import rendering.trails.Trail
+import rendering.utils.JetExhaustRenderer
 
 
 class Ship(val config: ShipTemplate, initialPosition: Vec2) {
@@ -51,7 +52,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     angle = FastMath.loopAngle(angle)
 
     engines.forEach {
-      val life = Math.min(velocityAcceleration * 8 + .025f, 1f)
+      val life = 1f - FastMath.pow(1f - normalizedThrusterStrength(), 2f)
       it.trail.emit(it.absolutePosition(), life)
       it.trail.update(delta)
     }
@@ -59,16 +60,23 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
 
   fun toRenderable(): Collection<Renderable> {
     val hull = AssetsManager.peekMaterial(config.hullName)
-    val sprite = Sprite(hull, position, 1f, angle - FastMath.pi / 2)
+    val sprite = Sprite(hull, position, Vec2.one(), angle - FastMath.pi / 2)
     val trails = engines.map { it.trail }
     val glows = engines.filter { normalizedThrusterStrength() > .025 }.map {
       val exposedStrength = 1f - FastMath.pow(1f - normalizedThrusterStrength(), 4f)
       val size = it.trail.width * .5f * exposedStrength
-      Sprite(AssetsManager.peekMaterial("trail-glow"), it.absolutePosition(), size, 0f, 0f)
+      Sprite(AssetsManager.peekMaterial("trail-glow"), it.absolutePosition(), Vec2.scaled(size), 0f, 0f)
     }
     val weapons = weapons.map { it.absolutePosition() }
       .map { Sprite(AssetsManager.peekMaterial("corvette-turret"), it) }
-    return trails + glows + sprite + weapons
+    val engines = engines
+      .filter { normalizedThrusterStrength() > .025 }
+      .map {
+        val size = it.trail.width * .0375f
+        JetExhaustRenderer.render(it.absolutePosition(), angle, size, normalizedThrusterStrength())
+      }
+      .flatten()
+    return trails + glows + engines + sprite + weapons
   }
 
   private fun calculateTargetAcceleration(): Float {

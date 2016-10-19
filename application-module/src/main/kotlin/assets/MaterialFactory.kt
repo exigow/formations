@@ -25,7 +25,11 @@ object MaterialFactory {
     val diffuse = loadTexture(textureDiffuseFilename, magTypedFilter, minTypedFilter)
     val emissive = loadTexture(textureEmissiveFilename, magTypedFilter, minTypedFilter)
     val fixedOrigin = resolveOrigin(Vec2(diffuse!!.width, diffuse!!.height))
-    return Material(diffuse, emissive, typedBlending, fixedOrigin)
+    val illuminated: Boolean
+    if (isIlluminated == null)
+      illuminated = true
+    else illuminated = false
+    return Material(diffuse, emissive, typedBlending, fixedOrigin, illuminated)
   }
 
   private fun MaterialTemplate.resolveOrigin(size: Vec2) = when (origin) {

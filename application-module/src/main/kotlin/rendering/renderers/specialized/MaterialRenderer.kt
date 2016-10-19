@@ -21,7 +21,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
   private val ambientColor = Color(.852f, .467f, .242f) // Color(.784f, .764f, .662f)
   private val mesh = initialiseMesh()
 
-  fun draw(material: Material, where: Vec2, depth: Float, angle: Float, scale: Float, matrix: Matrix4) {
+  fun draw(material: Material, where: Vec2, depth: Float, angle: Float, scale: Vec2, matrix: Matrix4) {
     val transformed = transformedQuad(material.size(), scale, where, angle, material.origin)
     val vertices = decomposeToVbo(transformed, depth)
     mesh.setVertices(vertices)
@@ -32,7 +32,11 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
         shader.setUniformi("texture", 0);
-        shader.setUniform3fv("ambientColor", ambientColor.toFloatArray(), 0, 3)
+        val color = when (material.isIlluminated) {
+          true -> ambientColor
+          false -> Color.white
+        }
+        shader.setUniform3fv("ambientColor", color.toFloatArray(), 0, 3)
         renderMesh(shader)
         shader.end();
       }
@@ -60,7 +64,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     return toVbo(i.next(), i.next(), i.next(), i.next(), depth)
   }
 
-  private fun transformedQuad(size: Vec2, scale: Float, position: Vec2, angle: Float, origin: Vec2) = listOf(
+  private fun transformedQuad(size: Vec2, scale: Vec2, position: Vec2, angle: Float, origin: Vec2) = listOf(
     Vec2(0, 0),
     Vec2(1, 0),
     Vec2(1, 1),

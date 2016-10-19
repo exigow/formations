@@ -59,6 +59,9 @@ object Draw {
     color, alpha
   )
 
+  fun circle(center: Vec2, radius: Float, quality: Int = 8, color: Color = Color.white, alpha: Float = 1f) =
+    arc(center, radius, 0f, FastMath.pi2, quality, color, alpha)
+
   fun rectangleDotted(rect: Rectangle, dotLength: Float, color: Color = Color.white, alpha: Float = 1f) = pr.renderLines(
     PathFactory.square().scale(Vec2(rect.width, rect.height)).populate(dotLength).slice().translate(Vec2(rect.x, rect.y)),
     color, alpha

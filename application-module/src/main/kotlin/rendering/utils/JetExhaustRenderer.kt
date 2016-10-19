@@ -1,0 +1,30 @@
+package rendering.utils
+
+import FastMath
+import Vec2
+import assets.AssetsManager
+import rendering.Sprite
+import rendering.renderers.Renderable
+
+object JetExhaustRenderer {
+
+  fun render(where: Vec2, angle: Float, size: Float, strength: Float): Collection<Renderable> {
+    val a = angle + FastMath.pi
+    val staticStrength = 1f - FastMath.pow(1f - strength, 2f)
+    val staticStrength2 = 1f - FastMath.pow(1f - strength, 4f)
+    val jet = Sprite(AssetsManager.peekMaterial("jet2"), where, Vec2(6f, 4f) * size * variation() * staticStrength, a, 0f)
+    val jet2 = Sprite(AssetsManager.peekMaterial("jet3"), where, Vec2(3f, .75f) * size * variation() * staticStrength2, a, 0f)
+    val rings = (1..4)
+      .map {
+        it ->
+        val s = 1f - FastMath.pow(1f - 1f / it, 1.5f)
+        val t = where + Vec2.rotated(a) * size * 64f
+        val pos = Vec2.Calculations.lerp(where, t, 1f / 4f * it * .75f * strength)
+        Sprite(AssetsManager.peekMaterial("jet"), pos, Vec2.one() * s * Vec2(s * 2, 1.5f) * variation() * 1.5f * size * staticStrength, a, 0f)
+      }
+    return listOf(jet) + jet2 + rings
+  }
+
+  private fun variation(): Vec2 = Vec2.one() + Vec2.random() * .125f
+
+}

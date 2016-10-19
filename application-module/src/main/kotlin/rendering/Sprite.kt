@@ -9,7 +9,7 @@ import rendering.renderers.Renderable
 data class Sprite (
   val material: Material,
   val position: Vec2,
-  val scale: Float = 1f,
+  val scale: Vec2 = Vec2.one(),
   val angle: Float = 0f,
   val depth: Float = 0f,
   val isCulled: Boolean = true

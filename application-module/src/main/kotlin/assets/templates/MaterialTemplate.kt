@@ -12,7 +12,8 @@ data class MaterialTemplate(
   val textureEmissiveFilename: String?,
   val magFilter: String,
   val minFilter: String,
-  val blending: String?
+  val blending: String?,
+  val isIlluminated: Boolean?
 ) {
 
   init {

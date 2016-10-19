@@ -185,5 +185,37 @@
     "textureDiffuseFilename": "data/textures/dead-pilot-b.png",
     "minFilter": "linear",
     "magFilter": "linear"
+  },
+  {
+    "id": "jet",
+    "textureDiffuseFilename": "data/textures/jet.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest",
+    "blending": "additive",
+    "isIlluminated": false
+  },
+  {
+    "id": "jet2",
+    "textureDiffuseFilename": "data/textures/jet2.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest",
+    "blending": "additive",
+    "isIlluminated": false,
+    "origin": {
+      "x": 8,
+      "y": 16
+    }
+  },
+  {
+    "id": "jet3",
+    "textureDiffuseFilename": "data/textures/jet3.png",
+    "minFilter": "nearest",
+    "magFilter": "nearest",
+    "blending": "additive",
+    "isIlluminated": false,
+    "origin": {
+      "x": 8,
+      "y": 16
+    }
   }
 ]
