@@ -89,6 +89,11 @@ object Draw {
     color, alpha
   )
 
+  fun diamondDotted(center: Vec2, scale: Vec2, dotLength: Float, color: Color = Color.white, alpha: Float = 1f) = pr.renderLines(
+    PathFactory.diamond().scale(scale).translate(center).populate(dotLength).slice(),
+    color, alpha
+  )
+
   fun path(path: Path, color: Color = Color.white, alpha: Float = 1f) = pr.renderLine(path, color, alpha)
 
   fun pathFilled(path: Path, color: Color = Color.white, alpha: Float = 1f) = pr.renderFilled(path, color, alpha)

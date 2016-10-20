@@ -1,14 +1,13 @@
 import assets.AssetsManager
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import core.Camera
 import core.actions.ActionsRegistry
 import core.actions.catalog.*
 import game.PlayerContext
 import game.World
-import game.orders.MoveOrder
 import rendering.GBuffer
 import rendering.Sprite
+import rendering.UIRenderer
 import rendering.canvas.FullscreenQuad
 import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
@@ -25,6 +24,7 @@ class Main {
   private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.red })
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
+  private val ui = UIRenderer(context)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -60,13 +60,11 @@ class Main {
     val allSprites = asteroidSprites + shipSprites + planet + belt + moonNear + moonFar + pilot + invisibleBlackDotSprite
     spriteRenderer.render(allSprites, camera)
 
-    gbuffer.showCombined()
-
-    if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-      val s = world.allSquads().first()
-      val c = world.joinToNewCollective(listOf(s))
-      c.orders.add(MoveOrder(s.center() + Vec2(700, 0), 0f))
+    gbuffer.paintOnUserInterface {
+      ui.render()
     }
+
+    gbuffer.showCombined()
   }
 
   private fun renderFullscreenBackgroundImage() {
