@@ -1,11 +1,13 @@
 package rendering
 
 import Vec2
+import Vec2.Transformations.rotate
+import Vec2.Transformations.scale
+import Vec2.Transformations.translate
 import assets.AssetsManager
 import core.Camera
 import rendering.materials.Material
 import rendering.renderers.Renderable
-
 
 data class Sprite (
   val material: Material,
@@ -24,5 +26,12 @@ data class Sprite (
   override fun isVisible(camera: Camera) = !(!isInsideCamera(camera) && isCulled) // todo o kurwa
 
   private fun isInsideCamera(camera: Camera) = camera.worldVisibilityRectangle(512f / camera.renderingScale()).contains(position.toVector2())
+
+  fun toVertices() = listOf(Vec2(0, 0), Vec2(1, 0), Vec2(1, 1),Vec2(0, 1))
+    .scale(material.size()) // todo remove scale and flip here
+    .translate(material.origin * -1f)
+    .scale(Vec2.one() * scale * .25f * Vec2(1f, -1f))
+    .rotate(angle)
+    .translate(position)
 
 }

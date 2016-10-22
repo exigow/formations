@@ -1,5 +1,6 @@
 package rendering.renderers.specialized
 
+import Vec2
 import assets.AssetsManager
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Mesh
@@ -7,32 +8,27 @@ import com.badlogic.gdx.graphics.VertexAttribute
 import com.badlogic.gdx.graphics.VertexAttributes
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
-import FastMath
-import Vec2
-import Vec2.Transformations.rotate
-import Vec2.Transformations.scale
-import Vec2.Transformations.translate
 import rendering.Color
 import rendering.GBuffer
-import rendering.materials.Material
+import rendering.Sprite
 
 internal class MaterialRenderer(val gbuffer: GBuffer) {
 
   private val ambientColor = Color(.852f, .467f, .242f) // Color(.784f, .764f, .662f)
   private val mesh = initialiseMesh()
 
-  fun draw(material: Material, where: Vec2, depth: Float, angle: Float, scale: Vec2, matrix: Matrix4) {
-    val transformed = transformedQuad(material.size(), scale, where, angle, material.origin)
-    val vertices = decomposeToVbo(transformed, depth)
+  fun draw(sprite: Sprite, matrix: Matrix4) {
+    val transformed = sprite.toVertices()
+    val vertices = decomposeToVbo(transformed, sprite.depth)
     mesh.setVertices(vertices)
-    material.blending.decorate {
+    sprite.material.blending.decorate {
       gbuffer.paintOnDiffuse {
         val shader = AssetsManager.peekShader("materialDiffuse")
-        material.diffuse!!.bind(0)
+        sprite.material.diffuse!!.bind(0)
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
         shader.setUniformi("texture", 0);
-        val color = when (material.isIlluminated) {
+        val color = when (sprite.material.isIlluminated) {
           true -> ambientColor
           false -> Color.white
         }
@@ -42,11 +38,11 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
       }
       gbuffer.paintOnEmissive {
         val shader = AssetsManager.peekShader("materialEmissive")
-        if (material.emissive != null)
-          material.emissive.bind(1)
+        if (sprite.material.emissive != null)
+          sprite.material.emissive.bind(1)
         else
           AssetsManager.peekMaterial("black").diffuse!!.bind(1)
-        material.diffuse!!.bind(0)
+        sprite.material.diffuse!!.bind(0)
         shader.begin();
         shader.setUniformMatrix("projection", matrix);
         shader.setUniformi("texture", 1);
@@ -63,18 +59,6 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     val i = vectors.iterator()
     return toVbo(i.next(), i.next(), i.next(), i.next(), depth)
   }
-
-  private fun transformedQuad(size: Vec2, scale: Vec2, position: Vec2, angle: Float, origin: Vec2) = listOf(
-    Vec2(0, 0),
-    Vec2(1, 0),
-    Vec2(1, 1),
-    Vec2(0, 1) // todo remove scale and flip here
-    )
-    .scale(size)
-    .translate(origin * -1f)
-    .scale(Vec2.one() * scale * .25f * Vec2(1f, -1f))
-    .rotate(angle)
-    .translate(position)
 
   private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2, depth: Float) = floatArrayOf(
     a.x, a.y, depth, 0f, 0f,

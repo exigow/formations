@@ -26,7 +26,7 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
   }
 
   private fun renderSprite(sprite: Sprite, camera: Camera) {
-    materialRenderer.draw(sprite.material, sprite.position, sprite.depth, sprite.angle, sprite.scale, camera.projectionMatrix())
+    materialRenderer.draw(sprite, camera.projectionMatrix())
   }
 
   private fun renderTrail(trail: Trail, camera: Camera) {
