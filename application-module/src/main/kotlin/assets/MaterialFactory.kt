@@ -1,9 +1,9 @@
 package assets
 
+import Vec2
 import assets.templates.MaterialTemplate
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import Vec2
 import rendering.Blending
 import rendering.materials.Material
 import java.io.File
@@ -37,9 +37,9 @@ object MaterialFactory {
     else -> origin
   }
 
-  private fun typedFilterOf(stringlyValue: String): Texture.TextureFilter = when(stringlyValue) {
+  private fun typedFilterOf(stringlyValue: String?): Texture.TextureFilter = when(stringlyValue) {
+    null, "linear" -> Texture.TextureFilter.Linear
     "nearest" -> Texture.TextureFilter.Nearest
-    "linear" -> Texture.TextureFilter.Linear
     "mipmap" -> Texture.TextureFilter.MipMap
     else -> throw RuntimeException("unknown filter [$stringlyValue]")
   }

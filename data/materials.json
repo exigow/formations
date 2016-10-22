@@ -10,14 +10,11 @@
     "textureDiffuseFilename": "data/textures/trail-diffuse.png",
     "textureEmissiveFilename": "data/textures/trail-emissive.png",
     "minFilter": "mipmap",
-    "magFilter": "linear",
     "blending": "additive"
   },
   {
     "id": "flare-gradient",
-    "textureDiffuseFilename": "data/textures/flare-gradient.png",
-    "minFilter": "linear",
-    "magFilter": "linear"
+    "textureDiffuseFilename": "data/textures/flare-gradient.png"
   },
   {
     "id": "dirt",
@@ -29,21 +26,18 @@
     "id": "interceptor-hull",
     "textureDiffuseFilename": "data/textures/interceptor-diffuse.png",
     "textureEmissiveFilename": "data/textures/interceptor-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "corvette-hull",
     "textureDiffuseFilename": "data/textures/corvette-diffuse.png",
     "textureEmissiveFilename": "data/textures/corvette-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "corvette-turret",
     "textureDiffuseFilename": "data/textures/corvette-turret-diffuse.png",
     "minFilter": "mipmap",
-    "magFilter": "linear",
     "origin": {
       "x": 22,
       "y": 67
@@ -53,73 +47,62 @@
     "id": "bomber-hull",
     "textureDiffuseFilename": "data/textures/bomber-diffuse.png",
     "textureEmissiveFilename": "data/textures/bomber-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "cruiser-hull",
     "textureDiffuseFilename": "data/textures/carrier-diffuse.png",
     "textureEmissiveFilename": "data/textures/carrier-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-rock-a",
     "textureDiffuseFilename": "data/textures/asteroids/rock/a-diffuse.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-rock-b",
     "textureDiffuseFilename": "data/textures/asteroids/rock/b-diffuse.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-rock-c",
     "textureDiffuseFilename": "data/textures/asteroids/rock/c-diffuse.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-rock-d",
     "textureDiffuseFilename": "data/textures/asteroids/rock/d-diffuse.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-rock-dust",
     "textureDiffuseFilename": "data/textures/asteroids/rock/dust.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-red-a",
     "textureDiffuseFilename": "data/textures/asteroids/lava/a-diffuse.png",
     "textureEmissiveFilename": "data/textures/asteroids/lava/a-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-red-b",
     "textureDiffuseFilename": "data/textures/asteroids/lava/b-diffuse.png",
     "textureEmissiveFilename": "data/textures/asteroids/lava/b-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-red-c",
     "textureDiffuseFilename": "data/textures/asteroids/lava/c-diffuse.png",
     "textureEmissiveFilename": "data/textures/asteroids/lava/c-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-red-d",
     "textureDiffuseFilename": "data/textures/asteroids/lava/d-diffuse.png",
     "textureEmissiveFilename": "data/textures/asteroids/lava/d-emissive.png",
-    "minFilter": "mipmap",
-    "magFilter": "linear"
+    "minFilter": "mipmap"
   },
   {
     "id": "asteroid-mask-test",
@@ -136,16 +119,12 @@
   {
     "id": "trail-glow",
     "textureDiffuseFilename": "data/textures/trail-glow-diffuse.png",
-    "minFilter": "linear",
-    "magFilter": "linear",
     "blending": "additive"
   },
   {
     "id": "explosion",
     "textureDiffuseFilename": "data/textures/explosion-diffuse.png",
-    "textureEmissiveFilename": "data/textures/explosion-emissive.png",
-    "minFilter": "linear",
-    "magFilter": "linear"
+    "textureEmissiveFilename": "data/textures/explosion-emissive.png"
   },
   {
     "id": "planet",
@@ -164,9 +143,7 @@
   {
     "id": "moon-b",
     "textureDiffuseFilename": "data/textures/planet/moon-b-diffuse.png",
-    "textureEmissiveFilename": "data/textures/planet/moon-b-emissive.png",
-    "minFilter": "linear",
-    "magFilter": "linear"
+    "textureEmissiveFilename": "data/textures/planet/moon-b-emissive.png"
   },
   {
     "id": "belt",
@@ -176,15 +153,11 @@
   },
   {
     "id": "pilot-a",
-    "textureDiffuseFilename": "data/textures/dead-pilot-a.png",
-    "minFilter": "linear",
-    "magFilter": "linear"
+    "textureDiffuseFilename": "data/textures/dead-pilot-a.png"
   },
   {
     "id": "pilot-b",
-    "textureDiffuseFilename": "data/textures/dead-pilot-b.png",
-    "minFilter": "linear",
-    "magFilter": "linear"
+    "textureDiffuseFilename": "data/textures/dead-pilot-b.png"
   },
   {
     "id": "jet-ring",

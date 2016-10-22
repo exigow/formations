@@ -10,8 +10,8 @@ data class MaterialTemplate(
   val origin: Vec2?,
   val textureDiffuseFilename: String?,
   val textureEmissiveFilename: String?,
-  val magFilter: String,
-  val minFilter: String,
+  val magFilter: String?,
+  val minFilter: String?,
   val blending: String?,
   val isIlluminated: Boolean?
 ) {
@@ -22,8 +22,6 @@ data class MaterialTemplate(
 
   fun validate() {
     ensureNotEmpty(id)
-    ensureNotEmpty(magFilter)
-    ensureNotEmpty(minFilter)
   }
 
   companion object {
