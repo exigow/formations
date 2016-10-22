@@ -59,7 +59,6 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
   }
 
   fun toRenderable(): Collection<Renderable> {
-    val sprite = Sprite(config.hullName, position, Vec2.one(), angle - FastMath.pi / 2)
     val trails = engines.map { it.trail }
     val glows = engines.filter { normalizedThrusterStrength() > .025 }.map {
       val exposedStrength = 1f - FastMath.pow(1f - normalizedThrusterStrength(), 4f)
@@ -74,8 +73,10 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
         JetExhaustRenderer.render(it.absolutePosition(), angle, size, normalizedThrusterStrength())
       }
       .flatten()
-    return trails + glows + engines + sprite + weapons
+    return trails + glows + engines + transformedHullSprite() + weapons
   }
+
+  fun transformedHullSprite() = Sprite(config.hullName, position, Vec2.one(), angle - FastMath.pi / 2)
 
   private fun calculateTargetAcceleration(): Float {
     val brake = config.brakeDistance * velocityAcceleration

@@ -3,6 +3,7 @@ package rendering
 import FastMath
 import Vec2
 import game.PlayerContext
+import rendering.paths.Path
 import rendering.utils.Draw
 
 class UIRenderer(private val context: PlayerContext) {
@@ -38,7 +39,9 @@ class UIRenderer(private val context: PlayerContext) {
   private fun drawSelected() {
     context.selected.forEach {
       it.ships.forEach {
-        Draw.diamond(it.position, Vec2.one() * 16f)
+        Draw.dart(it.position, it.config.size * .5f, it.angle)
+        val v = it.transformedHullSprite().toVertices()
+        v.forEach { Draw.cross(it, 4f) }
       }
     }
   }
