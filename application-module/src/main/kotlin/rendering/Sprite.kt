@@ -1,6 +1,7 @@
 package rendering
 
 import Vec2
+import assets.AssetsManager
 import core.Camera
 import rendering.materials.Material
 import rendering.renderers.Renderable
@@ -14,6 +15,9 @@ data class Sprite (
   val depth: Float = 0f,
   val isCulled: Boolean = true
 ) : Renderable {
+
+  constructor(spriteName: String, position: Vec2, scale: Vec2 = Vec2.one(), angle: Float = 0f, depth: Float = 0f, isCulled: Boolean = true):
+    this(AssetsManager.peekMaterial(spriteName), position, scale, angle, depth, isCulled)
 
   override fun depth() = depth
 

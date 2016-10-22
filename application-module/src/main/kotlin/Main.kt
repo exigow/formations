@@ -51,13 +51,12 @@ class Main {
 
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
-    val invisibleBlackDotSprite = Sprite(AssetsManager.peekMaterial("black"), camera.positionEye(), Vec2.zero())
-    val planet = Sprite(AssetsManager.peekMaterial("planet"), Vec2(-16384, 0), Vec2.scaled(160f), 0f, -26576f, isCulled = false)
-    val moonNear = Sprite(AssetsManager.peekMaterial("moon-a"), Vec2(-8192, -2048), Vec2.scaled(48f), 0f, -14384f, isCulled = false)
-    val moonFar = Sprite(AssetsManager.peekMaterial("moon-b"), Vec2(16384, 2048), Vec2.scaled(32f), 0f, -46000f, isCulled = false)
-    val belt = Sprite(AssetsManager.peekMaterial("belt"), Vec2(-8192, -8192), Vec2.scaled(128f), 0f, -20000f, isCulled = false)
-    val pilot = Sprite(AssetsManager.peekMaterial("pilot-a"), Vec2(128, 32), Vec2.scaled(1f), timePassed * .125f, 32f)
-    val allSprites = asteroidSprites + shipSprites + planet + belt + moonNear + moonFar + pilot + invisibleBlackDotSprite
+    val planet = Sprite("planet", Vec2(-16384, 0), Vec2.scaled(160f), 0f, -26576f, isCulled = false)
+    val moonNear = Sprite("moon-a", Vec2(-8192, -2048), Vec2.scaled(48f), 0f, -14384f, isCulled = false)
+    val moonFar = Sprite("moon-b", Vec2(16384, 2048), Vec2.scaled(32f), 0f, -46000f, isCulled = false)
+    val belt = Sprite("belt", Vec2(-8192, -8192), Vec2.scaled(128f), 0f, -20000f, isCulled = false)
+    val pilot = Sprite("pilot-a", Vec2(128, 32), Vec2.scaled(1f), timePassed * .125f, 32f)
+    val allSprites = asteroidSprites + shipSprites + planet + belt + moonNear + moonFar + pilot
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.paintOnUserInterface {

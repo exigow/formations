@@ -20,7 +20,6 @@ object ChunkToAsteroidConverter {
     val seed = toSeed()
 
     val materialName = Random.chooseRandomly(seed, "asteroid-red-a", "asteroid-red-b", "asteroid-red-c" ,"asteroid-red-d")
-    val material = AssetsManager.peekMaterial(materialName)
 
     val sizeVariation = Random.randomFloatRange(seed, .75f, 1.25f)
     val s = value * sizeVariation
@@ -33,9 +32,9 @@ object ChunkToAsteroidConverter {
     val a = startingAngleVariation + (angleVariation * time) * .025f
 
     val depth = Random.randomFloatRange(seed, -64f, 64f)
-    val asteroid = Sprite(material, p, Vec2.scaled(s) * 4f, a, depth)
+    val asteroid = Sprite(materialName, p, Vec2.scaled(s) * 4f, a, depth)
     if (value > .125f) {
-      val cloud = Sprite(AssetsManager.peekMaterial("asteroid-rock-dust"), p, Vec2.scaled(s) * 8f, startingAngleVariation, depth - .075f)
+      val cloud = Sprite("asteroid-rock-dust", p, Vec2.scaled(s) * 8f, startingAngleVariation, depth - .075f)
       return listOf(cloud, asteroid)
     }
     return listOf(asteroid)
