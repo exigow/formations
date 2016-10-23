@@ -106,15 +106,11 @@
   },
   {
     "id": "asteroid-mask-test",
-    "textureDiffuseFilename": "data/textures/maps/asteroid-test.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest"
+    "textureDiffuseFilename": "data/textures/maps/asteroid-test.png"
   },
   {
     "id": "black",
-    "textureDiffuseFilename": "data/textures/black.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest"
+    "textureDiffuseFilename": "data/textures/black.png"
   },
   {
     "id": "trail-glow",
@@ -136,9 +132,7 @@
   {
     "id": "moon-a",
     "textureDiffuseFilename": "data/textures/planet/moon-a-diffuse.png",
-    "textureEmissiveFilename": "data/textures/planet/moon-a-emissive.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest"
+    "textureEmissiveFilename": "data/textures/planet/moon-a-emissive.png"
   },
   {
     "id": "moon-b",
@@ -147,9 +141,7 @@
   },
   {
     "id": "belt",
-    "textureDiffuseFilename": "data/textures/planet/belt.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest"
+    "textureDiffuseFilename": "data/textures/planet/belt.png"
   },
   {
     "id": "pilot-a",
@@ -162,16 +154,12 @@
   {
     "id": "jet-ring",
     "textureDiffuseFilename": "data/textures/jet-ring.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest",
     "blending": "additive",
     "isIlluminated": false
   },
   {
     "id": "jet-aura",
     "textureDiffuseFilename": "data/textures/jet-aura.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest",
     "blending": "additive",
     "isIlluminated": false,
     "origin": {
@@ -182,8 +170,6 @@
   {
     "id": "jet-core",
     "textureDiffuseFilename": "data/textures/jet-core.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest",
     "blending": "additive",
     "isIlluminated": false,
     "origin": {
@@ -194,8 +180,6 @@
   {
     "id": "jet-fire",
     "textureDiffuseFilename": "data/textures/jet-fire.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest",
     "blending": "additive",
     "isIlluminated": false,
     "origin": {
