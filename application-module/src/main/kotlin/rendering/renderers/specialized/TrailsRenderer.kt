@@ -31,10 +31,12 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
         shader.end();
       }
       gbuffer.paintOnDiffuse {
-        paint(material.diffuse!!, "trailShader")
+        if (material.diffuse != null)
+          paint(material.diffuse, "trailShader")
       }
       gbuffer.paintOnEmissive {
-        paint(material.emissive!!, "trailShaderEmissive")
+        if (material.emissive != null)
+          paint(material.emissive, "trailShaderEmissive")
       }
     }
   }

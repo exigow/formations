@@ -7,8 +7,7 @@
   },
   {
     "id": "trail",
-    "textureDiffuseFilename": "data/textures/trail-diffuse.png",
-    "textureEmissiveFilename": "data/textures/trail-emissive.png",
+    "textureDiffuseFilename": "data/textures/trail.png",
     "minFilter": "mipmap",
     "blending": "additive"
   },
@@ -114,7 +113,7 @@
   },
   {
     "id": "trail-glow",
-    "textureDiffuseFilename": "data/textures/trail-glow-diffuse.png",
+    "textureDiffuseFilename": "data/textures/trail-glow.png",
     "blending": "additive"
   },
   {
