@@ -4,13 +4,13 @@ uniform mat4 projection;
 
 attribute vec4 positionAttr;
 attribute vec2 texCoordAttr;
-attribute float lifeAttr;
+attribute float alphaAttr;
 
 varying vec2 texCoord;
-varying float life;
+varying float alpha;
 
 void main() {
     texCoord = texCoordAttr;
-    life = lifeAttr;
+    alpha = alphaAttr;
     gl_Position = projection * positionAttr;
 }

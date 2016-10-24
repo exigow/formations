@@ -3,7 +3,7 @@
 uniform sampler2D texture;
 
 varying vec2 texCoord;
-varying float life;
+varying float alpha;
 
 float luminance(vec3 rgb) {
     vec3 w = vec3(0.2125, 0.7154, 0.0721);
@@ -12,6 +12,6 @@ float luminance(vec3 rgb) {
 
 void main() {
     vec3 color = texture2D(texture, texCoord).rgb;
-    float alpha = life * luminance(color) * .75;
+    float alpha = alpha * luminance(color) * .75;
     gl_FragColor = vec4(color, alpha);
 }

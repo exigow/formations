@@ -15,7 +15,7 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
   private val mesh = Mesh(true, 1024, 0,
     VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
     VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
-    VertexAttribute(VertexAttributes.Usage.Generic, 1, "lifeAttr")
+    VertexAttribute(VertexAttributes.Usage.Generic, 1, "alphaAttr")
   );
 
   fun render(trail: Trail, material: Material, matrix: Matrix4) {
