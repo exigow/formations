@@ -56,7 +56,8 @@ class Main {
     val moonFar = Sprite("moon-b", Vec2(16384, 2048), Vec2.scaled(32f), 0f, -46000f, isCulled = false)
     val belt = Sprite("belt", Vec2(-8192, -8192), Vec2.scaled(128f), 0f, -20000f, isCulled = false)
     val pilot = Sprite("pilot-a", Vec2(128, 32), Vec2.scaled(1f), timePassed * .125f, 32f)
-    val allSprites = asteroidSprites + shipSprites + planet + belt + moonNear + moonFar + pilot
+    val blackDotWorkaround = Sprite("black", Vec2.zero(), Vec2.zero())
+    val allSprites = asteroidSprites + shipSprites + planet + belt + moonNear + moonFar + pilot + blackDotWorkaround
     spriteRenderer.render(allSprites, camera)
 
     gbuffer.paintOnUserInterface {
