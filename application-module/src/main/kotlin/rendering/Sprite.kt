@@ -30,9 +30,9 @@ data class Sprite (
   private fun isInsideCamera(camera: Camera) = camera.worldVisibilityRectangle(512f / camera.renderingScale()).contains(position.toVector2())
 
   fun toVertices() = listOf(Vec2(0, 0), Vec2(1, 0), Vec2(1, 1),Vec2(0, 1))
-    .scale(material.size()) // todo remove scale and flip here
+    .scale(material.size())
     .translate(material.origin * -1f)
-    .scale(Vec2.one() * scale * .25f * Vec2(1f, -1f))
+    .scale(scale * .25f * Vec2(1f, -1f))
     .rotate(angle)
     .translate(position)
 
