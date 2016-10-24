@@ -73,7 +73,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
         JetExhaustRenderer.render(it.absolutePosition(), angle, size, normalizedThrusterStrength())
       }
       .flatten()
-    return trails + glows + engines + transformedHullSprite() + weapons
+    return trails + engines + transformedHullSprite() + glows + weapons
   }
 
   fun transformedHullSprite() = Sprite(config.hullName, position, Vec2.one(), angle)
