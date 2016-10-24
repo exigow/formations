@@ -76,7 +76,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     return trails + glows + engines + transformedHullSprite() + weapons
   }
 
-  fun transformedHullSprite() = Sprite(config.hullName, position, Vec2.one(), angle - FastMath.pi / 2)
+  fun transformedHullSprite() = Sprite(config.hullName, position, Vec2.one(), angle)
 
   private fun calculateTargetAcceleration(): Float {
     val brake = config.brakeDistance * velocityAcceleration
