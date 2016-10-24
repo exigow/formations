@@ -15,11 +15,13 @@ data class Sprite (
   val scale: Vec2 = Vec2.one(),
   val angle: Float = 0f,
   val depth: Float = 0f,
+  val alpha: Float = 1f,
+  // todo blending: Color = Color.white
   val isCulled: Boolean = true
 ) : Renderable {
 
-  constructor(spriteName: String, position: Vec2, scale: Vec2 = Vec2.one(), angle: Float = 0f, depth: Float = 0f, isCulled: Boolean = true):
-    this(AssetsManager.peekMaterial(spriteName), position, scale, angle, depth, isCulled)
+  constructor(spriteName: String, position: Vec2, scale: Vec2 = Vec2.one(), angle: Float = 0f, depth: Float = 0f, alpha: Float = 1f, isCulled: Boolean = true):
+    this(AssetsManager.peekMaterial(spriteName), position, scale, angle, depth, alpha, isCulled)
 
   override fun depth() = depth
 

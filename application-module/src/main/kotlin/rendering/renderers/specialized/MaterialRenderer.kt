@@ -19,7 +19,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
 
   fun draw(sprite: Sprite, matrix: Matrix4) {
     val transformed = sprite.toVertices()
-    val vertices = decomposeToVbo(transformed, sprite.depth)
+    val vertices = decomposeToVbo(transformed, sprite.depth, sprite.alpha)
     mesh.setVertices(vertices)
     sprite.material.blending.decorate {
       gbuffer.paintOnDiffuse {
@@ -55,22 +55,23 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
 
   private fun renderMesh(shader: ShaderProgram) = mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
 
-  private fun decomposeToVbo(vectors: List<Vec2>, depth: Float): FloatArray {
+  private fun decomposeToVbo(vectors: List<Vec2>, depth: Float, alpha: Float): FloatArray {
     val i = vectors.iterator()
-    return toVbo(i.next(), i.next(), i.next(), i.next(), depth)
+    return toVbo(i.next(), i.next(), i.next(), i.next(), depth, alpha)
   }
 
-  private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2, depth: Float) = floatArrayOf(
-    a.x, a.y, depth, 0f, 0f,
-    b.x, b.y, depth, 1f, 0f,
-    c.x, c.y, depth, 1f, 1f,
-    d.x, d.y, depth, 0f, 1f
+  private fun toVbo(a: Vec2, b: Vec2, c: Vec2, d: Vec2, depth: Float, alpha: Float) = floatArrayOf(
+    a.x, a.y, depth, 0f, 0f, alpha,
+    b.x, b.y, depth, 1f, 0f, alpha,
+    c.x, c.y, depth, 1f, 1f, alpha,
+    d.x, d.y, depth, 0f, 1f, alpha
   )
 
   private fun initialiseMesh(): Mesh {
     val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,
       VertexAttribute(VertexAttributes.Usage.Position, 3, "positionAttr"),
-      VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
+      VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
+      VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 1, "alphaAttr")
     );
     return mesh
   }
