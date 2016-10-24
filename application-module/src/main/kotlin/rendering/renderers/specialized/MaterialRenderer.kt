@@ -71,7 +71,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,
       VertexAttribute(VertexAttributes.Usage.Position, 3, "positionAttr"),
       VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
-      VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 1, "alphaAttr")
+      VertexAttribute(VertexAttributes.Usage.Generic, 1, "alphaAttr")
     );
     return mesh
   }
