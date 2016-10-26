@@ -24,7 +24,7 @@ class Main {
   private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.red })
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
-  private val ui = UIRenderer(context)
+  private val ui = UIRenderer(camera, context)
 
   init {
     actions.addAction(CameraScrollZoomAction(camera))
@@ -57,12 +57,8 @@ class Main {
     val belt = Sprite("belt", Vec2(-8192, -8192), Vec2.scaled(128f), 0f, -20000f, isCulled = false)
     val pilot = Sprite("pilot-a", Vec2(128, 32), Vec2.scaled(1f), timePassed * .125f, 32f)
     val blackDotWorkaround = Sprite("black", Vec2.zero(), Vec2.zero(), isCulled = false)
-    val allSprites = asteroidSprites + shipSprites + planet + belt + moonNear + moonFar + pilot + blackDotWorkaround
+    val allSprites = asteroidSprites + shipSprites + ui.render() + planet + belt + moonNear + moonFar + pilot + blackDotWorkaround
     spriteRenderer.render(allSprites, camera)
-
-    gbuffer.paintOnUserInterface {
-      ui.render()
-    }
 
     gbuffer.showCombined()
   }

@@ -3,6 +3,7 @@ package rendering.renderers
 import assets.AssetsManager
 import core.Camera
 import rendering.GBuffer
+import rendering.ImmediateDrawCall
 import rendering.Sprite
 import rendering.renderers.specialized.MaterialRenderer
 import rendering.renderers.specialized.TrailsRenderer
@@ -21,6 +22,7 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
       when (instance) {
         is Sprite -> renderSprite(instance, camera)
         is Trail -> renderTrail(instance, camera)
+        is ImmediateDrawCall -> renderImmediateDrawCall(instance)
       }
     }
   }
@@ -32,6 +34,12 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
   private fun renderTrail(trail: Trail, camera: Camera) {
     val material = AssetsManager.peekMaterial("trail")
     trailsRenderer.render(trail, material, camera.projectionMatrix())
+  }
+
+  private fun renderImmediateDrawCall(call: ImmediateDrawCall) {
+    gbuffer.paintOnDiffuse {
+      call.draw()
+    }
   }
 
 

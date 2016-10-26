@@ -1,56 +1,56 @@
 package rendering
 
-import FastMath
-import Vec2
+import core.Camera
 import game.PlayerContext
-import rendering.paths.Path
+import game.Ship
+import Vec2
+import rendering.renderers.Renderable
 import rendering.utils.Draw
 
-class UIRenderer(private val context: PlayerContext) {
 
-  fun render() {
-    drawHovered()
-    drawHighlighted()
-    drawSelected()
-    drawRectangle()
-  }
+class UIRenderer(private val camera: Camera, private val context: PlayerContext) {
 
-  private fun drawHovered() {
-    if (context.hovered != null) {
-      val h = context.hovered!!
-      h.ships.forEach { ship ->
-        (1..4).forEach { t ->
-          val pivot = ship.position + Vec2.rotated(t / 4f * FastMath.pi2 + FastMath.pi / 4f) * 32f
-          val f = Vec2.Calculations.lerp(ship.position, pivot, .75f)
-          Draw.line(f, pivot)
-        }
-      }
-    }
-  }
+  private val uiColor = Color.fromValues(116, 187, 193)
 
-  private fun drawHighlighted() {
-    context.highlighted.forEach {
-      it.ships.forEach {
-        Draw.diamondDotted(it.position, Vec2.one() * 24f, 6f)
-      }
-    }
-  }
-
-  private fun drawSelected() {
+  fun render(): Collection<Renderable> {
+    var result = emptyList<Renderable>()
+    val alpha = calcSelectionAlpha()
     context.selected.forEach {
       it.ships.forEach {
-        Draw.dart(it.position, it.config.size * .5f, it.angle)
-        val v = it.transformedHullSprite().toVertices()
-        v.forEach { Draw.cross(it, 4f) }
+        result += drawSelectionBorderSprites(it, alpha)
+        result += Sprite("selection-icon", it.position, Vec2.one() * camera.normalizedRenderingScale())
       }
+    }
+    result += drawSelectionRectangle()
+    return result
+  }
+
+  private fun drawSelectionBorderSprites(ship: Ship, alpha: Float): Collection<Sprite> {
+    var tempAngle = 0f
+    return ship.transformedHullSprite().toVertices().map {
+      val scale = Vec2(1f, -1f) * camera.normalizedRenderingScale()
+      tempAngle -= FastMath.pi / 2
+      val angle = tempAngle + ship.angle
+      Sprite("selection-border", it, scale, angle, alpha = alpha)
     }
   }
 
-  fun drawRectangle() {
+  private fun calcSelectionAlpha(): Float {
+    val pivot = 4f
+    val width = 1f
+    val linear = 1f + Math.max(pivot - Math.max(pivot, camera.normalizedRenderingScale()), -width) / width
+    return FastMath.pow(linear, 2f)
+  }
+
+  private fun drawSelectionRectangle(): Collection<Renderable> {
     if (context.selectionRect != null) {
       val s = context.selectionRect!!
-      Draw.rectangle(s)
+      return listOf(ImmediateDrawCall( {
+        Draw.rectangleFilled(s, uiColor, .125f)
+        Draw.rectangle(s, uiColor)
+      }))
     }
+    return emptyList()
   }
 
 }

@@ -185,5 +185,32 @@
       "x": 16,
       "y": 16
     }
+  },
+  {
+    "id": "selection-border",
+    "textureDiffuseFilename": "data/textures/ui/selection-border.png",
+    "isIlluminated": false,
+    "origin": {
+      "x": 2,
+      "y": 2
+    }
+  },
+  {
+    "id": "selection-icon",
+    "textureDiffuseFilename": "data/textures/ui/selection-icon.png",
+    "isIlluminated": false,
+    "origin": {
+      "x": 16,
+      "y": 16
+    }
+  },
+  {
+    "id": "selection-healthbar",
+    "textureDiffuseFilename": "data/textures/ui/selection-healthbar.png",
+    "isIlluminated": false,
+    "origin": {
+      "x": 24,
+      "y": 8
+    }
   }
 ]
