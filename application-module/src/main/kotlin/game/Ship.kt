@@ -4,6 +4,7 @@ import assets.AssetsManager
 import assets.templates.ShipTemplate
 import FastMath
 import Vec2
+import com.badlogic.gdx.math.MathUtils
 import rendering.Sprite
 import rendering.renderers.Renderable
 import rendering.trails.Trail
@@ -62,7 +63,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     val trails = engines.map { it.trail }
     val glows = engines.filter { normalizedThrusterStrength() > .025 }.map {
       val exposedStrength = 1f - FastMath.pow(1f - normalizedThrusterStrength(), 4f)
-      val size = it.trail.width * .5f * exposedStrength
+      val size = it.trail.width * .5f * exposedStrength * (.75f + MathUtils.random(0f, .25f))
       Sprite("trail-glow", it.absolutePosition(), Vec2.scaled(size), 0f, 0f)
     }
     val weapons = weapons.map { Sprite("corvette-turret", it.absolutePosition()) }
