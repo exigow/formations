@@ -19,6 +19,8 @@ data class Color(val red: Float, val green: Float, val blue: Float) {
 
     fun fromInt(value: Int) = fromGdx(com.badlogic.gdx.graphics.Color(value))
 
+    fun fromValues(r: Int, g: Int, b: Int) = Color(r / 255f, g / 255f, b / 255f)
+
   }
 
   fun toFloatArray() = floatArrayOf(red, green, blue)
