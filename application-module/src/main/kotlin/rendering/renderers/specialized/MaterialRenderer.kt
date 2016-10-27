@@ -68,7 +68,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
   )
 
   private fun initialiseMesh(): Mesh {
-    val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,
+    val mesh = Mesh(true, 4, 0,
       VertexAttribute(VertexAttributes.Usage.Position, 3, "positionAttr"),
       VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
       VertexAttribute(VertexAttributes.Usage.Generic, 1, "alphaAttr")

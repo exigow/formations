@@ -15,7 +15,7 @@ internal object FullscreenQuad {
     .showAsQuad()
 
   private fun initialiseMesh(): Mesh {
-    val mesh = Mesh(Mesh.VertexDataType.VertexArray, true, 4, 0,
+    val mesh = Mesh(true, 4, 0,
       VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
       VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
     );
