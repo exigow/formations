@@ -23,6 +23,10 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
   var movementTargetAngle = 0f
   val engines = config.engines.map { Engine(it, this) }.toList()
   val weapons = config.weapons.map { Weapon(it, this) }.toList()
+  /*
+  TODO TODO TODO TODO TODO TODO TODO TODO
+  TODO NIECH MOVEMENT TARGET ANGLE ZWIĘKSZA SIĘ WRAZ Z POSTĘPUJĄCĄ PRĘDKOŚCIĄ
+   */
 
   fun update(delta: Float) {
     val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f)
