@@ -36,8 +36,8 @@ object DynamicGridRenderer {
   private fun calcAlpha(pivot: Float, range: Float, zoom: Float): Float {
     val dist = Math.abs(zoom - pivot)
     val fixed = Math.min(dist, range)
-    val linear = (range - fixed) / range;
-    return FastMath.smoothStep(0f, 1f, linear);
+    val linear = (range - fixed) / range
+    return FastMath.smoothStep(0f, 1f, linear)
   }
 
   private fun asd(epsilon: Float, eye: Vec2, max: Float, iteration: (e: Vec2, i: Float) -> Unit) {

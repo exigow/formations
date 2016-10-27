@@ -56,7 +56,7 @@ object MaterialFactory {
 
   private fun loadTexture(filename: String?, magFilter: Texture.TextureFilter, minFilter: Texture.TextureFilter): Texture? {
     if (filename == null)
-      return null;
+      return null
     val absolutePath = File(filename).absolutePath
     val mipmapped = isMipmapped(magFilter, minFilter)
     val file = Gdx.files.absolute(absolutePath)

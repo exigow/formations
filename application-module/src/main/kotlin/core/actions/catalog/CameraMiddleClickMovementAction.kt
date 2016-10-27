@@ -15,7 +15,7 @@ class CameraMiddleClickMovementAction(private val cameraDep: Camera) : Action {
   private val events = object : ThreeStateButtonEventBundle(MouseButton.MOUSE_MIDDLE) {
 
     override fun onPress() {
-      movementPivot = cameraDep.position() + cameraDep.mousePosition();
+      movementPivot = cameraDep.position() + cameraDep.mousePosition()
       tool.pinTo(cameraDep.mouseScreenPosition())
     }
 

@@ -56,8 +56,8 @@ object ShipDebugRenderer {
       val vec = Vec2.rotated(angle + a * angleScale)
       Draw.line(position + vec * (distanceScale - thickness), position + vec * (distanceScale + thickness))
     }
-    pivot(1f, 8f);
-    pivot(-1f, 8f);
+    pivot(1f, 8f)
+    pivot(-1f, 8f)
     val acc = angleAcceleration / config.accelerationAngle
     pivot(acc, 16f)
     val target = angleTarget / config.accelerationAngle

@@ -16,7 +16,7 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
     VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
     VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
     VertexAttribute(VertexAttributes.Usage.Generic, 1, "alphaAttr")
-  );
+  )
 
   fun render(trail: Trail, material: Material, matrix: Matrix4) {
     Blending.ADDITIVE.decorate {
@@ -24,11 +24,11 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
       fun paint(withTexture: Texture, shaderName: String) {
         val shader = AssetsManager.peekShader(shaderName)
         withTexture.bind(0)
-        shader.begin();
-        shader.setUniformMatrix("projection", matrix);
-        shader.setUniformi("texture", 0);
-        mesh.render(shader, GL20.GL_TRIANGLE_STRIP);
-        shader.end();
+        shader.begin()
+        shader.setUniformMatrix("projection", matrix)
+        shader.setUniformi("texture", 0)
+        mesh.render(shader, GL20.GL_TRIANGLE_STRIP)
+        shader.end()
       }
       gbuffer.paintOnDiffuse {
         if (material.diffuse != null)
@@ -60,7 +60,7 @@ class TrailsRenderer(private val gbuffer: GBuffer) {
 
   private class StripBatch(capacity: Int) {
 
-    private val array = FloatArray(capacity, {0f});
+    private val array = FloatArray(capacity, {0f})
     private var index = 0
 
     fun emit(position: Vec2, coord: Vec2, life: Float) {

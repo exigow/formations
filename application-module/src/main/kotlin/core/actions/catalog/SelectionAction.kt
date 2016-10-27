@@ -71,7 +71,7 @@ class SelectionAction(val cameraDep: Camera, val world: World, val context: Play
   }.toBundle()
 
   private fun resetClickingCombo() {
-    time = 0f;
+    time = 0f
     clickCounter = 0
   }
 

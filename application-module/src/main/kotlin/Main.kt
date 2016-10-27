@@ -41,13 +41,13 @@ class Main {
     camera.update(delta)
     actions.update(delta)
     world.update(delta)
-    render();
+    render()
   }
 
   fun render() {
     Draw.update(camera)
     gbuffer.clear()
-    renderFullscreenBackgroundImage();
+    renderFullscreenBackgroundImage()
 
     val asteroidSprites = chunks.toAsteroids(camera, timePassed)
     val shipSprites = world.allShips().map { it.toRenderable() }.flatten()
@@ -68,7 +68,7 @@ class Main {
       AssetsManager.peekMaterial("background").diffuse!!.bind(0)
       val shader = AssetsManager.peekShader("fullscreenQuadShader")
       shader.begin()
-      shader.setUniformi("texture", 0);
+      shader.setUniformi("texture", 0)
       FullscreenQuad.renderWith(shader)
       shader.end()
     }

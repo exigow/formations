@@ -25,16 +25,16 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
       gbuffer.paintOnDiffuse {
         val shader = AssetsManager.peekShader("materialDiffuse")
         sprite.material.diffuse!!.bind(0)
-        shader.begin();
-        shader.setUniformMatrix("projection", matrix);
-        shader.setUniformi("texture", 0);
+        shader.begin()
+        shader.setUniformMatrix("projection", matrix)
+        shader.setUniformi("texture", 0)
         val color = when (sprite.material.isIlluminated) {
           true -> ambientColor
           false -> Color.white
         }
         shader.setUniform3fv("ambientColor", color.toFloatArray(), 0, 3)
         renderMesh(shader)
-        shader.end();
+        shader.end()
       }
       gbuffer.paintOnEmissive {
         val shader = AssetsManager.peekShader("materialEmissive")
@@ -43,12 +43,12 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
         else
           AssetsManager.peekMaterial("black").diffuse!!.bind(1)
         sprite.material.diffuse!!.bind(0)
-        shader.begin();
-        shader.setUniformMatrix("projection", matrix);
-        shader.setUniformi("texture", 1);
-        shader.setUniformi("colorTexture", 0);
+        shader.begin()
+        shader.setUniformMatrix("projection", matrix)
+        shader.setUniformi("texture", 1)
+        shader.setUniformi("colorTexture", 0)
         renderMesh(shader)
-        shader.end();
+        shader.end()
       }
     }
   }
@@ -72,7 +72,7 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
       VertexAttribute(VertexAttributes.Usage.Position, 3, "positionAttr"),
       VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr"),
       VertexAttribute(VertexAttributes.Usage.Generic, 1, "alphaAttr")
-    );
+    )
     return mesh
   }
 

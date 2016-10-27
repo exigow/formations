@@ -19,12 +19,12 @@ class PathRenderer {
   }
 
   private fun enableBlend() {
-    Gdx.gl.glEnable(GL20.GL_BLEND);
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    Gdx.gl.glEnable(GL20.GL_BLEND)
+    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
   }
 
   private fun disableBlend() {
-    Gdx.gl.glDisable(GL20.GL_BLEND);
+    Gdx.gl.glDisable(GL20.GL_BLEND)
   }
 
   private fun hasAlpha(alpha: Float) = alpha < .975f
@@ -32,12 +32,12 @@ class PathRenderer {
   fun renderFilled(path: Path, color: Color, alpha: Float) {
     if (hasAlpha(alpha))
       enableBlend()
-    renderer.begin(matrix, GL20.GL_TRIANGLE_FAN);
+    renderer.begin(matrix, GL20.GL_TRIANGLE_FAN)
     for (element in path.elements) {
       renderer.color(color.red, color.green, color.blue, alpha)
       renderer.vertex(element.x, element.y, 0f)
     }
-    renderer.end();
+    renderer.end()
     if (hasAlpha(alpha))
       disableBlend()
   }
@@ -45,12 +45,12 @@ class PathRenderer {
   fun renderLine(path: Path, color: Color, alpha: Float) {
     if (hasAlpha(alpha))
       enableBlend()
-    renderer.begin(matrix, GL20.GL_LINE_STRIP);
+    renderer.begin(matrix, GL20.GL_LINE_STRIP)
     for (element in path.elements) {
       renderer.color(color.red, color.green, color.blue, alpha)
       renderer.vertex(element.x, element.y, 0f)
     }
-    renderer.end();
+    renderer.end()
     if (hasAlpha(alpha))
       disableBlend()
   }

@@ -20,7 +20,7 @@ enum class Logger {
 
   private companion object {
 
-    fun formattedNow() = LocalDateTime.now().format(DateTimeFormatter.ISO_TIME);
+    fun formattedNow() = LocalDateTime.now().format(DateTimeFormatter.ISO_TIME)
 
     fun toFixedLength(source: String, length: Int): String {
       if (source.length > length)

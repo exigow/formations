@@ -40,12 +40,12 @@ class Camera {
     if (isLocked())
       applyLocking()
     target.z = FastMath.clamp(target.z, .5f, 16f)
-    val planeFactor = 16f;
-    val zoomFactor = 12f;
+    val planeFactor = 16f
+    val zoomFactor = 12f
     fun limit(f: Float) = Math.min(f * delta, 1f)
-    eye.x += (target.x - eye.x) * limit(planeFactor);
-    eye.y += (target.y - eye.y) * limit(planeFactor);
-    eye.z += (target.z - eye.z) * limit(zoomFactor);
+    eye.x += (target.x - eye.x) * limit(planeFactor)
+    eye.y += (target.y - eye.y) * limit(planeFactor)
+    eye.z += (target.z - eye.z) * limit(zoomFactor)
     updateCameraPosition()
   }
 
@@ -60,7 +60,7 @@ class Camera {
   fun lookAt(where: Vec2) {
     target.x = where.x
     target.y = where.y
-    unlockIfLocked();
+    unlockIfLocked()
   }
 
   private fun unlockIfLocked() {
@@ -69,7 +69,7 @@ class Camera {
   }
 
   fun zoomTo(distance: Float) {
-    target.z = distance;
+    target.z = distance
   }
 
   fun zoomRelative(amount: Float) {
@@ -84,7 +84,7 @@ class Camera {
   fun unproject(position: Vec2): Vec2 {
     val ray = cam.getPickRay(position.x, position.y)
     val plane = Plane()
-    plane.set(0f, 0f, 1f, 0f);// the xy plane with direction z facing screen
+    plane.set(0f, 0f, 1f, 0f)// the xy plane with direction z facing screen
     plane.d=-10f//***** the depth in 3d for the coordinates
     val yourVector3Position = Vector3()
     Intersector.intersectRayPlane(ray, plane, yourVector3Position)

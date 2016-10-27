@@ -13,11 +13,11 @@ import rendering.utils.JetExhaustRenderer
 
 class Ship(val config: ShipTemplate, initialPosition: Vec2) {
 
-  var position = initialPosition;
-  var angle = 0f;
-  var angleAcceleration = 0f;
-  var angleTarget = 0f;
-  var velocityAcceleration = 0f;
+  var position = initialPosition
+  var angle = 0f
+  var angleAcceleration = 0f
+  var angleTarget = 0f
+  var velocityAcceleration = 0f
   var velocityTarget = 0f
   var movementTarget = Vec2.zero()
   var movementTargetAngle = 0f
@@ -25,7 +25,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
   val weapons = config.weapons.map { Weapon(it, this) }.toList()
 
   fun update(delta: Float) {
-    val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f);
+    val fixAmount = 1f - FastMath.pow(1f - calcNormalizedDistanceToTarget(16f), 2f)
     val angleDiff = calculateAngleDifferenceToTarget()
 
     angleAcceleration += angleDiff * config.rotation.acceleration * delta * fixAmount
@@ -44,7 +44,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     }
 
     val fixVec = (movementTarget - position) * .025f
-    position += Vec2.Calculations.lerp(Vec2.rotated(angle) * velocityAcceleration, fixVec, 1f - fixAmount);
+    position += Vec2.Calculations.lerp(Vec2.rotated(angle) * velocityAcceleration, fixVec, 1f - fixAmount)
 
     val fixAngle = FastMath.angleDifference(angle, movementTargetAngle) * (1f - fixAmount)
     angle -= fixAngle * .025f
@@ -83,7 +83,7 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     val brake = config.brakeDistance * velocityAcceleration
     if (!canAccelerateForward())
       return 0f
-    val dist = calcDistanceToTarget();
+    val dist = calcDistanceToTarget()
     if (dist > brake)
       return config.thruster.max
     val normDist = 1f - (brake - dist) / brake

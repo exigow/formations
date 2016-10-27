@@ -16,7 +16,7 @@ class EventRegistry {
   }
 
   private fun overrideGdxInputProcessor() {
-    Gdx.input.inputProcessor = GdxInputWrapper;
+    Gdx.input.inputProcessor = GdxInputWrapper
   }
 
   fun registerBundle(bundle: EventBundle) {
@@ -34,10 +34,10 @@ class EventRegistry {
 
   private companion object GdxInputWrapper : InputAdapter() {
 
-    val keyboardEvents: MutableSet<(button: KeyboardButton, state: ButtonState) -> Unit> = HashSet();
-    val mouseEvents: MutableSet<(button: MouseButton, state: ButtonState) -> Unit> = HashSet();
-    val scrollEvents: MutableSet<(ScrollDirection) -> Unit> = HashSet();
-    val tickEvents: MutableSet<(delta: Float) -> Unit> = HashSet();
+    val keyboardEvents: MutableSet<(button: KeyboardButton, state: ButtonState) -> Unit> = HashSet()
+    val mouseEvents: MutableSet<(button: MouseButton, state: ButtonState) -> Unit> = HashSet()
+    val scrollEvents: MutableSet<(ScrollDirection) -> Unit> = HashSet()
+    val tickEvents: MutableSet<(delta: Float) -> Unit> = HashSet()
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, key: Int) = performTouch(key, ButtonState.RELEASE)
 

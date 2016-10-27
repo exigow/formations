@@ -18,7 +18,7 @@ internal object FullscreenQuad {
     val mesh = Mesh(true, 4, 0,
       VertexAttribute(VertexAttributes.Usage.Position, 2, "positionAttr"),
       VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "texCoordAttr")
-    );
+    )
     val vertices = initialiseVertices()
     mesh.setVertices(vertices)
     return mesh

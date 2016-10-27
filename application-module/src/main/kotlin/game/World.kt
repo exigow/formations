@@ -8,12 +8,12 @@ import java.util.*
 
 class World {
 
-  val collectives: MutableList<Collective> = ArrayList();
+  val collectives: MutableList<Collective> = ArrayList()
 
   companion object {
 
     fun randomWorld(): World {
-      val world = World();
+      val world = World()
       world.collectives.add(instantiate(ShipTemplate.select("fighter"), Vec2(-256, 0), 7))
       world.collectives.add(instantiate(ShipTemplate.select("bomber"), Vec2(256, 0), 5))
       world.collectives.add(instantiate(ShipTemplate.select("cruiser"), Vec2(0, 0)))
