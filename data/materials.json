@@ -114,7 +114,8 @@
   {
     "id": "trail-glow",
     "textureDiffuseFilename": "data/textures/trail-glow.png",
-    "blending": "additive"
+    "blending": "additive",
+    "isIlluminated": false
   },
   {
     "id": "explosion",

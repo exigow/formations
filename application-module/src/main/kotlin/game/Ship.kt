@@ -68,7 +68,8 @@ class Ship(val config: ShipTemplate, initialPosition: Vec2) {
     val glows = engines.filter { normalizedThrusterStrength() > .025 }.map {
       val exposedStrength = 1f - FastMath.pow(1f - normalizedThrusterStrength(), 4f)
       val size = it.trail.width * .5f * exposedStrength * (.75f + MathUtils.random(0f, .25f))
-      Sprite("trail-glow", it.absolutePosition(), Vec2.scaled(size), 0f, 0f)
+      val alpha = FastMath.pow(exposedStrength, 2f) * .5f
+      Sprite("trail-glow", it.absolutePosition(), Vec2.scaled(size), 0f, 0f, alpha = alpha)
     }
     val weapons = weapons.map { Sprite("corvette-turret", it.absolutePosition()) }
     val engines = engines
