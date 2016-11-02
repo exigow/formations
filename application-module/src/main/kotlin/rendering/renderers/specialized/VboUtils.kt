@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.VertexAttribute
 import com.badlogic.gdx.graphics.VertexAttributes
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
-import rendering.Color
+import Color
 import rendering.materials.Material
 
 object VboUtils {

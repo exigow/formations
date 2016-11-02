@@ -10,7 +10,7 @@ import rendering.utils.Draw
 
 class UIRenderer(private val camera: Camera, private val context: PlayerContext) {
 
-  private val uiColor = Color.fromValues(116, 187, 193)
+  private val uiColor = Color.fromInteger(116, 187, 193)
 
   fun render(): Collection<Renderable> {
     var result = emptyList<Renderable>()

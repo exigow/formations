@@ -4,7 +4,7 @@ import Vec2
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.Matrix4
 import rendering.Blending
-import rendering.Color
+import Color
 import rendering.materials.Material
 import rendering.trails.Trail
 import rendering.trails.TrailIterator

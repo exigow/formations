@@ -3,7 +3,7 @@ package rendering.renderers.specialized
 import Vec2
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.Matrix4
-import rendering.Color
+import Color
 import rendering.Sprite
 
 internal class MaterialRenderer {

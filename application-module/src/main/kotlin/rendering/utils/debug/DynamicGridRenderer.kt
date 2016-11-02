@@ -3,7 +3,7 @@ package rendering.utils.debug
 import FastMath
 import Vec2
 import core.Camera
-import rendering.Color
+import Color
 import rendering.utils.Draw
 
 

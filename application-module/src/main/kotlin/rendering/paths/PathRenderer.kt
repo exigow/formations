@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20
 import com.badlogic.gdx.math.Matrix4
 import core.Camera
-import rendering.Color
+import Color
 
 
 class PathRenderer {

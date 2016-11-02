@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
-import rendering.Color
+import Color
 
 
 class Canvas(private val buffer: FrameBuffer) {
