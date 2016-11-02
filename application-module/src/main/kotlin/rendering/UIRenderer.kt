@@ -4,6 +4,7 @@ import core.Camera
 import game.PlayerContext
 import game.Ship
 import Vec2
+import game.Squad
 import rendering.renderers.Renderable
 import rendering.utils.Draw
 
@@ -22,8 +23,13 @@ class UIRenderer(private val camera: Camera, private val context: PlayerContext)
       }
     }
     result += drawSelectionRectangle()
+    if (context.isHovering())
+      result += drawHoveredSquad(context.hovered!!)
     return result
   }
+
+  private fun drawHoveredSquad(squad: Squad) = squad.ships
+    .map { Sprite("selection-icon", it.position, Vec2.one() * camera.normalizedRenderingScale() * 2f) }
 
   private fun drawSelectionBorderSprites(ship: Ship, alpha: Float): Collection<Sprite> {
     var tempAngle = 0f
