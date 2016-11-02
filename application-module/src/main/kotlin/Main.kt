@@ -20,7 +20,7 @@ class Main {
   private val camera = Camera()
   private val actions = ActionsRegistry()
   private val context = PlayerContext()
-  private val gbuffer = GBuffer.setUpWindowSize()
+  private val gbuffer = GBuffer()
   private val chunks = TextureToChunkConverter.convert(AssetsManager.peekMaterial("asteroid-mask-test").diffuse!!, { c -> c.red })
   private var timePassed = 0f
   private val spriteRenderer = GbufferRenderer(gbuffer)
@@ -64,7 +64,7 @@ class Main {
   }
 
   private fun renderFullscreenBackgroundImage() {
-    gbuffer.paintOnDiffuse {
+    gbuffer.paint {
       AssetsManager.peekMaterial("background").diffuse!!.bind(0)
       val shader = AssetsManager.peekShader("fullscreenQuadShader")
       shader.begin()

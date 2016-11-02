@@ -37,10 +37,9 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
   }
 
   private fun renderImmediateDrawCall(call: ImmediateDrawCall) {
-    gbuffer.paintOnDiffuse {
+    gbuffer.paint {
       call.draw()
     }
   }
-
 
 }
