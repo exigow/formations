@@ -11,26 +11,26 @@ import rendering.utils.FastBloomTool
 import java.nio.IntBuffer
 
 
-class GBuffer() {
+class GBuffer {
 
   val width = Gdx.graphics.width
   val height =  Gdx.graphics.height
 
   val fboHandle: Int
   val drawBuffersCall = createDrawBuffersCall()
-  val texture0: Texture
-  val texture1: Texture
+  val diffuseTexture: Texture
+  val emissiveTexture: Texture
 
   private val combined = Canvas.setUpRGB(width, height)
   private val bloom = FastBloomTool(256, 256)
 
   init {
-    texture0 = createBufferTexture(width, height)
-    texture1 = createBufferTexture(width, height)
+    diffuseTexture = createBufferTexture(width, height)
+    emissiveTexture = createBufferTexture(width, height)
     fboHandle = Gdx.gl30.glGenFramebuffer()
     bindFramebuffer(fboHandle)
-    attachTextureToFramebuffer(texture0, GL30.GL_COLOR_ATTACHMENT0)
-    attachTextureToFramebuffer(texture1, GL30.GL_COLOR_ATTACHMENT1)
+    attachTextureToFramebuffer(diffuseTexture, GL30.GL_COLOR_ATTACHMENT0)
+    attachTextureToFramebuffer(emissiveTexture, GL30.GL_COLOR_ATTACHMENT1)
   }
 
   private fun attachTextureToFramebuffer(texture: Texture, where: Int) {
@@ -49,7 +49,7 @@ class GBuffer() {
     bindFramebuffer(fboHandle)
     Gdx.gl30.glDrawBuffers(2, drawBuffersCall)
     f.invoke()
-    bindFramebuffer(0)
+    unbindFramebuffer()
   }
 
   fun clear() {
@@ -63,11 +63,13 @@ class GBuffer() {
     Gdx.gl30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, handle)
   }
 
+  private fun unbindFramebuffer() = bindFramebuffer(0)
+
   fun showCombined() {
     combined.paint {
       ShaderEffect.fromShader("mixDiffuseWithEmissive")
-        .bind("textureDiffuse", texture0)
-        .bind("textureEmissive", texture1)
+        .bind("textureDiffuse", diffuseTexture)
+        .bind("textureEmissive", emissiveTexture)
         .parametrize("noiseOffset", (System.currentTimeMillis() % 16).toFloat())
         .showAsQuad()
     }
