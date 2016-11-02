@@ -4,10 +4,9 @@ import Vec2
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.Matrix4
 import rendering.Color
-import rendering.GBuffer
 import rendering.Sprite
 
-internal class MaterialRenderer(val gbuffer: GBuffer) {
+internal class MaterialRenderer {
 
   private val ambientColor = Color(.852f, .467f, .242f) // Color(.784f, .764f, .662f)
   private val mesh = VboUtils.createCommonVbo(4)
@@ -17,15 +16,13 @@ internal class MaterialRenderer(val gbuffer: GBuffer) {
     val vertices = decomposeToVbo(transformed, sprite.depth, sprite.alpha)
     mesh.setVertices(vertices)
     sprite.material.blending.decorate {
-      gbuffer.paint {
-        val color = when (sprite.material.isIlluminated) {
-          true -> ambientColor
-          false -> Color.white
-        }
-        VboUtils.paintWithMaterialShader(sprite.material, matrix, color, {
-          shader -> mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
-        })
+      val color = when (sprite.material.isIlluminated) {
+        true -> ambientColor
+        false -> Color.white
       }
+      VboUtils.paintWithMaterialShader(sprite.material, matrix, color, {
+        shader -> mesh.render(shader, GL20.GL_TRIANGLE_FAN, 0, 4)
+      })
     }
   }
 

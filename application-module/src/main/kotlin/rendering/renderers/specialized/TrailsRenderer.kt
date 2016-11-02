@@ -5,23 +5,20 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.Matrix4
 import rendering.Blending
 import rendering.Color
-import rendering.GBuffer
 import rendering.materials.Material
 import rendering.trails.Trail
 import rendering.trails.TrailIterator
 
-class TrailsRenderer(private val gbuffer: GBuffer) {
+class TrailsRenderer {
 
   private val mesh = VboUtils.createCommonVbo(1024)
 
   fun render(trail: Trail, material: Material, matrix: Matrix4) {
     Blending.ADDITIVE.decorate {
       mesh.setVertices(calculateTrailArray(trail.list))
-      gbuffer.paint {
-        VboUtils.paintWithMaterialShader(material, matrix, Color.white, {
-          shader -> mesh.render(shader, GL20.GL_TRIANGLE_STRIP)
-        })
-      }
+      VboUtils.paintWithMaterialShader(material, matrix, Color.white, {
+        shader -> mesh.render(shader, GL20.GL_TRIANGLE_STRIP)
+      })
     }
   }
 

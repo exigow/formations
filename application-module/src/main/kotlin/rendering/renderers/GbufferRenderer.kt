@@ -11,18 +11,20 @@ import rendering.trails.Trail
 
 class GbufferRenderer(private val gbuffer: GBuffer) {
 
-  private val materialRenderer = MaterialRenderer(gbuffer)
-  private val trailsRenderer = TrailsRenderer(gbuffer)
+  private val materialRenderer = MaterialRenderer()
+  private val trailsRenderer = TrailsRenderer()
 
   fun render(renderables: Collection<Renderable>, camera: Camera) {
     val toRender = renderables
       .filter { it.isVisible(camera) }
       .sortedBy { it.depth() }
-    for (instance in toRender) {
-      when (instance) {
-        is Sprite -> renderSprite(instance, camera)
-        is Trail -> renderTrail(instance, camera)
-        is ImmediateDrawCall -> renderImmediateDrawCall(instance)
+    gbuffer.paint {
+      for (instance in toRender) {
+        when (instance) {
+          is Sprite -> renderSprite(instance, camera)
+          is Trail -> renderTrail(instance, camera)
+          is ImmediateDrawCall -> renderImmediateDrawCall(instance)
+        }
       }
     }
   }
