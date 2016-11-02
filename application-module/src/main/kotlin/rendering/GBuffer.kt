@@ -13,6 +13,18 @@ import java.nio.IntBuffer
 
 class GBuffer {
 
+  /**
+   * Buffer overview:
+   * +--------------+--------------+--------------+--------------+
+   * |     RED 8    |    GREEN 8   |    BLUE 8    |    ALPHA 8   |
+   * +--------------+--------------+--------------+--------------+
+   * |   diffuse.R  |   diffuse.G  |   diffuse.B  |      -       |
+   * +--------------+--------------+--------------+--------------+
+   * |  emissive.R  |  emissive.G  |  emissive.B  |      -       |
+   * +--------------+--------------+--------------+--------------+
+   * |   motion.X   |   motion.Y   |    depth     |      -       |
+   */
+
   val width = Gdx.graphics.width
   val height =  Gdx.graphics.height
 
@@ -20,6 +32,7 @@ class GBuffer {
   val drawBuffersCall = createDrawBuffersCall()
   val diffuseTexture: Texture
   val emissiveTexture: Texture
+  val specializedTexture: Texture
 
   private val combined = Canvas.setUpRGB(width, height)
   private val bloom = FastBloomTool(256, 256)
@@ -27,10 +40,12 @@ class GBuffer {
   init {
     diffuseTexture = createBufferTexture(width, height)
     emissiveTexture = createBufferTexture(width, height)
+    specializedTexture = createBufferTexture(width, height)
     fboHandle = Gdx.gl30.glGenFramebuffer()
     bindFramebuffer(fboHandle)
     attachTextureToFramebuffer(diffuseTexture, GL30.GL_COLOR_ATTACHMENT0)
     attachTextureToFramebuffer(emissiveTexture, GL30.GL_COLOR_ATTACHMENT1)
+    attachTextureToFramebuffer(specializedTexture, GL30.GL_COLOR_ATTACHMENT2)
   }
 
   private fun attachTextureToFramebuffer(texture: Texture, where: Int) {
@@ -66,7 +81,7 @@ class GBuffer {
   private fun unbindFramebuffer() = bindFramebuffer(0)
 
   fun showCombined() {
-    combined.paint {
+    /*combined.paint {
       ShaderEffect.fromShader("mixDiffuseWithEmissive")
         .bind("textureDiffuse", diffuseTexture)
         .bind("textureEmissive", emissiveTexture)
@@ -79,16 +94,17 @@ class GBuffer {
         bloomed.showAsQuad()
       }
     }
-    combined.showAsQuad()
-    /*ShaderEffect.fromShader("fullscreenQuadShader")
-      .bind("texture", texture1)
-      .showAsQuad()*/
+    combined.showAsQuad()*/
+    ShaderEffect.fromShader("fullscreenQuadShader")
+      .bind("texture", specializedTexture)
+      .showAsQuad()
   }
 
   private fun createDrawBuffersCall(): IntBuffer {
-    val drawBuffersCall = BufferUtils.newIntBuffer(2)
+    val drawBuffersCall = BufferUtils.newIntBuffer(3)
       .put(GL30.GL_COLOR_ATTACHMENT0)
       .put(GL30.GL_COLOR_ATTACHMENT1)
+      .put(GL30.GL_COLOR_ATTACHMENT2)
     drawBuffersCall.rewind()
     return drawBuffersCall
   }
