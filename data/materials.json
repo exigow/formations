@@ -125,9 +125,7 @@
   {
     "id": "planet",
     "textureDiffuseFilename": "data/textures/planet/lavaplanet-diffuse.png",
-    "textureEmissiveFilename": "data/textures/planet/lavaplanet-emissive.png",
-    "minFilter": "nearest",
-    "magFilter": "nearest"
+    "textureEmissiveFilename": "data/textures/planet/lavaplanet-emissive.png"
   },
   {
     "id": "moon-a",
