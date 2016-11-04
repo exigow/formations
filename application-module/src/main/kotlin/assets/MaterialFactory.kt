@@ -62,7 +62,7 @@ object MaterialFactory {
     val file = Gdx.files.absolute(absolutePath)
     val texture = Texture(file, mipmapped)
     texture.setFilter(minFilter, magFilter)
-    val wrap = Texture.TextureWrap.Repeat
+    val wrap = Texture.TextureWrap.MirroredRepeat
     texture.setWrap(wrap, wrap)
     return texture
   }
