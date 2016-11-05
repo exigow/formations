@@ -8,7 +8,7 @@ import game.World
 import rendering.GBuffer
 import rendering.Sprite
 import rendering.UIRenderer
-import rendering.canvas.FullscreenQuad
+import rendering.canvas.ShaderEffect
 import rendering.procedural.ChunkToAsteroidConverter.toAsteroids
 import rendering.procedural.TextureToChunkConverter
 import rendering.renderers.GbufferRenderer
@@ -65,12 +65,9 @@ class Main {
 
   private fun renderFullscreenBackgroundImage() {
     gbuffer.paint {
-      AssetsManager.peekMaterial("background").diffuse!!.bind(0)
-      val shader = AssetsManager.peekShader("fullscreenQuadShader")
-      shader.begin()
-      shader.setUniformi("texture", 0)
-      FullscreenQuad.renderWith(shader)
-      shader.end()
+      ShaderEffect.fromShader("fullscreenQuadShader")
+        .bind("texture", AssetsManager.peekMaterial("background").diffuse!!)
+        .showAsQuad()
     }
   }
 
