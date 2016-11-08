@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Matrix4
 import Color
 import rendering.Sprite
 
-internal class MaterialRenderer {
+internal class SpriteRenderer {
 
   private val ambientColor = Color(.852f, .467f, .242f) // Color(.784f, .764f, .662f)
   private val mesh = VboUtils.createCommonVbo(4)

@@ -9,7 +9,7 @@ import rendering.materials.Material
 import rendering.trails.Trail
 import rendering.trails.TrailIterator
 
-class TrailsRenderer {
+internal class TrailRenderer {
 
   private val mesh = VboUtils.createCommonVbo(1024)
 

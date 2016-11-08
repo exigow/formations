@@ -5,14 +5,14 @@ import core.Camera
 import rendering.GBuffer
 import rendering.ImmediateDrawCall
 import rendering.Sprite
-import rendering.renderers.specialized.MaterialRenderer
-import rendering.renderers.specialized.TrailsRenderer
+import rendering.renderers.specialized.SpriteRenderer
+import rendering.renderers.specialized.TrailRenderer
 import rendering.trails.Trail
 
 class GbufferRenderer(private val gbuffer: GBuffer) {
 
-  private val materialRenderer = MaterialRenderer()
-  private val trailsRenderer = TrailsRenderer()
+  private val spriteRenderer = SpriteRenderer()
+  private val trailRenderer = TrailRenderer()
 
   fun render(renderables: Collection<Renderable>, camera: Camera) {
     val toRender = renderables
@@ -30,12 +30,12 @@ class GbufferRenderer(private val gbuffer: GBuffer) {
   }
 
   private fun renderSprite(sprite: Sprite, camera: Camera) {
-    materialRenderer.draw(sprite, camera.projectionMatrix())
+    spriteRenderer.draw(sprite, camera.projectionMatrix())
   }
 
   private fun renderTrail(trail: Trail, camera: Camera) {
     val material = AssetsManager.peekMaterial("trail")
-    trailsRenderer.render(trail, material, camera.projectionMatrix())
+    trailRenderer.render(trail, material, camera.projectionMatrix())
   }
 
   private fun renderImmediateDrawCall(call: ImmediateDrawCall) {
